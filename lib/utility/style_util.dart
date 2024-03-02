@@ -8,6 +8,9 @@ class StyleUtil {
   final Color c_61 = const Color.fromARGB(255, 61, 61, 61);
   final Color c_33 = const Color.fromARGB(255, 33, 33, 33);
   final Color c_24 = const Color.fromARGB(255, 24, 24, 24);
+  final Color c_success = const Color.fromARGB(255, 43, 232, 106);
+
+
 
 
   // // Font Style Light
