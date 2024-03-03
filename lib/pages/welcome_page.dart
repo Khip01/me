@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -12,10 +13,13 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   final StyleUtil styleUtil = StyleUtil();
 
-  bool githubHover = false, cvHover = false;
+  //  Other Hover
+  bool githubHover = false, cvHover = false, themeSwitch = false;
 
   // Nav List Hover
-  final List<bool> _navHover = List.generate(4, (index) => index == 0 ? true : false);
+  final List<bool> _navHover =
+      List.generate(4, (index) => index == 0 ? true : false);
+
 
   // Open Url
   Future<void> _openUrl(String url) async {
@@ -55,6 +59,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     Text(
                       message,
                       style: TextStyle(
+                        letterSpacing: 1,
                         fontFamily: "Lato",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -76,51 +81,125 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     final scrHeight = MediaQuery.sizeOf(context).height;
 
-    return Scaffold(
-      body: Container(
-        height: scrHeight,
-        padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 90),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 80),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: styleUtil.c_255,
-            boxShadow: const [
-              BoxShadow(
-                color: Color.fromARGB(255, 203, 203, 203),
-                blurRadius: 80.0,
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child: Container(
-                    // color: Colors.red,
+    return Stack(
+      children: [
+        Scaffold(
+            body: Container(
+              height: scrHeight,
+              padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 80),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 80),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: styleUtil.c_255,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 203, 203, 203),
+                      blurRadius: 80.0,
                     ),
-              ),
-              Flexible(
-                flex: 3,
-                child: SizedBox(
-                  // color: Colors.green,
-                  child: _content(),
+                  ],
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                        top: 55,
+                        right: -5,
+                        child: SizedBox(
+                            width: 282,
+                            height: 1,
+                            child: MySeparator(
+                              color: styleUtil.c_170,
+                            ))),
+                    Positioned(
+                        top: 50,
+                        right: 0,
+                        child: RotatedBox(
+                            quarterTurns: 1,
+                            child: SizedBox(
+                                width: 105,
+                                height: 1,
+                                child: MySeparator(
+                                  color: styleUtil.c_170,
+                                )))),
+                    Column(
+                      children: [
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: Container(
+                            // color: Colors.red,
+                            child: _topContent(),
+                          ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: SizedBox(
+                            // color: Colors.green,
+                            child: _content(),
+                          ),
+                        ),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: Container(
+                            // color: Colors.blue,
+                            child: _navSection(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child: Container(
-                  // color: Colors.blue,
-                  child: _navSection(),
-                ),
-              ),
-            ],
+            ),
+          ),
+        // _transitionPage(0),
+      ],
+    );
+  }
+
+  Widget _topContent() {
+    return Stack(
+      children: [
+        AnimatedPositioned(
+          // alignment: (themeSwitch) ? Alignment.bottomCenter : Alignment.center,
+          top: (themeSwitch) ? 80 : 55,
+          left: 0,
+          right: 0,
+          duration: const Duration(milliseconds: 150),
+          child: AnimatedDefaultTextStyle(
+            style: TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 12,
+                color: (themeSwitch) ? styleUtil.c_24 : Colors.transparent),
+            duration: const Duration(milliseconds: 100),
+            child: const Text(
+              "change mode",
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
-      ),
+        Align(
+          // alignment: Alignment.center,
+          child: InkWell(
+            onHover: (value) {
+              setState(() {
+                themeSwitch = value;
+              });
+            },
+            onTap: () {
+              // TODO: Dark/Light Mode
+            },
+            child: Icon(
+              Icons.sunny,
+              size: 32,
+              color: (themeSwitch) ? styleUtil.c_24 : styleUtil.c_170,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -284,7 +363,9 @@ class _WelcomePageState extends State<WelcomePage> {
               Text(
                 "select navigation",
                 style: TextStyle(
-                    fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170,
+                  fontFamily: 'Lato',
+                  fontSize: 12,
+                  color: styleUtil.c_170,
                 ),
               ),
               Padding(
@@ -313,8 +394,17 @@ class _WelcomePageState extends State<WelcomePage> {
                   onHover: (value) => setState(() {
                     _navHover[1] = value;
                   }),
+                  // onTap: () async {
+                  //   setState(() => _transitionPage(0));
+                  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                  //     setState(() {
+                  //       _transitionPage(MediaQuery.sizeOf(context).width);
+                  //       Future.delayed(const Duration(milliseconds: 600), () => context.goNamed("creation"));
+                  //     });
+                  //   });
+                  // },
                   onTap: () {
-                    // TODO: Something
+                    context.goNamed("creation");
                   },
                   child: Text(
                     "Creation",
@@ -333,7 +423,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     _navHover[2] = value;
                   }),
                   onTap: () {
-                    // TODO: Something
+                    context.goNamed("history");
                   },
                   child: Text(
                     "History",
@@ -352,7 +442,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     _navHover[3] = value;
                   }),
                   onTap: () {
-                    // TODO: Something
+                    context.goNamed("further");
                   },
                   child: Text(
                     "Further",
@@ -368,6 +458,51 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _transitionPage(double width) {
+    return AnimatedPositioned(
+      duration: const Duration(milliseconds: 300),
+      right: 0,
+      child: Container(
+        height: MediaQuery.sizeOf(context).height,
+        width: width,
+        color: styleUtil.c_24,
+      ),
+    );
+  }
+}
+
+// Dash Line
+class MySeparator extends StatelessWidget {
+  const MySeparator({Key? key, this.height = 1, this.color = Colors.black})
+      : super(key: key);
+  final double height;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final boxWidth = constraints.constrainWidth();
+        const dashWidth = 10.0;
+        final dashHeight = height;
+        final dashCount = (boxWidth / (2 * dashWidth)).floor();
+        return Flex(
+          children: List.generate(dashCount, (_) {
+            return SizedBox(
+              width: dashWidth,
+              height: dashHeight,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: color),
+              ),
+            );
+          }),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
+        );
+      },
     );
   }
 }
