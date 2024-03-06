@@ -5,6 +5,7 @@ import 'package:me/pages/further_page.dart';
 import 'package:me/pages/history_page.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/welcome_page.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
   runApp(MyApp());
@@ -38,6 +39,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      builder: (BuildContext context, child) =>
+          ResponsiveBreakpoints(
+              child: child!,
+              breakpoints: const [
+                Breakpoint(start: 0, end: 480, name: MOBILE),
+                Breakpoint(start: 481, end: 600, name: TABLET),
+                Breakpoint(start: 601, end: 800, name: 'DESKTOP-SM'),
+                Breakpoint(start: 801, end: 1100, name: 'DESKTOP-MD'),
+                Breakpoint(start: 1101, end: 1920, name: 'DESKTOP-LG'),
+                Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+              ]),
       routerConfig: _router,
       debugShowCheckedModeBanner: false, // Remove Debug banner when debugging
     );

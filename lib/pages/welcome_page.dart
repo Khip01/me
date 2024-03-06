@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/Utility/style_util.dart';
+import 'package:me/component/components.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -86,71 +87,76 @@ class _WelcomePageState extends State<WelcomePage> {
         Scaffold(
             body: Container(
               height: scrHeight,
-              padding: const EdgeInsets.symmetric(horizontal: 130, vertical: 80),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: styleUtil.c_255,
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color.fromARGB(255, 203, 203, 203),
-                      blurRadius: 80.0,
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Positioned(
-                        top: 55,
-                        right: -5,
-                        child: SizedBox(
-                            width: 282,
-                            height: 1,
-                            child: MySeparator(
-                              color: styleUtil.c_170,
-                            ))),
-                    Positioned(
-                        top: 50,
-                        right: 0,
-                        child: RotatedBox(
-                            quarterTurns: 1,
-                            child: SizedBox(
-                                width: 105,
-                                height: 1,
-                                child: MySeparator(
-                                  color: styleUtil.c_170,
-                                )))),
-                    Column(
-                      children: [
-                        Flexible(
-                          fit: FlexFit.tight,
-                          flex: 1,
-                          child: Container(
-                            // color: Colors.red,
-                            child: _topContent(),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 3,
+              padding: mainCardPadding(context),
+              child: Center(
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: 1100,
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: styleUtil.c_255,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Color.fromARGB(255, 203, 203, 203),
+                        blurRadius: 80.0,
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Positioned(
+                          top: 55,
+                          right: -5,
                           child: SizedBox(
-                            // color: Colors.green,
-                            child: _content(),
+                              width: 282,
+                              height: 1,
+                              child: MySeparator(
+                                color: styleUtil.c_170,
+                              ))),
+                      Positioned(
+                          top: 50,
+                          right: 0,
+                          child: RotatedBox(
+                              quarterTurns: 1,
+                              child: SizedBox(
+                                  width: 105,
+                                  height: 1,
+                                  child: MySeparator(
+                                    color: styleUtil.c_170,
+                                  )))),
+                      Column(
+                        children: [
+                          Flexible(
+                            fit: FlexFit.tight,
+                            flex: 1,
+                            child: Container(
+                              // color: Colors.red,
+                              child: _topContent(),
+                            ),
                           ),
-                        ),
-                        Flexible(
-                          fit: FlexFit.tight,
-                          flex: 1,
-                          child: Container(
-                            // color: Colors.blue,
-                            child: _navSection(),
+                          Flexible(
+                            flex: 3,
+                            child: SizedBox(
+                              // color: Colors.green,
+                              child: _content(),
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Flexible(
+                            fit: FlexFit.tight,
+                            flex: 1,
+                            child: Container(
+                              // color: Colors.blue,
+                              child: _navSection(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
