@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     },
     routes: [
       GoRoute(path: "/", name: "welcome", builder: (context, state){
-        return WelcomePage();
+        return const WelcomePage();
       }),
       GoRoute(path: "/creation", name: "creation", builder: (context, state){
         return const CreationPage();

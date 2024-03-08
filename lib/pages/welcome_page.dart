@@ -442,17 +442,17 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  Widget _transitionPage(double width) {
-    return AnimatedPositioned(
-      duration: const Duration(milliseconds: 300),
-      right: 0,
-      child: Container(
-        height: MediaQuery.sizeOf(context).height,
-        width: width,
-        color: styleUtil.c_24,
-      ),
-    );
-  }
+  // Widget _transitionPage(double width) {
+  //   return AnimatedPositioned(
+  //     duration: const Duration(milliseconds: 300),
+  //     right: 0,
+  //     child: Container(
+  //       height: MediaQuery.sizeOf(context).height,
+  //       width: width,
+  //       color: styleUtil.c_24,
+  //     ),
+  //   );
+  // }
 }
 
 
