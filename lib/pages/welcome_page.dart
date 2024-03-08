@@ -93,7 +93,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   constraints: const BoxConstraints(
                     maxWidth: 1100,
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 80),
+                  padding: contentCardPadding(context),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -111,23 +111,16 @@ class _WelcomePageState extends State<WelcomePage> {
                       Positioned(
                           top: 55,
                           right: -5,
-                          child: SizedBox(
-                              width: 282,
-                              height: 1,
-                              child: MySeparator(
-                                color: styleUtil.c_170,
-                              ))),
+                          child: dashHorizontal(context),
+                      ),
                       Positioned(
                           top: 50,
                           right: 0,
                           child: RotatedBox(
                               quarterTurns: 1,
-                              child: SizedBox(
-                                  width: 105,
-                                  height: 1,
-                                  child: MySeparator(
-                                    color: styleUtil.c_170,
-                                  )))),
+                              child: dashVertical(context),
+                          ),
+                      ),
                       Column(
                         children: [
                           Flexible(
@@ -220,7 +213,7 @@ class _WelcomePageState extends State<WelcomePage> {
           margin: const EdgeInsets.only(bottom: 15),
           width: double.maxFinite,
           child: Align(
-            alignment: Alignment.bottomLeft,
+            alignment: bottomWidgetAlignment(context),
             child: Text(
               "Hello 👋",
               style: TextStyle(
@@ -232,7 +225,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   "Apple Color Emoji",
                 ],
               ),
-              textAlign: TextAlign.left,
+              textAlign: textAlignment(context),
             ),
           ),
         ),
@@ -251,7 +244,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 fontWeight: FontWeight.w700,
                 color: styleUtil.c_33,
               ),
-              textAlign: TextAlign.left,
+              textAlign: textAlignment(context),
             ),
           ),
         ),
@@ -270,7 +263,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 fontWeight: FontWeight.w500,
                 color: styleUtil.c_61,
               ),
-              textAlign: TextAlign.left,
+              textAlign: textAlignment(context),
             ),
           ),
         ),
@@ -278,8 +271,9 @@ class _WelcomePageState extends State<WelcomePage> {
           // color: Colors.lightGreenAccent,
           height: 24,
           child: Align(
-            alignment: Alignment.topLeft,
+            // alignment: topWidgetAlignment(context),
             child: Row(
+              mainAxisAlignment: alignmentRowLink(context),
               children: [
                 InkWell(
                   onHover: (value) {
@@ -362,28 +356,9 @@ class _WelcomePageState extends State<WelcomePage> {
     return SizedBox(
       width: double.maxFinite,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: alignmentRowNav(context),
         children: [
-          Row(
-            children: [
-              Text(
-                "select navigation",
-                style: TextStyle(
-                  fontFamily: 'Lato',
-                  fontSize: 12,
-                  color: styleUtil.c_170,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 3),
-                child: Icon(
-                  Icons.arrow_right_sharp,
-                  color: styleUtil.c_170,
-                  size: 14,
-                ),
-              ),
-            ],
-          ),
+          bottomHelper(context),
           Row(
             children: [
               Padding(
@@ -442,7 +417,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 30),
+                padding: const EdgeInsets.only(right: 0),
                 child: InkWell(
                   onHover: (value) => setState(() {
                     _navHover[3] = value;
@@ -480,35 +455,4 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 }
 
-// Dash Line
-class MySeparator extends StatelessWidget {
-  const MySeparator({Key? key, this.height = 1, this.color = Colors.black})
-      : super(key: key);
-  final double height;
-  final Color color;
 
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        final boxWidth = constraints.constrainWidth();
-        const dashWidth = 10.0;
-        final dashHeight = height;
-        final dashCount = (boxWidth / (2 * dashWidth)).floor();
-        return Flex(
-          children: List.generate(dashCount, (_) {
-            return SizedBox(
-              width: dashWidth,
-              height: dashHeight,
-              child: DecoratedBox(
-                decoration: BoxDecoration(color: color),
-              ),
-            );
-          }),
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
-        );
-      },
-    );
-  }
-}
