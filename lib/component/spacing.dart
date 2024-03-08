@@ -5,8 +5,8 @@ EdgeInsets mainCardPadding(BuildContext context) =>
     ResponsiveValue(
         context,
         conditionalValues: [
-          const Condition.largerThan(
-            name: 'DESKTOP-LG',
+          const Condition.equals(
+            name: '4K',
             value: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           ), const Condition.equals(
             name: 'DESKTOP-LG',
@@ -24,4 +24,6 @@ EdgeInsets mainCardPadding(BuildContext context) =>
             name: MOBILE,
             value: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
           ),
-        ]).value;
+        ],
+      defaultValue: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+    ).value;
