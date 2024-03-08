@@ -230,7 +230,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ),
         Container(
-          height: 96,
+          // height: 96,
           // color: Colors.blue,
           margin: const EdgeInsets.only(bottom: 15),
           width: 512,
@@ -249,8 +249,8 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
         ),
         Container(
-          height: 48,
-          // color: Colors.amberAccent,
+          // height: 48,
+          color: Colors.amberAccent,
           margin: const EdgeInsets.only(bottom: 30),
           width: 694,
           child: Align(
