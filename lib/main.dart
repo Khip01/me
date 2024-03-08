@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/pages/creation_page.dart';
-import 'package:me/pages/further_page.dart';
-import 'package:me/pages/history_page.dart';
 import 'package:me/pages/not_found_page.dart';
-import 'package:me/pages/welcome_page.dart';
+import 'package:me/pages/pages.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
