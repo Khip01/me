@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,7 +21,6 @@ class _WelcomePageState extends State<WelcomePage> {
   // Nav List Hover
   final List<bool> _navHover =
       List.generate(4, (index) => index == 0 ? true : false);
-
 
   // Open Url
   Future<void> _openUrl(String url) async {
@@ -85,75 +85,75 @@ class _WelcomePageState extends State<WelcomePage> {
     return Stack(
       children: [
         Scaffold(
-            body: Container(
-              height: scrHeight,
-              padding: mainCardPadding(context),
-              child: Center(
-                child: Container(
-                  constraints: const BoxConstraints(
-                    maxWidth: 1100,
-                  ),
-                  padding: contentCardPadding(context),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: styleUtil.c_255,
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Color.fromARGB(255, 203, 203, 203),
-                        blurRadius: 80.0,
+          body: Container(
+            height: scrHeight,
+            padding: mainCardPadding(context),
+            child: Center(
+              child: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 1100,
+                ),
+                padding: contentCardPadding(context),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: styleUtil.c_255,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromARGB(255, 203, 203, 203),
+                      blurRadius: 80.0,
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      top: 55,
+                      right: -5,
+                      child: dashHorizontal(context),
+                    ),
+                    Positioned(
+                      top: 50,
+                      right: 0,
+                      child: RotatedBox(
+                        quarterTurns: 1,
+                        child: dashVertical(context),
                       ),
-                    ],
-                  ),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Positioned(
-                          top: 55,
-                          right: -5,
-                          child: dashHorizontal(context),
-                      ),
-                      Positioned(
-                          top: 50,
-                          right: 0,
-                          child: RotatedBox(
-                              quarterTurns: 1,
-                              child: dashVertical(context),
+                    ),
+                    Column(
+                      children: [
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: Container(
+                            // color: Colors.red,
+                            child: _topContent(),
                           ),
-                      ),
-                      Column(
-                        children: [
-                          Flexible(
-                            fit: FlexFit.tight,
-                            flex: 1,
-                            child: Container(
-                              // color: Colors.red,
-                              child: _topContent(),
-                            ),
+                        ),
+                        Flexible(
+                          flex: 3,
+                          child: SizedBox(
+                            // color: Colors.green,
+                            child: _content(),
                           ),
-                          Flexible(
-                            flex: 3,
-                            child: SizedBox(
-                              // color: Colors.green,
-                              child: _content(),
-                            ),
+                        ),
+                        Flexible(
+                          fit: FlexFit.tight,
+                          flex: 1,
+                          child: Container(
+                            // color: Colors.blue,
+                            child: _navSection(),
                           ),
-                          Flexible(
-                            fit: FlexFit.tight,
-                            flex: 1,
-                            child: Container(
-                              // color: Colors.blue,
-                              child: _navSection(),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
+        ),
         // _transitionPage(0),
       ],
     );
@@ -216,14 +216,24 @@ class _WelcomePageState extends State<WelcomePage> {
             alignment: bottomWidgetAlignment(context),
             child: Text(
               "Hello 👋",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-                color: styleUtil.c_61,
-                fontFamilyFallback: const [
-                  "Apple Color Emoji",
-                ],
+              // style: TextStyle(
+              //   fontFamily: "Lato",
+              //   fontSize: 20,
+              //   fontWeight: FontWeight.w700,
+              //   color: styleUtil.c_61,
+              //   fontFamilyFallback: const [
+              //     "Apple Color Emoji",
+              //   ],
+              // ),
+              style: GoogleFonts.lato(
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: styleUtil.c_61,
+                  // fontFamilyFallback: [
+                  //   GoogleFonts.notoColorEmoji().fontFamily ?? 'Noto Color Emoji',
+                  // ]
+                ),
               ),
               textAlign: textAlignment(context),
             ),
@@ -250,7 +260,7 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
         Container(
           // height: 48,
-          color: Colors.amberAccent,
+          // color: Colors.amberAccent,
           margin: const EdgeInsets.only(bottom: 30),
           width: 694,
           child: Align(
@@ -282,7 +292,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     });
                   },
                   onTap: () async {
-                    await _showSnackbar("Github Successfully Opened!",
+                    await _showSnackbar("Github Opened Successfully!",
                         "https://github.com/Khip01");
                   },
                   child: Row(
@@ -318,7 +328,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       });
                     },
                     onTap: () async {
-                      await _showSnackbar("CV Successfully Opened!",
+                      await _showSnackbar("CV Opened Successfully!",
                           "https://app.enhancv.com/share/ae221296/?utm_medium=growth&utm_campaign=share-resume&utm_source=dynamic");
                     },
                     child: Row(
@@ -442,17 +452,15 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-  // Widget _transitionPage(double width) {
-  //   return AnimatedPositioned(
-  //     duration: const Duration(milliseconds: 300),
-  //     right: 0,
-  //     child: Container(
-  //       height: MediaQuery.sizeOf(context).height,
-  //       width: width,
-  //       color: styleUtil.c_24,
-  //     ),
-  //   );
-  // }
+// Widget _transitionPage(double width) {
+//   return AnimatedPositioned(
+//     duration: const Duration(milliseconds: 300),
+//     right: 0,
+//     child: Container(
+//       height: MediaQuery.sizeOf(context).height,
+//       width: width,
+//       color: styleUtil.c_24,
+//     ),
+//   );
+// }
 }
-
-
