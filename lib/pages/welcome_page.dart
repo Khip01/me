@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -214,28 +213,49 @@ class _WelcomePageState extends State<WelcomePage> {
           width: double.maxFinite,
           child: Align(
             alignment: bottomWidgetAlignment(context),
-            child: Text(
-              "Hello 👋",
-              // style: TextStyle(
-              //   fontFamily: "Lato",
-              //   fontSize: 20,
-              //   fontWeight: FontWeight.w700,
-              //   color: styleUtil.c_61,
-              //   fontFamilyFallback: const [
-              //     "Apple Color Emoji",
-              //   ],
-              // ),
-              style: GoogleFonts.lato(
-                textStyle: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: styleUtil.c_61,
-                  // fontFamilyFallback: [
-                  //   GoogleFonts.notoColorEmoji().fontFamily ?? 'Noto Color Emoji',
-                  // ]
+            // child: Text(
+            //   "Hello👋",
+            //   // style: TextStyle(
+            //   //   fontFamily: "Lato",
+            //   //   fontSize: 20,
+            //   //   fontWeight: FontWeight.w700,
+            //   //   color: styleUtil.c_61,
+            //   //   fontFamilyFallback: const [
+            //   //     "Apple Color Emoji",
+            //   //   ],
+            //   // ),
+            //   // style: GoogleFonts.lato(
+            //   //   textStyle: TextStyle(
+            //   //     fontSize: 20,
+            //   //     fontWeight: FontWeight.w700,
+            //   //     color: styleUtil.c_61,
+            //   //     // fontFamilyFallback: [
+            //   //     //   GoogleFonts.notoColorEmoji().fontFamily ?? 'Noto Color Emoji',
+            //   //     // ]
+            //   //   ),
+            //   // ),
+            //   style: latoWithEmoji.displayLarge!.merge(
+            //     TextStyle(
+            //       fontSize: 20,
+            //       fontWeight: FontWeight.w700,
+            //       color: styleUtil.c_61,
+            //     ),
+            //   ),
+            //   textAlign: textAlignment(context),
+            // ),
+            child: Row(
+              children: [
+                Text(
+                  "Hello ",
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    color: styleUtil.c_61,
+                  ),
                 ),
-              ),
-              textAlign: textAlignment(context),
+                Image.asset('assets/icons/waving_hand.png'),
+              ],
             ),
           ),
         ),
