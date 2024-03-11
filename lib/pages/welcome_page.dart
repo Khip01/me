@@ -208,7 +208,7 @@ class _WelcomePageState extends State<WelcomePage> {
       children: [
         Container(
           height: 24,
-          color: Colors.red,
+          // color: Colors.red,
           margin: const EdgeInsets.only(bottom: 15),
           width: double.maxFinite,
           child: Row(
