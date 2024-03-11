@@ -1,89 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
 
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
 
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
 
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
-  <!-- <base href="/"> -->
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <!-- <base href="/"> -->
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Flutter Web Portfo">
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="Flutter Web Portfo">
 
-  <!-- iOS meta tags & icons -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="me">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="me">
+    <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+    <!-- Favicon -->
+<!--    <link rel="icon" type="image/png" href="favicon.png"/>-->
+    <!-- FAvicon Custom -->
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 
-  <title>me</title>
-  <link rel="manifest" href="manifest.json">
+    <title>me</title>
+    <link rel="manifest" href="manifest.json">
 
-  <script>
+    <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = "3499225485";
   </script>
-  <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js" defer></script>
+    <!-- This script adds the flutter initialization JS code -->
+    <script src="flutter.js" defer></script>
+    <style>
+    /* LOADING PAGE */
+    .center-body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 97vh;
+        height: 97svh;
+        flex-direction: column;
 
-  <!-- FONT -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
-</head>
-<style>
-  /* LOADING PAGE */
-  .center-body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100vh;
-      flex-direction: column;
-      
-      /****** center box
-    width: 300px;
-    height: 300px;
-    border: solid 1px #aaa;
-    ******/
-  }
+        /****** center box
+      width: 300px;
+      height: 300px;
+      border: solid 1px #aaa;
+      ******/
+    }
 
-  .body-text {
-    /*position: absolute;*/
-    /*width: 58px;*/
-    height: 27px;
-    font-family: 'Jaldi';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 27px;
-}
+    .body-text {
+      /*position: absolute;*/
+      /*width: 58px;*/
+      height: 27px;
+      font-family: 'Jaldi';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 27px;
+    }
 
-  .loader-spanne-20 {
-      position: relative;
-      width: 100px;
-      height: 30px;
-      padding: 0;
-  }
+    .loader-spanne-20 {
+        position: relative;
+        width: 100px;
+        height: 30px;
+        padding: 0;
+    }
 
       .loader-spanne-20 > span {
           position: absolute;
           right: 0;
           width: 3px;
-          height: 30px;
+          height: 35px;
           background-color: black;
           display: block;
           border-radius: 3px;
@@ -135,17 +132,17 @@
 
       50% {
           opacity: 1;
-          transform: translateX(-50px) rotate(22deg);
+          transform: translateX(-55px) rotate(22deg);
       }
 
       85% {
           opacity: 1;
-          transform: translateX(-85px) rotate(60deg);
+          transform: translateX(-80px) rotate(60deg);
       }
 
       100% {
           opacity: 0;
-          transform: translateX(-100px) rotate(65deg);
+          transform: translateX(-90px) rotate(65deg);
       }
   }
 
@@ -211,26 +208,378 @@
     font-style: italic;
   }
 
-</style>
+  /* MEDIA QUERIES */
+  /* MOBILE */
+  @media only screen and (max-device-width: 480px) {
+      .body-text {
+        font-size: 36px;
+        line-height: 81px;
+      }
+
+      .loader-spanne-20 {
+        /* background-color: red; */
+        position: relative;
+        width: 260px;
+        height: 100px;
+        padding: 0;
+      }
+
+      .loader-spanne-20 > span {
+        position: absolute;
+        right: 0;
+        width: 9px;
+        height: 100px;
+        background-color: black;
+        display: block;
+        border-radius: 3px;
+        transform-origin: 50% 100%;
+        animation: move 2.8s linear infinite;
+      }
+
+      @keyframes move {
+        0% {
+          opacity: 0;
+          transform: translateX(0px) rotate(0deg);
+        }
+
+        20% {
+          opacity: 1;
+        }
+
+        40% {
+          transform: translateX(-107px) rotate(0deg);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateX(-147px) rotate(22deg);
+        }
+
+        85% {
+          opacity: 1;
+          transform: translateX(-239px) rotate(60deg);
+        }
+
+        100% {
+          opacity: 0;
+          transform: translateX(-273px) rotate(65deg);
+        }
+    }
+  }
+
+  /* TABLET */
+  @media only screen and (min-device-width: 481px) and (max-device-width: 600px) {
+    .body-text {
+        font-size: 20px;
+        line-height: 37px;
+    }
+
+    .loader-spanne-20 {
+      /* background-color: red; */
+      position: relative;
+      width: 160px;
+      height: 65px;
+      padding: 0;
+    }
+
+    .loader-spanne-20 > span {
+      position: absolute;
+      right: 0;
+      width: 5px;
+      height: 65px;
+      background-color: black;
+      display: block;
+      border-radius: 3px;
+      transform-origin: 50% 100%;
+      animation: move 2.8s linear infinite;
+    }
+
+    @keyframes move {
+      0% {
+        opacity: 0;
+        transform: translateX(0px) rotate(0deg);
+      }
+
+       20% {
+         opacity: 1;
+       }
+
+       40% {
+        transform: translateX(-58px) rotate(0deg);
+       }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-80px) rotate(22deg);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translateX(-136px) rotate(60deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-163px) rotate(65deg);
+      }
+    }
+  }
+
+  /* DESKTOP SM */
+  @media only screen and (min-device-width: 601px) and (max-device-width: 800px) {
+      .body-text {
+          font-size: 28px;
+          line-height: 60px;
+      }
+
+      .loader-spanne-20 {
+        /* background-color: red; */
+        position: relative;
+        width: 200px;
+        height: 80px;
+        padding: 0;
+      }
+
+      .loader-spanne-20 > span {
+        position: absolute;
+        right: 0;
+        width: 7px;
+        height: 80px;
+        background-color: black;
+        display: block;
+        border-radius: 3px;
+        transform-origin: 50% 100%;
+        animation: move 2.8s linear infinite;
+      }
+
+      @keyframes move {
+        0% {
+          opacity: 0;
+          transform: translateX(0px) rotate(0deg);
+        }
+
+        20% {
+          opacity: 1;
+        }
+
+        40% {
+          transform: translateX(-69px) rotate(0deg);
+        }
+
+        50% {
+          opacity: 1;
+          transform: translateX(-96px) rotate(22deg);
+        }
+
+        85% {
+          opacity: 1;
+          transform: translateX(-170px) rotate(60deg);
+        }
+
+        100% {
+          opacity: 0;
+          transform: translateX(-199px) rotate(65deg);
+        }
+
+      }
+  }
+
+  /* DESKTOP MD */
+  @media only screen and (min-device-width: 801px) and (max-device-width: 1100px) {
+    .body-text {
+      font-size: 16px;
+      line-height: 30px;
+    }
+
+    .loader-spanne-20 {
+      /* background-color: red; */
+      position: relative;
+      width: 105px;
+      height: 48px;
+      padding: 0;
+    }
+
+    .loader-spanne-20 > span {
+      position: absolute;
+      right: 0;
+      width: 3px;
+      height: 48px;
+      background-color: black;
+      display: block;
+      border-radius: 3px;
+      transform-origin: 50% 100%;
+      animation: move 2.8s linear infinite;
+    }
+
+    @keyframes move {
+      0% {
+        opacity: 0;
+        transform: translateX(0px) rotate(0deg);
+      }
+
+       20% {
+         opacity: 1;
+       }
+
+       40% {
+        transform: translateX(-40px) rotate(0deg);
+       }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-59px) rotate(22deg);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translateX(-99px) rotate(60deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-113px) rotate(65deg);
+      }
+    }
+
+  }
+
+  /* DESKTOP LG */
+  @media only screen and (min-device-width: 1101px) and (max-device-width: 1920px) {
+    .body-text {
+      font-size: 16px;
+      line-height: 30px;
+    }
+
+    .loader-spanne-20 {
+      /* background-color: red; */
+      position: relative;
+      width: 105px;
+      height: 48px;
+      padding: 0;
+    }
+
+    .loader-spanne-20 > span {
+      position: absolute;
+      right: 0;
+      width: 3px;
+      height: 48px;
+      background-color: black;
+      display: block;
+      border-radius: 3px;
+      transform-origin: 50% 100%;
+      animation: move 2.8s linear infinite;
+    }
+
+    @keyframes move {
+      0% {
+        opacity: 0;
+        transform: translateX(0px) rotate(0deg);
+      }
+
+       20% {
+         opacity: 1;
+       }
+
+       40% {
+        transform: translateX(-40px) rotate(0deg);
+       }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-59px) rotate(22deg);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translateX(-99px) rotate(60deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-113px) rotate(65deg);
+      }
+    }
+  }
+
+  /* 4K */
+  @media only screen and (min-device-width: 1921px) {
+    .body-text {
+        font-size: 20px;
+        line-height: 50px;
+    }
+
+    .loader-spanne-20 {
+      /* background-color: red; */
+      position: relative;
+      width: 160px;
+      height: 65px;
+      padding: 0;
+    }
+
+    .loader-spanne-20 > span {
+      position: absolute;
+      right: 0;
+      width: 5px;
+      height: 65px;
+      background-color: black;
+      display: block;
+      border-radius: 3px;
+      transform-origin: 50% 100%;
+      animation: move 2.8s linear infinite;
+    }
+
+    @keyframes move {
+      0% {
+        opacity: 0;
+        transform: translateX(0px) rotate(0deg);
+      }
+
+       20% {
+         opacity: 1;
+       }
+
+       40% {
+        transform: translateX(-58px) rotate(0deg);
+       }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-80px) rotate(22deg);
+      }
+
+      85% {
+        opacity: 1;
+        transform: translateX(-136px) rotate(60deg);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-163px) rotate(65deg);
+      }
+    }
+  }
+
+  </style>
+</head>
 <body>
 
-  <!-- Loading -->
-    <div class="center-body">
-      <div class="loader-spanne-20">
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-      </div>
-      <div class="body-text lato-regular">
-          Crafting My Journey...
-      </div>
-  </div>
+<!-- Loading -->
+<div class="center-body">
+    <div class="loader-spanne-20">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="body-text lato-regular">
+        Crafting My Journey...
+    </div>
+</div>
 
-  <script>
+<script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
