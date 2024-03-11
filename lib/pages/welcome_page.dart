@@ -208,25 +208,23 @@ class _WelcomePageState extends State<WelcomePage> {
       children: [
         Container(
           height: 24,
-          // color: Colors.red,
+          color: Colors.red,
           margin: const EdgeInsets.only(bottom: 15),
           width: double.maxFinite,
-          child: Align(
-            alignment: bottomWidgetAlignment(context),
-            child: Row(
-              children: [
-                Text(
-                  "Hello ",
-                  style: TextStyle(
-                    fontFamily: "Lato",
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: styleUtil.c_61,
-                  ),
+          child: Row(
+            mainAxisAlignment: alignmentRowLink(context),
+            children: [
+              Text(
+                "Hello ",
+                style: TextStyle(
+                  fontFamily: "Lato",
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: styleUtil.c_61,
                 ),
-                Image.asset('assets/icons/waving_hand.png'),
-              ],
-            ),
+              ),
+              Image.asset('assets/icons/waving_hand.png'),
+            ],
           ),
         ),
         Container(

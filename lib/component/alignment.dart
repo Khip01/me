@@ -35,17 +35,17 @@ TextAlign textAlignment(BuildContext context) => ResponsiveValue(
       defaultValue: TextAlign.left,
     ).value;
 
-Alignment bottomWidgetAlignment(BuildContext context) => ResponsiveValue(
-      context,
-      conditionalValues: [
-        const Condition.largerThan(
-            name: 'DESKTOP-MD', value: Alignment.bottomLeft),
-        const Condition.equals(name: 'DESKTOP-MD', value: Alignment.bottomLeft),
-        const Condition.smallerThan(
-            name: 'DESKTOP-MD', value: Alignment.topCenter),
-      ],
-      defaultValue: Alignment.bottomLeft,
-    ).value;
+// Alignment bottomWidgetAlignment(BuildContext context) => ResponsiveValue(
+//       context,
+//       conditionalValues: [
+//         const Condition.largerThan(
+//             name: 'DESKTOP-MD', value: Alignment.bottomLeft),
+//         const Condition.equals(name: 'DESKTOP-MD', value: Alignment.bottomLeft),
+//         const Condition.smallerThan(
+//             name: 'DESKTOP-MD', value: Alignment.topCenter),
+//       ],
+//       defaultValue: Alignment.bottomLeft,
+//     ).value;
 
 // Alignment topWidgetAlignment(BuildContext context) => ResponsiveValue(
 //       context,
