@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
+import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 void main() {
@@ -14,17 +15,17 @@ class MyApp extends StatelessWidget {
       return const NotFoundPage();
     },
     routes: [
-      GoRoute(path: "/", name: "welcome", builder: (context, state){
-        return const WelcomePage();
+      GoRoute(path: "/", name: "welcome", pageBuilder: (context, state){
+        return buildPageWithDefaultTransition(context: context, state: state, child: const WelcomePage());
       }),
-      GoRoute(path: "/creation", name: "creation", builder: (context, state){
-        return const CreationPage();
+      GoRoute(path: "/creation", name: "creation", pageBuilder: (context, state){
+        return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
       }),
-      GoRoute(path: "/history", name: "history", builder: (context, state){
-        return const HistoryPage();
+      GoRoute(path: "/history", name: "history", pageBuilder: (context, state){
+        return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
       }),
-      GoRoute(path: "/further", name: "further", builder: (context, state){
-        return const FurtherPage();
+      GoRoute(path: "/further", name: "further", pageBuilder: (context, state){
+        return buildPageWithDefaultTransition(context: context, state: state, child: const FurtherPage());
       }),
     ],
     initialLocation: '/',
