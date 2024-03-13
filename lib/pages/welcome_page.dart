@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
+import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -12,21 +13,37 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  // ### --- Declaration --- ###
+  // --- General ---
   final StyleUtil styleUtil = StyleUtil();
 
-  //  Other Hover
-  bool githubHover = false, cvHover = false, themeSwitch = false;
-
-  // Nav List Hover
-  final List<bool> _navHover =
-      List.generate(4, (index) => index == 0 ? true : false);
-
+  // --- Content Body Section ---
   // Open Url
   Future<void> _openUrl(String url) async {
     Uri uri = Uri.parse(url);
     !await launchUrl(uri);
   }
 
+  // --- Nav Section ---
+  // Nav List Hover
+  final List<bool> _navHover = List.generate(4, (index) => index == 0 ? true : false);
+  //  Other Hover
+  bool githubHover = false, cvHover = false, themeSwitch = false;
+
+  // --- Transition Nav ---
+  // Rect Global Key
+  GlobalKey<RectGetterState> _rectKeyCreationPage = RectGetter.createGlobalKey();
+  GlobalKey<RectGetterState> _rectKeyHistoryPage = RectGetter.createGlobalKey();
+  GlobalKey<RectGetterState> _rectKeyFurtherPage = RectGetter.createGlobalKey();
+  // Rect
+  Rect? _rectCreation;
+  Rect? _rectHistory;
+  Rect? _rectFurther;
+  // Duration
+  Duration animationDuration = Duration(milliseconds: 300), afterAnimationDelay = Duration(milliseconds: 300);
+
+  // ### --- Function --- ###
+  // --- Content Body Section ---
   // Show Snackbar Template
   Future<void> _showSnackbar(String message, String url) async {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -76,6 +93,30 @@ class _WelcomePageState extends State<WelcomePage> {
     );
     await _openUrl(url);
   }
+  // --- Transition Nav ---
+  // Push Page With Transition
+  void _pushNamedWithRectCreation() async {
+    setState(() => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectCreation = _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("creation"));
+    });
+  }
+  void _pushNamedWithRectHistory() async {
+    setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+    });
+  }
+  void _pushNamedWithRectFurther() async {
+    setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("further"));
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -153,11 +194,14 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ),
         ),
-        // _transitionPage(0),
+        _transitionToCreationPage(),
+        _transitionToHistoryPage(),
+        _transitionToFurtherPage(),
       ],
     );
   }
 
+  // ------ Content Body -----
   Widget _topContent() {
     return Stack(
       children: [
@@ -200,7 +244,6 @@ class _WelcomePageState extends State<WelcomePage> {
       ],
     );
   }
-
   Widget _content() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -349,7 +392,6 @@ class _WelcomePageState extends State<WelcomePage> {
       ],
     );
   }
-
   Widget _navSection() {
     return SizedBox(
       width: double.maxFinite,
@@ -369,66 +411,66 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 30),
-                child: InkWell(
-                  onHover: (value) => setState(() {
-                    _navHover[1] = value;
-                  }),
-                  // onTap: () async {
-                  //   setState(() => _transitionPage(0));
-                  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-                  //     setState(() {
-                  //       _transitionPage(MediaQuery.sizeOf(context).width);
-                  //       Future.delayed(const Duration(milliseconds: 600), () => context.goNamed("creation"));
-                  //     });
-                  //   });
-                  // },
-                  onTap: () {
-                    context.goNamed("creation");
-                  },
-                  child: Text(
-                    "Creation",
-                    style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 14,
-                      color: (_navHover[1]) ? styleUtil.c_33 : styleUtil.c_170,
+                child: RectGetter(
+                  key: _rectKeyCreationPage,
+                  child: InkWell(
+                    onHover: (value) => setState(() {
+                      _navHover[1] = value;
+                    }),
+                    onTap: () {
+                      _pushNamedWithRectCreation();
+                    },
+                    child: Text(
+                      "Creation",
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        color: (_navHover[1]) ? styleUtil.c_33 : styleUtil.c_170,
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 30),
-                child: InkWell(
-                  onHover: (value) => setState(() {
-                    _navHover[2] = value;
-                  }),
-                  onTap: () {
-                    context.goNamed("history");
-                  },
-                  child: Text(
-                    "History",
-                    style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 14,
-                      color: (_navHover[2]) ? styleUtil.c_33 : styleUtil.c_170,
+                child: RectGetter(
+                  key: _rectKeyHistoryPage,
+                  child: InkWell(
+                    onHover: (value) => setState(() {
+                      _navHover[2] = value;
+                    }),
+                    onTap: () {
+                      _pushNamedWithRectHistory();
+                    },
+                    child: Text(
+                      "History",
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        color: (_navHover[2]) ? styleUtil.c_33 : styleUtil.c_170,
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 0),
-                child: InkWell(
-                  onHover: (value) => setState(() {
-                    _navHover[3] = value;
-                  }),
-                  onTap: () {
-                    context.goNamed("further");
-                  },
-                  child: Text(
-                    "Further",
-                    style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 14,
-                      color: (_navHover[3]) ? styleUtil.c_33 : styleUtil.c_170,
+                child: RectGetter(
+                  key: _rectKeyFurtherPage,
+                  child: InkWell(
+                    onHover: (value) => setState(() {
+                      _navHover[3] = value;
+                    }),
+                    onTap: () {
+                      _pushNamedWithRectFurther();
+                    },
+                    child: Text(
+                      "Further",
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        color: (_navHover[3]) ? styleUtil.c_33 : styleUtil.c_170,
+                      ),
                     ),
                   ),
                 ),
@@ -440,15 +482,63 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
-// Widget _transitionPage(double width) {
-//   return AnimatedPositioned(
-//     duration: const Duration(milliseconds: 300),
-//     right: 0,
-//     child: Container(
-//       height: MediaQuery.sizeOf(context).height,
-//       width: width,
-//       color: styleUtil.c_24,
-//     ),
-//   );
-// }
+
+  // ------ Transition Page -----
+  Widget _transitionToCreationPage() {
+    if(_rectCreation == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectCreation!.top,
+      right: MediaQuery.sizeOf(context).width - _rectCreation!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectCreation!.bottom,
+      left: _rectCreation!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: styleUtil.c_33,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _transitionToHistoryPage() {
+    if(_rectHistory == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectHistory!.top,
+      right: MediaQuery.sizeOf(context).width - _rectHistory!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectHistory!.bottom,
+      left: _rectHistory!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: styleUtil.c_33,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _transitionToFurtherPage() {
+    if(_rectFurther == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectFurther!.top,
+      right: MediaQuery.sizeOf(context).width - _rectFurther!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectFurther!.bottom,
+      left: _rectFurther!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: styleUtil.c_33,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
 }
