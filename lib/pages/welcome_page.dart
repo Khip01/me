@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:me/provider/theme_provider.dart';
 
-class WelcomePage extends StatefulWidget {
+class WelcomePage extends ConsumerStatefulWidget {
   const WelcomePage({super.key});
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  ConsumerState<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
-  // ### --- Declaration --- ###
+class _WelcomePageState extends ConsumerState<WelcomePage> {
+  // TODO: ### --- Declaration --- ###
   // --- General ---
   final StyleUtil styleUtil = StyleUtil();
+
+  // --- Content Top Section ---
+  // Dark/Light Theme Switch
+  // Switch, animation
+  bool isFromLeft = true, transitionIsActive = false;
 
   // --- Content Body Section ---
   // Open Url
@@ -32,17 +39,31 @@ class _WelcomePageState extends State<WelcomePage> {
 
   // --- Transition Nav ---
   // Rect Global Key
-  GlobalKey<RectGetterState> _rectKeyCreationPage = RectGetter.createGlobalKey();
-  GlobalKey<RectGetterState> _rectKeyHistoryPage = RectGetter.createGlobalKey();
-  GlobalKey<RectGetterState> _rectKeyFurtherPage = RectGetter.createGlobalKey();
+  final GlobalKey<RectGetterState> _rectKeyCreationPage = RectGetter.createGlobalKey();
+  final GlobalKey<RectGetterState> _rectKeyHistoryPage = RectGetter.createGlobalKey();
+  final GlobalKey<RectGetterState> _rectKeyFurtherPage = RectGetter.createGlobalKey();
   // Rect
   Rect? _rectCreation;
   Rect? _rectHistory;
   Rect? _rectFurther;
   // Duration
-  Duration animationDuration = Duration(milliseconds: 300), afterAnimationDelay = Duration(milliseconds: 300);
+  Duration animationDuration = const Duration(milliseconds: 300), afterAnimationDelay = const Duration(milliseconds: 300);
 
-  // ### --- Function --- ###
+  // TODO: ### --- Function --- ###
+  // --- Content Top Section
+  // Switch Mode
+  void switchWithTransition() async {
+    isFromLeft = !isFromLeft;
+    setState(() => transitionIsActive = !transitionIsActive);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(animationDuration, () => setState(() {
+        ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
+      }));
+      Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
+        transitionIsActive = !transitionIsActive;
+      }));
+    });
+  }
   // --- Content Body Section ---
   // Show Snackbar Template
   Future<void> _showSnackbar(String message, String url) async {
@@ -60,7 +81,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: styleUtil.c_success,
+              color: (ref.watch(isDarkMode)) ? styleUtil.c_success_dark : styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -126,6 +147,7 @@ class _WelcomePageState extends State<WelcomePage> {
       children: [
         Scaffold(
           body: Container(
+            color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
             height: scrHeight,
             padding: mainCardPadding(context),
             child: Center(
@@ -137,10 +159,11 @@ class _WelcomePageState extends State<WelcomePage> {
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: styleUtil.c_255,
-                  boxShadow: const [
+                  color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+                  boxShadow: [
                     BoxShadow(
-                      color: Color.fromARGB(255, 203, 203, 203),
+                      color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
+                          255, 61, 61, 61) : const Color.fromARGB(255, 203, 203, 203),
                       blurRadius: 80.0,
                     ),
                   ],
@@ -151,14 +174,14 @@ class _WelcomePageState extends State<WelcomePage> {
                     Positioned(
                       top: 55,
                       right: -5,
-                      child: dashHorizontal(context),
+                      child: dashHorizontal(context, ref.watch(isDarkMode)),
                     ),
                     Positioned(
                       top: 50,
                       right: 0,
                       child: RotatedBox(
                         quarterTurns: 1,
-                        child: dashVertical(context),
+                        child: dashVertical(context, ref.watch(isDarkMode)),
                       ),
                     ),
                     Column(
@@ -197,6 +220,7 @@ class _WelcomePageState extends State<WelcomePage> {
         _transitionToCreationPage(),
         _transitionToHistoryPage(),
         _transitionToFurtherPage(),
+        _switchTapedWithTransition(),
       ],
     );
   }
@@ -215,7 +239,7 @@ class _WelcomePageState extends State<WelcomePage> {
             style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 12,
-                color: (themeSwitch) ? styleUtil.c_24 : Colors.transparent),
+                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
               "change mode",
@@ -232,12 +256,13 @@ class _WelcomePageState extends State<WelcomePage> {
               });
             },
             onTap: () {
-              // TODO: Dark/Light Mode
+              // Dark/Light Mode switch
+              switchWithTransition();
             },
             child: Icon(
-              Icons.sunny,
+              (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
               size: 32,
-              color: (themeSwitch) ? styleUtil.c_24 : styleUtil.c_170,
+              color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
             ),
           ),
         ),
@@ -263,7 +288,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   fontFamily: "Lato",
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: styleUtil.c_61,
+                  color: (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
                 ),
               ),
               Image.asset('assets/icons/waving_hand.png'),
@@ -283,7 +308,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 fontFamily: "Lato",
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: styleUtil.c_33,
+                color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
               ),
               textAlign: textAlignment(context),
             ),
@@ -302,7 +327,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 fontFamily: "Lato",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: styleUtil.c_61,
+                color: (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
               ),
               textAlign: textAlignment(context),
             ),
@@ -335,7 +360,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color:
-                              (githubHover) ? styleUtil.c_24 : styleUtil.c_170,
+                              (githubHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
                         ),
                       ),
                       Padding(
@@ -343,7 +368,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         child: Icon(
                           Icons.open_in_new,
                           color:
-                              (githubHover) ? styleUtil.c_24 : styleUtil.c_170,
+                              (githubHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
                           size: 20,
                         ),
                       ),
@@ -370,14 +395,14 @@ class _WelcomePageState extends State<WelcomePage> {
                             fontFamily: "Lato",
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: (cvHover) ? styleUtil.c_24 : styleUtil.c_170,
+                            color: (cvHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.open_in_new,
-                            color: (cvHover) ? styleUtil.c_24 : styleUtil.c_170,
+                            color: (cvHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
                             size: 20,
                           ),
                         ),
@@ -406,7 +431,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: Text(
                   "Welcome",
                   style: TextStyle(
-                      fontFamily: 'Lato', fontSize: 14, color: styleUtil.c_33),
+                      fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33),
                 ),
               ),
               Padding(
@@ -425,7 +450,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[1]) ? styleUtil.c_33 : styleUtil.c_170,
+                        color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -447,7 +472,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[2]) ? styleUtil.c_33 : styleUtil.c_170,
+                        color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -469,7 +494,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[3]) ? styleUtil.c_33 : styleUtil.c_170,
+                        color: (_navHover[3]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -497,7 +522,7 @@ class _WelcomePageState extends State<WelcomePage> {
       left: _rectCreation!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: styleUtil.c_33,
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -516,7 +541,7 @@ class _WelcomePageState extends State<WelcomePage> {
       left: _rectHistory!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: styleUtil.c_33,
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -535,8 +560,24 @@ class _WelcomePageState extends State<WelcomePage> {
       left: _rectFurther!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: styleUtil.c_33,
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
           shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _switchTapedWithTransition() {
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: 0,
+      right: isFromLeft ? (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0 : 0,
+      bottom: 0,
+      left: isFromLeft ? 0 : (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0,
+      child: AnimatedContainer(
+        duration: animationDuration,
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.rectangle
         ),
       ),
     );
