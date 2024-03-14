@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   final GoRouter _router = GoRouter(
     errorBuilder: (context, state){
       return const NotFoundPage();
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
   MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       builder: (BuildContext context, child) =>
           ResponsiveBreakpoints(
