@@ -15,7 +15,7 @@ class WelcomePage extends ConsumerStatefulWidget {
 }
 
 class _WelcomePageState extends ConsumerState<WelcomePage> {
-  // TODO: ### --- Declaration --- ###
+  // TODO: ------ Declaration ------
   // --- General ---
   final StyleUtil styleUtil = StyleUtil();
 
@@ -23,13 +23,6 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   // Dark/Light Theme Switch
   // Switch, animation
   bool isFromLeft = true, transitionIsActive = false;
-
-  // --- Content Body Section ---
-  // Open Url
-  Future<void> _openUrl(String url) async {
-    Uri uri = Uri.parse(url);
-    !await launchUrl(uri);
-  }
 
   // --- Nav Section ---
   // Nav List Hover
@@ -49,7 +42,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   // Duration
   Duration animationDuration = const Duration(milliseconds: 300), afterAnimationDelay = const Duration(milliseconds: 300);
 
-  // TODO: ### --- Function --- ###
+  // TODO: ------ Function ------
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
@@ -65,6 +58,11 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     });
   }
   // --- Content Body Section ---
+  // Open Url
+  Future<void> _openUrl(String url) async {
+    Uri uri = Uri.parse(url);
+    !await launchUrl(uri);
+  }
   // Show Snackbar Template
   Future<void> _showSnackbar(String message, String url) async {
     ScaffoldMessenger.of(context).showSnackBar(
