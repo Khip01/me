@@ -62,3 +62,96 @@ EdgeInsets contentCardPadding(BuildContext context) => ResponsiveValue(
       ],
       defaultValue: const EdgeInsets.symmetric(horizontal: 0),
     ).value;
+
+EdgeInsets mainCardPaddingWithBottomQuote(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.equals(
+      name: '4K',
+      value: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-LG',
+      value: EdgeInsets.only(left: 130, right: 130, top: 80, bottom: 0), // v: 80
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-MD',
+      value: EdgeInsets.only(left: 80, right: 80, top: 70, bottom: 0), // v: 70
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: EdgeInsets.only(left: 50, right: 50, top: 60, bottom: 0), // v: 60
+    ),
+    const Condition.equals(
+      name: TABLET,
+      value: EdgeInsets.only(left: 20, right: 20, top: 50, bottom: 0), // v: 50
+    ),
+    const Condition.equals(
+      name: MOBILE,
+      value: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0), // v: 0
+    ),
+  ],
+  defaultValue: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+).value;
+
+double contentQuoteHeight(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.equals(
+      name: '4K',
+      value: 0
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-LG',
+      value: 80
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-MD',
+      value: 70
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: 60
+    ),
+    const Condition.equals(
+      name: TABLET,
+      value: 50
+    ),
+    const Condition.equals(
+      name: MOBILE,
+      value: 0
+    ),
+  ],
+  defaultValue: 0,
+).value.toDouble();
+
+EdgeInsets contentQuotePadding(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.equals(
+      name: '4K',
+      value: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-LG',
+      value: EdgeInsets.only(left: 130, right: 130, top: 0, bottom: 0), // v: 80
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-MD',
+      value: EdgeInsets.only(left: 80, right: 80, top: 0, bottom: 0), // v: 70
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: EdgeInsets.only(left: 50, right: 50, top: 0, bottom: 0), // v: 60
+    ),
+    const Condition.equals(
+      name: TABLET,
+      value: EdgeInsets.only(left: 20, right: 20, top: 0, bottom: 0), // v: 50
+    ),
+    const Condition.equals(
+      name: MOBILE,
+      value: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0), // v: 0
+    ),
+  ],
+  defaultValue: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+).value;
