@@ -326,10 +326,24 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
   // ------ Creation ------
   Widget _historyPageSection() {
-    return Container(
-      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
-      height: 1200,
-      child: Center(child: Text("Oops, you caught me! \nI'm still working on this history section", style: TextStyle(color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,),)),
+    return Column(
+      children: [
+        Visibility( // Spacing for nav is sticky when nav is sticky visible = false
+          visible: !_navIsSticky,
+          child: Container(
+            color: (ref.watch(isDarkMode))
+                ? styleUtil.c_33
+                : styleUtil.c_255,
+            height: 80,
+            width: MediaQuery.sizeOf(context).width,
+          ),
+        ),
+        Container(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+          height: 1200,
+          child: Center(child: Text("Oops, you caught me! \nI'm still working on this history section", style: TextStyle(color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,),)),
+        ),
+      ],
     );
   }
 
