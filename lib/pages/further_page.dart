@@ -1,10 +1,508 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:me/Utility/style_util.dart';
+import 'package:me/component/components.dart';
+import 'package:rect_getter/rect_getter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:me/provider/theme_provider.dart';
 
-class FurtherPage extends StatelessWidget {
+class FurtherPage extends ConsumerStatefulWidget {
   const FurtherPage({super.key});
 
   @override
+  ConsumerState<FurtherPage> createState() => _FurtherPageState();
+}
+
+class _FurtherPageState extends ConsumerState<FurtherPage> {
+  // TODO: ------ Declaration ------
+  // --- General ---
+  final StyleUtil styleUtil = StyleUtil();
+
+  // --- Content Top Section ---
+  // Dark/Light Theme Switch
+  // Switch, animation
+  bool isFromLeft = true, transitionIsActive = false;
+
+  // --- Nav Section ---
+  // Nav List Hover
+  final List<bool> _navHover = List.generate(4, (index) => index == 3 ? true : false);
+  //  Other Hover
+  bool themeSwitch = false;
+
+  // --- Transition Nav ---
+  // Rect Global Key
+  final GlobalKey<RectGetterState> _rectKeyWelcomePage = RectGetter.createGlobalKey();
+  final GlobalKey<RectGetterState> _rectKeyCreationPage = RectGetter.createGlobalKey();
+  final GlobalKey<RectGetterState> _rectKeyHistoryPage = RectGetter.createGlobalKey();
+  // Rect
+  Rect? _rectWelcome;
+  Rect? _rectCreation;
+  Rect? _rectHistory;
+  // Duration
+  Duration animationDuration = const Duration(milliseconds: 300), afterAnimationDelay = const Duration(milliseconds: 300);
+
+  // TODO: ------ Function ------
+  // --- Content Top Section
+  // Switch Mode
+  void switchWithTransition() async {
+    isFromLeft = !isFromLeft;
+    setState(() => transitionIsActive = !transitionIsActive);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(animationDuration, () => setState(() {
+        ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
+      }));
+      Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
+        transitionIsActive = !transitionIsActive;
+      }));
+    });
+  }
+  // --- Content Body Section ---
+  // Open Url
+  Future<void> _openUrl(String url) async {
+    Uri uri = Uri.parse(url);
+    !await launchUrl(uri);
+  }
+  // Show Snackbar Template
+  Future<void> _showSnackbar(String message, String url) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 30),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 5,
+              color: (ref.watch(isDarkMode)) ? styleUtil.c_success_dark : styleUtil.c_success_light,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0, vertical: 14.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Icon(
+                        Icons.check_circle,
+                        color: styleUtil.c_255,
+                      ),
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                        letterSpacing: 1,
+                        fontFamily: "Lato",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: styleUtil.c_255,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    await _openUrl(url);
+  }
+  // --- Transition Nav ---
+  // Push Page With Transition
+  void _pushNamedWithRectWelcome() async {
+    setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("welcome"));
+    });
+  }
+  void _pushNamedWithRectCreation() async {
+    setState(() => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectCreation = _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("creation"));
+    });
+  }
+  void _pushNamedWithRectHistory() async {
+    setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+    });
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final scrHeight = MediaQuery.sizeOf(context).height;
+
+    return Stack(
+      children: [
+        Scaffold(
+          body: Container(
+            color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+            height: scrHeight,
+            padding: mainCardPaddingWithBottomQuote(context),
+            child: Column(
+              children: [
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 1100,
+                    ),
+                    padding: contentCardPadding(context),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+                      boxShadow: [
+                        BoxShadow(
+                          color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
+                              255, 61, 61, 61) : const Color.fromARGB(255, 203, 203, 203),
+                          blurRadius: 80.0,
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Positioned(
+                          top: 55,
+                          right: -5,
+                          child: dashHorizontal(context, ref.watch(isDarkMode)),
+                        ),
+                        Positioned(
+                          top: 50,
+                          right: 0,
+                          child: RotatedBox(
+                            quarterTurns: 1,
+                            child: dashVertical(context, ref.watch(isDarkMode)),
+                          ),
+                        ),
+                        Column(
+                          children: [
+                            Flexible(
+                              fit: FlexFit.tight,
+                              flex: 1,
+                              child: Container(
+                                // color: Colors.red,
+                                child: _topContent(),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 3,
+                              child: SizedBox(
+                                // color: Colors.green,
+                                child: _content(),
+                              ),
+                            ),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              flex: 1,
+                              child: Container(
+                                // color: Colors.blue,
+                                child: _navSection(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                _quoteContentSection(),
+              ],
+            ),
+          ),
+        ),
+        _transitionToWelcomePage(),
+        _transitionToCreationPage(),
+        _transitionToHistoryPage(),
+        _switchTapedWithTransition(),
+      ],
+    );
+  }
+
+  // ------ Content Body -----
+  Widget _topContent() {
+    return Stack(
+      children: [
+        AnimatedPositioned(
+          // alignment: (themeSwitch) ? Alignment.bottomCenter : Alignment.center,
+          top: (themeSwitch) ? 80 : 55,
+          left: 0,
+          right: 0,
+          duration: const Duration(milliseconds: 150),
+          child: AnimatedDefaultTextStyle(
+            style: TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 12,
+                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : Colors.transparent),
+            duration: const Duration(milliseconds: 100),
+            child: const Text(
+              "change mode",
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Align(
+          // alignment: Alignment.center,
+          child: InkWell(
+            onHover: (value) {
+              setState(() {
+                themeSwitch = value;
+              });
+            },
+            onTap: () {
+              // Dark/Light Mode switch
+              switchWithTransition();
+            },
+            child: Icon(
+              (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+              size: 32,
+              color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget _content() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          // height: 96,
+          // color: Colors.blue,
+          margin: const EdgeInsets.only(bottom: 15),
+          width: double.maxFinite,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              "DISCOVER MORE",
+              style: TextStyle(
+                fontFamily: "Lato",
+                fontSize: 32,
+                fontWeight: FontWeight.w700,
+                color:
+                (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        Container(
+          // height: 48,
+          // color: Colors.amberAccent,
+          margin: const EdgeInsets.only(bottom: 30),
+          width: 694,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              "- ICON - ICON - ICON - ICON - ICON -",
+              style: TextStyle(
+                fontFamily: "Lato",
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color:
+                (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+  Widget _navSection() {
+    return SizedBox(
+      width: double.maxFinite,
+      child: Row(
+        mainAxisAlignment: alignmentRowNav(context),
+        children: [
+          bottomHelper(context),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: RectGetter(
+                  key: _rectKeyWelcomePage,
+                  child: InkWell(
+                    onHover: (value) => setState(() {
+                      _navHover[0] = value;
+                    }),
+                    onTap: () {
+                      _pushNamedWithRectWelcome();
+                    },
+                    child: Text(
+                      "Welcome",
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        color: (_navHover[0]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: RectGetter(
+                  key: _rectKeyCreationPage,
+                  child: InkWell(
+                    onHover: (value) => setState(() {
+                      _navHover[1] = value;
+                    }),
+                    onTap: () {
+                      _pushNamedWithRectCreation();
+                    },
+                    child: Text(
+                      "Creation",
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: RectGetter(
+                  key: _rectKeyHistoryPage,
+                  child: InkWell(
+                    onHover: (value) => setState(() {
+                      _navHover[2] = value;
+                    }),
+                    onTap: () {
+                      _pushNamedWithRectHistory();
+                    },
+                    child: Text(
+                      "History",
+                      style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 14,
+                        color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 0),
+                child: Text(
+                  "Further",
+                  style: TextStyle(
+                      fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _quoteContentSection(){
+    return Container(
+      padding: contentQuotePadding(context),
+      height: contentQuoteHeight(context),
+      width: double.maxFinite,
+      child: Center(
+        child: SizedBox(
+          width: 118,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Build with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
+              Image.asset('assets/icons/flutter_16.png'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+  // ------ Transition Page -----
+  Widget _transitionToWelcomePage() {
+    if(_rectWelcome == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectWelcome!.top,
+      right: MediaQuery.sizeOf(context).width - _rectWelcome!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectWelcome!.bottom,
+      left: _rectWelcome!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _transitionToCreationPage() {
+    if(_rectCreation == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectCreation!.top,
+      right: MediaQuery.sizeOf(context).width - _rectCreation!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectCreation!.bottom,
+      left: _rectCreation!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _transitionToHistoryPage() {
+    if(_rectHistory == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectHistory!.top,
+      right: MediaQuery.sizeOf(context).width - _rectHistory!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectHistory!.bottom,
+      left: _rectHistory!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _switchTapedWithTransition() {
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: 0,
+      right: isFromLeft ? (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0 : 0,
+      bottom: 0,
+      left: isFromLeft ? 0 : (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0,
+      child: AnimatedContainer(
+        duration: animationDuration,
+        decoration: BoxDecoration(
+            color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+            shape: BoxShape.rectangle
+        ),
+      ),
+    );
   }
 }
