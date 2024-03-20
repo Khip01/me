@@ -34,7 +34,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
   bool _navIsSticky = false;
 
   //  Other Hover
-  bool githubHover = false, cvHover = false, themeSwitch = false;
+  bool themeSwitch = false;
 
   // --- Transition Nav ---
   // Rect Global Key
@@ -215,74 +215,80 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     return Container(
       color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
       height: screenHeight,
-      padding: mainCardPadding(context),
-      child: Center(
-        child: Container(
-          constraints: const BoxConstraints(
-            maxWidth: 1100,
-          ),
-          padding: contentCardPadding(context),
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: (ref.watch(isDarkMode))
-                ? styleUtil.c_33
-                : styleUtil.c_255,
-            boxShadow: [
-              BoxShadow(
+      padding: mainCardPaddingWithBottomQuote(context),
+      child: Column(
+        children: [
+          Flexible(
+            fit: FlexFit.tight,
+            child: Container(
+              constraints: const BoxConstraints(
+                maxWidth: 1100,
+              ),
+              padding: contentCardPadding(context),
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
                 color: (ref.watch(isDarkMode))
-                    ? const Color.fromARGB(255, 61, 61, 61)
-                    : const Color.fromARGB(255, 203, 203, 203),
-                blurRadius: 80.0,
-              ),
-            ],
-          ),
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Positioned(
-                top: 55,
-                right: -5,
-                child: dashHorizontal(context, ref.watch(isDarkMode)),
-              ),
-              Positioned(
-                top: 50,
-                right: 0,
-                child: RotatedBox(
-                  quarterTurns: 1,
-                  child: dashVertical(context, ref.watch(isDarkMode)),
-                ),
-              ),
-              Column(
-                children: [
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 1,
-                    child: Container(
-                      // color: Colors.red,
-                      child: _topContent(),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: SizedBox(
-                      // color: Colors.green,
-                      child: _content(),
-                    ),
-                  ),
-                  Flexible(
-                    fit: FlexFit.tight,
-                    flex: 1,
-                    child: Container(
-                      // color: Colors.blue,
-                      child: _navSection(),
-                    ),
+                    ? styleUtil.c_33
+                    : styleUtil.c_255,
+                boxShadow: [
+                  BoxShadow(
+                    color: (ref.watch(isDarkMode))
+                        ? const Color.fromARGB(255, 61, 61, 61)
+                        : const Color.fromARGB(255, 203, 203, 203),
+                    blurRadius: 80.0,
                   ),
                 ],
               ),
-            ],
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    top: 55,
+                    right: -5,
+                    child: dashHorizontal(context, ref.watch(isDarkMode)),
+                  ),
+                  Positioned(
+                    top: 50,
+                    right: 0,
+                    child: RotatedBox(
+                      quarterTurns: 1,
+                      child: dashVertical(context, ref.watch(isDarkMode)),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: Container(
+                          // color: Colors.red,
+                          child: _topContent(),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 3,
+                        child: SizedBox(
+                          // color: Colors.green,
+                          child: _content(),
+                        ),
+                      ),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        flex: 1,
+                        child: Container(
+                          // color: Colors.blue,
+                          child: _navSection(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
+          _quoteContentSection(),
+        ],
       ),
     );
   }
@@ -323,7 +329,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     return Container(
       color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
       height: 1200,
-      child: Center(child: Text("Creation Section", style: TextStyle(color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,),)),
+      child: Center(child: Text("Oops, you caught me! \nI'm still working on this creation section", style: TextStyle(color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,),)),
     );
   }
 
@@ -636,6 +642,37 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _quoteContentSection() {
+    return Container(
+      padding: contentQuotePadding(context),
+      height: contentQuoteHeight(context),
+      width: double.maxFinite,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Visibility(visible: contentQuoteIconVisible(context), child: const SizedBox(width: 32, height: 36, child: Text(""))),
+          Text("\"There is no such thing as 'garbage' for the small program you have created.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: styleUtil.c_170),),
+          Visibility(
+            visible: contentQuoteIconVisible(context),
+            child: SizedBox(
+              width: 32,
+              height: 36,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Icon(Icons.arrow_downward_rounded, size: 18, color: styleUtil.c_170,),
+                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
+                ],
+              ),
+            ),
           ),
         ],
       ),
