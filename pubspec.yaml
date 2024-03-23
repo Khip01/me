@@ -36,6 +36,7 @@ dependencies:
   responsive_framework: ^1.4.0
   flutter_riverpod: ^2.5.1
   sliver_tools: ^0.2.12
+  line_icons: ^2.0.3
 #  flutter_screenutil: ^5.9.0
 #  google_fonts: ^6.2.1
 
@@ -69,6 +70,11 @@ flutter:
   assets:
     - assets/icons/waving_hand.png
     - assets/icons/flutter_16.png
+    - assets/icons/facebook/
+    - assets/icons/github/
+    - assets/icons/gmail/
+    - assets/icons/instagram/
+    - assets/icons/linkedin/
 #     - images/a_dot_burr.jpeg
 #     - images/a_dot_ham.jpeg
 
