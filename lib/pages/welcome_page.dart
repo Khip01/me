@@ -17,8 +17,9 @@ class WelcomePage extends ConsumerStatefulWidget {
 class _WelcomePageState extends ConsumerState<WelcomePage> {
   // TODO: ------ Declaration ------
   // --- General ---
-  final StyleUtil styleUtil = StyleUtil();
-  final IconUtil iconUtil = IconUtil();
+  final StyleUtil _styleUtil = StyleUtil();
+  final IconUtil _iconUtil = IconUtil();
+  final LinkUtil _linkUtil = LinkUtil();
 
   // --- Content Top Section ---
   // Dark/Light Theme Switch
@@ -80,7 +81,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (ref.watch(isDarkMode)) ? styleUtil.c_success_dark : styleUtil.c_success_light,
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -90,7 +91,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       padding: const EdgeInsets.only(right: 10),
                       child: Icon(
                         Icons.check_circle,
-                        color: styleUtil.c_255,
+                        color: _styleUtil.c_255,
                       ),
                     ),
                     Text(
@@ -100,7 +101,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                         fontFamily: "Lato",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: styleUtil.c_255,
+                        color: _styleUtil.c_255,
                       ),
                     ),
                   ],
@@ -146,7 +147,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       children: [
         Scaffold(
           body: Container(
-            color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
             height: scrHeight,
             padding: mainCardPadding(context),
             child: Center(
@@ -158,7 +159,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+                  color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
                   boxShadow: [
                     BoxShadow(
                       color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
@@ -238,7 +239,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 12,
-                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : Colors.transparent),
+                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
               "change mode",
@@ -261,7 +262,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             child: Icon(
               (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
               size: 32,
-              color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+              color: (themeSwitch) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
             ),
           ),
         ),
@@ -287,10 +288,10 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   fontFamily: "Lato",
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
+                  color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
                 ),
               ),
-              Image.asset(iconUtil.wavingHand),
+              Image.asset(_iconUtil.wavingHand),
             ],
           ),
         ),
@@ -307,7 +308,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 fontFamily: "Lato",
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+                color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
               ),
               textAlign: textAlignment(context),
             ),
@@ -326,7 +327,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 fontFamily: "Lato",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
+                color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
               textAlign: textAlignment(context),
             ),
@@ -347,8 +348,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                     });
                   },
                   onTap: () async {
-                    await _showSnackbar("Github Opened Successfully!",
-                        "https://github.com/Khip01");
+                    await _showSnackbar("Github Opened Successfully!", _linkUtil.githubLink);
                   },
                   child: Row(
                     children: [
@@ -359,7 +359,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color:
-                              (githubHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+                              (githubHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
                         ),
                       ),
                       Padding(
@@ -367,7 +367,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                         child: Icon(
                           Icons.open_in_new,
                           color:
-                              (githubHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+                              (githubHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
                           size: 20,
                         ),
                       ),
@@ -383,8 +383,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       });
                     },
                     onTap: () async {
-                      await _showSnackbar("CV Opened Successfully!",
-                          "https://app.enhancv.com/share/ae221296/?utm_medium=growth&utm_campaign=share-resume&utm_source=dynamic");
+                      await _showSnackbar("CV Opened Successfully!", _linkUtil.cvLink);
                     },
                     child: Row(
                       children: [
@@ -394,14 +393,14 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                             fontFamily: "Lato",
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color: (cvHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+                            color: (cvHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.open_in_new,
-                            color: (cvHover) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+                            color: (cvHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
                             size: 20,
                           ),
                         ),
@@ -430,7 +429,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 child: Text(
                   "Welcome",
                   style: TextStyle(
-                      fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33),
+                      fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33),
                 ),
               ),
               Padding(
@@ -449,7 +448,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
+                        color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -471,7 +470,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
+                        color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -493,7 +492,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[3]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
+                        color: (_navHover[3]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -521,7 +520,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       left: _rectCreation!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -540,7 +539,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       left: _rectHistory!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -559,7 +558,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       left: _rectFurther!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -575,7 +574,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.rectangle
         ),
       ),
