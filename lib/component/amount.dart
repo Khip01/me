@@ -14,7 +14,7 @@ int flexContentFurther(BuildContext context) => ResponsiveValue(context,
     conditionalValues: [
       const Condition.largerThan(name: 'DESKTOP-MD', value: 1),
       const Condition.equals(name: 'DESKTOP-MD', value: 1),
-      const Condition.smallerThan(name: 'DESKTOP-MD', value: 1),
+      const Condition.smallerThan(name: 'DESKTOP-MD', value: 2),
     ],
     defaultValue: 1)
     .value;
