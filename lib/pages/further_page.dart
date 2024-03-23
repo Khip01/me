@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/utility.dart';
 import 'package:me/component/components.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:me/provider/theme_provider.dart';
+
 
 class FurtherPage extends ConsumerStatefulWidget {
   const FurtherPage({super.key});
@@ -18,6 +19,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   // TODO: ------ Declaration ------
   // --- General ---
   final StyleUtil styleUtil = StyleUtil();
+  final IconUtil iconUtil = IconUtil();
+  final LinkUtil linkUtil = LinkUtil();
 
   // --- Content Top Section ---
   // Dark/Light Theme Switch
@@ -27,6 +30,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   // --- Nav Section ---
   // Nav List Hover
   final List<bool> _navHover = List.generate(4, (index) => index == 3 ? true : false);
+  List<bool> _iconsHover = List.generate(5, (i) => false);
   //  Other Hover
   bool themeSwitch = false;
 
@@ -63,7 +67,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     Uri uri = Uri.parse(url);
     !await launchUrl(uri);
   }
-  // Show Snackbar Template
+  // Show Snackbar Template + Open URL
   Future<void> _showSnackbar(String message, String url) async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -278,43 +282,116 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          // height: 96,
-          // color: Colors.blue,
-          margin: const EdgeInsets.only(bottom: 15),
-          width: double.maxFinite,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              "DISCOVER MORE",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                color:
-                (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+        Flexible(
+          fit: FlexFit.tight,
+          flex: 1,
+          child: Container(
+            // height: 96,
+            // color: Colors.blue,
+            margin: const EdgeInsets.only(bottom: 15),
+            width: double.maxFinite,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                "DISCOVER MORE",
+                style: TextStyle(
+                  fontFamily: "Lato",
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  color:
+                  (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ),
         ),
-        Container(
-          // height: 48,
-          // color: Colors.amberAccent,
-          margin: const EdgeInsets.only(bottom: 30),
-          width: 694,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              "- ICON - ICON - ICON - ICON - ICON -",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color:
-                (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
-              ),
-              textAlign: TextAlign.center,
+        Flexible(
+          fit: FlexFit.tight,
+          flex: flexContentFurther(context),
+          child: Container(
+            // height: 48,
+            // color: Colors.amberAccent,
+            margin: const EdgeInsets.only(bottom: 30),
+            width: 694,
+            child: GridView.count(
+              crossAxisCount: gridFurtherCount(context),
+              // physics: const RangeMaintainingScrollPhysics(),
+              childAspectRatio: (2 / 1),
+              mainAxisSpacing: 20,
+              crossAxisSpacing: 0,
+              children: [
+                InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Github Opened Successfully!", linkUtil.githubLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[0] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGithubDark : iconUtil.imgGithubLight : iconUtil.imgGithubDefault,
+                    ),
+                  ),
+                InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Instagram Opened Successfully!", linkUtil.instaLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[1] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? iconUtil.imgInstagramDark : iconUtil.imgInstagramLight : iconUtil.imgInstagramDefault,
+                    ),
+                  ),
+                InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Facebook Opened Successfully!", linkUtil.facebookLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[2] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? iconUtil.imgFacebookDark : iconUtil.imgFacebookLight : iconUtil.imgFacebookDefault,
+                    ),
+                  ),
+                InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Gmail Opened Successfully!", linkUtil.gmailLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[3] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGmailDark : iconUtil.imgGmailLight : iconUtil.imgGmailDefault,
+                    ),
+                  ),
+                InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", linkUtil.linkedinLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[4] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? iconUtil.imgLinkedinDark : iconUtil.imgLinkedinLight : iconUtil.imgLinkedinDefault,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
@@ -424,7 +501,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Build with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
-              Image.asset('assets/icons/flutter_16.png'),
+              Image.asset(iconUtil.flutterLogo),
             ],
           ),
         ),
