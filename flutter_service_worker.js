@@ -54,7 +54,7 @@ const RESOURCES = {"android-chrome-48x48.png": "357316c5c8d625bf5f95e39a3ba8cf65
 "favicon-16x16.png": "3807d1ab0824f5ea43536edb57bfca49",
 "favicon-32x32.png": "26e2e9dd3f46b5d552fb296009591c01",
 "favicon.ico": "37d805c70cde765ba36478f63d153599",
-"favicon.png": "5dcef449791fa27946b3d35ad8803796",
+"favicon.png": "3807d1ab0824f5ea43536edb57bfca49",
 "flutter.js": "c71a09214cb6f5f8996a531350400a9a",
 "icons/Icon-192.png": "cb9887be9a24f48787c837ffb4dd41a2",
 "icons/Icon-512.png": "6d32843072490bc6ee4ff0e1c24cf76e",
