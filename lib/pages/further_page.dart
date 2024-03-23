@@ -314,83 +314,81 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             // color: Colors.amberAccent,
             margin: const EdgeInsets.only(bottom: 30),
             width: 694,
-            child: GridView.count(
-              crossAxisCount: gridFurtherCount(context),
-              // physics: const RangeMaintainingScrollPhysics(),
-              childAspectRatio: (2 / 1),
-              mainAxisSpacing: 20,
-              crossAxisSpacing: 0,
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 40,
+              alignment: WrapAlignment.center,
               children: [
                 InkWell(
-                    customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    onTap: () async => await _showSnackbar("Github Opened Successfully!", linkUtil.githubLink),
-                    onHover: (val) {
-                      setState(() {
-                        _iconsHover[0] = val;
-                      });
-                    },
-                    child: Image.asset(
-                      (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGithubDark : iconUtil.imgGithubLight : iconUtil.imgGithubDefault,
-                    ),
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
                   ),
-                InkWell(
-                    customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    onTap: () async => await _showSnackbar("Instagram Opened Successfully!", linkUtil.instaLink),
-                    onHover: (val) {
-                      setState(() {
-                        _iconsHover[1] = val;
-                      });
-                    },
-                    child: Image.asset(
-                      (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? iconUtil.imgInstagramDark : iconUtil.imgInstagramLight : iconUtil.imgInstagramDefault,
-                    ),
+                  onTap: () async => await _showSnackbar("Github Opened Successfully!", linkUtil.githubLink),
+                  onHover: (val) {
+                    setState(() {
+                      _iconsHover[0] = val;
+                    });
+                  },
+                  child: Image.asset(
+                    (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGithubDark : iconUtil.imgGithubLight : iconUtil.imgGithubDefault,
                   ),
-                InkWell(
-                    customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    onTap: () async => await _showSnackbar("Facebook Opened Successfully!", linkUtil.facebookLink),
-                    onHover: (val) {
-                      setState(() {
-                        _iconsHover[2] = val;
-                      });
-                    },
-                    child: Image.asset(
-                      (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? iconUtil.imgFacebookDark : iconUtil.imgFacebookLight : iconUtil.imgFacebookDefault,
-                    ),
+                ),
+              InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
                   ),
-                InkWell(
-                    customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    onTap: () async => await _showSnackbar("Gmail Opened Successfully!", linkUtil.gmailLink),
-                    onHover: (val) {
-                      setState(() {
-                        _iconsHover[3] = val;
-                      });
-                    },
-                    child: Image.asset(
-                      (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGmailDark : iconUtil.imgGmailLight : iconUtil.imgGmailDefault,
-                    ),
+                  onTap: () async => await _showSnackbar("Instagram Opened Successfully!", linkUtil.instaLink),
+                  onHover: (val) {
+                    setState(() {
+                      _iconsHover[1] = val;
+                    });
+                  },
+                  child: Image.asset(
+                    (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? iconUtil.imgInstagramDark : iconUtil.imgInstagramLight : iconUtil.imgInstagramDefault,
                   ),
-                InkWell(
-                    customBorder: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", linkUtil.linkedinLink),
-                    onHover: (val) {
-                      setState(() {
-                        _iconsHover[4] = val;
-                      });
-                    },
-                    child: Image.asset(
-                      (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? iconUtil.imgLinkedinDark : iconUtil.imgLinkedinLight : iconUtil.imgLinkedinDefault,
-                    ),
+                ),
+              InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
                   ),
+                  onTap: () async => await _showSnackbar("Facebook Opened Successfully!", linkUtil.facebookLink),
+                  onHover: (val) {
+                    setState(() {
+                      _iconsHover[2] = val;
+                    });
+                  },
+                  child: Image.asset(
+                    (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? iconUtil.imgFacebookDark : iconUtil.imgFacebookLight : iconUtil.imgFacebookDefault,
+                  ),
+                ),
+              InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  onTap: () async => await _showSnackbar("Gmail Opened Successfully!", linkUtil.gmailLink),
+                  onHover: (val) {
+                    setState(() {
+                      _iconsHover[3] = val;
+                    });
+                  },
+                  child: Image.asset(
+                    (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGmailDark : iconUtil.imgGmailLight : iconUtil.imgGmailDefault,
+                  ),
+                ),
+              InkWell(
+                  customBorder: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", linkUtil.linkedinLink),
+                  onHover: (val) {
+                    setState(() {
+                      _iconsHover[4] = val;
+                    });
+                  },
+                  child: Image.asset(
+                    (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? iconUtil.imgLinkedinDark : iconUtil.imgLinkedinLight : iconUtil.imgLinkedinDefault,
+                  ),
+                ),
               ],
             ),
           ),
