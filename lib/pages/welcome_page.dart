@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/utility.dart';
 import 'package:me/component/components.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +18,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   // TODO: ------ Declaration ------
   // --- General ---
   final StyleUtil styleUtil = StyleUtil();
+  final IconUtil iconUtil = IconUtil();
 
   // --- Content Top Section ---
   // Dark/Light Theme Switch
@@ -289,7 +290,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   color: (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
                 ),
               ),
-              Image.asset('assets/icons/waving_hand.png'),
+              Image.asset(iconUtil.wavingHand),
             ],
           ),
         ),
