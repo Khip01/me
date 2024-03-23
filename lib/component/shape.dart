@@ -203,58 +203,12 @@ Widget bottomHelper(BuildContext context) => ResponsiveValue(
             ),
           ),
         ),
-        Condition.smallerThan(
+        const Condition.smallerThan(
           name: 'DESKTOP-MD',
-          value: SizedBox(
-            width: 0,
-            height: 0,
-            child: Row(
-              children: [
-                Text(
-                  "select navigation",
-                  style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 12,
-                    color: _styleUtil.c_170,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 3),
-                  child: Icon(
-                    Icons.arrow_right_sharp,
-                    color: _styleUtil.c_170,
-                    size: 14,
-                  ),
-                ),
-              ],
-            ),
-          ),
+          value: SizedBox(),
         ),
       ],
-      defaultValue: SizedBox(
-        width: 0,
-        height: 0,
-        child: Row(
-          children: [
-            Text(
-              "select navigation",
-              style: TextStyle(
-                fontFamily: 'Lato',
-                fontSize: 12,
-                color: _styleUtil.c_170,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 3),
-              child: Icon(
-                Icons.arrow_right_sharp,
-                color: _styleUtil.c_170,
-                size: 14,
-              ),
-            ),
-          ],
-        ),
-      ),
+      defaultValue: const SizedBox(),
     ).value;
 
 // ---------- ADDITIONAL HELPER------------------
