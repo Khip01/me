@@ -335,7 +335,9 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
         ),
         SizedBox(
           // color: Colors.lightGreenAccent,
-          height: 24,
+          // height: 24,
+          height: 46,
+          width: double.maxFinite,
           child: Align(
             // alignment: topWidgetAlignment(context),
             child: Row(
@@ -356,7 +358,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                         "See My Github Journey",
                         style: TextStyle(
                           fontFamily: "Lato",
-                          fontSize: 16,
+                          fontSize: fontSizeWelcomeResize(context),
                           fontWeight: FontWeight.w400,
                           color:
                               (githubHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
@@ -368,7 +370,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                           Icons.open_in_new,
                           color:
                               (githubHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
-                          size: 20,
+                          size: iconSizeWelcomeResize(context),
                         ),
                       ),
                     ],
@@ -391,7 +393,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                           "See My CV",
                           style: TextStyle(
                             fontFamily: "Lato",
-                            fontSize: 16,
+                            fontSize: fontSizeWelcomeResize(context),
                             fontWeight: FontWeight.w400,
                             color: (cvHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
                           ),
@@ -401,7 +403,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                           child: Icon(
                             Icons.open_in_new,
                             color: (cvHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
-                            size: 20,
+                            size: iconSizeWelcomeResize(context),
                           ),
                         ),
                       ],
