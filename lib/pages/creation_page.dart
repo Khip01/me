@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -329,7 +328,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
   Widget _creationPageSection() {
     return Column(
       children: [
-        Visibility( // Spacing for nav is sticky when nav is sticky visible = false
+        Visibility( // Spacing for nav is sticky when nav is sticky visible = false | DO NOT DELETE IT
           visible: !_navIsSticky,
           child: Container(
             color: (ref.watch(isDarkMode))
@@ -339,11 +338,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
             width: MediaQuery.sizeOf(context).width,
           ),
         ),
-        Container(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
-          height: 1200,
-          child: Center(child: Text("Oops, you caught me! \nI'm still working on this creation section", style: TextStyle(color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,),)),
-        ),
+        _creationPageHeader(),
       ],
     );
   }
@@ -690,6 +685,41 @@ class _CreationPageState extends ConsumerState<CreationPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _creationPageHeader(){
+    return Padding(
+      padding:  mainCardPaddingWithBottomQuote(context),
+      child: Container(
+        constraints: BoxConstraints(
+            maxWidth: 1100
+        ),
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(bottom: 36),
+              constraints: const BoxConstraints(
+                maxWidth: 471,
+              ),
+              color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+              child: Column(
+                children: [
+                  Container(padding: const EdgeInsets.only(bottom: 10), width: double.maxFinite, child: Text("M Y   P R O J E C T   P L A Y G R O U N D", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_61),)),
+                  Text("A collection of small projects from my past that reflect my learning journey in the realm of coding.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? styleUtil.c_170 : styleUtil.c_61),),
+                ],
+              ),
+            ),
+            Container(
+              color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+              height: 1200,
+              child: const Text("Hello World"),
+            ),
+          ],
+        ),
       ),
     );
   }
