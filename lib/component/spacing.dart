@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -154,4 +155,23 @@ EdgeInsets contentQuotePadding(BuildContext context) => ResponsiveValue(
     ),
   ],
   defaultValue: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 0),
+).value;
+
+EdgeInsets contentHighlightListSpace (BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: 'DESKTOP-SM',
+      value: EdgeInsets.only(right: 28),
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: EdgeInsets.only(right: 28),
+    ),
+    const Condition.smallerThan(
+      name: 'DESKTOP-SM',
+      value: EdgeInsets.only(right: 14),
+    ),
+  ],
+  defaultValue: EdgeInsets.only(right: 28),
 ).value;

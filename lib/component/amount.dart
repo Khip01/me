@@ -36,3 +36,60 @@ double iconSizeWelcomeResize(BuildContext context) => ResponsiveValue(context,
     ],
     defaultValue: 20)
     .value.toDouble();
+
+double contentHighlightWidth (BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: 'DESKTOP-SM',
+      value: 491,
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: 491,
+    ),
+    const Condition.smallerThan(
+      name: 'DESKTOP-SM',
+      value: 491 * 3 / 5,
+    ),
+  ],
+  defaultValue: 491,
+).value.toDouble();
+
+double contentHighlightHeight (BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: 'DESKTOP-SM',
+      value: 378,
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: 378,
+    ),
+    const Condition.smallerThan(
+      name: 'DESKTOP-SM',
+      value: 378 * 3 / 5,
+    ),
+  ],
+  defaultValue: 378,
+).value.toDouble();
+
+double contentHighlightWidthListView (BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: 'DESKTOP-SM',
+      value: 519,
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: 519,
+    ),
+    const Condition.smallerThan(
+      name: 'DESKTOP-SM',
+      value: 505 * 3 / 5,
+    ),
+  ],
+  defaultValue: 519,
+).value.toDouble();
