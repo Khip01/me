@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:rect_getter/rect_getter.dart';
+import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
@@ -693,9 +694,10 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     return Padding(
       padding:  mainCardPaddingWithBottomQuote(context),
       child: Container(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
             maxWidth: 1100
         ),
+        margin: EdgeInsets.symmetric(horizontal: 28),
         width: double.maxFinite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -713,13 +715,48 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                 ],
               ),
             ),
+            _creationsContentHighlight(),
+            // _creationsContentRelatedProject(),
+            // _creationsContentSteppingStone(),
+            // _creationsContentTopProject(),
             Container(
               color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
               height: 1200,
-              child: const Text("Hello World"),
+              child: const Center(child: Text("Oops, you caught me! \nI'm still working on this creation section")),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _creationsContentHighlight(){
+    return Container(
+      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+      height: contentHighlightHeight(context),
+      child: ScrollSnapList(
+        duration: 100,
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        onItemFocus: (_){},
+        itemSize: contentHighlightWidthListView(context),
+        itemBuilder: _buildListItem,
+        itemCount: 3,
+        selectedItemAnchor: SelectedItemAnchor.START,
+      ),
+    );
+  }
+
+  Widget _buildListItem(BuildContext context, int index){
+    return Container(
+      margin: contentHighlightListSpace(context),
+      width: contentHighlightWidth(context),
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: Colors.lightBlueAccent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: const Text("Content"),
       ),
     );
   }
