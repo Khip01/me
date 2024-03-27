@@ -19,4 +19,8 @@ class IconUtil {
   final String imgLinkedinDefault = "assets/icons/linkedin/linkedin_default.png"; // LinkedIn
   final String imgLinkedinDark = "assets/icons/linkedin/linkedin_hover_dark.png";
   final String imgLinkedinLight = "assets/icons/linkedin/linkedin_hover_light.png";
+  // Super User Page
+  final String incognitoMode = "assets/icons/incognito_mode.png";
+  final String incognitoFingerprint = "assets/icons/incognito_fingerprint.png";
+  final String incognitoMask = "assets/icons/iconcognito_mask.png";
 }
