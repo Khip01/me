@@ -38,6 +38,7 @@ dependencies:
   sliver_tools: ^0.2.12
   scroll_snap_list: ^0.9.1
   firebase_core: ^2.27.2
+  email_validator: ^2.1.17
 #  flutter_screenutil: ^5.9.0
 #  google_fonts: ^6.2.1
 
@@ -71,6 +72,9 @@ flutter:
   assets:
     - assets/icons/waving_hand.png
     - assets/icons/flutter_16.png
+    - assets/icons/incognito_mode.png
+    - assets/icons/incognito_fingerprint.png
+    - assets/icons/iconcognito_mask.png
     - assets/icons/facebook/
     - assets/icons/github/
     - assets/icons/gmail/
