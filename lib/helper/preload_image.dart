@@ -67,6 +67,10 @@ Future<void> preloadImage() async {
       _iconUtil.imgLinkedinDefault, // LijnkedIn
       _iconUtil.imgLinkedinDark,
       _iconUtil.imgLinkedinLight,
+    // Super User Page
+    _iconUtil.incognitoMode,
+    _iconUtil.incognitoFingerprint,
+    _iconUtil.incognitoMask,
   ];
 
   // Load the image
