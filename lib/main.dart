@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:me/helper/preload_image.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
+import 'super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -36,6 +37,18 @@ class MyApp extends ConsumerWidget {
       GoRoute(path: "/further", name: "further", pageBuilder: (context, state){
         return buildPageWithDefaultTransition(context: context, state: state, child: const FurtherPage());
       }),
+      GoRoute(
+          path: "/super-user",
+          name: "super-user-login",
+          routes: [
+            GoRoute(path: "master", name: "super-user-page", pageBuilder: (context, state){
+              return buildPageWithDefaultTransition(context: context, state: state, child: const SuperUserPage());
+            }),
+          ],
+          pageBuilder: (context, state){
+            return buildPageWithDefaultTransition(context: context, state: state, child: const SuperUserLoginPage());
+          },
+      ),
     ],
     initialLocation: '/',
     debugLogDiagnostics: kDebugMode,
@@ -46,6 +59,15 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
+      theme: ThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color.fromARGB(255, 155, 155, 155),
+          selectionColor: Color.fromARGB(255, 194, 194, 194),
+          selectionHandleColor: Color.fromARGB(255, 101, 101, 101),
+        ),
+        // colorSchemeSeed: Color.fromARGB(255, 241, 241, 241),
+        // colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 129, 168, 255), onPrimary: Colors.blue, secondary: Colors.white70, onSecondary: Colors.white54, error: Colors.red, onError: Colors.redAccent, background: Colors.white, onBackground: Color.fromARGB(255, 129, 168, 255), surface: Colors.white, onSurface: Colors.black),
+      ),
       builder: (BuildContext context, child) =>
           ResponsiveBreakpoints(
               child: child!,
