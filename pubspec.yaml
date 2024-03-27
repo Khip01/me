@@ -37,6 +37,7 @@ dependencies:
   flutter_riverpod: ^2.5.1
   sliver_tools: ^0.2.12
   scroll_snap_list: ^0.9.1
+  firebase_core: ^2.27.2
 #  flutter_screenutil: ^5.9.0
 #  google_fonts: ^6.2.1
 
