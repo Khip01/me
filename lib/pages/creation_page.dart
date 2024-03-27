@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -68,6 +70,29 @@ class _CreationPageState extends ConsumerState<CreationPage> {
   // Duration
   Duration animationDuration = const Duration(milliseconds: 300),
       afterAnimationDelay = const Duration(milliseconds: 300);
+
+  // Creation Section Highlight Scroll Snap List
+  final GlobalKey<ScrollSnapListState> _creationHighlightKey = GlobalKey();
+  int _focusedIndexHighlight = 0;
+  Timer? _timerContentHighlight;
+
+  // TODO: INIT STATE
+  @override
+  void initState() {
+    _timerContentHighlight = Timer.periodic(const Duration(seconds: 5), (_) {
+      setState(() {
+        _creationHighlightKey.currentState!.focusToItem(++_focusedIndexHighlight);
+      });
+    });
+    super.initState();
+  }
+
+  // TODO: DISPOSE
+  @override
+  void dispose() {
+    _timerContentHighlight?.cancel();
+    super.dispose();
+  }
 
   // TODO: ------ Function ------
   // --- Content Top Section
@@ -339,7 +364,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
             width: MediaQuery.sizeOf(context).width,
           ),
         ),
-        _creationPageHeader(),
+        _creationSection(),
       ],
     );
   }
@@ -690,7 +715,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     );
   }
 
-  Widget _creationPageHeader(){
+  Widget _creationSection(){
     return Padding(
       padding:  mainCardPaddingWithBottomQuote(context),
       child: Container(
@@ -735,9 +760,20 @@ class _CreationPageState extends ConsumerState<CreationPage> {
       color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
       height: contentHighlightHeight(context),
       child: ScrollSnapList(
-        duration: 100,
+        key: _creationHighlightKey,
+        duration: 600,
+        curve: Easing.legacyDecelerate,
         margin: const EdgeInsets.symmetric(vertical: 10),
-        onItemFocus: (_){},
+        onItemFocus: (int index) async {
+          setState(() {
+            _focusedIndexHighlight = index;
+          });
+        },
+        onReachEnd: (){
+          setState(() {
+            _focusedIndexHighlight = -1;
+          });
+        },
         itemSize: contentHighlightWidthListView(context),
         itemBuilder: _buildListItem,
         itemCount: 3,
