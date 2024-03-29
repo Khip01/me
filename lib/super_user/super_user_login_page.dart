@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:me/service/firebase_auth_services.dart';
 import 'package:me/utility/utility.dart';
 
 import '../component/components.dart';
@@ -272,18 +273,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                                       onPressed: () async {
                                         if (_formState.currentState!.validate()) {
                                           // TODO: ACTION AUTH
-                                          // String? username = await _userController.getUsernameFrom(_emailController.text);
-                                          //
-                                          // setState(() {
-                                          //   if (username == null || username.isEmpty) {
-                                          //     _errorEmailText = "Account has not been registered";
-                                          //     return;
-                                          //   } else {
-                                          //     _errorEmailText = null;
-                                          //   }
-                                          // });
-                                          //
-                                          // context.goNamed("super-user-page");
+                                          await FirebaseAuthServices.signIn(_emailController.text, _passwordController.text);
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
