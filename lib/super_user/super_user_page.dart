@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:me/Utility/style_util.dart';
 import 'package:me/controller/super_user_controller.dart';
 import 'package:me/service/firebase_auth_services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -20,11 +21,11 @@ class SuperUserPage extends StatefulWidget {
 
 class _SuperUserPageState extends State<SuperUserPage> {
   final SuperUserController _superUserController = SuperUserController();
+  final StyleUtil _styleUtil = StyleUtil();
 
   // final TextEditingController _projectImageBase64Controller = TextEditingController();
   Uint8List? _uint8listProjectImage; // For save the image uint8list temporary
-  String?
-      _resultBase64ProjectImage; // For save the image base64 temporary to database
+  String? _resultBase64ProjectImage; // For save the image base64 temporary to database
   final TextEditingController _projectNameController = TextEditingController();
   final TextEditingController _projectDescController = TextEditingController();
   final TextEditingController _projectCategoryController =
@@ -33,10 +34,8 @@ class _SuperUserPageState extends State<SuperUserPage> {
   final TextEditingController _creatorNameController = TextEditingController();
 
   // final TextEditingController _creatorPhotoProfileBase64Controller = TextEditingController();
-  Uint8List?
-      _uint8listCreatorProfileImage; // For save the image uint8list temporary
-  String?
-      _resultBase64CreatorProfileImage; // For save the image base64 temporary to database
+  Uint8List? _uint8listCreatorProfileImage; // For save the image uint8list temporary
+  String? _resultBase64CreatorProfileImage; // For save the image base64 temporary to database
   final TextEditingController _creatorGithubLinkController =
       TextEditingController();
 
@@ -52,7 +51,7 @@ class _SuperUserPageState extends State<SuperUserPage> {
 
   FilePickerResult? _pickedFile;
 
-  Map<String, bool> _mapCategories = <String, bool>{};
+  Map<int, String> _mapCategories = <int, String>{};
   List<String> _listMapCategoriesKey = <String>[];
   bool _imageProjectPreview = false;
   bool _imageCreatorPhotoPreview = false;
@@ -62,6 +61,7 @@ class _SuperUserPageState extends State<SuperUserPage> {
   bool _additionalLinkPreview = false;
   bool _additionalLinkDescriptionPreview = false;
   List<String> imageFor = ['project', 'creator'];
+  int? _timestampProjectCreated;
 
   void _saveCreation() {
     if (_projectCategoryController.text.isNotEmpty) {
@@ -76,6 +76,91 @@ class _SuperUserPageState extends State<SuperUserPage> {
   Future<void> _openUrl(String url) async {
     Uri uri = Uri.parse(url);
     !await launchUrl(uri);
+  }
+
+  // Show Snackbar Template
+  Future<void> _showSnackbar(String message) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 30),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 5,
+              color: _styleUtil.c_success_light,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0, vertical: 14.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Icon(
+                        Icons.check_circle,
+                        color: _styleUtil.c_255,
+                      ),
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                        letterSpacing: 1,
+                        fontFamily: "Lato",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: _styleUtil.c_255,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Clear All Data
+  void _clearAllDataProject(){
+    setState(() {
+      _uint8listProjectImage = Uint8List(0);
+      _uint8listCreatorProfileImage = Uint8List(0);
+
+      _resultBase64ProjectImage = null;
+      _resultBase64CreatorProfileImage = null;
+
+      _projectNameController.text = "";
+      _projectDescController.text = "";
+      _projectCategoryController.text = "";
+      _creatorNameController.text = "";
+      _creatorGithubLinkController.text = "";
+      _dateTimeController.text = "";
+      _githubLinkController.text = "";
+      _linkToDemoController.text = "";
+      _additionalLinkController.text = "";
+      _additionalLinkDescriptionController.text = "";
+
+      _pickedFile = null;
+      _mapCategories.clear();
+      _listMapCategoriesKey.clear();
+
+      _imageProjectPreview = false;
+      _imageCreatorPhotoPreview = false;
+      _creatorGithubLinkPreview = false;
+      _linkToGithubPreview = false;
+      _linkToDemoWebPreview = false;
+      _additionalLinkPreview = false;
+      _additionalLinkDescriptionPreview = false;
+
+      _timestampProjectCreated = null;
+    });
   }
 
   // base64 to Uint8List
@@ -768,30 +853,33 @@ class _SuperUserPageState extends State<SuperUserPage> {
           base64Encode(_uint8listCreatorProfileImage as List<int>);
       // Save Categories -> map, to be consumsed by the database
       _mapCategories.clear();
-      for (var element in _listMapCategoriesKey) {
-        _mapCategories[element] = true;
+      for (int indexKey = 0; indexKey < _listMapCategoriesKey.length; indexKey++) {
+        _mapCategories[indexKey] = _listMapCategoriesKey[indexKey];
       }
       // DateTime -> timestamp, to be consumed by the databse
-      int timestampProjectCreated =
-          DateTime.parse(_formattedDate!).millisecondsSinceEpoch;
+      _timestampProjectCreated = DateTime.parse(_formattedDate!).millisecond;
     } catch (e) {
       if (kDebugMode) print("ERROR when Submit [DEBUG KHIP01]: $e");
       return;
     }
 
-    // _superUserController.createNewProject(
-    //     projectImage,
-    //     projectName,
-    //     projectDescription,
-    //     projectCategories,
-    //     creatorName,
-    //     creatorPhotoProfile,
-    //     creatorGithubLink,
-    //     dateProjectCreated,
-    //     linkToGithub,
-    //     linkToDemoWeb,
-    //     additionalLink,
-    //     additionalLinkDescription
-    // );
+    _superUserController.createNewProject(
+        _resultBase64ProjectImage!,
+        _creatorNameController.text,
+        _projectDescController.text,
+        _mapCategories,
+        _creatorNameController.text,
+        _resultBase64CreatorProfileImage!,
+        _creatorGithubLinkController.text,
+        _timestampProjectCreated!,
+        _githubLinkController.text,
+        _linkToDemoController.text,
+        _additionalLinkController.text,
+        _additionalLinkDescriptionController.text,
+    );
+
+    await _showSnackbar("Data Added Successfully!");
+
+    _clearAllDataProject();
   }
 }
