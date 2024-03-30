@@ -58,6 +58,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '967013239009',
     projectId: 'khip01-portfolio',
     authDomain: 'khip01-portfolio.firebaseapp.com',
+    databaseURL: 'https://khip01-portfolio-default-rtdb.firebaseio.com/',
     storageBucket: 'khip01-portfolio.appspot.com',
     measurementId: 'G-Y0PXY8H0B5',
   );
