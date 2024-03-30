@@ -1,26 +1,21 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:intl/intl.dart';
 
 class SuperUserController {
 
-  Future<void> createNewProject (
+  void createNewProject (
     String projectImage,
     String projectName,
     String projectDescription,
-    Map<String, bool> projectCategories,
+    Map<int, String> projectCategories,
     String creatorName,
     String creatorPhotoProfile,
     String creatorGithubLink,
-    DateTime dateProjectCreated,
+    int dateProjectCreated,
     String? linkToGithub,
     String? linkToDemoWeb,
     String? additionalLink,
     String? additionalLinkDescription,
   ) async {
-    // init timestamp for the date time
-    DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
-    int timeStampDateProjectCreated = DateTime.parse(dateFormat.format(dateProjectCreated).toString()).millisecond;
-
     final postProjectData = {
       "project_image": projectImage,
       "project_name": projectName,
