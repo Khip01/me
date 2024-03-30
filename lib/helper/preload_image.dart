@@ -51,6 +51,7 @@ Future<void> preloadImage() async {
       _iconUtil.wavingHand,
     // Further Page
       _iconUtil.flutterLogo,
+      _iconUtil.firebaseLogo,
       // Icons Social Media
       _iconUtil.imgGithubDefault, // Github
       _iconUtil.imgGithubDark,
