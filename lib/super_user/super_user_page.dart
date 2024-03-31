@@ -884,7 +884,7 @@ class _SuperUserPageState extends State<SuperUserPage> {
         scrollDirection: Axis.horizontal,
         child: Container(
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 6, 67, 116),
+            color: const Color.fromARGB(255, 6, 67, 116),
             borderRadius: BorderRadius.circular(10),
           ),
           padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
