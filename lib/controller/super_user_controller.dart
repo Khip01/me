@@ -3,18 +3,23 @@ import 'package:firebase_database/firebase_database.dart';
 class SuperUserController {
 
   void createNewProject (
-    String projectImage,
-    String projectName,
-    String projectDescription,
-    Map<int, String> projectCategories,
-    String creatorName,
-    String creatorPhotoProfile,
-    String creatorGithubLink,
-    int dateProjectCreated,
-    String? linkToGithub,
-    String? linkToDemoWeb,
-    String? additionalLink,
-    String? additionalLinkDescription,
+      String projectImage,
+      String projectName,
+      String projectDescription,
+      Map<int, String> projectCategories,
+      String creatorName,
+      String creatorPhotoProfile,
+      String creatorGithubLink,
+      int dateProjectCreated,
+      String? linkToGithub,
+      String? linkToDemoWeb,
+      String? additionalLink,
+      String? additionalLinkDescription,
+      bool isHighlight,
+      bool isRelated,
+      String? highlightHeader,
+      String? highlightDescription,
+      String? highlightTopic,
   ) async {
     final postProjectData = {
       "project_image": projectImage,
@@ -29,6 +34,11 @@ class SuperUserController {
       "link_to_demo_web":  linkToDemoWeb,
       "additional_link":  additionalLink,
       "additional_link_description":  additionalLinkDescription,
+      "isHighlight": isHighlight,
+      "isRelated": isRelated,
+      "highlightHeader": highlightHeader,
+      "highlightDescription": highlightDescription,
+      "highlightTopic": highlightTopic,
     };
 
     // Get a key for a new Post.
