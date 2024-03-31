@@ -149,6 +149,11 @@ class _SuperUserPageState extends State<SuperUserPage> {
       _creatorNameController.text = "";
       _creatorGithubLinkController.text = "";
       _dateTimeController.text = "";
+      _isHighlighted = false;
+      _isRelated = false;
+      _highlightHeader.text = "";
+      _highlightDescription.text = "";
+      _highlightTopic.text = "";
       _githubLinkController.text = "";
       _linkToDemoController.text = "";
       _additionalLinkController.text = "";
@@ -941,7 +946,7 @@ class _SuperUserPageState extends State<SuperUserPage> {
 
     _superUserController.createNewProject(
       _resultBase64ProjectImage!,
-      _creatorNameController.text,
+      _projectNameController.text,
       _projectDescController.text,
       _mapCategories,
       _creatorNameController.text,
