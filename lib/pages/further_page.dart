@@ -498,7 +498,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Build with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
+              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
               Image.asset(iconUtil.flutterLogo),
               Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
               Image.asset(iconUtil.firebaseLogo),
