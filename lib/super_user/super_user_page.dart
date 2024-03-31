@@ -938,7 +938,7 @@ class _SuperUserPageState extends State<SuperUserPage> {
         _mapCategories[indexKey] = _listMapCategoriesKey[indexKey];
       }
       // DateTime -> timestamp, to be consumed by the databse
-      _timestampProjectCreated = DateTime.parse(_formattedDate!).millisecond;
+      _timestampProjectCreated = DateTime.parse(_formattedDate!).millisecondsSinceEpoch;
     } catch (e) {
       if (kDebugMode) print("ERROR when Submit [DEBUG KHIP01]: $e");
       return;
