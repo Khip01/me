@@ -18,12 +18,12 @@ class HistoryPage extends ConsumerStatefulWidget {
 class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: ------ Declaration ------
   // --- General ---
-  final StyleUtil styleUtil = StyleUtil();
+  final StyleUtil _styleUtil = StyleUtil();
 
   // --- Content Top Section ---
   // Dark/Light Theme Switch
   // Switch, animation
-  bool isFromLeft = true, transitionIsActive = false;
+  bool _isFromLeft = true, _transitionIsActive = false;
 
   // --- Nav Section ---
   // Nav List Hover
@@ -34,7 +34,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   bool _navIsSticky = false;
 
   //  Other Hover
-  bool themeSwitch = false;
+  bool _themeSwitch = false;
 
   // --- Transition Nav ---
   // Rect Global Key
@@ -65,26 +65,26 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   Rect? _rectFurtherSticky;
 
   // Duration
-  Duration animationDuration = const Duration(milliseconds: 300),
-      afterAnimationDelay = const Duration(milliseconds: 300);
+  final Duration _animationDuration = const Duration(milliseconds: 300),
+      _afterAnimationDelay = const Duration(milliseconds: 300);
 
   // TODO: ------ Function ------
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    isFromLeft = !isFromLeft;
-    setState(() => transitionIsActive = !transitionIsActive);
+    _isFromLeft = !_isFromLeft;
+    setState(() => _transitionIsActive = !_transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(
-          animationDuration,
+          _animationDuration,
               () => setState(() {
             ref.read(isDarkMode.notifier).state =
             !ref.read(isDarkMode); // SET DARK MODE HERE
           }));
       Future.delayed(
-          animationDuration + afterAnimationDelay,
+          _animationDuration + _afterAnimationDelay,
               () => setState(() {
-            transitionIsActive = !transitionIsActive;
+            _transitionIsActive = !_transitionIsActive;
           }));
     });
   }
@@ -97,7 +97,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectWelcome =
           _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
+      Future.delayed(_animationDuration + _afterAnimationDelay,
               () => context.goNamed("welcome"));
     });
   }
@@ -108,7 +108,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectCreation =
           _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
+      Future.delayed(_animationDuration + _afterAnimationDelay,
               () => context.goNamed("creation"));
     });
   }
@@ -119,7 +119,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectFurther =
           _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
+      Future.delayed(_animationDuration + _afterAnimationDelay,
               () => context.goNamed("further"));
     });
   }
@@ -131,7 +131,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectWelcomeSticky =
           _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
+      Future.delayed(_animationDuration + _afterAnimationDelay,
               () => context.goNamed("welcome"));
     });
   }
@@ -142,7 +142,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectCreationSticky =
           _rectCreationSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
+      Future.delayed(_animationDuration + _afterAnimationDelay,
               () => context.goNamed("creation"));
     });
   }
@@ -153,7 +153,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectFurtherSticky =
           _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
+      Future.delayed(_animationDuration + _afterAnimationDelay,
               () => context.goNamed("further"));
     });
   }
@@ -165,7 +165,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+          backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
           body: NotificationListener<ScrollUpdateNotification>(
             onNotification: (t) {
               setState(() {
@@ -213,7 +213,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // ------ Cover ------
   Widget _coverPageSection(double screenHeight){
     return Container(
-      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
       height: screenHeight,
       padding: mainCardPaddingWithBottomQuote(context),
       child: Column(
@@ -229,8 +229,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: (ref.watch(isDarkMode))
-                    ? styleUtil.c_33
-                    : styleUtil.c_255,
+                    ? _styleUtil.c_33
+                    : _styleUtil.c_255,
                 boxShadow: [
                   BoxShadow(
                     color: (ref.watch(isDarkMode))
@@ -306,8 +306,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
             color: (ref.watch(isDarkMode))
-                ? styleUtil.c_33
-                : styleUtil.c_255,
+                ? _styleUtil.c_33
+                : _styleUtil.c_255,
             boxShadow: [
               BoxShadow(
                 color: (ref.watch(isDarkMode))
@@ -332,16 +332,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           visible: !_navIsSticky,
           child: Container(
             color: (ref.watch(isDarkMode))
-                ? styleUtil.c_33
-                : styleUtil.c_255,
+                ? _styleUtil.c_33
+                : _styleUtil.c_255,
             height: 80,
             width: MediaQuery.sizeOf(context).width,
           ),
         ),
         Container(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
           height: 1200,
-          child: Center(child: Text("Oops, you caught me! \nI'm still working on this history section", style: TextStyle(color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,),)),
+          child: Center(child: Text("Oops, you caught me! \nI'm still working on this history section", style: TextStyle(color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,),)),
         ),
       ],
     );
@@ -353,8 +353,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     return Stack(
       children: [
         AnimatedPositioned(
-          // alignment: (themeSwitch) ? Alignment.bottomCenter : Alignment.center,
-          top: (themeSwitch) ? 80 : 55,
+          // alignment: (_themeSwitch) ? Alignment.bottomCenter : Alignment.center,
+          top: (_themeSwitch) ? 80 : 55,
           left: 0,
           right: 0,
           duration: const Duration(milliseconds: 150),
@@ -362,10 +362,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 12,
-                color: (themeSwitch)
+                color: (_themeSwitch)
                     ? (ref.watch(isDarkMode))
-                    ? styleUtil.c_255
-                    : styleUtil.c_24
+                    ? _styleUtil.c_255
+                    : _styleUtil.c_24
                     : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
@@ -379,7 +379,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           child: InkWell(
             onHover: (value) {
               setState(() {
-                themeSwitch = value;
+                _themeSwitch = value;
               });
             },
             onTap: () {
@@ -389,11 +389,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             child: Icon(
               (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
               size: 32,
-              color: (themeSwitch)
+              color: (_themeSwitch)
                   ? (ref.watch(isDarkMode))
-                  ? styleUtil.c_255
-                  : styleUtil.c_24
-                  : styleUtil.c_170,
+                  ? _styleUtil.c_255
+                  : _styleUtil.c_24
+                  : _styleUtil.c_170,
             ),
           ),
         ),
@@ -420,7 +420,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
                 color:
-                (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+                (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
               ),
               textAlign: TextAlign.center,
             ),
@@ -440,7 +440,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color:
-                (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
+                (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
               textAlign: TextAlign.center,
             ),
@@ -477,9 +477,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         fontSize: 14,
                         color: (_navHover[0])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -503,9 +503,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         fontSize: 14,
                         color: (_navHover[1])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -519,8 +519,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       fontFamily: 'Lato',
                       fontSize: 14,
                       color: (ref.watch(isDarkMode))
-                          ? styleUtil.c_255
-                          : styleUtil.c_33),
+                          ? _styleUtil.c_255
+                          : _styleUtil.c_33),
                 ),
               ),
               Padding(
@@ -541,9 +541,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         fontSize: 14,
                         color: (_navHover[3])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -583,9 +583,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         fontSize: 14,
                         color: (_navHover[0])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -609,9 +609,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         fontSize: 14,
                         color: (_navHover[1])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -625,8 +625,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       fontFamily: 'Lato',
                       fontSize: 14,
                       color: (ref.watch(isDarkMode))
-                          ? styleUtil.c_255
-                          : styleUtil.c_33),
+                          ? _styleUtil.c_255
+                          : _styleUtil.c_33),
                 ),
               ),
               Padding(
@@ -647,9 +647,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         fontSize: 14,
                         color: (_navHover[3])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -672,7 +672,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Visibility(visible: contentQuoteIconVisible(context), child: const SizedBox(width: 32, height: 36, child: Text(""))),
-          Text("\"Turn coding into an experience, not just a lesson.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: styleUtil.c_170),),
+          Text("\"Turn coding into an experience, not just a lesson.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: _styleUtil.c_170),),
           Visibility(
             visible: contentQuoteIconVisible(context),
             child: SizedBox(
@@ -682,8 +682,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_downward_rounded, size: 18, color: styleUtil.c_170,),
-                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
+                  Icon(Icons.arrow_downward_rounded, size: 18, color: _styleUtil.c_170,),
+                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
                 ],
               ),
             ),
@@ -700,14 +700,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     }
 
     return AnimatedPositioned(
-      duration: animationDuration,
+      duration: _animationDuration,
       top: rectWelcome.top,
       right: MediaQuery.sizeOf(context).width - rectWelcome.right,
       bottom: MediaQuery.sizeOf(context).height - rectWelcome.bottom,
       left: rectWelcome.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -720,14 +720,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     }
 
     return AnimatedPositioned(
-      duration: animationDuration,
+      duration: _animationDuration,
       top: rectHistory.top,
       right: MediaQuery.sizeOf(context).width - rectHistory.right,
       bottom: MediaQuery.sizeOf(context).height - rectHistory.bottom,
       left: rectHistory.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -740,14 +740,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     }
 
     return AnimatedPositioned(
-      duration: animationDuration,
+      duration: _animationDuration,
       top: rectFurther.top,
       right: MediaQuery.sizeOf(context).width - rectFurther.right,
       bottom: MediaQuery.sizeOf(context).height - rectFurther.bottom,
       left: rectFurther.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -756,23 +756,23 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   Widget _switchTapedWithTransition() {
     return AnimatedPositioned(
-      duration: animationDuration,
+      duration: _animationDuration,
       top: 0,
-      right: isFromLeft
-          ? (!transitionIsActive)
+      right: _isFromLeft
+          ? (!_transitionIsActive)
           ? 1.3 * MediaQuery.sizeOf(context).width
           : 0
           : 0,
       bottom: 0,
-      left: isFromLeft
+      left: _isFromLeft
           ? 0
-          : (!transitionIsActive)
+          : (!_transitionIsActive)
           ? 1.3 * MediaQuery.sizeOf(context).width
           : 0,
       child: AnimatedContainer(
-        duration: animationDuration,
+        duration: _animationDuration,
         decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
             shape: BoxShape.rectangle),
       ),
     );
