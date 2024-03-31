@@ -34,7 +34,7 @@ class SuperUserController {
       "link_to_demo_web":  linkToDemoWeb,
       "additional_link":  additionalLink,
       "additional_link_description":  additionalLinkDescription,
-      "isHighlight": isHighlight,
+      "isHighlighted": isHighlight,
       "isRelated": isRelated,
       "highlightHeader": highlightHeader,
       "highlightDescription": highlightDescription,
