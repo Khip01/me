@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:me/Utility/style_util.dart';
-import 'package:me/controller/super_user_controller.dart';
+import 'package:me/controller/controller.dart';
 import 'package:me/service/firebase_auth_services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -48,6 +48,13 @@ class _SuperUserPageState extends State<SuperUserPage> {
       TextEditingController();
   final TextEditingController _additionalLinkDescriptionController =
       TextEditingController();
+
+  final TextEditingController _highlightHeader = TextEditingController();
+  final TextEditingController _highlightDescription = TextEditingController();
+  final TextEditingController _highlightTopic = TextEditingController();
+
+  bool _isHighlighted = false;
+  bool _isRelated = false;
 
   FilePickerResult? _pickedFile;
 
@@ -320,7 +327,8 @@ class _SuperUserPageState extends State<SuperUserPage> {
                   child: const Text(
                     "Project Name",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  )),
+                  ),
+              ),
               TextField(
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(
@@ -634,6 +642,74 @@ class _SuperUserPageState extends State<SuperUserPage> {
                   controller: _dateTimeController,
                 ),
               ),
+              SizedBox(
+                width: double.maxFinite,
+                child: Row(
+                  children: [
+                    const Text("Is The Project Related? "),
+                    Checkbox(value: _isRelated, onChanged: (val) => setState(() => _isRelated = val ?? false)),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text("Is The Project Highlighted? "),
+                    ),
+                    Checkbox(value: _isHighlighted, onChanged: (val) => setState(() => _isHighlighted = val ?? false)),
+                  ],
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 10, top: 15),
+                width: double.maxFinite,
+                child: Text(
+                  "Project Highlight Header",
+                  style: TextStyle(fontSize: 20, fontWeight: (_isHighlighted) ? FontWeight.bold : FontWeight.normal, color: (_isHighlighted) ? Colors.black : Colors.grey),
+                ),
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 10),
+                  ),
+                ),
+                controller: _highlightHeader,
+                enabled: _isHighlighted,
+              ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 10, top: 15),
+                width: double.maxFinite,
+                child: Text(
+                  "Project Highlight Description",
+                  style: TextStyle(fontSize: 20, fontWeight: (_isHighlighted) ? FontWeight.bold : FontWeight.normal, color: (_isHighlighted) ? Colors.black : Colors.grey),
+                ),
+              ),
+              TextField(
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.black, width: 10),
+                  ),
+                ),
+                controller: _highlightDescription,
+                enabled: _isHighlighted,
+              ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 10, top: 15),
+                width: double.maxFinite,
+                child: Text(
+                  "Project Highlight Topic",
+                  style: TextStyle(fontSize: 20, fontWeight: (_isHighlighted) ? FontWeight.bold : FontWeight.normal, color: (_isHighlighted) ? Colors.black : Colors.grey),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 30),
+                child: TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black, width: 10),
+                    ),
+                  ),
+                  controller: _highlightTopic,
+                  enabled: _isHighlighted,
+                ),
+              ),
               Container(
                   padding: const EdgeInsets.only(bottom: 10, top: 15),
                   width: double.maxFinite,
@@ -864,18 +940,23 @@ class _SuperUserPageState extends State<SuperUserPage> {
     }
 
     _superUserController.createNewProject(
-        _resultBase64ProjectImage!,
-        _creatorNameController.text,
-        _projectDescController.text,
-        _mapCategories,
-        _creatorNameController.text,
-        _resultBase64CreatorProfileImage!,
-        _creatorGithubLinkController.text,
-        _timestampProjectCreated!,
-        _githubLinkController.text,
-        _linkToDemoController.text,
-        _additionalLinkController.text,
-        _additionalLinkDescriptionController.text,
+      _resultBase64ProjectImage!,
+      _creatorNameController.text,
+      _projectDescController.text,
+      _mapCategories,
+      _creatorNameController.text,
+      _resultBase64CreatorProfileImage!,
+      _creatorGithubLinkController.text,
+      _timestampProjectCreated!,
+      _githubLinkController.text,
+      _linkToDemoController.text,
+      _additionalLinkController.text,
+      _additionalLinkDescriptionController.text,
+      _isHighlighted,
+      _isRelated,
+      _highlightHeader.text,
+      _highlightDescription.text,
+      _highlightTopic.text,
     );
 
     await _showSnackbar("Data Added Successfully!");
