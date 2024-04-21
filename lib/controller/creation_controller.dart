@@ -6,8 +6,15 @@ class CreationController{
 
   final database = FirebaseDatabase.instance;
 
-  Query getCreationsSnapshot() {
-    return database.ref().child('creations');
+  Future<Map<String, dynamic>> getCreationsMap() async {
+    final snapshot = await database.ref().child('creations').get();
+
+    if (!snapshot.exists) {
+      return <String, dynamic>{};
+    }
+
+    Map<String, dynamic> result = Map<String, dynamic>.from(snapshot.value as Map);
+    return result;
   }
 
   Map<String, dynamic> sortCreationsHighlight(Map<String, dynamic> creations){
