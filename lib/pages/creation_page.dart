@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -82,14 +81,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   final GlobalKey<ScrollSnapListState> _creationHighlightKey = GlobalKey();
   int _focusedIndexHighlight = 0;
   Timer? _timerContentHighlight;
-  // Creations Map Data
-  late Map<String, dynamic> _creationsData;
-  // Declare keyString from Map Data
-  late List<String> _keyCreationList;
-  // Creations Stream
-  late Stream _creationStream;
-  // Show Creation when there is data available
-  bool _creationIsShowed = false;
+  // // Creations Map Data
+  // late Map<String, dynamic> _creationsData;
+  // // Declare keyString from Map Data
+  // late List<String> _keyCreationList;
+  // // Creations Stream
+  // late Stream _creationStream;
+  // // Show Creation when there is data available
+  // bool _creationIsShowed = false;
 
   // TODO: INIT STATE
   @override
