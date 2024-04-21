@@ -1,9 +1,12 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/component/components.dart';
+import 'package:me/controller/controller.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -18,10 +21,11 @@ class CreationPage extends ConsumerStatefulWidget {
   ConsumerState<CreationPage> createState() => _CreationPageState();
 }
 
-class _CreationPageState extends ConsumerState<CreationPage> {
+class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerProviderStateMixin {
   // TODO: ------ Declaration ------
   // --- General ---
-  final StyleUtil styleUtil = StyleUtil();
+  final StyleUtil _styleUtil = StyleUtil();
+  final CreationController _creationController = CreationController();
 
   // --- Content Top Section ---
   // Dark/Light Theme Switch
@@ -34,7 +38,10 @@ class _CreationPageState extends ConsumerState<CreationPage> {
       List.generate(4, (index) => index == 1 ? true : false);
   // Controller for Sliver Nav
   static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
+  // Sticky Nav Header Condition
   bool _navIsSticky = false;
+  // Value Notifier Sticky Nav Header
+  late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
 
   //  Other Hover
   bool themeSwitch = false;
@@ -75,14 +82,31 @@ class _CreationPageState extends ConsumerState<CreationPage> {
   final GlobalKey<ScrollSnapListState> _creationHighlightKey = GlobalKey();
   int _focusedIndexHighlight = 0;
   Timer? _timerContentHighlight;
+  // Creations Map Data
+  late Map<String, dynamic> _creationsData;
+  // Declare keyString from Map Data
+  late List<String> _keyCreationList;
+  // Creations Stream
+  late Stream _creationStream;
+  // Show Creation when there is data available
+  bool _creationIsShowed = false;
 
   // TODO: INIT STATE
   @override
   void initState() {
+    // _navScrollController listener
+    _navScrollController.addListener(() {
+      final isVisible = _navScrollController.offset > MediaQuery.of(context).size.height;
+      if (_navIsStickyNotifier.value != isVisible) {
+        _navIsStickyNotifier.value = isVisible;
+      }
+    });
+
+    // Creation Content Animation
     _timerContentHighlight = Timer.periodic(const Duration(seconds: 5), (_) {
-      setState(() {
+      // setState(() {
         _creationHighlightKey.currentState!.focusToItem(++_focusedIndexHighlight);
-      });
+      // });
     });
     super.initState();
   }
@@ -191,34 +215,28 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     return Stack(
       children: [
         Scaffold(
-          backgroundColor: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
-          body: NotificationListener<ScrollUpdateNotification>(
-            onNotification: (t) {
-              setState(() {
-                (_navScrollController.position.pixels >
-                    MediaQuery.sizeOf(context).height)
-                    ? _navIsSticky = true
-                    : _navIsSticky = false;
-              });
-              return true;
-            },
-            child: CustomScrollView(
-              controller: _navScrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: _coverPageSection(scrHeight),
-                ),
-                MultiSliver(
+          backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+          body: CustomScrollView(
+            controller: _navScrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                child: _coverPageSection(scrHeight),
+              ),
+              MultiSliver(
                   pushPinnedChildren: true,
                   children: [
-                    SliverPinnedHeader(
-                      child: _navTopSticky(),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _navIsStickyNotifier,
+                      builder: (context, isVisible, child) {
+                        return SliverPinnedHeader(
+                          child: _navTopSticky(isVisible),
+                        );
+                      }
                     ),
                     _creationPageSection(),
                   ]
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         // Normal Nav
@@ -239,7 +257,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
   // ------ Cover ------
   Widget _coverPageSection(double screenHeight){
     return Container(
-      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
       height: screenHeight,
       padding: mainCardPaddingWithBottomQuote(context),
       child: Column(
@@ -255,8 +273,8 @@ class _CreationPageState extends ConsumerState<CreationPage> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: (ref.watch(isDarkMode))
-                    ? styleUtil.c_33
-                    : styleUtil.c_255,
+                    ? _styleUtil.c_33
+                    : _styleUtil.c_255,
                 boxShadow: [
                   BoxShadow(
                     color: (ref.watch(isDarkMode))
@@ -319,21 +337,21 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     );
   }
   // ------ Nav Top Sticky ------
-  Widget _navTopSticky() {
+  Widget _navTopSticky(bool isVisible) {
     return Visibility(
-      visible: _navIsSticky,
+      visible: true,
       maintainAnimation: true,
       maintainState: true,
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn,
-        opacity: _navIsSticky ? 1 : 0,
+        opacity: isVisible ? 1 : 0,
         child: Container(
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
             color: (ref.watch(isDarkMode))
-                ? styleUtil.c_33
-                : styleUtil.c_255,
+                ? _styleUtil.c_33
+                : _styleUtil.c_255,
             boxShadow: [
               BoxShadow(
                 color: (ref.watch(isDarkMode))
@@ -354,16 +372,6 @@ class _CreationPageState extends ConsumerState<CreationPage> {
   Widget _creationPageSection() {
     return Column(
       children: [
-        Visibility( // Spacing for nav is sticky when nav is sticky visible = false | DO NOT DELETE IT
-          visible: !_navIsSticky,
-          child: Container(
-            color: (ref.watch(isDarkMode))
-                ? styleUtil.c_33
-                : styleUtil.c_255,
-            height: 80,
-            width: MediaQuery.sizeOf(context).width,
-          ),
-        ),
         _creationSection(),
       ],
     );
@@ -386,8 +394,8 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                 fontSize: 12,
                 color: (themeSwitch)
                     ? (ref.watch(isDarkMode))
-                        ? styleUtil.c_255
-                        : styleUtil.c_24
+                        ? _styleUtil.c_255
+                        : _styleUtil.c_24
                     : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
@@ -413,9 +421,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
               size: 32,
               color: (themeSwitch)
                   ? (ref.watch(isDarkMode))
-                      ? styleUtil.c_255
-                      : styleUtil.c_24
-                  : styleUtil.c_170,
+                      ? _styleUtil.c_255
+                      : _styleUtil.c_24
+                  : _styleUtil.c_170,
             ),
           ),
         ),
@@ -442,7 +450,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
                 color:
-                    (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+                    (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
               ),
               textAlign: TextAlign.center,
             ),
@@ -462,7 +470,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color:
-                    (ref.watch(isDarkMode)) ? styleUtil.c_238 : styleUtil.c_61,
+                    (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
               textAlign: TextAlign.center,
             ),
@@ -499,9 +507,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                         fontSize: 14,
                         color: (_navHover[0])
                             ? (ref.watch(isDarkMode))
-                                ? styleUtil.c_255
-                                : styleUtil.c_33
-                            : styleUtil.c_170,
+                                ? _styleUtil.c_255
+                                : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -515,8 +523,8 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                       fontFamily: 'Lato',
                       fontSize: 14,
                       color: (ref.watch(isDarkMode))
-                          ? styleUtil.c_255
-                          : styleUtil.c_33),
+                          ? _styleUtil.c_255
+                          : _styleUtil.c_33),
                 ),
               ),
               Padding(
@@ -537,9 +545,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                         fontSize: 14,
                         color: (_navHover[2])
                             ? (ref.watch(isDarkMode))
-                                ? styleUtil.c_255
-                                : styleUtil.c_33
-                            : styleUtil.c_170,
+                                ? _styleUtil.c_255
+                                : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -563,9 +571,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                         fontSize: 14,
                         color: (_navHover[3])
                             ? (ref.watch(isDarkMode))
-                                ? styleUtil.c_255
-                                : styleUtil.c_33
-                            : styleUtil.c_170,
+                                ? _styleUtil.c_255
+                                : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -605,9 +613,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                         fontSize: 14,
                         color: (_navHover[0])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -621,8 +629,8 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                       fontFamily: 'Lato',
                       fontSize: 14,
                       color: (ref.watch(isDarkMode))
-                          ? styleUtil.c_255
-                          : styleUtil.c_33),
+                          ? _styleUtil.c_255
+                          : _styleUtil.c_33),
                 ),
               ),
               Padding(
@@ -643,9 +651,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                         fontSize: 14,
                         color: (_navHover[2])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -669,9 +677,9 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                         fontSize: 14,
                         color: (_navHover[3])
                             ? (ref.watch(isDarkMode))
-                            ? styleUtil.c_255
-                            : styleUtil.c_33
-                            : styleUtil.c_170,
+                            ? _styleUtil.c_255
+                            : _styleUtil.c_33
+                            : _styleUtil.c_170,
                       ),
                     ),
                   ),
@@ -694,7 +702,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Visibility(visible: contentQuoteIconVisible(context), child: const SizedBox(width: 32, height: 36, child: Text(""))),
-          Text("\"There is no such thing as 'garbage' for the small program you have created.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: styleUtil.c_170),),
+          Text("\"There is no such thing as 'garbage' for the small program you have created.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: _styleUtil.c_170),),
           Visibility(
             visible: contentQuoteIconVisible(context),
             child: SizedBox(
@@ -704,8 +712,8 @@ class _CreationPageState extends ConsumerState<CreationPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_downward_rounded, size: 18, color: styleUtil.c_170,),
-                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
+                  Icon(Icons.arrow_downward_rounded, size: 18, color: _styleUtil.c_170,),
+                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
                 ],
               ),
             ),
@@ -722,7 +730,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
         constraints: const BoxConstraints(
             maxWidth: 1100
         ),
-        margin: EdgeInsets.symmetric(horizontal: 28),
+        margin: const EdgeInsets.symmetric(horizontal: 28),
         width: double.maxFinite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -732,11 +740,11 @@ class _CreationPageState extends ConsumerState<CreationPage> {
               constraints: const BoxConstraints(
                 maxWidth: 471,
               ),
-              color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
               child: Column(
                 children: [
-                  Container(padding: const EdgeInsets.only(bottom: 10), width: double.maxFinite, child: Text("M Y   P R O J E C T   P L A Y G R O U N D", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_61),)),
-                  Text("A collection of small projects from my past that reflect my learning journey in the realm of coding.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? styleUtil.c_170 : styleUtil.c_61),),
+                  Container(padding: const EdgeInsets.only(bottom: 10), width: double.maxFinite, child: Text("M Y   P R O J E C T   P L A Y G R O U N D", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),)),
+                  Text("A collection of small projects from my past that reflect my learning journey in the realm of coding.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
                 ],
               ),
             ),
@@ -745,7 +753,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
             // _creationsContentSteppingStone(),
             // _creationsContentTopProject(),
             Container(
-              color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
               height: 1200,
               child: const Center(child: Text("Oops, you caught me! \nI'm still working on this creation section")),
             ),
@@ -755,44 +763,66 @@ class _CreationPageState extends ConsumerState<CreationPage> {
     );
   }
 
-  Widget _creationsContentHighlight(){
-    return Container(
-      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
-      height: contentHighlightHeight(context),
-      child: ScrollSnapList(
-        key: _creationHighlightKey,
-        duration: 600,
-        curve: Easing.legacyDecelerate,
-        margin: const EdgeInsets.symmetric(vertical: 10),
-        onItemFocus: (int index) async {
-          setState(() {
-            _focusedIndexHighlight = index;
-          });
-        },
-        onReachEnd: (){
-          setState(() {
-            _focusedIndexHighlight = -1;
-          });
-        },
-        itemSize: contentHighlightWidthListView(context),
-        itemBuilder: _buildListItem,
-        itemCount: 3,
-        selectedItemAnchor: SelectedItemAnchor.START,
-      ),
+  Widget _creationsContentHighlight() {
+    return FutureBuilder(
+      future: _creationController.getCreationsMap(),
+      builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+        if (snapshot.hasData) {
+          // Data berhasil diambil
+          if (snapshot.hasData) {
+            final creationsMap = snapshot.data!;
+            return Container(
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+              height: contentHighlightHeight(context),
+              child: ScrollSnapList(
+                key: _creationHighlightKey,
+                duration: 600,
+                curve: Easing.legacyDecelerate,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                onItemFocus: (int index) {
+                  // setState(() {
+                  _focusedIndexHighlight = index;
+                  // });
+                },
+                onReachEnd: () {
+                  // setState(() {
+                  _focusedIndexHighlight = -1;
+                  // });
+                },
+                itemSize: contentHighlightWidthListView(context),
+                itemBuilder: (context, index) {
+                  // Build item berdasarkan data creationsMap
+                  return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationsMap));
+                },
+                itemCount: 3,
+                selectedItemAnchor: SelectedItemAnchor.MIDDLE,
+              ),
+            );
+          } else {
+            return Center(child: Text('No data available'));
+          }
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error.toString()}'));
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 
-  Widget _buildListItem(BuildContext context, int index){
+  Widget _buildListItem(BuildContext context, int index, Map<String, dynamic> creationsMap) {
+    // Menggunakan data dari creationsMap untuk membangun item list
+    final itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
     return Container(
       margin: contentHighlightListSpace(context),
       width: contentHighlightWidth(context),
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          color: Colors.lightBlueAccent,
+          color: const Color.fromARGB(255, 214, 216, 218),
           borderRadius: BorderRadius.circular(20),
         ),
-        child: const Text("Content"),
+        child: Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"])),
       ),
     );
   }
@@ -811,7 +841,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
       left: rectWelcome.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -831,7 +861,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
       left: rectHistory.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -851,7 +881,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
       left: rectFurther.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -876,7 +906,7 @@ class _CreationPageState extends ConsumerState<CreationPage> {
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
             shape: BoxShape.rectangle),
       ),
     );
