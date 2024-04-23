@@ -61,15 +61,15 @@ double contentHighlightHeight (BuildContext context) => ResponsiveValue(
   conditionalValues: [
     const Condition.largerThan(
       name: 'DESKTOP-SM',
-      value: 378,
+      value: 398,
     ),
     const Condition.equals(
       name: 'DESKTOP-SM',
-      value: 378,
+      value: 398,
     ),
     const Condition.smallerThan(
       name: 'DESKTOP-SM',
-      value: 378 * 3 / 5,
+      value: 398 * 3 / 5,
     ),
   ],
   defaultValue: 378,
