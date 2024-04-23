@@ -12,6 +12,7 @@ import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
+import '../helper/get_color_from_image.dart';
 
 class CreationPage extends ConsumerStatefulWidget {
   const CreationPage({super.key});
@@ -821,20 +822,49 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _buildListItem(BuildContext context, int index, Map<String, dynamic> creationsMap) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
+    Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
+    Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
+
     return Container(
       margin: contentHighlightListSpace(context),
       width: contentHighlightWidth(context),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 310,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 214, 216, 218),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"])),
+          Stack(
+            children: [
+              Container(
+                height: 310,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 214, 216, 218),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: itemImage,
+              ),
+              FutureBuilder<ColorScheme>(
+                  future: getColorFromImage(itemImage.image, ref.watch(isDarkMode)),
+                  builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
+                    if(snapshot.hasData){
+                      return Container(
+                        height: 310,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [colorShadeItemImage, snapshot.data!.primaryContainer],
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return const SizedBox();
+                    } else {
+                      return const SizedBox();
+                    }
+                  }
+              ),
+            ]
           ),
           Container(
             height: 24,
