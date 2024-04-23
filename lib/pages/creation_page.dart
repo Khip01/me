@@ -26,6 +26,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   final StyleUtil _styleUtil = StyleUtil();
   final CreationController _creationController = CreationController();
 
+  late double scrHeight;
+
   // --- Content Top Section ---
   // Dark/Light Theme Switch
   // Switch, animation
@@ -95,18 +97,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   void initState() {
     // _navScrollController listener
     _navScrollController.addListener(() {
-      final isVisible = _navScrollController.offset > MediaQuery.of(context).size.height;
+      final isVisible = _navScrollController.offset > scrHeight;
       if (_navIsStickyNotifier.value != isVisible) {
         _navIsStickyNotifier.value = isVisible;
       }
     });
 
-    // Creation Content Animation
-    _timerContentHighlight = Timer.periodic(const Duration(seconds: 5), (_) {
-      // setState(() {
-        _creationHighlightKey.currentState!.focusToItem(++_focusedIndexHighlight);
-      // });
-    });
     super.initState();
   }
 
@@ -207,9 +203,23 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     });
   }
 
+  // Creation Section Focus Animation When Highlight Section Already Show
+  void doFocusScrollSnapListOnFocusHighlight() {
+    // Mengecek apakah memang timernya sudah aktif
+    if (_timerContentHighlight?.isActive ?? false) {
+      return;
+    }
+    // Creation Content Animation
+    _timerContentHighlight = Timer.periodic(const Duration(seconds: 5), (_) {
+      // setState(() {
+      _creationHighlightKey.currentState!.focusToItem(++_focusedIndexHighlight);
+      // });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final scrHeight = MediaQuery.sizeOf(context).height;
+    scrHeight = MediaQuery.sizeOf(context).height;
 
     return Stack(
       children: [
@@ -768,42 +778,41 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
         if (snapshot.hasData) {
           // Data berhasil diambil
-          if (snapshot.hasData) {
-            final creationsMap = snapshot.data!;
-            return Container(
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-              height: contentHighlightHeight(context),
-              child: ScrollSnapList(
-                key: _creationHighlightKey,
-                duration: 600,
-                curve: Easing.legacyDecelerate,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                onItemFocus: (int index) {
-                  // setState(() {
-                  _focusedIndexHighlight = index;
-                  // });
-                },
-                onReachEnd: () {
-                  // setState(() {
-                  _focusedIndexHighlight = -1;
-                  // });
-                },
-                itemSize: contentHighlightWidthListView(context),
-                itemBuilder: (context, index) {
-                  // Build item berdasarkan data creationsMap
-                  return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationsMap));
-                },
-                itemCount: 3,
-                selectedItemAnchor: SelectedItemAnchor.MIDDLE,
-              ),
-            );
-          } else {
-            return Center(child: Text('No data available'));
-          }
+          final creationsMap = snapshot.data!;
+          doFocusScrollSnapListOnFocusHighlight();
+          return Container(
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+            height: contentHighlightHeight(context),
+            child: ScrollSnapList(
+              key: _creationHighlightKey,
+              duration: 600,
+              curve: Easing.legacyDecelerate,
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              onItemFocus: (int index) {
+                // setState(() {
+                _focusedIndexHighlight = index;
+                // });
+              },
+              onReachEnd: () {
+                // setState(() {
+                _focusedIndexHighlight = -1;
+                // });
+              },
+              itemSize: contentHighlightWidthListView(context),
+              itemBuilder: (context, index) {
+                // Build item berdasarkan data creationsMap
+                return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationsMap));
+              },
+              itemCount: 3,
+              selectedItemAnchor: SelectedItemAnchor.MIDDLE,
+            ),
+          );
         } else if (snapshot.hasError) {
+          _timerContentHighlight?.cancel();
           return Center(child: Text('Error: ${snapshot.error.toString()}'));
         } else {
-          return Center(child: CircularProgressIndicator());
+          _timerContentHighlight?.cancel();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -815,13 +824,46 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     return Container(
       margin: contentHighlightListSpace(context),
       width: contentHighlightWidth(context),
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 214, 216, 218),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"])),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 310,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 214, 216, 218),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"])),
+          ),
+          Container(
+            height: 24,
+            margin: const EdgeInsets.only(top: 14),
+            child: Text(itemData["project_name"], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
+          ),
+          Container(
+            height: 24,
+            margin: const EdgeInsets.only(top: 6),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  itemData["creator_name"],
+                  style: TextStyle(
+                    fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                  ),
+                ),
+                Text(
+                  "Mar 03, 2022",
+                  style: TextStyle(
+                    fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
