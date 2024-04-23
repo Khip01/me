@@ -9,6 +9,7 @@ import 'package:me/controller/controller.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
@@ -92,6 +93,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // late Stream _creationStream;
   // // Show Creation when there is data available
   // bool _creationIsShowed = false;
+
 
   // TODO: INIT STATE
   @override
@@ -804,7 +806,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 // Build item berdasarkan data creationsMap
                 return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationsMap));
               },
-              itemCount: 3,
+              itemCount: _creationController.sortCreationsHighlight(creationsMap).length,
               selectedItemAnchor: SelectedItemAnchor.MIDDLE,
             ),
           );
@@ -813,7 +815,65 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           return Center(child: Text('Error: ${snapshot.error.toString()}'));
         } else {
           _timerContentHighlight?.cancel();
-          return const Center(child: CircularProgressIndicator());
+          return Container(
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+            height: contentHighlightHeight(context),
+            child: Shimmer.fromColors(
+              baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+                highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+                child: ScrollSnapList(
+                  key: _creationHighlightKey,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  itemSize: contentHighlightWidthListView(context),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: contentHighlightListSpace(context),
+                      width: contentHighlightWidth(context),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 310,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 214, 216, 218),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          Container(
+                            height: 24,
+                            color: const Color.fromARGB(255, 214, 216, 218),
+                            margin: const EdgeInsets.only(top: 14),
+                          ),
+                          Container(
+                            height: 24,
+                            margin: const EdgeInsets.only(top: 6),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  color: const Color.fromARGB(255, 214, 216, 218),
+                                  width: 125,
+                                  height: 14,
+                                ),
+                                Container(
+                                  color: const Color.fromARGB(255, 214, 216, 218),
+                                  width: 125,
+                                  height: 14,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: 3,
+                  selectedItemAnchor: SelectedItemAnchor.MIDDLE, onItemFocus: (_) {  },
+                ),
+            ),
+          );
         }
       },
     );
@@ -823,6 +883,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
     Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
+    Image itemImageProfile = Image.memory(fit: BoxFit.fitHeight, base64.decode(itemData["creator_photo_profile"]));
     Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
 
     return Container(
@@ -837,7 +898,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 height: 310,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 214, 216, 218),
+                  // color: const Color.fromARGB(255, 214, 216, 218),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: itemImage,
@@ -846,15 +907,51 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   future: getColorFromImage(itemImage.image, ref.watch(isDarkMode)),
                   builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
                     if(snapshot.hasData){
-                      return Container(
+                      return SizedBox(
                         height: 310,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [colorShadeItemImage, snapshot.data!.primaryContainer],
-                          ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                height: 159,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(19),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [colorShadeItemImage, snapshot.data!.primaryContainer.withOpacity(.8), snapshot.data!.primaryContainer],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                              decoration: BoxDecoration(
+                                color: snapshot.data!.primaryContainer.withOpacity(.9),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(19),
+                                  bottomRight: Radius.circular(19),
+                                ),
+                              ),
+                              child: Text(itemData["highlightTopic"], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 22),
+                                width: double.maxFinite,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(itemData["highlightHeader"], style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                    Text(itemData["highlightDescription"], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ]
                         ),
                       );
                     } else if (snapshot.hasError) {
@@ -878,10 +975,27 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  itemData["creator_name"],
-                  style: TextStyle(
-                    fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                SizedBox(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10),
+                        child: SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: ClipOval(
+                            child: itemImageProfile,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        itemData["creator_name"],
+                        style: TextStyle(
+                          fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Text(
