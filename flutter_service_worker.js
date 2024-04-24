@@ -66,7 +66,7 @@ const RESOURCES = {"android-chrome-48x48.png": "357316c5c8d625bf5f95e39a3ba8cf65
 "icons/Icon-maskable-512.png": "edae6bf6e65bd6a49e27eedb7a528a0f",
 "index.html": "86e883fa9dcd3b4f7ec57857b871674d",
 "/": "86e883fa9dcd3b4f7ec57857b871674d",
-"main.dart.js": "7c44f7ee7d15b576da0cc3a319179f81",
+"main.dart.js": "48ba6d895bce3f577c05131665017f8f",
 "manifest.json": "f81aa1e7ed71c5eaff64a3910dd13be8",
 "mstile-150x150.png": "06f809268e5597b85054fab810990e67",
 "safari-pinned-tab.svg": "a7a53652df1cdd579a36bacf868ebf3e",
