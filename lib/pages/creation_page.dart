@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/controller/controller.dart';
 import 'package:me/provider/theme_provider.dart';
@@ -885,6 +886,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
     Image itemImageProfile = Image.memory(fit: BoxFit.fitHeight, base64.decode(itemData["creator_photo_profile"]));
     Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData["date_project_created"]);
+    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return Container(
       margin: contentHighlightListSpace(context),
@@ -999,7 +1002,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   ),
                 ),
                 Text(
-                  "Mar 03, 2022",
+                  dateFormatter.format(itemDate),
                   style: TextStyle(
                     fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
                   ),
