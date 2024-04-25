@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/controller/controller.dart';
+import 'package:me/helper/caching_map_creation.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -761,10 +762,43 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 ],
               ),
             ),
-            _creationsContentHighlight(),
-            // _creationsContentRelatedProject(),
-            // _creationsContentSteppingStone(),
-            // _creationsContentTopProject(),
+            // _creationCachedDecision(),
+            FutureBuilder(
+              future: getCreationsMap(),
+              builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot){
+                if(snapshot.hasData){
+                  print("Masuk sini");
+                  if (snapshot.data!.isEmpty){
+                    print("Trus masuk sisni yey");
+                    return FutureBuilder(
+                      future: _creationController.getCreationsMap(),
+                      builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                        if(snapshot.hasData){
+                          Map<String, dynamic> resultMap = snapshot.data!;
+                          setCreationMap(resultMap);
+                          return _creationContent(resultMap);
+                        } else if (snapshot.hasError) {
+                          _timerContentHighlight?.cancel();
+                          return Center(child: Text('Error: ${snapshot.error.toString()}'));
+                        } else {
+                          return _creationContentShimmer();
+                        }
+                      }
+                    );
+                  } else {
+                    print("KOk masuk sini?");
+                    Map<String, dynamic> cachedMap = snapshot.data!;
+                    return _creationContent(cachedMap);
+                  }
+                } else if (snapshot.hasError) {
+                  _timerContentHighlight?.cancel();
+                  return Center(child: Text('Error: ${snapshot.error.toString()}'));
+                } else {
+                  print("Yaa wajar si masuk sini");
+                  return _creationContentShimmer();
+                }
+              },
+            ),
             Container(
               color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
               height: 1200,
@@ -776,107 +810,58 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _creationsContentHighlight() {
-    return FutureBuilder(
-      future: _creationController.getCreationsMap(),
-      builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-        if (snapshot.hasData) {
-          // Data berhasil diambil
-          final creationsMap = snapshot.data!;
-          doFocusScrollSnapListOnFocusHighlight();
-          return Container(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-            height: contentHighlightHeight(context),
-            child: ScrollSnapList(
-              key: _creationHighlightKey,
-              duration: 600,
-              curve: Easing.legacyDecelerate,
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              onItemFocus: (int index) {
-                // setState(() {
-                _focusedIndexHighlight = index;
-                // });
-              },
-              onReachEnd: () {
-                // setState(() {
-                _focusedIndexHighlight = -1;
-                // });
-              },
-              itemSize: contentHighlightWidthListView(context),
-              itemBuilder: (context, index) {
-                // Build item berdasarkan data creationsMap
-                return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationsMap));
-              },
-              itemCount: _creationController.sortCreationsHighlight(creationsMap).length,
-              selectedItemAnchor: SelectedItemAnchor.MIDDLE,
-            ),
-          );
-        } else if (snapshot.hasError) {
-          _timerContentHighlight?.cancel();
-          return Center(child: Text('Error: ${snapshot.error.toString()}'));
-        } else {
-          _timerContentHighlight?.cancel();
-          return Container(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-            height: contentHighlightHeight(context),
-            child: Shimmer.fromColors(
-              baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
-                highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
-                child: ScrollSnapList(
-                  key: _creationHighlightKey,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  itemSize: contentHighlightWidthListView(context),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: contentHighlightListSpace(context),
-                      width: contentHighlightWidth(context),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 310,
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 214, 216, 218),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          Container(
-                            height: 24,
-                            color: const Color.fromARGB(255, 214, 216, 218),
-                            margin: const EdgeInsets.only(top: 14),
-                          ),
-                          Container(
-                            height: 24,
-                            margin: const EdgeInsets.only(top: 6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  color: const Color.fromARGB(255, 214, 216, 218),
-                                  width: 125,
-                                  height: 14,
-                                ),
-                                Container(
-                                  color: const Color.fromARGB(255, 214, 216, 218),
-                                  width: 125,
-                                  height: 14,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  itemCount: 3,
-                  selectedItemAnchor: SelectedItemAnchor.MIDDLE, onItemFocus: (_) {  },
-                ),
-            ),
-          );
-        }
-      },
+  Widget _creationContent(Map<String, dynamic> creationMap) { // Parent
+    return Column(
+      children: [
+        _creationsContentHighlight(creationMap),
+        // _creationsContentRelatedProject(),
+        // _creationsContentSteppingStone(),
+        // _creationsContentTopProject(),
+      ],
+    );
+  }
+
+  Widget _creationContentShimmer(){ // Parent
+    return Column(
+      children: [
+        _creationContentHighlightShimmer(),
+        // _creationsContentRelatedProjectShimmer(),
+        // _creationsContentSteppingStoneShimmer(),
+        // _creationsContentTopProjectShimmer(),
+      ],
+    );
+  }
+
+
+  // TODO: CREATIONS CONTENT HIGHLIGHT
+  Widget _creationsContentHighlight(Map<String, dynamic> creationMap) {
+    doFocusScrollSnapListOnFocusHighlight();
+    return Container(
+        color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        height: contentHighlightHeight(context),
+        child: ScrollSnapList(
+          key: _creationHighlightKey,
+          duration: 600,
+          curve: Easing.legacyDecelerate,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          onItemFocus: (int index) {
+            // setState(() {
+            _focusedIndexHighlight = index;
+            // });
+          },
+          onReachEnd: () {
+            // setState(() {
+            _focusedIndexHighlight = -1;
+            // });
+          },
+          itemSize: contentHighlightWidthListView(context),
+          itemBuilder: (context, index) {
+            // Build item berdasarkan data creationsMap
+            return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationMap));
+          },
+          itemCount: _creationController.sortCreationsHighlight(creationMap).length,
+          selectedItemAnchor: SelectedItemAnchor.MIDDLE,
+        ),
     );
   }
 
@@ -1014,6 +999,70 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       ),
     );
   }
+
+  Widget _creationContentHighlightShimmer(){
+    _timerContentHighlight?.cancel();
+    return Container(
+      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      height: contentHighlightHeight(context),
+      child: Shimmer.fromColors(
+        baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+        highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+        child: ScrollSnapList(
+          key: _creationHighlightKey,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          itemSize: contentHighlightWidthListView(context),
+          itemBuilder: (context, index) {
+            return Container(
+              margin: contentHighlightListSpace(context),
+              width: contentHighlightWidth(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 310,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 214, 216, 218),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  Container(
+                    height: 24,
+                    color: const Color.fromARGB(255, 214, 216, 218),
+                    margin: const EdgeInsets.only(top: 14),
+                  ),
+                  Container(
+                    height: 24,
+                    margin: const EdgeInsets.only(top: 6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: const Color.fromARGB(255, 214, 216, 218),
+                          width: 125,
+                          height: 14,
+                        ),
+                        Container(
+                          color: const Color.fromARGB(255, 214, 216, 218),
+                          width: 125,
+                          height: 14,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          itemCount: 3,
+          selectedItemAnchor: SelectedItemAnchor.MIDDLE, onItemFocus: (_) {  },
+        ),
+      ),
+    );
+  }
+  // TODO: END
 
   // ------ Transition Page -----
   Widget _transitionToWelcomePage(Rect? rectWelcome) {
