@@ -1,4 +1,5 @@
 import 'dart:collection';
+// import 'dart:isolate';
 
 import 'package:firebase_database/firebase_database.dart';
 
@@ -7,6 +8,19 @@ class CreationController{
   final database = FirebaseDatabase.instance;
 
   Future<Map<String, dynamic>> getCreationsMap() async {
+    // Isolate process (Unfortunatelly doesn't support for Flutter Web) :(
+    // final data = await Isolate.run(() async {
+    //   final snapshot = await database.ref().child('creations').get();
+    //
+    //   if (!snapshot.exists) {
+    //     return <String, dynamic>{};
+    //   }
+    //
+    //   Map<String, dynamic> result = Map<String, dynamic>.from(snapshot.value as Map);
+    //   return result;
+    // });
+    //
+    // return data;
     final snapshot = await database.ref().child('creations').get();
 
     if (!snapshot.exists) {
