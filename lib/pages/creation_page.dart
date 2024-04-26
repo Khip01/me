@@ -818,24 +818,18 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 }
               },
             ),
-            Container(
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-              height: 1200,
-              child: const Center(child: Text("Oops, you caught me! \nI'm still working on this creation section")),
-            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _creationContent(Map<String, dynamic> creationMap) { // Parent
+  Widget _creationContent(Map<String, dynamic> creationsMap) { // Parent
     return Column(
       children: [
-        _creationsContentHighlight(creationMap),
-        // _creationsContentRelatedProject(),
-        // _creationsContentSteppingStone(),
-        // _creationsContentTopProject(),
+        _creationsContentHighlight(creationsMap),
+        _creationsContentRelatedProject(creationsMap),
+        _creationsContentSteppingStone(creationsMap),
       ],
     );
   }
@@ -844,9 +838,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     return Column(
       children: [
         _creationContentHighlightShimmer(),
-        // _creationsContentRelatedProjectShimmer(),
-        // _creationsContentSteppingStoneShimmer(),
-        // _creationsContentTopProjectShimmer(),
+        _creationsContentRelatedProjectShimmer(),
+        _creationsContentSteppingStoneShimmer(),
       ],
     );
   }
@@ -876,7 +869,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           itemSize: contentHighlightWidthListView(context),
           itemBuilder: (context, index) {
             // Build item berdasarkan data creationsMap
-            return _buildListItem(context, index, _creationController.sortCreationsHighlight(creationMap));
+            return _buildListItemHighlight(context, index, _creationController.sortCreationsHighlight(creationMap));
           },
           itemCount: _creationController.sortCreationsHighlight(creationMap).length,
           selectedItemAnchor: SelectedItemAnchor.MIDDLE,
@@ -884,7 +877,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _buildListItem(BuildContext context, int index, Map<String, dynamic> creationsMap) {
+  Widget _buildListItemHighlight(BuildContext context, int index, Map<String, dynamic> creationsMap) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
     Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
@@ -1078,6 +1071,406 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           itemCount: 3,
           selectedItemAnchor: SelectedItemAnchor.MIDDLE, onItemFocus: (_) {  },
         ),
+      ),
+    );
+  }
+  // TODO: END
+
+  // TODO: CREATIONS CONTENT RELATED PROJECT
+  Widget _creationsContentRelatedProject(Map<String, dynamic> creationMap){
+    return Container(
+      margin: const EdgeInsets.only(top: 76),
+      height: 338,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 26,
+            child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 26),
+            height: 286,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _creationController.sortCreationsRelatedProject(creationMap).length,
+              itemBuilder: (BuildContext context, int index){
+                return _buildListItemRelatedProject(context, index, _creationController.sortCreationsRelatedProject(creationMap));
+              }
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListItemRelatedProject(BuildContext context, int index, Map<String, dynamic> creationsMap) {
+    final Map<String, dynamic> itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
+    Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData["date_project_created"]);
+    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+
+    return Container(
+      margin: const EdgeInsets.only(right: 28),
+      height: 286,
+      width: 359,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 227,
+            width: double.maxFinite,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              // color: const Color.fromARGB(255, 214, 216, 218),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: itemImage,
+          ),
+          SizedBox(
+            height: 26,
+            child: Text(itemData["project_name"], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 16,
+                constraints: const BoxConstraints(
+                  maxWidth: 257,
+                ),
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: itemData["project_categories"].length,
+                  itemBuilder: (BuildContext context, int indexCategories){
+                    final String itemCategories = itemData["project_categories"][indexCategories];
+
+                    if(indexCategories < itemData["project_categories"].length - 1){
+                      return Row(
+                        children: [
+                          Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                          Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                        ],
+                      );
+                    } else {
+                      return Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                    }
+                  }
+                ),
+              ),
+              Text(
+                dateFormatter.format(itemDate),
+                style: TextStyle(
+                  fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _creationsContentRelatedProjectShimmer(){
+    return Container(
+      margin: const EdgeInsets.only(top: 76),
+      height: 338,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 26,
+            child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 26),
+            height: 286,
+            child: Shimmer.fromColors(
+              baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+              highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index){
+                    return Container(
+                      margin: const EdgeInsets.only(right: 28),
+                      height: 286,
+                      width: 359,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 227,
+                            width: double.maxFinite,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 214, 216, 218),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            color: const Color.fromARGB(255, 214, 216, 218),
+                            width: 150,
+                            height: 22,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 16,
+                                constraints: const BoxConstraints(
+                                  maxWidth: 257,
+                                ),
+                                child: ListView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 3,
+                                    itemBuilder: (BuildContext context, int indexCategories){
+                                      if(indexCategories < 3 - 1){
+                                        return Row(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.symmetric(vertical: 4),
+                                              color: const Color.fromARGB(255, 214, 216, 218),
+                                              height: 12,
+                                              width: 40,
+                                            ),
+                                            Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                                          ],
+                                        );
+                                      } else {
+                                        return Container(
+                                          margin: const EdgeInsets.symmetric(vertical: 4),
+                                          color: const Color.fromARGB(255, 214, 216, 218),
+                                          height: 12,
+                                          width: 40,
+                                        );
+                                      }
+                                    }
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 4),
+                                color: const Color.fromARGB(255, 214, 216, 218),
+                                width: 100,
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  // TODO: END
+
+  // TODO: CREATION CONTENT STEPPING STONE
+  Widget _creationsContentSteppingStone(Map<String, dynamic> creationMap){
+    return Container(
+      margin: const EdgeInsets.only(top: 76, bottom: 132),
+      height: 338,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 26,
+            child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 26),
+            height: 286,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: _creationController.sortAnotherCreations(creationMap).length,
+                itemBuilder: (BuildContext context, int index){
+                  return _buildListItemSteppingStone(context, index, _creationController.sortAnotherCreations(creationMap));
+                }
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildListItemSteppingStone(BuildContext context, int index, Map<String, dynamic> creationsMap) {
+    final Map<String, dynamic> itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
+    Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData["date_project_created"]);
+    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+
+    return Container(
+      margin: const EdgeInsets.only(right: 28),
+      height: 286,
+      width: 359,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 227,
+            width: double.maxFinite,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              // color: const Color.fromARGB(255, 214, 216, 218),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: itemImage,
+          ),
+          SizedBox(
+            height: 26,
+            child: Text(itemData["project_name"], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                height: 16,
+                constraints: const BoxConstraints(
+                  maxWidth: 257,
+                ),
+                child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: itemData["project_categories"].length,
+                    itemBuilder: (BuildContext context, int indexCategories){
+                      final String itemCategories = itemData["project_categories"][indexCategories];
+
+                      if(indexCategories < itemData["project_categories"].length - 1){
+                        return Row(
+                          children: [
+                            Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                            Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                          ],
+                        );
+                      } else {
+                        return Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                      }
+                    }
+                ),
+              ),
+              Text(
+                dateFormatter.format(itemDate),
+                style: TextStyle(
+                  fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _creationsContentSteppingStoneShimmer(){
+    return Container(
+      margin: const EdgeInsets.only(top: 76),
+      height: 338,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 26,
+            child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 26),
+            height: 286,
+            child: Shimmer.fromColors(
+              baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+              highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 4,
+                  itemBuilder: (BuildContext context, int index){
+                    return Container(
+                      margin: const EdgeInsets.only(right: 28),
+                      height: 286,
+                      width: 359,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 227,
+                            width: double.maxFinite,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 214, 216, 218),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            color: const Color.fromARGB(255, 214, 216, 218),
+                            width: 150,
+                            height: 22,
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 16,
+                                constraints: const BoxConstraints(
+                                  maxWidth: 257,
+                                ),
+                                child: ListView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: 3,
+                                    itemBuilder: (BuildContext context, int indexCategories){
+                                      if(indexCategories < 3 - 1){
+                                        return Row(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.symmetric(vertical: 4),
+                                              color: const Color.fromARGB(255, 214, 216, 218),
+                                              height: 12,
+                                              width: 40,
+                                            ),
+                                            Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                                          ],
+                                        );
+                                      } else {
+                                        return Container(
+                                          margin: const EdgeInsets.symmetric(vertical: 4),
+                                          color: const Color.fromARGB(255, 214, 216, 218),
+                                          height: 12,
+                                          width: 40,
+                                        );
+                                      }
+                                    }
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.symmetric(vertical: 4),
+                                color: const Color.fromARGB(255, 214, 216, 218),
+                                width: 100,
+                                height: 10,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
