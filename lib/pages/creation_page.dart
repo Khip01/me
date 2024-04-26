@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/controller/controller.dart';
-import 'package:me/helper/caching_map_creation.dart';
+import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -15,7 +15,6 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
-import '../helper/get_color_from_image.dart';
 
 class CreationPage extends ConsumerStatefulWidget {
   const CreationPage({super.key});
@@ -505,28 +504,32 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyWelcomePage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[0] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectWelcome();
-                    },
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[0])
-                            ? (ref.watch(isDarkMode))
+                child: StatefulBuilder(
+                  builder: (BuildContext context, setState){
+                    return RectGetter(
+                      key: _rectKeyWelcomePage,
+                      child: InkWell(
+                        onHover: (value) => setState(() {
+                          _navHover[0] = value;
+                        }),
+                        onTap: () {
+                          _pushNamedWithRectWelcome();
+                        },
+                        child: Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: (_navHover[0])
+                                ? (ref.watch(isDarkMode))
                                 ? _styleUtil.c_255
                                 : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                                : _styleUtil.c_170,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
               Padding(
@@ -543,54 +546,62 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyHistoryPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[2] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectHistory();
-                    },
-                    child: Text(
-                      "History",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[2])
-                            ? (ref.watch(isDarkMode))
+                child: StatefulBuilder(
+                  builder: (BuildContext context, setState) {
+                    return RectGetter(
+                      key: _rectKeyHistoryPage,
+                      child: InkWell(
+                        onHover: (value) => setState(() {
+                          _navHover[2] = value;
+                        }),
+                        onTap: () {
+                          _pushNamedWithRectHistory();
+                        },
+                        child: Text(
+                          "History",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: (_navHover[2])
+                                ? (ref.watch(isDarkMode))
                                 ? _styleUtil.c_255
                                 : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                                : _styleUtil.c_170,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 0),
-                child: RectGetter(
-                  key: _rectKeyFurtherPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[3] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectFurther();
-                    },
-                    child: Text(
-                      "Further",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[3])
-                            ? (ref.watch(isDarkMode))
+                child: StatefulBuilder(
+                  builder: (BuildContext context, setState){
+                    return RectGetter(
+                      key: _rectKeyFurtherPage,
+                      child: InkWell(
+                        onHover: (value) => setState(() {
+                          _navHover[3] = value;
+                        }),
+                        onTap: () {
+                          _pushNamedWithRectFurther();
+                        },
+                        child: Text(
+                          "Further",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: (_navHover[3])
+                                ? (ref.watch(isDarkMode))
                                 ? _styleUtil.c_255
                                 : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                                : _styleUtil.c_170,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -611,28 +622,32 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyWelcomePageSticky,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[0] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectWelcomeSticky();
-                    },
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[0])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                child: StatefulBuilder(
+                  builder: (BuildContext context, setState){
+                    return RectGetter(
+                      key: _rectKeyWelcomePageSticky,
+                      child: InkWell(
+                        onHover: (value) => setState(() {
+                          _navHover[0] = value;
+                        }),
+                        onTap: () {
+                          _pushNamedWithRectWelcomeSticky();
+                        },
+                        child: Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: (_navHover[0])
+                                ? (ref.watch(isDarkMode))
+                                ? _styleUtil.c_255
+                                : _styleUtil.c_33
+                                : _styleUtil.c_170,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
               Padding(
@@ -649,54 +664,62 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyHistoryPageSticky,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[2] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectHistorySticky();
-                    },
-                    child: Text(
-                      "History",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[2])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                child: StatefulBuilder(
+                  builder: (BuildContext context, setState){
+                    return RectGetter(
+                      key: _rectKeyHistoryPageSticky,
+                      child: InkWell(
+                        onHover: (value) => setState(() {
+                          _navHover[2] = value;
+                        }),
+                        onTap: () {
+                          _pushNamedWithRectHistorySticky();
+                        },
+                        child: Text(
+                          "History",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: (_navHover[2])
+                                ? (ref.watch(isDarkMode))
+                                ? _styleUtil.c_255
+                                : _styleUtil.c_33
+                                : _styleUtil.c_170,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 0),
-                child: RectGetter(
-                  key: _rectKeyFurtherPageSticky,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[3] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectFurtherSticky();
-                    },
-                    child: Text(
-                      "Further",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[3])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                child: StatefulBuilder(
+                  builder: (BuildContext context, setState){
+                    return RectGetter(
+                      key: _rectKeyFurtherPageSticky,
+                      child: InkWell(
+                        onHover: (value) => setState(() {
+                          _navHover[3] = value;
+                        }),
+                        onTap: () {
+                          _pushNamedWithRectFurtherSticky();
+                        },
+                        child: Text(
+                          "Further",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: (_navHover[3])
+                                ? (ref.watch(isDarkMode))
+                                ? _styleUtil.c_255
+                                : _styleUtil.c_33
+                                : _styleUtil.c_170,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -767,34 +790,30 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               future: getCreationsMap(),
               builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot){
                 if(snapshot.hasData){
-                  print("Masuk sini");
-                  if (snapshot.data!.isEmpty){
-                    print("Trus masuk sisni yey");
-                    return FutureBuilder(
-                      future: _creationController.getCreationsMap(),
-                      builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                        if(snapshot.hasData){
-                          Map<String, dynamic> resultMap = snapshot.data!;
-                          setCreationMap(resultMap);
-                          return _creationContent(resultMap);
-                        } else if (snapshot.hasError) {
-                          _timerContentHighlight?.cancel();
-                          return Center(child: Text('Error: ${snapshot.error.toString()}'));
-                        } else {
-                          return _creationContentShimmer();
-                        }
-                      }
-                    );
-                  } else {
-                    print("KOk masuk sini?");
+                  // if (snapshot.data!.isEmpty){
+                  //   return FutureBuilder(
+                  //     future: _creationController.getCreationsMap(),
+                  //     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                        // if(snapshot.hasData){
+                        //   Map<String, dynamic> resultMap = snapshot.data!;
+                          // setCreationMap(resultMap);
+                          // return _creationContent(resultMap);
+                        // } else if (snapshot.hasError) {
+                          // _timerContentHighlight?.cancel();
+                          // return Center(child: Text('Error: ${snapshot.error.toString()}'));
+                        // } else {
+                        //   return _creationContentShimmer();
+                        // }
+                      // }
+                    // );
+                  // } else {
                     Map<String, dynamic> cachedMap = snapshot.data!;
                     return _creationContent(cachedMap);
-                  }
+                  // }
                 } else if (snapshot.hasError) {
                   _timerContentHighlight?.cancel();
                   return Center(child: Text('Error: ${snapshot.error.toString()}'));
                 } else {
-                  print("Yaa wajar si masuk sini");
                   return _creationContentShimmer();
                 }
               },
