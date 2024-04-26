@@ -3,7 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/helper/preload_image.dart';
+import 'package:me/controller/controller.dart';
+import 'package:me/helper/helper.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
 import 'package:me/super_user/super_user.dart';
@@ -15,7 +16,13 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
+  // Load All Image Icon
   await preloadImage();
+  // Load Map Creation
+  final CreationController creationController = CreationController();
+  Map<String, dynamic> resultMap = await creationController.getCreationsMap();
+  setCreationMap(resultMap);
+
   runApp(ProviderScope(child: MyApp()));
 }
 
