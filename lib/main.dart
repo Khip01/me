@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/controller/controller.dart';
+import 'package:me/helper/get_data_creations_from_json.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
@@ -19,40 +19,45 @@ Future<void> main() async {
   // Load All Image Icon
   await preloadImage();
   // Load Map Creation
-  final CreationController creationController = CreationController();
-  Map<String, dynamic> resultMap = await creationController.getCreationsMap();
-  setCreationMap(resultMap);
+  // final CreationController creationController = CreationController();
+  // Map<String, dynamic> resultMap = await creationController.getCreationsMap();
+  // setCreationMap(resultMap);
+  final creationsMap = await getDataCreationsJson();
 
-  runApp(ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp(creationsMap: creationsMap,)));
 }
 
-class MyApp extends ConsumerWidget {
-  final GoRouter _router = GoRouter(
-    errorBuilder: (context, state) {
-      return const NotFoundPage();
-    },
-    routes: [
-      GoRoute(path: "/", name: "welcome", pageBuilder: (context, state){
-        return buildPageWithDefaultTransition(context: context, state: state, child: const WelcomePage());
-      }),
-      GoRoute(path: "/creation", name: "creation", pageBuilder: (context, state){
-        return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
-      }),
-      GoRoute(path: "/history", name: "history", pageBuilder: (context, state){
-        return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
-      }),
-      GoRoute(path: "/further", name: "further", pageBuilder: (context, state){
-        return buildPageWithDefaultTransition(context: context, state: state, child: const FurtherPage());
-      }),
-      GoRoute(path: "/super-user", name: "super-user-login", pageBuilder: (context, state) {
-        return buildPageWithDefaultTransition(context: context, state: state, child: const SuperUserBase());
-      }),
-    ],
-    initialLocation: '/',
-    debugLogDiagnostics: kDebugMode,
-  );
 
-  MyApp({super.key});
+class MyApp extends ConsumerWidget {
+  final Map<String, dynamic> creationsMap;
+  late final GoRouter _router;
+
+  MyApp({Key? key, required this.creationsMap}) : super(key: key) {
+    _router = GoRouter(
+      errorBuilder: (context, state) {
+        return const NotFoundPage();
+      },
+      routes: [
+        GoRoute(path: "/", name: "welcome", pageBuilder: (context, state){
+          return buildPageWithDefaultTransition(context: context, state: state, child: const WelcomePage());
+        }),
+        GoRoute(path: "/creation", name: "creation", pageBuilder: (context, state){
+          return buildPageWithDefaultTransition(context: context, state: state, child: CreationPage(creationsData: creationsMap,));
+        }),
+        GoRoute(path: "/history", name: "history", pageBuilder: (context, state){
+          return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
+        }),
+        GoRoute(path: "/further", name: "further", pageBuilder: (context, state){
+          return buildPageWithDefaultTransition(context: context, state: state, child: const FurtherPage());
+        }),
+        GoRoute(path: "/super-user", name: "super-user-login", pageBuilder: (context, state) {
+          return buildPageWithDefaultTransition(context: context, state: state, child: const SuperUserBase());
+        }),
+      ],
+      initialLocation: '/',
+      debugLogDiagnostics: kDebugMode,
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
