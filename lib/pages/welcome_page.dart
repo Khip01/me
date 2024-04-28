@@ -48,16 +48,17 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    isFromLeft = !isFromLeft;
-    setState(() => transitionIsActive = !transitionIsActive);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(animationDuration, () => setState(() {
-        ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
-      }));
-      Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
-        transitionIsActive = !transitionIsActive;
-      }));
-    });
+    // isFromLeft = !isFromLeft;
+    // setState(() => transitionIsActive = !transitionIsActive);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Future.delayed(animationDuration, () => setState(() {
+    //     ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
+    //   }));
+    //   Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
+    //     transitionIsActive = !transitionIsActive;
+    //   }));
+    // });
+    ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode);
   }
   // --- Content Body Section ---
   // Open Url
@@ -117,25 +118,28 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   // --- Transition Nav ---
   // Push Page With Transition
   void _pushNamedWithRectCreation() async {
-    setState(() => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectCreation = _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("creation"));
-    });
+    // setState(() => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   setState(() => _rectCreation = _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+    //   Future.delayed(animationDuration + afterAnimationDelay, () => );
+    // });
+    context.goNamed("creation");
   }
   void _pushNamedWithRectHistory() async {
-    setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
-    });
+    // setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+    //   Future.delayed(animationDuration + afterAnimationDelay, () => );
+    // });
+    context.goNamed("history");
   }
   void _pushNamedWithRectFurther() async {
-    setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("further"));
-    });
+    // setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+    //   Future.delayed(animationDuration + afterAnimationDelay, () => );
+    // });
+    context.goNamed("further");
   }
 
 
@@ -217,10 +221,10 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             ),
           ),
         ),
-        _transitionToCreationPage(),
-        _transitionToHistoryPage(),
-        _transitionToFurtherPage(),
-        _switchTapedWithTransition(),
+        // _transitionToCreationPage(),
+        // _transitionToHistoryPage(),
+        // _transitionToFurtherPage(),
+        // _switchTapedWithTransition(),
       ],
     );
   }
@@ -509,77 +513,77 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
 
 
   // ------ Transition Page -----
-  Widget _transitionToCreationPage() {
-    if(_rectCreation == null) {
-      return const SizedBox();
-    }
-
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: _rectCreation!.top,
-      right: MediaQuery.sizeOf(context).width - _rectCreation!.right,
-      bottom: MediaQuery.sizeOf(context).height - _rectCreation!.bottom,
-      left: _rectCreation!.left,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-  Widget _transitionToHistoryPage() {
-    if(_rectHistory == null) {
-      return const SizedBox();
-    }
-
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: _rectHistory!.top,
-      right: MediaQuery.sizeOf(context).width - _rectHistory!.right,
-      bottom: MediaQuery.sizeOf(context).height - _rectHistory!.bottom,
-      left: _rectHistory!.left,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-  Widget _transitionToFurtherPage() {
-    if(_rectFurther == null) {
-      return const SizedBox();
-    }
-
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: _rectFurther!.top,
-      right: MediaQuery.sizeOf(context).width - _rectFurther!.right,
-      bottom: MediaQuery.sizeOf(context).height - _rectFurther!.bottom,
-      left: _rectFurther!.left,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-  Widget _switchTapedWithTransition() {
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: 0,
-      right: isFromLeft ? (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0 : 0,
-      bottom: 0,
-      left: isFromLeft ? 0 : (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0,
-      child: AnimatedContainer(
-        duration: animationDuration,
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.rectangle
-        ),
-      ),
-    );
-  }
+  // Widget _transitionToCreationPage() {
+  //   if(_rectCreation == null) {
+  //     return const SizedBox();
+  //   }
+  //
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: _rectCreation!.top,
+  //     right: MediaQuery.sizeOf(context).width - _rectCreation!.right,
+  //     bottom: MediaQuery.sizeOf(context).height - _rectCreation!.bottom,
+  //     left: _rectCreation!.left,
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.circle,
+  //       ),
+  //     ),
+  //   );
+  // }
+  // Widget _transitionToHistoryPage() {
+  //   if(_rectHistory == null) {
+  //     return const SizedBox();
+  //   }
+  //
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: _rectHistory!.top,
+  //     right: MediaQuery.sizeOf(context).width - _rectHistory!.right,
+  //     bottom: MediaQuery.sizeOf(context).height - _rectHistory!.bottom,
+  //     left: _rectHistory!.left,
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.circle,
+  //       ),
+  //     ),
+  //   );
+  // }
+  // Widget _transitionToFurtherPage() {
+  //   if(_rectFurther == null) {
+  //     return const SizedBox();
+  //   }
+  //
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: _rectFurther!.top,
+  //     right: MediaQuery.sizeOf(context).width - _rectFurther!.right,
+  //     bottom: MediaQuery.sizeOf(context).height - _rectFurther!.bottom,
+  //     left: _rectFurther!.left,
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.circle,
+  //       ),
+  //     ),
+  //   );
+  // }
+  // Widget _switchTapedWithTransition() {
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: 0,
+  //     right: isFromLeft ? (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0 : 0,
+  //     bottom: 0,
+  //     left: isFromLeft ? 0 : (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0,
+  //     child: AnimatedContainer(
+  //       duration: animationDuration,
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.rectangle
+  //       ),
+  //     ),
+  //   );
+  // }
 }

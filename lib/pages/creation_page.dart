@@ -17,7 +17,9 @@ import 'package:sliver_tools/sliver_tools.dart';
 import '../Utility/style_util.dart';
 
 class CreationPage extends ConsumerStatefulWidget {
-  const CreationPage({super.key});
+  final Map<String, dynamic> creationsData;
+
+  const CreationPage({super.key, required this.creationsData});
 
   @override
   ConsumerState<CreationPage> createState() => _CreationPageState();
@@ -87,7 +89,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   int _focusedIndexHighlight = 0;
   Timer? _timerContentHighlight;
   // // Creations Map Data
-  // late Map<String, dynamic> _creationsData;
+  // Map<String, dynamic> _creationsData = <String, dynamic>{};
   // // Declare keyString from Map Data
   // late List<String> _keyCreationList;
   // // Creations Stream
@@ -108,6 +110,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     });
 
     super.initState();
+
+    // WidgetsBinding.instance.addPostFrameCallback((_){
+    //   getDataCreationsJson();
+    // });
   }
 
   // TODO: DISPOSE
@@ -121,90 +127,79 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    isFromLeft = !isFromLeft;
-    setState(() => transitionIsActive = !transitionIsActive);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(
-          animationDuration,
-          () => setState(() {
-                ref.read(isDarkMode.notifier).state =
-                    !ref.read(isDarkMode); // SET DARK MODE HERE
-              }));
-      Future.delayed(
-          animationDuration + afterAnimationDelay,
-          () => setState(() {
-                transitionIsActive = !transitionIsActive;
-              }));
-    });
+    // isFromLeft = !isFromLeft;
+    // setState(() => transitionIsActive = !transitionIsActive);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   Future.delayed(
+    //       animationDuration,
+    //       () => setState(() {
+    //             ref.read(isDarkMode.notifier).state =
+    //                 !ref.read(isDarkMode); // SET DARK MODE HERE
+    //           }));
+    //   Future.delayed(
+    //       animationDuration + afterAnimationDelay,
+    //       () => setState(() {
+    //             transitionIsActive = !transitionIsActive;
+    //           }));
+    // });
+    ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode);
   }
 
   // --- Transition Nav ---
   // Push Page With Transition (Normal Nav)
   void _pushNamedWithRectWelcome() async {
-    setState(
-        () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcome =
-          _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("welcome"));
-    });
+    // setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      // setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      // Future.delayed(animationDuration + afterAnimationDelay, () => );
+      context.goNamed("welcome");
+    // });
   }
 
   void _pushNamedWithRectHistory() async {
-    setState(
-        () => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistory =
-          _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("history"));
-    });
+    // setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      // setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      // Future.delayed(animationDuration + afterAnimationDelay, () => );
+      context.goNamed("history");
+    // });
   }
 
   void _pushNamedWithRectFurther() async {
-    setState(
-        () => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurther =
-          _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("further"));
-    });
+    // setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      // setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      // Future.delayed(animationDuration + afterAnimationDelay, () => );
+      context.goNamed("further");
+    // });
   }
 
   // Push Page With Transition (Sticky Nav)
   void _pushNamedWithRectWelcomeSticky() async {
-    setState(
-            () => _rectWelcomeSticky = RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcomeSticky =
-          _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-              () => context.goNamed("welcome"));
-    });
+    // setState(() => _rectWelcomeSticky = RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      // setState(() => _rectWelcomeSticky = _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      // Future.delayed(animationDuration + afterAnimationDelay, () => );
+      context.goNamed("welcome");
+    // });
   }
 
   void _pushNamedWithRectHistorySticky() async {
-    setState(
-            () => _rectHistorySticky = RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistorySticky =
-          _rectHistorySticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-              () => context.goNamed("history"));
-    });
+    // setState(() => _rectHistorySticky = RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      // setState(() => _rectHistorySticky = _rectHistorySticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      // Future.delayed(animationDuration + afterAnimationDelay, () => );
+      context.goNamed("history");
+    // });
   }
 
   void _pushNamedWithRectFurtherSticky() async {
-    setState(
-            () => _rectFurtherSticky = RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurtherSticky =
-          _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-              () => context.goNamed("further"));
-    });
+    // setState(() => _rectFurtherSticky = RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+      // setState(() => _rectFurtherSticky = _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      // Future.delayed(animationDuration + afterAnimationDelay, () => );
+      context.goNamed("further");
+    // });
   }
 
   // Creation Section Focus Animation When Highlight Section Already Show
@@ -252,16 +247,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ],
           ),
         ),
-        // Normal Nav
-        _transitionToWelcomePage(_rectWelcome),
-        _transitionToHistoryPage(_rectHistory),
-        _transitionToFurtherPage(_rectFurther),
-        // Sticky Nav
-        _transitionToWelcomePage(_rectWelcomeSticky),
-        _transitionToHistoryPage(_rectHistorySticky),
-        _transitionToFurtherPage(_rectFurtherSticky),
-        // Dark/Light mode
-        _switchTapedWithTransition(),
+        // // Normal Nav
+        // _transitionToWelcomePage(_rectWelcome),
+        // _transitionToHistoryPage(_rectHistory),
+        // _transitionToFurtherPage(_rectFurther),
+        // // Sticky Nav
+        // _transitionToWelcomePage(_rectWelcomeSticky),
+        // _transitionToHistoryPage(_rectHistorySticky),
+        // _transitionToFurtherPage(_rectFurtherSticky),
+        // // Dark/Light mode
+        // _switchTapedWithTransition(),
       ],
     );
   }
@@ -393,54 +388,58 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: ------ Other ------
   // ------ Content Body -----
   Widget _topContent() {
-    return Stack(
-      children: [
-        AnimatedPositioned(
-          // alignment: (themeSwitch) ? Alignment.bottomCenter : Alignment.center,
-          top: (themeSwitch) ? 80 : 55,
-          left: 0,
-          right: 0,
-          duration: const Duration(milliseconds: 150),
-          child: AnimatedDefaultTextStyle(
-            style: TextStyle(
-                fontFamily: 'Lato',
-                fontSize: 12,
-                color: (themeSwitch)
-                    ? (ref.watch(isDarkMode))
+    return StatefulBuilder(
+      builder: (BuildContext context, setState){
+        return Stack(
+          children: [
+            AnimatedPositioned(
+              // alignment: (themeSwitch) ? Alignment.bottomCenter : Alignment.center,
+              top: (themeSwitch) ? 80 : 55,
+              left: 0,
+              right: 0,
+              duration: const Duration(milliseconds: 150),
+              child: AnimatedDefaultTextStyle(
+                style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 12,
+                    color: (themeSwitch)
+                        ? (ref.watch(isDarkMode))
                         ? _styleUtil.c_255
                         : _styleUtil.c_24
-                    : Colors.transparent),
-            duration: const Duration(milliseconds: 100),
-            child: const Text(
-              "change mode",
-              textAlign: TextAlign.center,
+                        : Colors.transparent),
+                duration: const Duration(milliseconds: 100),
+                child: const Text(
+                  "change mode",
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
-          ),
-        ),
-        Align(
-          // alignment: Alignment.center,
-          child: InkWell(
-            onHover: (value) {
-              setState(() {
-                themeSwitch = value;
-              });
-            },
-            onTap: () {
-              // Dark/Light Mode switch
-              switchWithTransition();
-            },
-            child: Icon(
-              (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-              size: 32,
-              color: (themeSwitch)
-                  ? (ref.watch(isDarkMode))
+            Align(
+              // alignment: Alignment.center,
+              child: InkWell(
+                onHover: (value) {
+                  setState(() {
+                    themeSwitch = value;
+                  });
+                },
+                onTap: () {
+                  // Dark/Light Mode switch
+                  switchWithTransition();
+                },
+                child: Icon(
+                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  size: 32,
+                  color: (themeSwitch)
+                      ? (ref.watch(isDarkMode))
                       ? _styleUtil.c_255
                       : _styleUtil.c_24
-                  : _styleUtil.c_170,
+                      : _styleUtil.c_170,
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 
@@ -786,38 +785,39 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ),
             ),
             // _creationCachedDecision(),
-            FutureBuilder(
-              future: getCreationsMap(),
-              builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot){
-                if(snapshot.hasData){
-                  // if (snapshot.data!.isEmpty){
-                  //   return FutureBuilder(
-                  //     future: _creationController.getCreationsMap(),
-                  //     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-                        // if(snapshot.hasData){
-                        //   Map<String, dynamic> resultMap = snapshot.data!;
-                          // setCreationMap(resultMap);
-                          // return _creationContent(resultMap);
-                        // } else if (snapshot.hasError) {
-                          // _timerContentHighlight?.cancel();
-                          // return Center(child: Text('Error: ${snapshot.error.toString()}'));
-                        // } else {
-                        //   return _creationContentShimmer();
-                        // }
-                      // }
-                    // );
-                  // } else {
-                    Map<String, dynamic> cachedMap = snapshot.data!;
-                    return _creationContent(cachedMap);
-                  // }
-                } else if (snapshot.hasError) {
-                  _timerContentHighlight?.cancel();
-                  return Center(child: Text('Error: ${snapshot.error.toString()}'));
-                } else {
-                  return _creationContentShimmer();
-                }
-              },
-            ),
+            // FutureBuilder(
+            //   future: readJson(),
+            //   builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot){
+            //     if(snapshot.hasData){
+            //       // if (snapshot.data!.isEmpty){
+            //       //   return FutureBuilder(
+            //       //     future: _creationController.getCreationsMap(),
+            //       //     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
+            //             // if(snapshot.hasData){
+            //             //   Map<String, dynamic> resultMap = snapshot.data!;
+            //               // setCreationMap(resultMap);
+            //               // return _creationContent(resultMap);
+            //             // } else if (snapshot.hasError) {
+            //               // _timerContentHighlight?.cancel();
+            //               // return Center(child: Text('Error: ${snapshot.error.toString()}'));
+            //             // } else {
+            //             //   return _creationContentShimmer();
+            //             // }
+            //           // }
+            //         // );
+            //       // } else {
+            //         Map<String, dynamic> cachedMap = snapshot.data!;
+            //         return _creationContent(cachedMap['creations']);
+            //       // }
+            //     } else if (snapshot.hasError) {
+            //       _timerContentHighlight?.cancel();
+            //       return Center(child: Text('Error: ${snapshot.error.toString()}'));
+            //     } else {
+            //       return _creationContentShimmer();
+            //     }
+            //   },
+            // ),
+            widget.creationsData.isNotEmpty ? _creationContent(widget.creationsData) : _creationContentShimmer(),
           ],
         ),
       ),
@@ -847,7 +847,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   // TODO: CREATIONS CONTENT HIGHLIGHT
   Widget _creationsContentHighlight(Map<String, dynamic> creationMap) {
-    doFocusScrollSnapListOnFocusHighlight();
+    // doFocusScrollSnapListOnFocusHighlight();
     return Container(
         color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
         height: contentHighlightHeight(context),
@@ -874,6 +874,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           itemCount: _creationController.sortCreationsHighlight(creationMap).length,
           selectedItemAnchor: SelectedItemAnchor.MIDDLE,
         ),
+      // child: ListView.builder(
+      //     scrollDirection: Axis.horizontal,
+      //     itemCount: _creationController.sortCreationsHighlight(creationMap).length,
+      //     itemBuilder: (BuildContext context, int index){
+      //       return _buildListItemHighlight(context, index, _creationController.sortCreationsHighlight(creationMap));
+      //     }
+      // ),
     );
   }
 
@@ -1477,87 +1484,87 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: END
 
   // ------ Transition Page -----
-  Widget _transitionToWelcomePage(Rect? rectWelcome) {
-    if (rectWelcome == null) {
-      return const SizedBox();
-    }
-
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: rectWelcome.top,
-      right: MediaQuery.sizeOf(context).width - rectWelcome.right,
-      bottom: MediaQuery.sizeOf(context).height - rectWelcome.bottom,
-      left: rectWelcome.left,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-
-  Widget _transitionToHistoryPage(Rect? rectHistory) {
-    if (rectHistory == null) {
-      return const SizedBox();
-    }
-
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: rectHistory.top,
-      right: MediaQuery.sizeOf(context).width - rectHistory.right,
-      bottom: MediaQuery.sizeOf(context).height - rectHistory.bottom,
-      left: rectHistory.left,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-
-  Widget _transitionToFurtherPage(Rect? rectFurther) {
-    if (rectFurther == null) {
-      return const SizedBox();
-    }
-
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: rectFurther.top,
-      right: MediaQuery.sizeOf(context).width - rectFurther.right,
-      bottom: MediaQuery.sizeOf(context).height - rectFurther.bottom,
-      left: rectFurther.left,
-      child: Container(
-        decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-
-  Widget _switchTapedWithTransition() {
-    return AnimatedPositioned(
-      duration: animationDuration,
-      top: 0,
-      right: isFromLeft
-          ? (!transitionIsActive)
-              ? 1.3 * MediaQuery.sizeOf(context).width
-              : 0
-          : 0,
-      bottom: 0,
-      left: isFromLeft
-          ? 0
-          : (!transitionIsActive)
-              ? 1.3 * MediaQuery.sizeOf(context).width
-              : 0,
-      child: AnimatedContainer(
-        duration: animationDuration,
-        decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-            shape: BoxShape.rectangle),
-      ),
-    );
-  }
+  // Widget _transitionToWelcomePage(Rect? rectWelcome) {
+  //   if (rectWelcome == null) {
+  //     return const SizedBox();
+  //   }
+  //
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: rectWelcome.top,
+  //     right: MediaQuery.sizeOf(context).width - rectWelcome.right,
+  //     bottom: MediaQuery.sizeOf(context).height - rectWelcome.bottom,
+  //     left: rectWelcome.left,
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.circle,
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _transitionToHistoryPage(Rect? rectHistory) {
+  //   if (rectHistory == null) {
+  //     return const SizedBox();
+  //   }
+  //
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: rectHistory.top,
+  //     right: MediaQuery.sizeOf(context).width - rectHistory.right,
+  //     bottom: MediaQuery.sizeOf(context).height - rectHistory.bottom,
+  //     left: rectHistory.left,
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.circle,
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _transitionToFurtherPage(Rect? rectFurther) {
+  //   if (rectFurther == null) {
+  //     return const SizedBox();
+  //   }
+  //
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: rectFurther.top,
+  //     right: MediaQuery.sizeOf(context).width - rectFurther.right,
+  //     bottom: MediaQuery.sizeOf(context).height - rectFurther.bottom,
+  //     left: rectFurther.left,
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //         shape: BoxShape.circle,
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // Widget _switchTapedWithTransition() {
+  //   return AnimatedPositioned(
+  //     duration: animationDuration,
+  //     top: 0,
+  //     right: isFromLeft
+  //         ? (!transitionIsActive)
+  //             ? 1.3 * MediaQuery.sizeOf(context).width
+  //             : 0
+  //         : 0,
+  //     bottom: 0,
+  //     left: isFromLeft
+  //         ? 0
+  //         : (!transitionIsActive)
+  //             ? 1.3 * MediaQuery.sizeOf(context).width
+  //             : 0,
+  //     child: AnimatedContainer(
+  //       duration: animationDuration,
+  //       decoration: BoxDecoration(
+  //           color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+  //           shape: BoxShape.rectangle),
+  //     ),
+  //   );
+  // }
 }
