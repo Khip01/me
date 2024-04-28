@@ -87,6 +87,7 @@ flutter:
     - assets/icons/gmail/
     - assets/icons/instagram/
     - assets/icons/linkedin/
+    - assets/data/khip01-portfolio-default-rtdb-export.json
 #     - images/a_dot_burr.jpeg
 #     - images/a_dot_ham.jpeg
 
