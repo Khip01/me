@@ -88,6 +88,18 @@ flutter:
     - assets/icons/instagram/
     - assets/icons/linkedin/
     - assets/data/khip01-portfolio-default-rtdb-export.json
+    - assets/images/projects/
+    - assets/images/projects/cafeapp_khipcafe/
+    - assets/images/projects/calculator_gui_java
+    - assets/images/projects/comment_section_web/
+    - assets/images/projects/first_web_portfolio/
+    - assets/images/projects/flutter_portfolio/
+    - assets/images/projects/kalkulator_basic_cpp/
+    - assets/images/projects/restaurant_khip01/
+    - assets/images/projects/rock_papper_scissors_game_cpp/
+    - assets/images/projects/spppayment_spppay/
+    - assets/images/projects/spppayment_spppay_v2/
+    - assets/images/creators_photo/
 #     - images/a_dot_burr.jpeg
 #     - images/a_dot_ham.jpeg
 
