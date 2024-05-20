@@ -90,7 +90,7 @@ flutter:
     - assets/data/khip01-portfolio-default-rtdb-export.json
     - assets/images/projects/
     - assets/images/projects/cafeapp_khipcafe/
-    - assets/images/projects/calculator_gui_java
+    - assets/images/projects/calculator_gui_java/
     - assets/images/projects/comment_section_web/
     - assets/images/projects/first_web_portfolio/
     - assets/images/projects/flutter_portfolio/
