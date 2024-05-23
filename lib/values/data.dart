@@ -184,6 +184,9 @@ class Projects {
     linkDemoWeb: StringConst.FLUTTER_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.FLUTTER_PORTFOLIO_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.FLUTTER_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
+    projectHighlightTopic: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_TOPIC,
+    projectHighlightHeader: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_HEADER,
+    projectHighlightDescription: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData COMMENT_SECTION_WEB = ProjectItemData(
     projectImagePath: ImagePath.COMMENT_SECTION_WEB_C,
@@ -204,6 +207,9 @@ class Projects {
     linkDemoWeb: StringConst.COMMENT_SECTION_WEB_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.COMMENT_SECTION_WEB_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.COMMENT_SECTION_WEB_ADDITIONAL_LINK_DESCRIPTION,
+    projectHighlightTopic: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_TOPIC,
+    projectHighlightHeader: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_HEADER,
+    projectHighlightDescription: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData RESTAURANT_KHIP01 = ProjectItemData(
     projectImagePath: ImagePath.RESTAURANT_KHIP01_C,
@@ -224,6 +230,9 @@ class Projects {
     linkDemoWeb: StringConst.RESTAURANT_KHIP01_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.RESTAURANT_KHIP01_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.RESTAURANT_KHIP01_ADDITIONAL_LINK_DESCRIPTION,
+    projectHighlightTopic: StringConst.RESTAURANT_KHIP01_HIGHLIGHT_TOPIC,
+    projectHighlightHeader: StringConst.RESTAURANT_KHIP01_HIGHLIGHT_HEADER,
+    projectHighlightDescription: StringConst.RESTAURANT_KHIP01_HIGHLIGHT_DESCRIPTION,
   );
 }
 
