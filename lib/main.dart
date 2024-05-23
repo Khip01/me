@@ -22,17 +22,16 @@ Future<void> main() async {
   // final CreationController creationController = CreationController();
   // Map<String, dynamic> resultMap = await creationController.getCreationsMap();
   // setCreationMap(resultMap);
-  final creationsMap = await getDataCreationsJson();
+  // final creationsMap = await getDataCreationsJson();
 
-  runApp(ProviderScope(child: MyApp(creationsMap: creationsMap,)));
+  runApp(ProviderScope(child: MyApp()));
 }
 
 
 class MyApp extends ConsumerWidget {
-  final Map<String, dynamic> creationsMap;
   late final GoRouter _router;
 
-  MyApp({Key? key, required this.creationsMap}) : super(key: key) {
+  MyApp({Key? key}) : super(key: key) {
     _router = GoRouter(
       errorBuilder: (context, state) {
         return const NotFoundPage();
@@ -42,7 +41,7 @@ class MyApp extends ConsumerWidget {
           return buildPageWithDefaultTransition(context: context, state: state, child: const WelcomePage());
         }),
         GoRoute(path: "/creation", name: "creation", pageBuilder: (context, state){
-          return buildPageWithDefaultTransition(context: context, state: state, child: CreationPage(creationsData: creationsMap,));
+          return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
         }),
         GoRoute(path: "/history", name: "history", pageBuilder: (context, state){
           return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
