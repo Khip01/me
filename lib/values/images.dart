@@ -22,8 +22,8 @@ class ImagePath {
   static const String FIRST_WEB_PORTFOLIO_2 = '$projectDir/first_web_portfolio/first_web_portfo_2.png';
   static const String FIRST_WEB_PORTFOLIO_3 = '$projectDir/first_web_portfolio/first_web_portfo_3.png';
 
-  // FLUTTER PORTFOLIO
-  static const String FLUTTER_PORTFOLIO_C = '$projectDir/flutter-portfolio/flutter-portfolio_cover.png';
+  // FLUTTER PORTFOLIO            assets/images/projects/flutter_portfolio/flutter_portfolio_cover.png
+  static const String FLUTTER_PORTFOLIO_C = '$projectDir/flutter_portfolio/flutter_portfolio_cover.png';
 
   // KALKULATOR BASIC CPP
   static const String KALKULATOR_BASIC_CPP_C = '$projectDir/kalkulator_basic_cpp/kalkulator_basic_cpp.png';
