@@ -15,11 +15,10 @@ import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
+import '../values/values.dart';
 
 class CreationPage extends ConsumerStatefulWidget {
-  final Map<String, dynamic> creationsData;
-
-  const CreationPage({super.key, required this.creationsData});
+  const CreationPage({super.key});
 
   @override
   ConsumerState<CreationPage> createState() => _CreationPageState();
@@ -36,7 +35,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // --- Content Top Section ---
   // Dark/Light Theme Switch
   // Switch, animation
-  bool isFromLeft = true, transitionIsActive = false;
+  bool isFromLeft = true, transitionIsActive = false, ignoreTapping = false;
 
   // --- Nav Section ---
   // Nav List Hover
@@ -127,79 +126,75 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    // isFromLeft = !isFromLeft;
-    // setState(() => transitionIsActive = !transitionIsActive);
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   Future.delayed(
-    //       animationDuration,
-    //       () => setState(() {
-    //             ref.read(isDarkMode.notifier).state =
-    //                 !ref.read(isDarkMode); // SET DARK MODE HERE
-    //           }));
-    //   Future.delayed(
-    //       animationDuration + afterAnimationDelay,
-    //       () => setState(() {
-    //             transitionIsActive = !transitionIsActive;
-    //           }));
-    // });
-    ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode);
+    ignoreTapping = true; // IGNORE FOR ON TAPPING
+    isFromLeft = !isFromLeft;
+    setState(() => transitionIsActive = !transitionIsActive);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(
+          animationDuration,
+          () => setState(() {
+                ref.read(isDarkMode.notifier).state =
+                    !ref.read(isDarkMode); // SET DARK MODE HERE
+              }));
+      Future.delayed(
+          animationDuration + afterAnimationDelay,
+          () => setState(() {
+                transitionIsActive = !transitionIsActive;
+              })).then((_) => setState(() {
+                ignoreTapping = false;
+              }));
+    });
   }
 
   // --- Transition Nav ---
   // Push Page With Transition (Normal Nav)
   void _pushNamedWithRectWelcome() async {
-    // setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-      // setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      // Future.delayed(animationDuration + afterAnimationDelay, () => );
-      context.goNamed("welcome");
-    // });
+    setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("welcome"));
+    });
   }
 
   void _pushNamedWithRectHistory() async {
-    // setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-      // setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      // Future.delayed(animationDuration + afterAnimationDelay, () => );
-      context.goNamed("history");
-    // });
+    setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+    });
   }
 
   void _pushNamedWithRectFurther() async {
-    // setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-      // setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      // Future.delayed(animationDuration + afterAnimationDelay, () => );
-      context.goNamed("further");
-    // });
+    setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("further"));
+    });
   }
 
   // Push Page With Transition (Sticky Nav)
   void _pushNamedWithRectWelcomeSticky() async {
-    // setState(() => _rectWelcomeSticky = RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-      // setState(() => _rectWelcomeSticky = _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      // Future.delayed(animationDuration + afterAnimationDelay, () => );
-      context.goNamed("welcome");
-    // });
+    setState(() => _rectWelcomeSticky = RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectWelcomeSticky = _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("welcome"));
+    });
   }
 
   void _pushNamedWithRectHistorySticky() async {
-    // setState(() => _rectHistorySticky = RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-      // setState(() => _rectHistorySticky = _rectHistorySticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      // Future.delayed(animationDuration + afterAnimationDelay, () => );
-      context.goNamed("history");
-    // });
+    setState(() => _rectHistorySticky = RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectHistorySticky = _rectHistorySticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+    });
   }
 
   void _pushNamedWithRectFurtherSticky() async {
-    // setState(() => _rectFurtherSticky = RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-      // setState(() => _rectFurtherSticky = _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      // Future.delayed(animationDuration + afterAnimationDelay, () => );
-      context.goNamed("further");
-    // });
+    setState(() => _rectFurtherSticky = RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectFurtherSticky = _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("further"));
+    });
   }
 
   // Creation Section Focus Animation When Highlight Section Already Show
@@ -211,7 +206,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     // Creation Content Animation
     _timerContentHighlight = Timer.periodic(const Duration(seconds: 5), (_) {
       // setState(() {
-      _creationHighlightKey.currentState!.focusToItem(++_focusedIndexHighlight);
+      _creationHighlightKey.currentState?.focusToItem(++_focusedIndexHighlight);
       // });
     });
   }
@@ -247,16 +242,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ],
           ),
         ),
-        // // Normal Nav
-        // _transitionToWelcomePage(_rectWelcome),
-        // _transitionToHistoryPage(_rectHistory),
-        // _transitionToFurtherPage(_rectFurther),
-        // // Sticky Nav
-        // _transitionToWelcomePage(_rectWelcomeSticky),
-        // _transitionToHistoryPage(_rectHistorySticky),
-        // _transitionToFurtherPage(_rectFurtherSticky),
-        // // Dark/Light mode
-        // _switchTapedWithTransition(),
+        // Normal Nav
+        _transitionToWelcomePage(_rectWelcome),
+        _transitionToHistoryPage(_rectHistory),
+        _transitionToFurtherPage(_rectFurther),
+        // Sticky Nav
+        _transitionToWelcomePage(_rectWelcomeSticky),
+        _transitionToHistoryPage(_rectHistorySticky),
+        _transitionToFurtherPage(_rectFurtherSticky),
+        // Dark/Light mode
+        _switchTapedWithTransition(),
       ],
     );
   }
@@ -416,24 +411,27 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ),
             Align(
               // alignment: Alignment.center,
-              child: InkWell(
-                onHover: (value) {
-                  setState(() {
-                    themeSwitch = value;
-                  });
-                },
-                onTap: () {
-                  // Dark/Light Mode switch
-                  switchWithTransition();
-                },
-                child: Icon(
-                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-                  size: 32,
-                  color: (themeSwitch)
-                      ? (ref.watch(isDarkMode))
-                      ? _styleUtil.c_255
-                      : _styleUtil.c_24
-                      : _styleUtil.c_170,
+              child: IgnorePointer(
+                ignoring: ignoreTapping,
+                child: InkWell(
+                  onHover: (value) {
+                    setState(() {
+                      themeSwitch = value;
+                    });
+                  },
+                  onTap: () {
+                    // Dark/Light Mode switch
+                    switchWithTransition();
+                  },
+                  child: Icon(
+                    (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                    size: 32,
+                    color: (themeSwitch)
+                        ? (ref.watch(isDarkMode))
+                        ? _styleUtil.c_255
+                        : _styleUtil.c_24
+                        : _styleUtil.c_170,
+                  ),
                 ),
               ),
             ),
@@ -817,19 +815,27 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             //     }
             //   },
             // ),
-            widget.creationsData.isNotEmpty ? _creationContent(widget.creationsData) : _creationContentShimmer(),
+            FutureBuilder(
+                future: Future.delayed(const Duration(seconds: 3)).then((_) => _creationContent()),
+                builder: (context, snapshot){
+                  if(snapshot.hasData){
+                    return snapshot.data!;
+                  }
+                  return _creationContentShimmer();
+                }
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _creationContent(Map<String, dynamic> creationsMap) { // Parent
+  Widget _creationContent() { // Parent
     return Column(
       children: [
-        _creationsContentHighlight(creationsMap),
-        _creationsContentRelatedProject(creationsMap),
-        _creationsContentSteppingStone(creationsMap),
+        _creationsContentHighlight(),
+        _creationsContentRelatedProject(),
+        _creationsContentSteppingStone(),
       ],
     );
   }
@@ -846,8 +852,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
 
   // TODO: CREATIONS CONTENT HIGHLIGHT
-  Widget _creationsContentHighlight(Map<String, dynamic> creationMap) {
-    // doFocusScrollSnapListOnFocusHighlight();
+  Widget _creationsContentHighlight() {
+    doFocusScrollSnapListOnFocusHighlight();
     return Container(
         color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
         height: contentHighlightHeight(context),
@@ -869,9 +875,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           itemSize: contentHighlightWidthListView(context),
           itemBuilder: (context, index) {
             // Build item berdasarkan data creationsMap
-            return _buildListItemHighlight(context, index, _creationController.sortCreationsHighlight(creationMap));
+            return _buildListItemHighlight(context, index, Data.highlightedCreations);
           },
-          itemCount: _creationController.sortCreationsHighlight(creationMap).length,
+          itemCount: Data.highlightedCreations.length,
           selectedItemAnchor: SelectedItemAnchor.MIDDLE,
         ),
       // child: ListView.builder(
@@ -884,14 +890,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _buildListItemHighlight(BuildContext context, int index, Map<String, dynamic> creationsMap) {
+  Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
     // Menggunakan data dari creationsMap untuk membangun item list
-    final itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
-    Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
-    Image itemImageProfile = Image.memory(fit: BoxFit.fitHeight, base64.decode(itemData["creator_photo_profile"]));
+    final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
+    Image itemImage = Image.asset(itemData.projectImagePath);
+    List<Image> itemImageProfile = List<Image>.generate(itemData.creatorPhotoProfilePath.length, (index) => Image.asset(itemData.creatorPhotoProfilePath[index]));
     Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData["date_project_created"]);
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length -1} other" : ""}";
 
     return Container(
       margin: contentHighlightListSpace(context),
@@ -941,7 +948,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                   bottomRight: Radius.circular(19),
                                 ),
                               ),
-                              child: Text(itemData["highlightTopic"], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
+                              child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
                             ),
                             Align(
                               alignment: Alignment.bottomCenter,
@@ -952,8 +959,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(itemData["highlightHeader"], style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
-                                    Text(itemData["highlightDescription"], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                    Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                    Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
                                   ],
                                 ),
                               ),
@@ -973,7 +980,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           Container(
             height: 24,
             margin: const EdgeInsets.only(top: 14),
-            child: Text(itemData["project_name"], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
+            child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
           ),
           Container(
             height: 24,
@@ -988,16 +995,19 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
-                        child: SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: ClipOval(
-                            child: itemImageProfile,
-                          ),
-                        ),
+                        child: Align(
+                              widthFactor: 0.5,
+                              child: SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: ClipOval(
+                                  child: itemImageProfile[0],
+                                ),
+                              ),
+                            ),
                       ),
                       Text(
-                        itemData["creator_name"],
+                        creatorsName,
                         style: TextStyle(
                           fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
                         ),
@@ -1084,7 +1094,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: END
 
   // TODO: CREATIONS CONTENT RELATED PROJECT
-  Widget _creationsContentRelatedProject(Map<String, dynamic> creationMap){
+  Widget _creationsContentRelatedProject(){
     return Container(
       margin: const EdgeInsets.only(top: 76),
       height: 338,
@@ -1100,9 +1110,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             height: 286,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: _creationController.sortCreationsRelatedProject(creationMap).length,
+              itemCount: Data.relatedCreations.length,
               itemBuilder: (BuildContext context, int index){
-                return _buildListItemRelatedProject(context, index, _creationController.sortCreationsRelatedProject(creationMap));
+                return _buildListItemRelatedProject(context, index, Data.relatedCreations);
               }
             ),
           ),
@@ -1111,10 +1121,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _buildListItemRelatedProject(BuildContext context, int index, Map<String, dynamic> creationsMap) {
-    final Map<String, dynamic> itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
-    Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData["date_project_created"]);
+  Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
+    final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
+    Image itemImage = Image.asset(itemData.projectImagePath);
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return Container(
@@ -1137,7 +1147,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           ),
           SizedBox(
             height: 26,
-            child: Text(itemData["project_name"], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+            child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1151,11 +1161,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 child: ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
-                  itemCount: itemData["project_categories"].length,
+                  itemCount: itemData.projectCategories.length,
                   itemBuilder: (BuildContext context, int indexCategories){
-                    final String itemCategories = itemData["project_categories"][indexCategories];
+                    final String itemCategories = itemData.projectCategories[indexCategories];
 
-                    if(indexCategories < itemData["project_categories"].length - 1){
+                    if(indexCategories < itemData.projectCategories.length - 1){
                       return Row(
                         children: [
                           Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
@@ -1284,7 +1294,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: END
 
   // TODO: CREATION CONTENT STEPPING STONE
-  Widget _creationsContentSteppingStone(Map<String, dynamic> creationMap){
+  Widget _creationsContentSteppingStone(){
     return Container(
       margin: const EdgeInsets.only(top: 76, bottom: 132),
       height: 338,
@@ -1300,9 +1310,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             height: 286,
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: _creationController.sortAnotherCreations(creationMap).length,
+                itemCount: Data.anotherCreations.length,
                 itemBuilder: (BuildContext context, int index){
-                  return _buildListItemSteppingStone(context, index, _creationController.sortAnotherCreations(creationMap));
+                  return _buildListItemSteppingStone(context, index, Data.anotherCreations);
                 }
             ),
           ),
@@ -1311,10 +1321,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _buildListItemSteppingStone(BuildContext context, int index, Map<String, dynamic> creationsMap) {
-    final Map<String, dynamic> itemData = creationsMap.values.elementAt(index); // Ambil data pada indeks tertentu
-    Image itemImage = Image.memory(fit: BoxFit.cover, base64.decode(itemData["project_image"]));
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData["date_project_created"]);
+  Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
+    final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
+    Image itemImage = Image.asset(itemData.projectImagePath);
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return Container(
@@ -1337,7 +1347,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           ),
           SizedBox(
             height: 26,
-            child: Text(itemData["project_name"], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+            child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1351,11 +1361,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 child: ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    itemCount: itemData["project_categories"].length,
+                    itemCount: itemData.projectCategories.length,
                     itemBuilder: (BuildContext context, int indexCategories){
-                      final String itemCategories = itemData["project_categories"][indexCategories];
+                      final String itemCategories = itemData.projectCategories[indexCategories];
 
-                      if(indexCategories < itemData["project_categories"].length - 1){
+                      if(indexCategories < itemData.projectCategories.length - 1){
                         return Row(
                           children: [
                             Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
@@ -1484,87 +1494,87 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: END
 
   // ------ Transition Page -----
-  // Widget _transitionToWelcomePage(Rect? rectWelcome) {
-  //   if (rectWelcome == null) {
-  //     return const SizedBox();
-  //   }
-  //
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: rectWelcome.top,
-  //     right: MediaQuery.sizeOf(context).width - rectWelcome.right,
-  //     bottom: MediaQuery.sizeOf(context).height - rectWelcome.bottom,
-  //     left: rectWelcome.left,
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-  //         shape: BoxShape.circle,
-  //       ),
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _transitionToHistoryPage(Rect? rectHistory) {
-  //   if (rectHistory == null) {
-  //     return const SizedBox();
-  //   }
-  //
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: rectHistory.top,
-  //     right: MediaQuery.sizeOf(context).width - rectHistory.right,
-  //     bottom: MediaQuery.sizeOf(context).height - rectHistory.bottom,
-  //     left: rectHistory.left,
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-  //         shape: BoxShape.circle,
-  //       ),
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _transitionToFurtherPage(Rect? rectFurther) {
-  //   if (rectFurther == null) {
-  //     return const SizedBox();
-  //   }
-  //
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: rectFurther.top,
-  //     right: MediaQuery.sizeOf(context).width - rectFurther.right,
-  //     bottom: MediaQuery.sizeOf(context).height - rectFurther.bottom,
-  //     left: rectFurther.left,
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-  //         shape: BoxShape.circle,
-  //       ),
-  //     ),
-  //   );
-  // }
-  //
-  // Widget _switchTapedWithTransition() {
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: 0,
-  //     right: isFromLeft
-  //         ? (!transitionIsActive)
-  //             ? 1.3 * MediaQuery.sizeOf(context).width
-  //             : 0
-  //         : 0,
-  //     bottom: 0,
-  //     left: isFromLeft
-  //         ? 0
-  //         : (!transitionIsActive)
-  //             ? 1.3 * MediaQuery.sizeOf(context).width
-  //             : 0,
-  //     child: AnimatedContainer(
-  //       duration: animationDuration,
-  //       decoration: BoxDecoration(
-  //           color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
-  //           shape: BoxShape.rectangle),
-  //     ),
-  //   );
-  // }
+  Widget _transitionToWelcomePage(Rect? rectWelcome) {
+    if (rectWelcome == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: rectWelcome.top,
+      right: MediaQuery.sizeOf(context).width - rectWelcome.right,
+      bottom: MediaQuery.sizeOf(context).height - rectWelcome.bottom,
+      left: rectWelcome.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+
+  Widget _transitionToHistoryPage(Rect? rectHistory) {
+    if (rectHistory == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: rectHistory.top,
+      right: MediaQuery.sizeOf(context).width - rectHistory.right,
+      bottom: MediaQuery.sizeOf(context).height - rectHistory.bottom,
+      left: rectHistory.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+
+  Widget _transitionToFurtherPage(Rect? rectFurther) {
+    if (rectFurther == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: rectFurther.top,
+      right: MediaQuery.sizeOf(context).width - rectFurther.right,
+      bottom: MediaQuery.sizeOf(context).height - rectFurther.bottom,
+      left: rectFurther.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+
+  Widget _switchTapedWithTransition() {
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: 0,
+      right: isFromLeft
+          ? (!transitionIsActive)
+              ? 1.3 * MediaQuery.sizeOf(context).width
+              : 0
+          : 0,
+      bottom: 0,
+      left: isFromLeft
+          ? 0
+          : (!transitionIsActive)
+              ? 1.3 * MediaQuery.sizeOf(context).width
+              : 0,
+      child: AnimatedContainer(
+        duration: animationDuration,
+        decoration: BoxDecoration(
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+            shape: BoxShape.rectangle),
+      ),
+    );
+  }
 }
