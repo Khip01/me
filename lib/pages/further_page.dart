@@ -25,7 +25,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   // --- Content Top Section ---
   // Dark/Light Theme Switch
   // Switch, animation
-  bool isFromLeft = true, transitionIsActive = false;
+  bool isFromLeft = true, transitionIsActive = false, ignoreTapping = false;
 
   // --- Nav Section ---
   // Nav List Hover
@@ -50,17 +50,19 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    // isFromLeft = !isFromLeft;
-    // setState(() => transitionIsActive = !transitionIsActive);
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-    //   Future.delayed(animationDuration, () => setState(() {
-    //     ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
-    //   }));
-    //   Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
-    //     transitionIsActive = !transitionIsActive;
-    //   }));
-    // });
-    ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode);
+    ignoreTapping = true; // IGNORE FOR ON TAPPING
+    isFromLeft = !isFromLeft;
+    setState(() => transitionIsActive = !transitionIsActive);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Future.delayed(animationDuration, () => setState(() {
+        ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
+      }));
+      Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
+        transitionIsActive = !transitionIsActive;
+      })).then((_) => setState((){
+        ignoreTapping = false;
+      }));
+    });
   }
   // --- Content Body Section ---
   // Open Url
@@ -120,28 +122,25 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   // --- Transition Nav ---
   // Push Page With Transition
   void _pushNamedWithRectWelcome() async {
-    // setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-    //   Future.delayed(animationDuration + afterAnimationDelay, () => );
-    // });
-    context.goNamed("welcome");
+    setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("welcome"));
+    });
   }
   void _pushNamedWithRectCreation() async {
-    // setState(() => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   setState(() => _rectCreation = _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-    //   Future.delayed(animationDuration + afterAnimationDelay, () => );
-    // });
-    context.goNamed("creation");
+    setState(() => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectCreation = _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("creation"));
+    });
   }
   void _pushNamedWithRectHistory() async {
-    // setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-    //   Future.delayed(animationDuration + afterAnimationDelay, () => );
-    // });
-    context.goNamed("history");
+    setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+    });
   }
 
 
@@ -229,10 +228,10 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             ),
           ),
         ),
-        // _transitionToWelcomePage(),
-        // _transitionToCreationPage(),
-        // _transitionToHistoryPage(),
-        // _switchTapedWithTransition(),
+        _transitionToWelcomePage(),
+        _transitionToCreationPage(),
+        _transitionToHistoryPage(),
+        _switchTapedWithTransition(),
       ],
     );
   }
@@ -261,20 +260,23 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
         ),
         Align(
           // alignment: Alignment.center,
-          child: InkWell(
-            onHover: (value) {
-              setState(() {
-                themeSwitch = value;
-              });
-            },
-            onTap: () {
-              // Dark/Light Mode switch
-              switchWithTransition();
-            },
-            child: Icon(
-              (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-              size: 32,
-              color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+          child: IgnorePointer(
+            ignoring: ignoreTapping,
+            child: InkWell(
+              onHover: (value) {
+                setState(() {
+                  themeSwitch = value;
+                });
+              },
+              onTap: () {
+                // Dark/Light Mode switch
+                switchWithTransition();
+              },
+              child: Icon(
+                (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                size: 32,
+                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
+              ),
             ),
           ),
         ),
@@ -323,76 +325,96 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
               runSpacing: 40,
               alignment: WrapAlignment.center,
               children: [
-                InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  onTap: () async => await _showSnackbar("Github Opened Successfully!", linkUtil.githubLink),
-                  onHover: (val) {
-                    setState(() {
-                      _iconsHover[0] = val;
-                    });
-                  },
-                  child: Image.asset(
-                    (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGithubDark : iconUtil.imgGithubLight : iconUtil.imgGithubDefault,
-                  ),
-                ),
-              InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  onTap: () async => await _showSnackbar("Instagram Opened Successfully!", linkUtil.instaLink),
-                  onHover: (val) {
-                    setState(() {
-                      _iconsHover[1] = val;
-                    });
-                  },
-                  child: Image.asset(
-                    (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? iconUtil.imgInstagramDark : iconUtil.imgInstagramLight : iconUtil.imgInstagramDefault,
+                SizedBox(
+                  width: 64,
+                  height: 64,
+                  child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Github Opened Successfully!", linkUtil.githubLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[0] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGithubDark : iconUtil.imgGithubLight : iconUtil.imgGithubDefault,
+                    ),
                   ),
                 ),
-              InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+              SizedBox(
+                width: 64,
+                height: 64,
+                child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Instagram Opened Successfully!", linkUtil.instaLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[1] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? iconUtil.imgInstagramDark : iconUtil.imgInstagramLight : iconUtil.imgInstagramDefault,
+                    ),
                   ),
-                  onTap: () async => await _showSnackbar("Facebook Opened Successfully!", linkUtil.facebookLink),
-                  onHover: (val) {
-                    setState(() {
-                      _iconsHover[2] = val;
-                    });
-                  },
-                  child: Image.asset(
-                    (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? iconUtil.imgFacebookDark : iconUtil.imgFacebookLight : iconUtil.imgFacebookDefault,
+              ),
+              SizedBox(
+                width: 64,
+                height: 64,
+                child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Facebook Opened Successfully!", linkUtil.facebookLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[2] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? iconUtil.imgFacebookDark : iconUtil.imgFacebookLight : iconUtil.imgFacebookDefault,
+                    ),
                   ),
-                ),
-              InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+              ),
+              SizedBox(
+                width: 64,
+                height: 64,
+                child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("Gmail Opened Successfully!", linkUtil.gmailLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[3] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGmailDark : iconUtil.imgGmailLight : iconUtil.imgGmailDefault,
+                    ),
                   ),
-                  onTap: () async => await _showSnackbar("Gmail Opened Successfully!", linkUtil.gmailLink),
-                  onHover: (val) {
-                    setState(() {
-                      _iconsHover[3] = val;
-                    });
-                  },
-                  child: Image.asset(
-                    (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGmailDark : iconUtil.imgGmailLight : iconUtil.imgGmailDefault,
+              ),
+              SizedBox(
+                width: 64,
+                height: 64,
+                child: InkWell(
+                    customBorder: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", linkUtil.linkedinLink),
+                    onHover: (val) {
+                      setState(() {
+                        _iconsHover[4] = val;
+                      });
+                    },
+                    child: Image.asset(
+                      (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? iconUtil.imgLinkedinDark : iconUtil.imgLinkedinLight : iconUtil.imgLinkedinDefault,
+                    ),
                   ),
-                ),
-              InkWell(
-                  customBorder: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", linkUtil.linkedinLink),
-                  onHover: (val) {
-                    setState(() {
-                      _iconsHover[4] = val;
-                    });
-                  },
-                  child: Image.asset(
-                    (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? iconUtil.imgLinkedinDark : iconUtil.imgLinkedinLight : iconUtil.imgLinkedinDefault,
-                  ),
-                ),
+              ),
               ],
             ),
           ),
@@ -513,77 +535,77 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     );
   }
   // ------ Transition Page -----
-  // Widget _transitionToWelcomePage() {
-  //   if(_rectWelcome == null) {
-  //     return const SizedBox();
-  //   }
-  //
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: _rectWelcome!.top,
-  //     right: MediaQuery.sizeOf(context).width - _rectWelcome!.right,
-  //     bottom: MediaQuery.sizeOf(context).height - _rectWelcome!.bottom,
-  //     left: _rectWelcome!.left,
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
-  //         shape: BoxShape.circle,
-  //       ),
-  //     ),
-  //   );
-  // }
-  // Widget _transitionToCreationPage() {
-  //   if(_rectCreation == null) {
-  //     return const SizedBox();
-  //   }
-  //
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: _rectCreation!.top,
-  //     right: MediaQuery.sizeOf(context).width - _rectCreation!.right,
-  //     bottom: MediaQuery.sizeOf(context).height - _rectCreation!.bottom,
-  //     left: _rectCreation!.left,
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
-  //         shape: BoxShape.circle,
-  //       ),
-  //     ),
-  //   );
-  // }
-  // Widget _transitionToHistoryPage() {
-  //   if(_rectHistory == null) {
-  //     return const SizedBox();
-  //   }
-  //
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: _rectHistory!.top,
-  //     right: MediaQuery.sizeOf(context).width - _rectHistory!.right,
-  //     bottom: MediaQuery.sizeOf(context).height - _rectHistory!.bottom,
-  //     left: _rectHistory!.left,
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
-  //         shape: BoxShape.circle,
-  //       ),
-  //     ),
-  //   );
-  // }
-  // Widget _switchTapedWithTransition() {
-  //   return AnimatedPositioned(
-  //     duration: animationDuration,
-  //     top: 0,
-  //     right: isFromLeft ? (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0 : 0,
-  //     bottom: 0,
-  //     left: isFromLeft ? 0 : (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0,
-  //     child: AnimatedContainer(
-  //       duration: animationDuration,
-  //       decoration: BoxDecoration(
-  //           color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
-  //           shape: BoxShape.rectangle
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget _transitionToWelcomePage() {
+    if(_rectWelcome == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectWelcome!.top,
+      right: MediaQuery.sizeOf(context).width - _rectWelcome!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectWelcome!.bottom,
+      left: _rectWelcome!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _transitionToCreationPage() {
+    if(_rectCreation == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectCreation!.top,
+      right: MediaQuery.sizeOf(context).width - _rectCreation!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectCreation!.bottom,
+      left: _rectCreation!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _transitionToHistoryPage() {
+    if(_rectHistory == null) {
+      return const SizedBox();
+    }
+
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: _rectHistory!.top,
+      right: MediaQuery.sizeOf(context).width - _rectHistory!.right,
+      bottom: MediaQuery.sizeOf(context).height - _rectHistory!.bottom,
+      left: _rectHistory!.left,
+      child: Container(
+        decoration: BoxDecoration(
+          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          shape: BoxShape.circle,
+        ),
+      ),
+    );
+  }
+  Widget _switchTapedWithTransition() {
+    return AnimatedPositioned(
+      duration: animationDuration,
+      top: 0,
+      right: isFromLeft ? (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0 : 0,
+      bottom: 0,
+      left: isFromLeft ? 0 : (!transitionIsActive) ? 1.3 * MediaQuery.sizeOf(context).width : 0,
+      child: AnimatedContainer(
+        duration: animationDuration,
+        decoration: BoxDecoration(
+            color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+            shape: BoxShape.rectangle
+        ),
+      ),
+    );
+  }
 }
