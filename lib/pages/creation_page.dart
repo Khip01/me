@@ -817,9 +817,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             // ),
             FutureBuilder(
                 future: Future.delayed(const Duration(seconds: 3)).then((_) => _creationContent()),
-                builder: (context, snapshot){
-                  if(snapshot.hasData){
-                    return  _creationContent();
+                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot){
+                  if(snapshot.hasData && snapshot.connectionState == ConnectionState.done){
+                    return  snapshot.data!;
                   }
                   return _creationContentShimmer();
                 }
