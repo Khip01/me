@@ -893,7 +893,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(itemData.projectImagePath);
+    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePath);
     List<Image> itemImageProfile = List<Image>.generate(itemData.creatorPhotoProfilePath.length, (index) => Image.asset(itemData.creatorPhotoProfilePath[index]));
     Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
@@ -1123,7 +1123,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
     final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(itemData.projectImagePath);
+    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePath);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
@@ -1323,7 +1323,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
     final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(itemData.projectImagePath);
+    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePath);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
