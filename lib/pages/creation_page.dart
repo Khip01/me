@@ -819,7 +819,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 future: Future.delayed(const Duration(seconds: 3)).then((_) => _creationContent()),
                 builder: (context, snapshot){
                   if(snapshot.hasData){
-                    return snapshot.data!;
+                    return  _creationContent();
                   }
                   return _creationContentShimmer();
                 }
