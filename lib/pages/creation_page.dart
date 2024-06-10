@@ -762,7 +762,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       padding:  mainCardPaddingWithBottomQuote(context),
       child: Container(
         constraints: const BoxConstraints(
-            maxWidth: 1100
+            maxWidth: 1100,
         ),
         margin: const EdgeInsets.symmetric(horizontal: 28),
         width: double.maxFinite,
