@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
+import 'package:me/values/values.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -20,6 +21,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // --- General ---
   final StyleUtil _styleUtil = StyleUtil();
 
+  late double scrHeight;
+
   // --- Content Top Section ---
   // Dark/Light Theme Switch
   // Switch, animation
@@ -32,6 +35,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // Controller for Sliver Nav
   static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
   bool _navIsSticky = false;
+  // Value Notifier Sticky Nav Header
+  late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
 
   //  Other Hover
   bool _themeSwitch = false;
@@ -67,6 +72,19 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // Duration
   final Duration _animationDuration = const Duration(milliseconds: 300),
       _afterAnimationDelay = const Duration(milliseconds: 300);
+
+  // TODO: INIT STATE
+  @override
+  void initState() {
+    _navScrollController.addListener((){
+      final isVisible = _navScrollController.offset > scrHeight;
+      if(_navIsStickyNotifier.value != isVisible){
+        _navIsStickyNotifier.value = isVisible;
+      }
+    });
+
+    super.initState();
+  }
 
   // TODO: ------ Function ------
   // --- Content Top Section
@@ -165,39 +183,33 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final scrHeight = MediaQuery.sizeOf(context).height;
+    scrHeight = MediaQuery.sizeOf(context).height;
 
     return Stack(
       children: [
         Scaffold(
           backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-          body: NotificationListener<ScrollUpdateNotification>(
-            onNotification: (t) {
-              setState(() {
-                (_navScrollController.position.pixels >
-                    MediaQuery.sizeOf(context).height)
-                    ? _navIsSticky = true
-                    : _navIsSticky = false;
-              });
-              return true;
-            },
-            child: CustomScrollView(
-              controller: _navScrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: _coverPageSection(scrHeight),
-                ),
-                MultiSliver(
-                    pushPinnedChildren: true,
-                    children: [
-                      SliverPinnedHeader(
-                        child: _navTopSticky(),
-                      ),
-                      _historyPageSection(),
-                    ]
-                ),
-              ],
-            ),
+          body: CustomScrollView(
+            controller: _navScrollController,
+            slivers: [
+              SliverToBoxAdapter(
+                child: _coverPageSection(scrHeight),
+              ),
+              MultiSliver(
+                  pushPinnedChildren: true,
+                  children: [
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _navIsStickyNotifier,
+                      builder: (context, isVisible, child){
+                        return SliverPinnedHeader(
+                          child: _navTopSticky(isVisible),
+                        );
+                      },
+                    ),
+                    _historyPageSection(),
+                  ]
+              ),
+            ],
           ),
         ),
         // Normal Nav
@@ -298,15 +310,15 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
   // ------ Nav Top Sticky ------
-  Widget _navTopSticky() {
+  Widget _navTopSticky(bool isVisible) {
     return Visibility(
-      visible: _navIsSticky,
+      visible: true,
       maintainAnimation: true,
       maintainState: true,
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 500),
         curve: Curves.fastOutSlowIn,
-        opacity: _navIsSticky ? 1 : 0,
+        opacity: isVisible ? 1 : 0,
         child: Container(
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
@@ -333,21 +345,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   Widget _historyPageSection() {
     return Column(
       children: [
-        Visibility( // Spacing for nav is sticky when nav is sticky visible = false
-          visible: !_navIsSticky,
-          child: Container(
-            color: (ref.watch(isDarkMode))
-                ? _styleUtil.c_33
-                : _styleUtil.c_255,
-            height: 80,
-            width: MediaQuery.sizeOf(context).width,
-          ),
-        ),
-        Container(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-          height: 1200,
-          child: Center(child: Text("Oops, you caught me! \nI'm still working on this history section", style: TextStyle(color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,),)),
-        ),
+        _historySection(),
       ],
     );
   }
@@ -701,6 +699,87 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 
+  Widget _historySection(){
+    return Padding(
+      padding: mainCardPaddingWithBottomQuote(context),
+      child: Container(
+        constraints: const BoxConstraints(
+          maxWidth: 1100,
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 28),
+        width: double.maxFinite,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.only(bottom: 36),
+              constraints: const BoxConstraints(
+                maxWidth: 471,
+              ),
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+              child: Column(
+                children: [
+                  Container(padding: const EdgeInsets.only(bottom: 10), width: double.maxFinite, child: Text("U N C O V E R I N G   T H E   P A S T", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),)),
+                  Text("This section narrates the story of my educational and professional journey, tracing the footsteps of learning and self-development.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 132 - 60, top: 60),
+              width: double.maxFinite,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // TODO: SIDE LEFT
+                  Flexible(
+                    flex: 15,
+                    child: Column(
+                      children: [
+                        HistoryType(
+                          titleType: "WORK",
+                          historyData: History.historyDataWork,
+                        ),
+                        HistoryType(
+                          titleType: "EDUCATION",
+                          historyData: History.historyDataEdu,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // TODO: SPACER
+                  const Flexible(
+                    flex: 1,
+                    fit: FlexFit.tight,
+                    child: SizedBox(),
+                  ),
+                  // TODO: SIDE RIGHT
+                  Flexible(
+                    flex: 7,
+                    child: SizedBox(
+                      width: double.maxFinite,
+                      child: Column(
+                        children: [
+                          HistoryScoopeType(
+                            titleHistoryScoope: "Work",
+                            historyData: History.historyDataWork,
+                          ),
+                          HistoryScoopeType(
+                            titleHistoryScoope: "Education",
+                            historyData: History.historyDataEdu,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ------ Transition Page -----
   Widget _transitionToWelcomePage(Rect? rectWelcome) {
     if (rectWelcome == null) {
@@ -786,3 +865,211 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 }
+
+class HistoryType extends StatelessWidget {
+  // General
+  final StyleUtil _styleUtil = StyleUtil();
+
+  final String titleType;
+  final List<HistoryItemData> historyData;
+
+  HistoryType({
+    super.key,
+    required this.titleType,
+    required this.historyData,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 60),
+      width: double.maxFinite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            titleType,
+            style: TextStyle(
+              fontFamily: 'Lato',
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: _styleUtil.c_61,
+            ),
+          ),
+          ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: historyData.length,
+            itemBuilder: (context, index) {
+              return HistoryPath(
+                title: historyData[index].historyTitle,
+                year: historyData[index].historyYear,
+                tag: historyData[index].historyTag,
+                desc: historyData[index].historyDescription,
+              );
+            }
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HistoryPath extends StatelessWidget {
+  // General
+  StyleUtil _styleUtil = StyleUtil();
+
+  final String title;
+  final String year;
+  final List<String> tag;
+  final String desc;
+
+  HistoryPath({
+    super.key,
+    required this.title,
+    required this.year,
+    required this.tag,
+    required this.desc,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 30),
+      child: Column(
+        children: [
+          SizedBox(
+            width: double.maxFinite,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: _styleUtil.c_61),
+                ),
+                Text(
+                  year,
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: _styleUtil.c_61),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 8),
+            width: double.maxFinite,
+            height: 1,
+            color: _styleUtil.c_61,
+          ),
+          SizedBox(
+            width: double.maxFinite,
+            height: 21,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: tag.length,
+              itemBuilder: (context, index){
+                return Text(
+                  tag[index],
+                  style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 14,
+                    color: _styleUtil.c_61,
+                  ),
+                );
+              },
+            ),
+          ),
+          Container(
+            width: double.maxFinite,
+            margin: const EdgeInsets.only(top: 10),
+            child: Text(
+              desc,
+              style: TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 16,
+                color: _styleUtil.c_24,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class HistoryScoopeType extends StatelessWidget {
+  // General
+  StyleUtil _styleUtil = StyleUtil();
+
+  final String titleHistoryScoope;
+  final List<HistoryItemData> historyData;
+
+  HistoryScoopeType({
+    super.key,
+    required this.titleHistoryScoope,
+    required this.historyData,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            titleHistoryScoope,
+            style: TextStyle(
+              fontFamily: 'Lato',
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              color: _styleUtil.c_61,
+            ),
+          ),
+          ListView.builder(
+            itemCount: historyData.length,
+            shrinkWrap: true,
+            itemBuilder: (context, index){
+              return SubHistoryScoope(
+                titleHistory: historyData[index].historyTitle,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SubHistoryScoope extends StatelessWidget {
+  // General
+  StyleUtil _styleUtil = StyleUtil();
+
+  final String titleHistory;
+
+  SubHistoryScoope({
+    super.key,
+    required this.titleHistory,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 7, left: 28),
+      height: 24,
+      child: Text(
+        titleHistory,
+        style: TextStyle(
+          fontFamily: 'Lato',
+          fontSize: 16,
+          color: _styleUtil.c_61,
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
