@@ -1,7 +1,7 @@
 part of 'values.dart';
 
 class StringConst {
-  // PROJECTS
+  // PROJECTS ------------------------------------------------------------------
   // CAFE APP - KHIP CAFE
   static const String CAFEAPP_KHIPCAFE_PROJECT_NAME = "CafeApp - KhipCafe C#";
   static const String CAFEAPP_KHIPCAFE_PROJECT_DESCRIPTION = "Cafe application that operates in the Desktop field. Has 3 access rights, namely Admin, Cashier, and Manager. Interactive and good user interface design.";
@@ -214,4 +214,36 @@ class StringConst {
   static const String RESTAURANT_KHIP01_HIGHLIGHT_DESCRIPTION = "Not quite related, but part of my journey";
   static const String RESTAURANT_KHIP01_HIGHLIGHT_HEADER = "My stepping stone";
   static const String RESTAURANT_KHIP01_HIGHLIGHT_TOPIC = "Part of My Journey";
+
+  // HISTORY -------------------------------------------------------------------
+  // Hawari Tiger Engine
+  static const String HAWARI_TIGER_ENGINE_TITLE = "Hawari Tiger Engine";
+  static const String HAWARI_TIGER_ENGINE_YEAR = "2023";
+  static const List<String> HAWARI_TIGER_ENGINE_TAG = [
+    "#SoftwareEngineering",
+    "#Freelance",
+    "#Past",
+    "#MobileDev",
+  ];
+  static const String HAWARI_TIGER_ENGINE_DESC = "I worked freelance at CV Hawari Tiger Indonesia. At that time I was invited to join the IT developer team of the company. So I continued my education and also did freelance for 6 months.";
+
+  // Malang State Polytechnic
+  static const String MALANG_STATE_POLYTECHNIC_TITLE = "Malang State Polytechnic";
+  static const String MALANG_STATE_POLYTECHNIC_YEAR = "2023 - 2027";
+  static const List<String> MALANG_STATE_POLYTECHNIC_TAG = [
+    "#SoftwareEngineering",
+    "#College",
+    "#Ongoing"
+  ];
+  static const String MALANG_STATE_POLYTECHNIC_DESC = "I am currently studying as a college student at Malang State Polytechnic, in the Information Technology department, Informatics Engineering study program (or can be called Software Engineering).";
+
+  // State Vocational High School 1 Purwosari
+  static const String VOC_HIGH_SCHOOL_TITLE = "State Vocational High School 1 Purwosari";
+  static const String VOC_HIGH_SCHOOL_YEAR = "2020 - 2023";
+  static const List<String> VOC_HIGH_SCHOOL_TAG = [
+    "#SoftwareEngineering",
+    "#VocationalHighSchool",
+    "#Past"
+  ];
+  static const String VOC_HIGH_SCHOOL_DESC = "I have completed Vocational High School in Software Engineering for 3 years.";
 }
