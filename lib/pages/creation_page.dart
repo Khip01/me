@@ -1393,7 +1393,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _creationsContentSteppingStoneShimmer(){
     return Container(
-      margin: const EdgeInsets.only(top: 76),
+      margin: const EdgeInsets.only(top: 76, bottom: 132),
       height: 338,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
