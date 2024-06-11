@@ -1158,24 +1158,25 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 constraints: const BoxConstraints(
                   maxWidth: 257,
                 ),
-                child: ListView.builder(
+                child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   itemCount: itemData.projectCategories.length,
                   itemBuilder: (BuildContext context, int indexCategories){
-                    final String itemCategories = itemData.projectCategories[indexCategories];
-
-                    if(indexCategories < itemData.projectCategories.length - 1){
-                      return Row(
-                        children: [
-                          Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
-                          Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
-                        ],
-                      );
-                    } else {
-                      return Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
-                    }
-                  }
+                    return Text(
+                      itemData.projectCategories[indexCategories],
+                      style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 12,
+                          color: ref.watch(isDarkMode) ?
+                          _styleUtil.c_238 :
+                          _styleUtil.c_61,
+                      ),
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                  },
                 ),
               ),
               Text(
@@ -1258,7 +1259,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                               height: 12,
                                               width: 40,
                                             ),
-                                            Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                                            const Text("   "),
                                           ],
                                         );
                                       } else {
@@ -1358,24 +1359,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 constraints: const BoxConstraints(
                   maxWidth: 257,
                 ),
-                child: ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: itemData.projectCategories.length,
-                    itemBuilder: (BuildContext context, int indexCategories){
-                      final String itemCategories = itemData.projectCategories[indexCategories];
-
-                      if(indexCategories < itemData.projectCategories.length - 1){
-                        return Row(
-                          children: [
-                            Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
-                            Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
-                          ],
-                        );
-                      } else {
-                        return Text(itemCategories, style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
-                      }
-                    }
+                child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: itemData.projectCategories.length,
+                  itemBuilder: (BuildContext context, int indexCategories){
+                      return Text(itemData.projectCategories[indexCategories], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                  },
                 ),
               ),
               Text(
@@ -1458,7 +1451,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                               height: 12,
                                               width: 40,
                                             ),
-                                            Text(" · ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                                            const Text("   "),
                                           ],
                                         );
                                       } else {
