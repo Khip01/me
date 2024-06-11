@@ -753,21 +753,24 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: SizedBox(),
                   ),
                   // TODO: SIDE RIGHT
-                  Flexible(
-                    flex: 7,
-                    child: SizedBox(
-                      width: double.maxFinite,
-                      child: Column(
-                        children: [
-                          HistoryScoopeType(
-                            titleHistoryScoope: "Work",
-                            historyData: History.historyDataWork,
-                          ),
-                          HistoryScoopeType(
-                            titleHistoryScoope: "Education",
-                            historyData: History.historyDataEdu,
-                          ),
-                        ],
+                  Visibility(
+                    visible: contentHistoryVisible(context),
+                    child: Flexible(
+                      flex: 7,
+                      child: SizedBox(
+                        width: double.maxFinite,
+                        child: Column(
+                          children: [
+                            HistoryScoopeType(
+                              titleHistoryScoope: "Work",
+                              historyData: History.historyDataWork,
+                            ),
+                            HistoryScoopeType(
+                              titleHistoryScoope: "Education",
+                              historyData: History.historyDataEdu,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -866,7 +869,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 }
 
-class HistoryType extends StatelessWidget {
+class HistoryType extends ConsumerWidget {
   // General
   final StyleUtil _styleUtil = StyleUtil();
 
@@ -880,7 +883,7 @@ class HistoryType extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.only(bottom: 60),
       width: double.maxFinite,
@@ -893,7 +896,7 @@ class HistoryType extends StatelessWidget {
               fontFamily: 'Lato',
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: _styleUtil.c_61,
+              color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
             ),
           ),
           ListView.builder(
@@ -915,7 +918,7 @@ class HistoryType extends StatelessWidget {
   }
 }
 
-class HistoryPath extends StatelessWidget {
+class HistoryPath extends ConsumerWidget {
   // General
   StyleUtil _styleUtil = StyleUtil();
 
@@ -933,7 +936,7 @@ class HistoryPath extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.only(top: 30),
       child: Column(
@@ -941,16 +944,21 @@ class HistoryPath extends StatelessWidget {
           SizedBox(
             width: double.maxFinite,
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  title,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: _styleUtil.c_61),
+                Flexible(
+                  fit: FlexFit.tight,
+                  flex: 4,
+                  child: Text(
+                    title,
+                    style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                  ),
                 ),
                 Text(
                   year,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: _styleUtil.c_61),
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                  textAlign: TextAlign.right,
                 ),
               ],
             ),
@@ -959,12 +967,12 @@ class HistoryPath extends StatelessWidget {
             margin: const EdgeInsets.symmetric(vertical: 8),
             width: double.maxFinite,
             height: 1,
-            color: _styleUtil.c_61,
+            color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
           ),
           SizedBox(
             width: double.maxFinite,
             height: 21,
-            child: ListView.builder(
+            child: ListView.separated(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: tag.length,
@@ -974,9 +982,12 @@ class HistoryPath extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 14,
-                    color: _styleUtil.c_61,
+                    color: ref.watch(isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
                   ),
                 );
+              },
+              separatorBuilder: (context, index) {
+                return const Text("  ");
               },
             ),
           ),
@@ -988,7 +999,7 @@ class HistoryPath extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 16,
-                color: _styleUtil.c_24,
+                color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
             ),
           ),
@@ -998,7 +1009,7 @@ class HistoryPath extends StatelessWidget {
   }
 }
 
-class HistoryScoopeType extends StatelessWidget {
+class HistoryScoopeType extends ConsumerWidget {
   // General
   StyleUtil _styleUtil = StyleUtil();
 
@@ -1012,7 +1023,7 @@ class HistoryScoopeType extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       child: Column(
@@ -1024,7 +1035,7 @@ class HistoryScoopeType extends StatelessWidget {
               fontFamily: 'Lato',
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: _styleUtil.c_61,
+              color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
             ),
           ),
           ListView.builder(
@@ -1042,7 +1053,7 @@ class HistoryScoopeType extends StatelessWidget {
   }
 }
 
-class SubHistoryScoope extends StatelessWidget {
+class SubHistoryScoope extends ConsumerWidget {
   // General
   StyleUtil _styleUtil = StyleUtil();
 
@@ -1054,7 +1065,7 @@ class SubHistoryScoope extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.only(top: 7, left: 28),
       height: 24,
@@ -1063,7 +1074,7 @@ class SubHistoryScoope extends StatelessWidget {
         style: TextStyle(
           fontFamily: 'Lato',
           fontSize: 16,
-          color: _styleUtil.c_61,
+          color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
         ),
       ),
     );
