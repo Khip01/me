@@ -4,7 +4,7 @@ class StyleUtil {
 
   // Base Color
   final Color c_170 = const Color.fromARGB(255, 170, 170, 170);
-  final Color c_238 = const Color.fromARGB(255, 238, 238, 238);
+  final Color c_238 = const Color.fromARGB(255, 222, 222, 222);
   final Color c_255 = const Color.fromARGB(255, 255, 255, 255);
   final Color c_61 = const Color.fromARGB(255, 61, 61, 61);
   final Color c_33 = const Color.fromARGB(255, 33, 33, 33);
