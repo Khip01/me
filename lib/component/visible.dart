@@ -20,3 +20,21 @@ bool contentQuoteIconVisible(BuildContext context) => ResponsiveValue(
   ],
   defaultValue: true,
 ).value;
+
+bool contentHistoryVisible(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: 'DESKTOP-MD',
+      value: true,
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-MD',
+      value: true,
+    ),
+    const Condition.smallerThan(
+      name: 'DESKTOP-MD',
+      value: false,
+    ),
+  ],
+).value;
