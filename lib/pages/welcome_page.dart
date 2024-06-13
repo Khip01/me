@@ -426,89 +426,92 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   Widget _navSection() {
     return SizedBox(
       width: double.maxFinite,
-      child: Row(
-        mainAxisAlignment: alignmentRowNav(context),
-        children: [
-          bottomHelper(context),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: Text(
-                  "Welcome",
-                  style: TextStyle(
-                      fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33),
+      child: FittingMobileSizeDecider(
+        sizeIsMobile: getIsMobileSize(context),
+        child: Row(
+          mainAxisAlignment: alignmentRowNav(context),
+          children: [
+            bottomHelper(context),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Text(
+                    "Welcome",
+                    style: TextStyle(
+                        fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyCreationPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[1] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectCreation();
-                    },
-                    child: Text(
-                      "Creation",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: RectGetter(
+                    key: _rectKeyCreationPage,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[1] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectCreation();
+                      },
+                      child: Text(
+                        "Creation",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyHistoryPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[2] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectHistory();
-                    },
-                    child: Text(
-                      "History",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: RectGetter(
+                    key: _rectKeyHistoryPage,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[2] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectHistory();
+                      },
+                      child: Text(
+                        "History",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 0),
-                child: RectGetter(
-                  key: _rectKeyFurtherPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[3] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectFurther();
-                    },
-                    child: Text(
-                      "Further",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[3]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
+                Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: RectGetter(
+                    key: _rectKeyFurtherPage,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[3] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectFurther();
+                      },
+                      child: Text(
+                        "Further",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[3]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

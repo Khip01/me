@@ -459,105 +459,108 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   Widget _navSection() {
     return SizedBox(
       width: double.maxFinite,
-      child: Row(
-        mainAxisAlignment: alignmentRowNav(context),
-        children: [
-          bottomHelper(context),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyWelcomePage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[0] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectWelcome();
-                    },
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[0])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+      child: FittingMobileSizeDecider(
+        sizeIsMobile: getIsMobileSize(context),
+        child: Row(
+          mainAxisAlignment: alignmentRowNav(context),
+          children: [
+            bottomHelper(context),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: RectGetter(
+                    key: _rectKeyWelcomePage,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[0] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectWelcome();
+                      },
+                      child: Text(
+                        "Welcome",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[0])
+                              ? (ref.watch(isDarkMode))
+                              ? _styleUtil.c_255
+                              : _styleUtil.c_33
+                              : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyCreationPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[1] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectCreation();
-                    },
-                    child: Text(
-                      "Creation",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[1])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: RectGetter(
+                    key: _rectKeyCreationPage,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[1] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectCreation();
+                      },
+                      child: Text(
+                        "Creation",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[1])
+                              ? (ref.watch(isDarkMode))
+                              ? _styleUtil.c_255
+                              : _styleUtil.c_33
+                              : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: Text(
-                  "History",
-                  style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 14,
-                      color: (ref.watch(isDarkMode))
-                          ? _styleUtil.c_255
-                          : _styleUtil.c_33),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 0),
-                child: RectGetter(
-                  key: _rectKeyFurtherPage,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[3] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectFurther();
-                    },
-                    child: Text(
-                      "Further",
-                      style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Text(
+                    "History",
+                    style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[3])
-                            ? (ref.watch(isDarkMode))
+                        color: (ref.watch(isDarkMode))
                             ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                            : _styleUtil.c_33),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: RectGetter(
+                    key: _rectKeyFurtherPage,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[3] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectFurther();
+                      },
+                      child: Text(
+                        "Further",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[3])
+                              ? (ref.watch(isDarkMode))
+                              ? _styleUtil.c_255
+                              : _styleUtil.c_33
+                              : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -565,105 +568,108 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   Widget _navSectionSticky() {
     return SizedBox(
       width: double.maxFinite,
-      child: Row(
-        mainAxisAlignment: alignmentRowNav(context),
-        children: [
-          bottomHelper(context),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyWelcomePageSticky,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[0] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectWelcomeSticky();
-                    },
-                    child: Text(
-                      "Welcome",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[0])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+      child: FittingMobileSizeDecider(
+        sizeIsMobile: getIsMobileSize(context),
+        child: Row(
+          mainAxisAlignment: alignmentRowNav(context),
+          children: [
+            bottomHelper(context),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: RectGetter(
+                    key: _rectKeyWelcomePageSticky,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[0] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectWelcomeSticky();
+                      },
+                      child: Text(
+                        "Welcome",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[0])
+                              ? (ref.watch(isDarkMode))
+                              ? _styleUtil.c_255
+                              : _styleUtil.c_33
+                              : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: RectGetter(
-                  key: _rectKeyCreationPageSticky,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[1] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectCreationSticky();
-                    },
-                    child: Text(
-                      "Creation",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (_navHover[1])
-                            ? (ref.watch(isDarkMode))
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: RectGetter(
+                    key: _rectKeyCreationPageSticky,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[1] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectCreationSticky();
+                      },
+                      child: Text(
+                        "Creation",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[1])
+                              ? (ref.watch(isDarkMode))
+                              ? _styleUtil.c_255
+                              : _styleUtil.c_33
+                              : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 30),
-                child: Text(
-                  "History",
-                  style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 14,
-                      color: (ref.watch(isDarkMode))
-                          ? _styleUtil.c_255
-                          : _styleUtil.c_33),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 0),
-                child: RectGetter(
-                  key: _rectKeyFurtherPageSticky,
-                  child: InkWell(
-                    onHover: (value) => setState(() {
-                      _navHover[3] = value;
-                    }),
-                    onTap: () {
-                      _pushNamedWithRectFurtherSticky();
-                    },
-                    child: Text(
-                      "Further",
-                      style: TextStyle(
+                Padding(
+                  padding: const EdgeInsets.only(right: 30),
+                  child: Text(
+                    "History",
+                    style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (_navHover[3])
-                            ? (ref.watch(isDarkMode))
+                        color: (ref.watch(isDarkMode))
                             ? _styleUtil.c_255
-                            : _styleUtil.c_33
-                            : _styleUtil.c_170,
+                            : _styleUtil.c_33),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 0),
+                  child: RectGetter(
+                    key: _rectKeyFurtherPageSticky,
+                    child: InkWell(
+                      onHover: (value) => setState(() {
+                        _navHover[3] = value;
+                      }),
+                      onTap: () {
+                        _pushNamedWithRectFurtherSticky();
+                      },
+                      child: Text(
+                        "Further",
+                        style: TextStyle(
+                          fontFamily: 'Lato',
+                          fontSize: 14,
+                          color: (_navHover[3])
+                              ? (ref.watch(isDarkMode))
+                              ? _styleUtil.c_255
+                              : _styleUtil.c_33
+                              : _styleUtil.c_170,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -719,7 +725,21 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
               child: Column(
                 children: [
-                  Container(padding: const EdgeInsets.only(bottom: 10), width: double.maxFinite, child: Text("U N C O V E R I N G   T H E   P A S T", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),)),
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    width: double.maxFinite,
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        "U N C O V E R I N G   T H E   P A S T",
+                        style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 20,
+                            color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61
+                        ),
+                      ),
+                    ),
+                  ),
                   Text("This section narrates the story of my educational and professional journey, tracing the footsteps of learning and self-development.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
                 ],
               ),
@@ -971,24 +991,19 @@ class HistoryPath extends ConsumerWidget {
           ),
           SizedBox(
             width: double.maxFinite,
-            height: 21,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: tag.length,
-              itemBuilder: (context, index){
+            child: Wrap(
+              spacing: 8.0,
+              runSpacing: 4.0,
+              children: tag.map((item) {
                 return Text(
-                  tag[index],
+                  item,
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 14,
-                    color: ref.watch(isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
+                    color: Colors.black, // Adjust color as needed
                   ),
                 );
-              },
-              separatorBuilder: (context, index) {
-                return const Text("  ");
-              },
+              }).toList(),
             ),
           ),
           Container(
