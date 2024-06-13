@@ -38,3 +38,17 @@ bool contentHistoryVisible(BuildContext context) => ResponsiveValue(
     ),
   ],
 ).value;
+
+bool getIsMobileSize(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: MOBILE,
+      value: false,
+    ),
+    const Condition.equals(
+      name: MOBILE,
+      value: true,
+    ),
+  ],
+).value;

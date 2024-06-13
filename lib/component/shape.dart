@@ -244,3 +244,27 @@ class MySeparator extends StatelessWidget {
     );
   }
 }
+
+class FittingMobileSizeDecider extends StatelessWidget {
+  final Widget child;
+  final bool sizeIsMobile;
+
+  const FittingMobileSizeDecider({
+    super.key,
+    required this.child,
+    required this.sizeIsMobile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if(sizeIsMobile){
+      return FittedBox(
+        fit: BoxFit.fitWidth,
+        child: child,
+      );
+    } else {
+      return child;
+    }
+  }
+
+}
