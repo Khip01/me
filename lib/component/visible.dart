@@ -52,3 +52,21 @@ bool getIsMobileSize(BuildContext context) => ResponsiveValue(
     ),
   ],
 ).value;
+
+bool getIsTabletSize(BuildContext context) => ResponsiveValue(
+    context,
+    conditionalValues: [
+      const Condition.largerThan(
+        name: TABLET,
+        value: false,
+      ),
+      const Condition.equals(
+        name: TABLET,
+        value: true,
+      ),
+      const Condition.smallerThan(
+        name: TABLET,
+        value: false,
+      ),
+    ],
+).value;

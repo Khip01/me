@@ -48,8 +48,12 @@ double contentHighlightWidth (BuildContext context) => ResponsiveValue(
       name: 'DESKTOP-SM',
       value: 491,
     ),
+    const Condition.equals(
+      name: TABLET,
+      value: 391,
+    ),
     const Condition.smallerThan(
-      name: 'DESKTOP-SM',
+      name: TABLET,
       value: 491 * 3 / 5,
     ),
   ],
@@ -67,9 +71,13 @@ double contentHighlightHeight (BuildContext context) => ResponsiveValue(
       name: 'DESKTOP-SM',
       value: 398,
     ),
+    const Condition.equals(
+      name: TABLET,
+      value: 347,
+    ),
     const Condition.smallerThan(
-      name: 'DESKTOP-SM',
-      value: 398 * 3 / 5,
+      name: TABLET,
+      value: (398 * 3 / 5) + 59,
     ),
   ],
   defaultValue: 378,
@@ -86,8 +94,12 @@ double contentHighlightWidthListView (BuildContext context) => ResponsiveValue(
       name: 'DESKTOP-SM',
       value: 519,
     ),
+    const Condition.equals(
+      name: TABLET,
+      value: 419,
+    ),
     const Condition.smallerThan(
-      name: 'DESKTOP-SM',
+      name: TABLET,
       value: 505 * 3 / 5,
     ),
   ],
