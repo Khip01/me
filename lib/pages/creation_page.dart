@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
+import 'package:me/component/visible.dart';
 import 'package:me/controller/controller.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
@@ -770,13 +771,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         constraints: const BoxConstraints(
             maxWidth: 1100,
         ),
-        margin: const EdgeInsets.symmetric(horizontal: 28),
         width: double.maxFinite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               padding: const EdgeInsets.only(bottom: 36),
+              margin: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
               constraints: const BoxConstraints(
                 maxWidth: 471,
               ),
@@ -877,6 +878,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     doFocusScrollSnapListOnFocusHighlight();
     return Container(
         color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
         height: contentHighlightHeight(context),
         child: ScrollSnapList(
           key: _creationHighlightKey,
@@ -901,13 +903,6 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           itemCount: Data.highlightedCreations.length,
           selectedItemAnchor: SelectedItemAnchor.MIDDLE,
         ),
-      // child: ListView.builder(
-      //     scrollDirection: Axis.horizontal,
-      //     itemCount: _creationController.sortCreationsHighlight(creationMap).length,
-      //     itemBuilder: (BuildContext context, int index){
-      //       return _buildListItemHighlight(context, index, _creationController.sortCreationsHighlight(creationMap));
-      //     }
-      // ),
     );
   }
 
@@ -930,11 +925,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           Stack(
             children: [
               Container(
-                height: 310,
+                height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   // color: const Color.fromARGB(255, 214, 216, 218),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
                 ),
                 child: itemImage,
               ),
@@ -943,7 +938,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
                     if(snapshot.hasData){
                       return SizedBox(
-                        height: 310,
+                        height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
                         child: Stack(
                           children: [
                             Align(
@@ -951,7 +946,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               child: Container(
                                 height: 159,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(19),
+                                  borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 9 : 19),
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
@@ -964,9 +959,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
                               decoration: BoxDecoration(
                                 color: snapshot.data!.primaryContainer.withOpacity(.9),
-                                borderRadius: const BorderRadius.only(
-                                  topLeft: Radius.circular(19),
-                                  bottomRight: Radius.circular(19),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(getIsMobileSize(context) ? 9 : 19),
+                                  bottomRight: Radius.circular(getIsMobileSize(context) ? 9 : 19),
                                 ),
                               ),
                               child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
@@ -974,13 +969,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 22),
+                                padding: EdgeInsets.symmetric(horizontal: 14, vertical: getIsMobileSize(context) ? 14 : 22),
                                 width: double.maxFinite,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                    Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20 - (getIsMobileSize(context) ? 4 : 0), color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
                                     Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
                                   ],
                                 ),
@@ -1055,6 +1050,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     return Container(
       color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
       height: contentHighlightHeight(context),
+      margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
       child: Shimmer.fromColors(
         baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
         highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
@@ -1070,11 +1066,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 310,
+                    height: 310 - (getIsMobileSize(context) ? 101 :  getIsTabletSize(context) ? 51: 0),
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 214, 216, 218),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
                     ),
                   ),
                   Container(
@@ -1117,19 +1113,23 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: CREATIONS CONTENT RELATED PROJECT
   Widget _creationsContentRelatedProject(){
     return Container(
-      margin: const EdgeInsets.only(top: 76),
-      height: 338,
+      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
+      height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 26,
-            child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
+            child: SizedBox(
+              height: 26,
+              child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
-            height: 286,
+            height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: ListView.builder(
+              padding: const EdgeInsets.only(left: 28),
               scrollDirection: Axis.horizontal,
               itemCount: Data.relatedCreations.length,
               itemBuilder: (BuildContext context, int index){
@@ -1150,14 +1150,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
     return Container(
       margin: const EdgeInsets.only(right: 28),
-      height: 286,
-      width: 359,
+      // height: 286 - (getIsMobileSize(context) ? 71 : 0), check the Listview
+      // builder to edit the height
+      width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 227,
+            height: 227 - (getIsMobileSize(context) ? 71 : 0),
             width: double.maxFinite,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -1176,8 +1177,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             children: [
               Container(
                 height: 16,
-                constraints: const BoxConstraints(
-                  maxWidth: 257,
+                constraints: BoxConstraints(
+                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
                 ),
                 child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
@@ -1215,35 +1216,38 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _creationsContentRelatedProjectShimmer(){
     return Container(
-      margin: const EdgeInsets.only(top: 76),
-      height: 338,
+      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
+      height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 26,
-            child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
+            child: SizedBox(
+              height: 26,
+              child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
-            height: 286,
+            height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: Shimmer.fromColors(
               baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
               highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
               child: ListView.builder(
+                  padding: const EdgeInsets.only(left: 28),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   itemBuilder: (BuildContext context, int index){
                     return Container(
                       margin: const EdgeInsets.only(right: 28),
-                      height: 286,
-                      width: 359,
+                      width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 227,
+                            height: 227 - (getIsMobileSize(context) ? 71 : 0),
                             width: double.maxFinite,
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
@@ -1263,8 +1267,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                             children: [
                               Container(
                                 height: 16,
-                                constraints: const BoxConstraints(
-                                  maxWidth: 257,
+                                constraints: BoxConstraints(
+                                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
                                 ),
                                 child: ListView.builder(
                                     physics: const NeverScrollableScrollPhysics(),
@@ -1297,7 +1301,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 4),
                                 color: const Color.fromARGB(255, 214, 216, 218),
-                                width: 100,
+                                width: 100 - (getIsMobileSize(context) ? 28 : 0),
                                 height: 10,
                               ),
                             ],
@@ -1318,19 +1322,23 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: CREATION CONTENT STEPPING STONE
   Widget _creationsContentSteppingStone(){
     return Container(
-      margin: const EdgeInsets.only(top: 76, bottom: 132),
-      height: 338,
+      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 132 +  (getIsMobileSize(context) ? 71 : 0)),
+      height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 26,
-            child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
+            child: SizedBox(
+              height: 26,
+              child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
-            height: 286,
+            height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: ListView.builder(
+                padding: const EdgeInsets.only(left: 28),
                 scrollDirection: Axis.horizontal,
                 itemCount: Data.anotherCreations.length,
                 itemBuilder: (BuildContext context, int index){
@@ -1351,14 +1359,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
     return Container(
       margin: const EdgeInsets.only(right: 28),
-      height: 286,
-      width: 359,
+      // height: 286 - (getIsMobileSize(context) ? 71 : 0), check the Listview
+      // builder to edit the height
+      width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 227,
+            height: 227 - (getIsMobileSize(context) ? 71 : 0),
             width: double.maxFinite,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
@@ -1377,8 +1386,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             children: [
               Container(
                 height: 16,
-                constraints: const BoxConstraints(
-                  maxWidth: 257,
+                constraints: BoxConstraints(
+                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
                 ),
                 child: ListView.separated(
                   physics: const NeverScrollableScrollPhysics(),
@@ -1407,35 +1416,38 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _creationsContentSteppingStoneShimmer(){
     return Container(
-      margin: const EdgeInsets.only(top: 76, bottom: 132),
-      height: 338,
+      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 132 + (getIsMobileSize(context) ? 71 : 0)),
+      height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 26,
-            child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
+            child: SizedBox(
+              height: 26,
+              child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
-            height: 286,
+            height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: Shimmer.fromColors(
               baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
               highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
               child: ListView.builder(
+                  padding: const EdgeInsets.only(left: 28),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   itemBuilder: (BuildContext context, int index){
                     return Container(
                       margin: const EdgeInsets.only(right: 28),
-                      height: 286,
-                      width: 359,
+                      width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            height: 227,
+                            height: 227 - (getIsMobileSize(context) ? 71 : 0),
                             width: double.maxFinite,
                             clipBehavior: Clip.antiAlias,
                             decoration: BoxDecoration(
@@ -1455,8 +1467,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                             children: [
                               Container(
                                 height: 16,
-                                constraints: const BoxConstraints(
-                                  maxWidth: 257,
+                                constraints: BoxConstraints(
+                                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
                                 ),
                                 child: ListView.builder(
                                     physics: const NeverScrollableScrollPhysics(),
@@ -1489,7 +1501,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 4),
                                 color: const Color.fromARGB(255, 214, 216, 218),
-                                width: 100,
+                                width: 100 - (getIsMobileSize(context) ? 28 : 0),
                                 height: 10,
                               ),
                             ],
