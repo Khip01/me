@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
+import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -20,6 +21,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: ------ Declaration ------
   // --- General ---
   final StyleUtil _styleUtil = StyleUtil();
+  final IconUtil _iconUtil = IconUtil();
 
   late double scrHeight;
 
@@ -207,6 +209,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       },
                     ),
                     _historyPageSection(),
+                    _footerTechnology(),
                   ]
               ),
             ],
@@ -746,7 +749,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(bottom: 132 - 60, top: 60),
+              margin: const EdgeInsets.only(bottom: 93 - 60, top: 60),
               width: double.maxFinite,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -799,6 +802,27 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _footerTechnology(){
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 39),
+      child: Center(
+        child: SizedBox(
+          width: 125,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Image.asset(_iconUtil.flutterLogo),
+              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Image.asset(_iconUtil.firebaseLogo),
+            ],
+          ),
         ),
       ),
     );

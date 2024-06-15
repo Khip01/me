@@ -6,10 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
-import 'package:me/component/visible.dart';
 import 'package:me/controller/controller.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
+import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/scroll_behavior.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -31,6 +31,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // --- General ---
   final StyleUtil _styleUtil = StyleUtil();
   final CreationController _creationController = CreationController();
+  final IconUtil _iconUtil = IconUtil();
 
   late double scrHeight;
 
@@ -239,6 +240,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                       }
                     ),
                     _creationPageSection(),
+                    _footerTechnology(),
                   ]
               ),
             ],
@@ -1329,15 +1331,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: CREATION CONTENT STEPPING STONE
   Widget _creationsContentSteppingStone(){
     return Container(
-      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 132 +  (getIsMobileSize(context) ? 71 : 0)),
-      height: 338 - (getIsMobileSize(context) ? 71 : 0),
+      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 93 +  (getIsMobileSize(context) ? 71 : 0)),
+      // height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
             child: SizedBox(
-              height: 26,
+              // height: 26,
               child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
             ),
           ),
@@ -1426,15 +1428,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _creationsContentSteppingStoneShimmer(){
     return Container(
-      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 132 + (getIsMobileSize(context) ? 71 : 0)),
-      height: 338 - (getIsMobileSize(context) ? 71 : 0),
+      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
+      // height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
             child: SizedBox(
-              height: 26,
+              // height: 26,
               child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
             ),
           ),
@@ -1528,6 +1530,27 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
   // TODO: END
+
+  Widget _footerTechnology(){
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 39),
+      child: Center(
+        child: SizedBox(
+          width: 125,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Image.asset(_iconUtil.flutterLogo),
+              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Image.asset(_iconUtil.firebaseLogo),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   // ------ Transition Page -----
   Widget _transitionToWelcomePage(Rect? rectWelcome) {
