@@ -1001,7 +1001,7 @@ class HistoryPath extends ConsumerWidget {
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 14,
-                    color: Colors.black, // Adjust color as needed
+                    color: ref.watch(isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61
                   ),
                 );
               }).toList(),
