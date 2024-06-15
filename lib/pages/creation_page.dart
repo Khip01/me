@@ -10,6 +10,7 @@ import 'package:me/component/visible.dart';
 import 'package:me/controller/controller.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
+import 'package:me/widget/scroll_behavior.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:shimmer/shimmer.dart';
@@ -880,28 +881,31 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
         margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
         height: contentHighlightHeight(context),
-        child: ScrollSnapList(
-          key: _creationHighlightKey,
-          duration: 600,
-          curve: Easing.legacyDecelerate,
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          onItemFocus: (int index) {
-            // setState(() {
-            _focusedIndexHighlight = index;
-            // });
-          },
-          onReachEnd: () {
-            // setState(() {
-            _focusedIndexHighlight = -1;
-            // });
-          },
-          itemSize: contentHighlightWidthListView(context),
-          itemBuilder: (context, index) {
-            // Build item berdasarkan data creationsMap
-            return _buildListItemHighlight(context, index, Data.highlightedCreations);
-          },
-          itemCount: Data.highlightedCreations.length,
-          selectedItemAnchor: SelectedItemAnchor.MIDDLE,
+        child: ScrollConfiguration(
+          behavior: ScrollWithDragBehavior(), // My Custom Behavior for Drag ListView
+          child: ScrollSnapList(
+            key: _creationHighlightKey,
+            duration: 600,
+            curve: Easing.legacyDecelerate,
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            onItemFocus: (int index) {
+              // setState(() {
+              _focusedIndexHighlight = index;
+              // });
+            },
+            onReachEnd: () {
+              // setState(() {
+              _focusedIndexHighlight = -1;
+              // });
+            },
+            itemSize: contentHighlightWidthListView(context),
+            itemBuilder: (context, index) {
+              // Build item berdasarkan data creationsMap
+              return _buildListItemHighlight(context, index, Data.highlightedCreations);
+            },
+            itemCount: Data.highlightedCreations.length,
+            selectedItemAnchor: SelectedItemAnchor.MIDDLE,
+          ),
         ),
     );
   }
@@ -1128,13 +1132,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           Container(
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
-            child: ListView.builder(
-              padding: const EdgeInsets.only(left: 28),
-              scrollDirection: Axis.horizontal,
-              itemCount: Data.relatedCreations.length,
-              itemBuilder: (BuildContext context, int index){
-                return _buildListItemRelatedProject(context, index, Data.relatedCreations);
-              }
+            child: ScrollConfiguration(
+              behavior: ScrollWithDragBehavior(), // My Custom Behavior for Drag ListView
+              child: ListView.builder(
+                padding: const EdgeInsets.only(left: 28),
+                scrollDirection: Axis.horizontal,
+                itemCount: Data.relatedCreations.length,
+                itemBuilder: (BuildContext context, int index){
+                  return _buildListItemRelatedProject(context, index, Data.relatedCreations);
+                }
+              ),
             ),
           ),
         ],
@@ -1337,13 +1344,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           Container(
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
-            child: ListView.builder(
-                padding: const EdgeInsets.only(left: 28),
-                scrollDirection: Axis.horizontal,
-                itemCount: Data.anotherCreations.length,
-                itemBuilder: (BuildContext context, int index){
-                  return _buildListItemSteppingStone(context, index, Data.anotherCreations);
-                }
+            child: ScrollConfiguration(
+              behavior: ScrollWithDragBehavior(),  // My Custom Behavior for Drag ListView
+              child: ListView.builder(
+                  padding: const EdgeInsets.only(left: 28),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: Data.anotherCreations.length,
+                  itemBuilder: (BuildContext context, int index){
+                    return _buildListItemSteppingStone(context, index, Data.anotherCreations);
+                  }
+              ),
             ),
           ),
         ],
