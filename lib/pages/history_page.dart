@@ -724,12 +724,13 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               ),
               color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     padding: const EdgeInsets.only(bottom: 10),
-                    width: double.maxFinite,
+                    width: 317,
                     child: FittedBox(
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.fill,
                       child: Text(
                         "U N C O V E R I N G   T H E   P A S T",
                         style: TextStyle(
