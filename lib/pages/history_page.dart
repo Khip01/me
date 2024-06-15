@@ -244,7 +244,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               padding: contentCardPadding(context),
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
                 color: (ref.watch(isDarkMode))
                     ? _styleUtil.c_33
                     : _styleUtil.c_255,
