@@ -79,6 +79,7 @@ flutter:
     - assets/icons/waving_hand.png
     - assets/icons/flutter_16.png
     - assets/icons/firebase16.png
+    - assets/icons/firebasenew16.png
     - assets/icons/incognito_mode.png
     - assets/icons/incognito_fingerprint.png
     - assets/icons/iconcognito_mask.png

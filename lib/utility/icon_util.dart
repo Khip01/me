@@ -1,9 +1,10 @@
 class IconUtil {
+  // General
+  final String flutterLogo = 'assets/icons/flutter_16.png';
+  final String firebaseLogo = 'assets/icons/firebase16.png'; // Currently not in use
+  final String firebaseLogoNew = 'assets/icons/firebasenew16.png';
   // Welcome Page
   final String wavingHand = 'assets/icons/waving_hand.png';
-  // Further Page
-  final String flutterLogo = 'assets/icons/flutter_16.png';
-  final String firebaseLogo = 'assets/icons/firebase16.png';
   // Icons Social Media
   final String imgGithubDefault = "assets/icons/github/github_default.png"; // Github
   final String imgGithubDark = "assets/icons/github/github_hover_dark.png";

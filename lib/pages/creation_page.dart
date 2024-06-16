@@ -1542,9 +1542,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Image.asset(_iconUtil.flutterLogo),
+              Tooltip(message: "Flutter Framework", child: Image.asset(_iconUtil.flutterLogo)),
               Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Image.asset(_iconUtil.firebaseLogo),
+              Tooltip(message: "Firebase RTDB", child: Image.asset(_iconUtil.firebaseLogoNew)),
             ],
           ),
         ),
