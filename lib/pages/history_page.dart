@@ -5,6 +5,7 @@ import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
+import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
@@ -384,25 +385,21 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           // alignment: Alignment.center,
           child: IgnorePointer(
             ignoring: ignoreTapping,
-            child: InkWell(
-              onHover: (value) {
-                setState(() {
-                  _themeSwitch = value;
-                });
+            child: TextHighlightDecider(
+              isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+              colorStart: _styleUtil.c_170,
+              colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+              actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+              delayAfterAnimation: const Duration(milliseconds: 300),
+              additionalOnTapAction: () => switchWithTransition(),
+              additionalOnHoverAction: (value) => setState(() => _themeSwitch = value),
+              builder: (Color color){
+                return Icon(
+                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  size: 32,
+                  color: color,
+                );
               },
-              onTap: () {
-                // Dark/Light Mode switch
-                switchWithTransition();
-              },
-              child: Icon(
-                (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-                size: 32,
-                color: (_themeSwitch)
-                    ? (ref.watch(isDarkMode))
-                    ? _styleUtil.c_255
-                    : _styleUtil.c_24
-                    : _styleUtil.c_170,
-              ),
             ),
           ),
         ),
@@ -474,25 +471,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyWelcomePage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[0] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectWelcome();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectWelcome(),
+                      builder: (Color color){
+                        return Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Welcome",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[0])
-                              ? (ref.watch(isDarkMode))
-                              ? _styleUtil.c_255
-                              : _styleUtil.c_33
-                              : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -500,25 +494,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyCreationPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[1] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectCreation();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectCreation(),
+                      builder: (Color color){
+                        return Text(
+                          "Creation",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Creation",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[1])
-                              ? (ref.watch(isDarkMode))
-                              ? _styleUtil.c_255
-                              : _styleUtil.c_33
-                              : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -538,25 +529,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 0),
                   child: RectGetter(
                     key: _rectKeyFurtherPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[3] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectFurther();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectFurther(),
+                      builder: (Color color){
+                        return Text(
+                          "Further",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Further",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[3])
-                              ? (ref.watch(isDarkMode))
-                              ? _styleUtil.c_255
-                              : _styleUtil.c_33
-                              : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -583,25 +571,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyWelcomePageSticky,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[0] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectWelcomeSticky();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
+                      builder: (Color color){
+                        return Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Welcome",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[0])
-                              ? (ref.watch(isDarkMode))
-                              ? _styleUtil.c_255
-                              : _styleUtil.c_33
-                              : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -609,25 +594,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyCreationPageSticky,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[1] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectCreationSticky();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectCreationSticky(),
+                      builder: (Color color){
+                        return Text(
+                          "Creation",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Creation",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[1])
-                              ? (ref.watch(isDarkMode))
-                              ? _styleUtil.c_255
-                              : _styleUtil.c_33
-                              : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -647,25 +629,22 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 0),
                   child: RectGetter(
                     key: _rectKeyFurtherPageSticky,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[3] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectFurtherSticky();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
+                      builder: (Color color){
+                        return Text(
+                          "Further",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Further",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[3])
-                              ? (ref.watch(isDarkMode))
-                              ? _styleUtil.c_255
-                              : _styleUtil.c_33
-                              : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),

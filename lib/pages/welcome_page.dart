@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:me/component/visible.dart';
 import 'package:me/utility/utility.dart';
 import 'package:me/component/components.dart';
+import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:me/provider/theme_provider.dart';
@@ -27,8 +29,6 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   bool isFromLeft = true, transitionIsActive = false, ignoreTapping = false;
 
   // --- Nav Section ---
-  // Nav List Hover
-  final List<bool> _navHover = List.generate(4, (index) => index == 0 ? true : false);
   //  Other Hover
   bool githubHover = false, cvHover = false, themeSwitch = false;
 
@@ -254,21 +254,21 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
           // alignment: Alignment.center,
           child: IgnorePointer(
             ignoring: ignoreTapping,
-            child: InkWell(
-              onHover: (value) {
-                setState(() {
-                  themeSwitch = value;
-                });
+            child: TextHighlightDecider(
+              isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+              colorStart: _styleUtil.c_170,
+              colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+              actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+              delayAfterAnimation: const Duration(milliseconds: 300),
+              additionalOnTapAction: () => switchWithTransition(),
+              additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
+              builder: (Color color){
+                return Icon(
+                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  size: 32,
+                  color: color,
+                );
               },
-              onTap: () {
-                // Dark/Light Mode switch
-                switchWithTransition();
-              },
-              child: Icon(
-                (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-                size: 32,
-                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
-              ),
             ),
           ),
         ),
@@ -349,71 +349,67 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             child: Row(
               mainAxisAlignment: alignmentRowLink(context),
               children: [
-                InkWell(
-                  onHover: (value) {
-                    setState(() {
-                      githubHover = value;
-                    });
-                  },
-                  onTap: () async {
-                    await _showSnackbar("Github Opened Successfully!", _linkUtil.githubLink);
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        "See My Github Journey",
-                        style: TextStyle(
-                          fontFamily: "Lato",
-                          fontSize: fontSizeWelcomeResize(context),
-                          fontWeight: FontWeight.w400,
-                          color:
-                              (githubHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Icon(
-                          Icons.open_in_new,
-                          color:
-                              (githubHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
-                          size: iconSizeWelcomeResize(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: InkWell(
-                    onHover: (value) {
-                      setState(() {
-                        cvHover = value;
-                      });
-                    },
-                    onTap: () async {
-                      await _showSnackbar("CV Opened Successfully!", _linkUtil.cvLink);
-                    },
-                    child: Row(
+                TextHighlightDecider(
+                  isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                  colorStart: _styleUtil.c_170,
+                  colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                  actionDelay: const Duration(milliseconds: 1000),
+                  additionalOnTapAction: () async => await _showSnackbar("Github Opened Successfully!", _linkUtil.githubLink),
+                  builder: (Color color){
+                    return Row(
                       children: [
                         Text(
-                          "See My CV",
+                          "See My Github Journey",
                           style: TextStyle(
                             fontFamily: "Lato",
                             fontSize: fontSizeWelcomeResize(context),
                             fontWeight: FontWeight.w400,
-                            color: (cvHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
+                            color: color,
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Icon(
                             Icons.open_in_new,
-                            color: (cvHover) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : _styleUtil.c_170,
+                            color: color,
                             size: iconSizeWelcomeResize(context),
                           ),
                         ),
                       ],
-                    ),
+                    );
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30),
+                  child: TextHighlightDecider(
+                    isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: _styleUtil.c_170,
+                    colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                    actionDelay: const Duration(milliseconds: 1000),
+                    additionalOnTapAction: () async => await _showSnackbar("CV Opened Successfully!", _linkUtil.cvLink),
+                    builder: (Color color){
+                      return Row(
+                        children: [
+                          Text(
+                            "See My CV",
+                            style: TextStyle(
+                              fontFamily: "Lato",
+                              fontSize: fontSizeWelcomeResize(context),
+                              fontWeight: FontWeight.w400,
+                              color: color,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Icon(
+                              Icons.open_in_new,
+                              color: color,
+                              size: iconSizeWelcomeResize(context),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],
@@ -446,21 +442,22 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyCreationPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[1] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectCreation();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectCreation(),
+                      builder: (Color color){
+                        return Text(
+                          "Creation",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Creation",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -468,21 +465,22 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyHistoryPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[2] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectHistory();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectHistory(),
+                      builder: (Color color){
+                        return Text(
+                          "History",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "History",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -490,21 +488,22 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   padding: const EdgeInsets.only(right: 0),
                   child: RectGetter(
                     key: _rectKeyFurtherPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[3] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectFurther();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectFurther(),
+                      builder: (Color color){
+                        return Text(
+                          "Further",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Further",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[3]) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33 : _styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),

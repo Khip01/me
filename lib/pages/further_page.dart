@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/utility/utility.dart';
 import 'package:me/component/components.dart';
+import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:me/provider/theme_provider.dart';
@@ -18,9 +19,9 @@ class FurtherPage extends ConsumerStatefulWidget {
 class _FurtherPageState extends ConsumerState<FurtherPage> {
   // TODO: ------ Declaration ------
   // --- General ---
-  final StyleUtil styleUtil = StyleUtil();
-  final IconUtil iconUtil = IconUtil();
-  final LinkUtil linkUtil = LinkUtil();
+  final StyleUtil _styleUtil = StyleUtil();
+  final IconUtil _iconUtil = IconUtil();
+  final LinkUtil _linkUtil = LinkUtil();
 
   // --- Content Top Section ---
   // Dark/Light Theme Switch
@@ -86,7 +87,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (ref.watch(isDarkMode)) ? styleUtil.c_success_dark : styleUtil.c_success_light,
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -96,7 +97,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       padding: const EdgeInsets.only(right: 10),
                       child: Icon(
                         Icons.check_circle,
-                        color: styleUtil.c_255,
+                        color: _styleUtil.c_255,
                       ),
                     ),
                     Text(
@@ -106,7 +107,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                         fontFamily: "Lato",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: styleUtil.c_255,
+                        color: _styleUtil.c_255,
                       ),
                     ),
                   ],
@@ -152,7 +153,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       children: [
         Scaffold(
           body: Container(
-            color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
             height: scrHeight,
             padding: mainCardPaddingWithBottomQuote(context),
             child: Column(
@@ -167,7 +168,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: (ref.watch(isDarkMode)) ? styleUtil.c_33 : styleUtil.c_255,
+                      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
                       boxShadow: [
                         BoxShadow(
                           color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
@@ -250,7 +251,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 12,
-                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : Colors.transparent),
+                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
               "change mode",
@@ -262,21 +263,21 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
           // alignment: Alignment.center,
           child: IgnorePointer(
             ignoring: ignoreTapping,
-            child: InkWell(
-              onHover: (value) {
-                setState(() {
-                  themeSwitch = value;
-                });
+            child: TextHighlightDecider(
+              isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+              colorStart: _styleUtil.c_170,
+              colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+              actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+              delayAfterAnimation: const Duration(milliseconds: 300),
+              additionalOnTapAction: () => switchWithTransition(),
+              additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
+              builder: (Color color){
+                return Icon(
+                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  size: 32,
+                  color: color,
+                );
               },
-              onTap: () {
-                // Dark/Light Mode switch
-                switchWithTransition();
-              },
-              child: Icon(
-                (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-                size: 32,
-                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_24 : styleUtil.c_170,
-              ),
             ),
           ),
         ),
@@ -305,7 +306,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   color:
-                  (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33,
+                  (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -332,14 +333,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    onTap: () async => await _showSnackbar("Github Opened Successfully!", linkUtil.githubLink),
+                    onTap: () async => await _showSnackbar("Github Opened Successfully!", _linkUtil.githubLink),
                     onHover: (val) {
                       setState(() {
                         _iconsHover[0] = val;
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGithubDark : iconUtil.imgGithubLight : iconUtil.imgGithubDefault,
+                      (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight : _iconUtil.imgGithubDefault,
                     ),
                   ),
                 ),
@@ -350,14 +351,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    onTap: () async => await _showSnackbar("Instagram Opened Successfully!", linkUtil.instaLink),
+                    onTap: () async => await _showSnackbar("Instagram Opened Successfully!", _linkUtil.instaLink),
                     onHover: (val) {
                       setState(() {
                         _iconsHover[1] = val;
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? iconUtil.imgInstagramDark : iconUtil.imgInstagramLight : iconUtil.imgInstagramDefault,
+                      (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgInstagramDark : _iconUtil.imgInstagramLight : _iconUtil.imgInstagramDefault,
                     ),
                   ),
               ),
@@ -368,14 +369,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    onTap: () async => await _showSnackbar("Facebook Opened Successfully!", linkUtil.facebookLink),
+                    onTap: () async => await _showSnackbar("Facebook Opened Successfully!", _linkUtil.facebookLink),
                     onHover: (val) {
                       setState(() {
                         _iconsHover[2] = val;
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? iconUtil.imgFacebookDark : iconUtil.imgFacebookLight : iconUtil.imgFacebookDefault,
+                      (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgFacebookDark : _iconUtil.imgFacebookLight : _iconUtil.imgFacebookDefault,
                     ),
                   ),
               ),
@@ -386,14 +387,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    onTap: () async => await _showSnackbar("Gmail Opened Successfully!", linkUtil.gmailLink),
+                    onTap: () async => await _showSnackbar("Gmail Opened Successfully!", _linkUtil.gmailLink),
                     onHover: (val) {
                       setState(() {
                         _iconsHover[3] = val;
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? iconUtil.imgGmailDark : iconUtil.imgGmailLight : iconUtil.imgGmailDefault,
+                      (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgGmailDark : _iconUtil.imgGmailLight : _iconUtil.imgGmailDefault,
                     ),
                   ),
               ),
@@ -404,14 +405,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     customBorder: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(50),
                     ),
-                    onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", linkUtil.linkedinLink),
+                    onTap: () async => await _showSnackbar("LinkedIn Opened Successfully!", _linkUtil.linkedinLink),
                     onHover: (val) {
                       setState(() {
                         _iconsHover[4] = val;
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? iconUtil.imgLinkedinDark : iconUtil.imgLinkedinLight : iconUtil.imgLinkedinDefault,
+                      (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgLinkedinDark : _iconUtil.imgLinkedinLight : _iconUtil.imgLinkedinDefault,
                     ),
                   ),
               ),
@@ -437,21 +438,22 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyWelcomePage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[0] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectWelcome();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectWelcome(),
+                      builder: (Color color){
+                        return Text(
+                          "Welcome",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Welcome",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[0]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -459,21 +461,22 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyCreationPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[1] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectCreation();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectCreation(),
+                      builder: (Color color){
+                        return Text(
+                          "Creation",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "Creation",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[1]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -481,21 +484,22 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: RectGetter(
                     key: _rectKeyHistoryPage,
-                    child: InkWell(
-                      onHover: (value) => setState(() {
-                        _navHover[2] = value;
-                      }),
-                      onTap: () {
-                        _pushNamedWithRectHistory();
+                    child: TextHighlightDecider(
+                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: _styleUtil.c_170,
+                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      additionalOnTapAction: () => _pushNamedWithRectHistory(),
+                      builder: (Color color){
+                        return Text(
+                          "History",
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: color,
+                          ),
+                        );
                       },
-                      child: Text(
-                        "History",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 14,
-                          color: (_navHover[2]) ? (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33 : styleUtil.c_170,
-                        ),
-                      ),
                     ),
                   ),
                 ),
@@ -504,7 +508,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   child: Text(
                     "Further",
                     style: TextStyle(
-                        fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? styleUtil.c_255 : styleUtil.c_33),
+                        fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33),
                   ),
                 ),
               ],
@@ -527,10 +531,10 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
-              Tooltip(message: "Flutter Framework", child: Image.asset(iconUtil.flutterLogo)),
-              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: styleUtil.c_170),),
-              Tooltip(message: "Firebase RTDB", child: Image.asset(iconUtil.firebaseLogoNew)),
+              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Tooltip(message: "Flutter Framework", child: Image.asset(_iconUtil.flutterLogo)),
+              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Tooltip(message: "Firebase RTDB", child: Image.asset(_iconUtil.firebaseLogoNew)),
             ],
           ),
         ),
@@ -551,7 +555,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       left: _rectWelcome!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -570,7 +574,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       left: _rectCreation!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -589,7 +593,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       left: _rectHistory!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -605,7 +609,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? styleUtil.c_61 : styleUtil.c_170,
+            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
             shape: BoxShape.rectangle
         ),
       ),

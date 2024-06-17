@@ -11,6 +11,7 @@ import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/scroll_behavior.dart';
+import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,7 +31,6 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: ------ Declaration ------
   // --- General ---
   final StyleUtil _styleUtil = StyleUtil();
-  final CreationController _creationController = CreationController();
   final IconUtil _iconUtil = IconUtil();
 
   late double scrHeight;
@@ -41,13 +41,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   bool isFromLeft = true, transitionIsActive = false, ignoreTapping = false;
 
   // --- Nav Section ---
-  // Nav List Hover
-  final List<bool> _navHover =
-      List.generate(4, (index) => index == 1 ? true : false);
   // Controller for Sliver Nav
   static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
-  // Sticky Nav Header Condition
-  bool _navIsSticky = false;
   // Value Notifier Sticky Nav Header
   late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
 
@@ -417,25 +412,21 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               // alignment: Alignment.center,
               child: IgnorePointer(
                 ignoring: ignoreTapping,
-                child: InkWell(
-                  onHover: (value) {
-                    setState(() {
-                      themeSwitch = value;
-                    });
+                child: TextHighlightDecider(
+                  isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                  colorStart: _styleUtil.c_170,
+                  colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                  actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                  delayAfterAnimation: const Duration(milliseconds: 300),
+                  additionalOnTapAction: () => switchWithTransition(),
+                  additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
+                  builder: (Color color){
+                    return Icon(
+                      (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                      size: 32,
+                      color: color,
+                    );
                   },
-                  onTap: () {
-                    // Dark/Light Mode switch
-                    switchWithTransition();
-                  },
-                  child: Icon(
-                    (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
-                    size: 32,
-                    color: (themeSwitch)
-                        ? (ref.watch(isDarkMode))
-                        ? _styleUtil.c_255
-                        : _styleUtil.c_24
-                        : _styleUtil.c_170,
-                  ),
                 ),
               ),
             ),
@@ -511,25 +502,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     builder: (BuildContext context, setState){
                       return RectGetter(
                         key: _rectKeyWelcomePage,
-                        child: InkWell(
-                          onHover: (value) => setState(() {
-                            _navHover[0] = value;
-                          }),
-                          onTap: () {
-                            _pushNamedWithRectWelcome();
+                        child: TextHighlightDecider(
+                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                          colorStart: _styleUtil.c_170,
+                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          additionalOnTapAction: () => _pushNamedWithRectWelcome(),
+                          builder: (Color color){
+                            return Text(
+                              "Welcome",
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 14,
+                                color: color,
+                              ),
+                            );
                           },
-                          child: Text(
-                            "Welcome",
-                            style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 14,
-                              color: (_navHover[0])
-                                  ? (ref.watch(isDarkMode))
-                                  ? _styleUtil.c_255
-                                  : _styleUtil.c_33
-                                  : _styleUtil.c_170,
-                            ),
-                          ),
                         ),
                       );
                     },
@@ -553,25 +541,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                       builder: (BuildContext context, setState) {
                         return RectGetter(
                           key: _rectKeyHistoryPage,
-                          child: InkWell(
-                            onHover: (value) => setState(() {
-                              _navHover[2] = value;
-                            }),
-                            onTap: () {
-                              _pushNamedWithRectHistory();
+                          child: TextHighlightDecider(
+                            isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                            colorStart: _styleUtil.c_170,
+                            colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                            actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                            additionalOnTapAction: () => _pushNamedWithRectHistory(),
+                            builder: (Color color){
+                              return Text(
+                                "History",
+                                style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize: 14,
+                                  color: color,
+                                ),
+                              );
                             },
-                            child: Text(
-                              "History",
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
-                                color: (_navHover[2])
-                                    ? (ref.watch(isDarkMode))
-                                    ? _styleUtil.c_255
-                                    : _styleUtil.c_33
-                                    : _styleUtil.c_170,
-                              ),
-                            ),
                           ),
                         );
                       }
@@ -583,25 +568,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     builder: (BuildContext context, setState){
                       return RectGetter(
                         key: _rectKeyFurtherPage,
-                        child: InkWell(
-                          onHover: (value) => setState(() {
-                            _navHover[3] = value;
-                          }),
-                          onTap: () {
-                            _pushNamedWithRectFurther();
+                        child: TextHighlightDecider(
+                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                          colorStart: _styleUtil.c_170,
+                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          additionalOnTapAction: () => _pushNamedWithRectFurther(),
+                          builder: (Color color){
+                            return Text(
+                              "Further",
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 14,
+                                color: color,
+                              ),
+                            );
                           },
-                          child: Text(
-                            "Further",
-                            style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 14,
-                              color: (_navHover[3])
-                                  ? (ref.watch(isDarkMode))
-                                  ? _styleUtil.c_255
-                                  : _styleUtil.c_33
-                                  : _styleUtil.c_170,
-                            ),
-                          ),
                         ),
                       );
                     },
@@ -632,25 +614,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     builder: (BuildContext context, setState){
                       return RectGetter(
                         key: _rectKeyWelcomePageSticky,
-                        child: InkWell(
-                          onHover: (value) => setState(() {
-                            _navHover[0] = value;
-                          }),
-                          onTap: () {
-                            _pushNamedWithRectWelcomeSticky();
+                        child: TextHighlightDecider(
+                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                          colorStart: _styleUtil.c_170,
+                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
+                          builder: (Color color){
+                            return Text(
+                              "Welcome",
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 14,
+                                color: color,
+                              ),
+                            );
                           },
-                          child: Text(
-                            "Welcome",
-                            style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 14,
-                              color: (_navHover[0])
-                                  ? (ref.watch(isDarkMode))
-                                  ? _styleUtil.c_255
-                                  : _styleUtil.c_33
-                                  : _styleUtil.c_170,
-                            ),
-                          ),
                         ),
                       );
                     },
@@ -674,25 +653,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     builder: (BuildContext context, setState){
                       return RectGetter(
                         key: _rectKeyHistoryPageSticky,
-                        child: InkWell(
-                          onHover: (value) => setState(() {
-                            _navHover[2] = value;
-                          }),
-                          onTap: () {
-                            _pushNamedWithRectHistorySticky();
+                        child: TextHighlightDecider(
+                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                          colorStart: _styleUtil.c_170,
+                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          additionalOnTapAction: () => _pushNamedWithRectHistorySticky(),
+                          builder: (Color color){
+                            return Text(
+                              "History",
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 14,
+                                color: color,
+                              ),
+                            );
                           },
-                          child: Text(
-                            "History",
-                            style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 14,
-                              color: (_navHover[2])
-                                  ? (ref.watch(isDarkMode))
-                                  ? _styleUtil.c_255
-                                  : _styleUtil.c_33
-                                  : _styleUtil.c_170,
-                            ),
-                          ),
                         ),
                       );
                     },
@@ -704,25 +680,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     builder: (BuildContext context, setState){
                       return RectGetter(
                         key: _rectKeyFurtherPageSticky,
-                        child: InkWell(
-                          onHover: (value) => setState(() {
-                            _navHover[3] = value;
-                          }),
-                          onTap: () {
-                            _pushNamedWithRectFurtherSticky();
+                        child: TextHighlightDecider(
+                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                          colorStart: _styleUtil.c_170,
+                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
+                          builder: (Color color){
+                            return Text(
+                              "Further",
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                fontSize: 14,
+                                color: color,
+                              ),
+                            );
                           },
-                          child: Text(
-                            "Further",
-                            style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 14,
-                              color: (_navHover[3])
-                                  ? (ref.watch(isDarkMode))
-                                  ? _styleUtil.c_255
-                                  : _styleUtil.c_33
-                                  : _styleUtil.c_170,
-                            ),
-                          ),
                         ),
                       );
                     },
