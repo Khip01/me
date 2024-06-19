@@ -26,27 +26,35 @@ class Data {
 
 class Projects {
   static ProjectItemData CAFEAPP_KHIPCAFE = ProjectItemData(
-      projectImagePath: ImagePath.CAFEAPP_KHIPCAFE_C,
-      projectName: StringConst.CAFEAPP_KHIPCAFE_PROJECT_NAME,
-      projectDescription: StringConst.CAFEAPP_KHIPCAFE_PROJECT_DESCRIPTION,
-      projectCategories: StringConst.CAFEAPP_KHIPCAFE_PROJECT_CATEGORIES,
-      creatorName: StringConst.CAFEAPP_KHIPCAFE_CREATOR_NAME,
-      creatorPhotoProfilePath: [
-        ImagePath.KHIP01_PHOTO_PROFILE
-      ],
-      creatorGithubLink: [
-        StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK
-      ],
-      timestampDateCreated: StringConst.CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED,
-      isProjectRelated: false,
-      isProjectHighlighted: false,
-      linkProjectToGithub: StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK,
-      linkDemoWeb: StringConst.CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_DEMO_WEB,
-      additionalLink: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK,
-      additionalLinkDescription: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION,
+    projectImagePathCover: ImagePath.CAFEAPP_KHIPCAFE_C,
+    projectImagePathList: [
+      ImagePath.CAFEAPP_KHIPCAFE_C,
+    ],
+    projectName: StringConst.CAFEAPP_KHIPCAFE_PROJECT_NAME,
+    projectDescription: StringConst.CAFEAPP_KHIPCAFE_PROJECT_DESCRIPTION,
+    projectCategories: StringConst.CAFEAPP_KHIPCAFE_PROJECT_CATEGORIES,
+    creatorName: StringConst.CAFEAPP_KHIPCAFE_CREATOR_NAME,
+    creatorPhotoProfilePath: [
+      ImagePath.KHIP01_PHOTO_PROFILE
+    ],
+    creatorGithubLink: [
+      StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK
+    ],
+    timestampDateCreated: StringConst.CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED,
+    isProjectRelated: false,
+    isProjectHighlighted: false,
+    linkProjectToGithub: StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK,
+    linkDemoWeb: StringConst.CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_DEMO_WEB,
+    additionalLink: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK,
+    additionalLinkDescription: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData SPPPAYMENT_SPPPAY_V2 = ProjectItemData(
-    projectImagePath: ImagePath.SPPPAYMENT_SPPPAY_V2_C,
+    projectImagePathCover: ImagePath.SPPPAYMENT_SPPPAY_V2_C,
+    projectImagePathList: [
+      ImagePath.SPPPAYMENT_SPPPAY_V2_C,
+      ImagePath.SPPPAYMENT_SPPPAY_V2_2,
+      ImagePath.SPPPAYMENT_SPPPAY_V2_3,
+    ],
     projectName: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_NAME,
     projectDescription: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_DESCRIPTION,
     projectCategories: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_CATEGORIES,
@@ -66,7 +74,11 @@ class Projects {
     additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData ROCK_PAPPER_SCISSORS_GAME = ProjectItemData(
-    projectImagePath: ImagePath.ROCK_PAPPER_SCISSORS_GAME_C,
+    projectImagePathCover: ImagePath.ROCK_PAPPER_SCISSORS_GAME_C,
+    projectImagePathList: [
+      ImagePath.ROCK_PAPPER_SCISSORS_GAME_C,
+      ImagePath.ROCK_PAPPER_SCISSORS_GAME_2,
+    ],
     projectName: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_NAME,
     projectDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_DESCRIPTION,
     projectCategories: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_CATEGORIES,
@@ -86,7 +98,11 @@ class Projects {
     additionalLinkDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData SPPPAYMENT_SPPPAY = ProjectItemData(
-    projectImagePath: ImagePath.SPPPAYMENT_SPPPAY_C,
+    projectImagePathCover: ImagePath.SPPPAYMENT_SPPPAY_C,
+    projectImagePathList: [
+      ImagePath.SPPPAYMENT_SPPPAY_C,
+      ImagePath.SPPPAYMENT_SPPPAY_2,
+    ],
     projectName: StringConst.SPPPAYMENT_SPPPAY_PROJECT_NAME,
     projectDescription: StringConst.SPPPAYMENT_SPPPAY_PROJECT_DESCRIPTION,
     projectCategories: StringConst.SPPPAYMENT_SPPPAY_PROJECT_CATEGORIES,
@@ -106,7 +122,12 @@ class Projects {
     additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData FIRST_WEB_PORTFOLIO = ProjectItemData(
-    projectImagePath: ImagePath.FIRST_WEB_PORTFOLIO_C,
+    projectImagePathCover: ImagePath.FIRST_WEB_PORTFOLIO_C,
+    projectImagePathList: [
+      ImagePath.FIRST_WEB_PORTFOLIO_C,
+      ImagePath.FIRST_WEB_PORTFOLIO_2,
+      ImagePath.FIRST_WEB_PORTFOLIO_3,
+    ],
     projectName: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_NAME,
     projectDescription: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_DESCRIPTION,
     projectCategories: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_CATEGORIES,
@@ -126,7 +147,10 @@ class Projects {
     additionalLinkDescription: StringConst.FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData CALCULATOR_GUI_JAVA = ProjectItemData(
-    projectImagePath: ImagePath.CALCULATOR_GUI_JAVA_C,
+    projectImagePathCover: ImagePath.CALCULATOR_GUI_JAVA_C,
+    projectImagePathList: [
+      ImagePath.CALCULATOR_GUI_JAVA_C,
+    ],
     projectName: StringConst.CALCULATOR_GUI_JAVA_PROJECT_NAME,
     projectDescription: StringConst.CALCULATOR_GUI_JAVA_PROJECT_DESCRIPTION,
     projectCategories: StringConst.CALCULATOR_GUI_JAVA_PROJECT_CATEGORIES,
@@ -146,7 +170,10 @@ class Projects {
     additionalLinkDescription: StringConst.CALCULATOR_GUI_JAVA_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData KALKULATOR_BASIC_CPP = ProjectItemData(
-    projectImagePath: ImagePath.KALKULATOR_BASIC_CPP_C,
+    projectImagePathCover: ImagePath.KALKULATOR_BASIC_CPP_C,
+    projectImagePathList: [
+      ImagePath.KALKULATOR_BASIC_CPP_C,
+    ],
     projectName: StringConst.KALKULATOR_BASIC_CPP_PROJECT_NAME,
     projectDescription: StringConst.KALKULATOR_BASIC_CPP_PROJECT_DESCRIPTION,
     projectCategories: StringConst.KALKULATOR_BASIC_CPP_PROJECT_CATEGORIES,
@@ -166,7 +193,10 @@ class Projects {
     additionalLinkDescription: StringConst.KALKULATOR_BASIC_CPP_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData FLUTTER_PORTFOLIO = ProjectItemData(
-    projectImagePath: ImagePath.FLUTTER_PORTFOLIO_C,
+    projectImagePathCover: ImagePath.FLUTTER_PORTFOLIO_C,
+    projectImagePathList: [
+      ImagePath.FLUTTER_PORTFOLIO_C,
+    ],
     projectName: StringConst.FLUTTER_PORTFOLIO_PROJECT_NAME,
     projectDescription: StringConst.FLUTTER_PORTFOLIO_PROJECT_DESCRIPTION,
     projectCategories: StringConst.FLUTTER_PORTFOLIO_PROJECT_CATEGORIES,
@@ -189,7 +219,10 @@ class Projects {
     projectHighlightDescription: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData COMMENT_SECTION_WEB = ProjectItemData(
-    projectImagePath: ImagePath.COMMENT_SECTION_WEB_C,
+    projectImagePathCover: ImagePath.COMMENT_SECTION_WEB_C,
+    projectImagePathList: [
+      ImagePath.COMMENT_SECTION_WEB_C,
+    ],
     projectName: StringConst.COMMENT_SECTION_WEB_PROJECT_NAME,
     projectDescription: StringConst.COMMENT_SECTION_WEB_PROJECT_DESCRIPTION,
     projectCategories: StringConst.COMMENT_SECTION_WEB_PROJECT_CATEGORIES,
@@ -212,7 +245,10 @@ class Projects {
     projectHighlightDescription: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData RESTAURANT_KHIP01 = ProjectItemData(
-    projectImagePath: ImagePath.RESTAURANT_KHIP01_C,
+    projectImagePathCover: ImagePath.RESTAURANT_KHIP01_C,
+    projectImagePathList: [
+      ImagePath.CAFEAPP_KHIPCAFE_C,
+    ],
     projectName: StringConst.RESTAURANT_KHIP01_PROJECT_NAME,
     projectDescription: StringConst.RESTAURANT_KHIP01_PROJECT_DESCRIPTION,
     projectCategories: StringConst.RESTAURANT_KHIP01_PROJECT_CATEGORIES,
@@ -237,7 +273,8 @@ class Projects {
 }
 
 class ProjectItemData {
-  final String projectImagePath;
+  final String projectImagePathCover;
+  final List<String> projectImagePathList;
   final String projectName;
   final String projectDescription;
   final List<String> projectCategories;
@@ -256,7 +293,8 @@ class ProjectItemData {
   final String additionalLinkDescription;
 
   ProjectItemData({
-    required this.projectImagePath,
+    required this.projectImagePathCover,
+    required this.projectImagePathList,
     required this.projectName,
     required this.projectDescription,
     required this.projectCategories,
