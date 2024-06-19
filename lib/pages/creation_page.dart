@@ -888,7 +888,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePath);
+    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
     List<Image> itemImageProfile = List<Image>.generate(itemData.creatorPhotoProfilePath.length, (index) => Image.asset(itemData.creatorPhotoProfilePath[index]));
     Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
@@ -901,81 +901,87 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Stack(
-            children: [
-              Container(
-                height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  // color: const Color.fromARGB(255, 214, 216, 218),
-                  borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+          InkWell(
+            onTap: () => context.goNamed("detail_creation", extra: itemData),
+            child: Stack(
+              children: [
+                Container(
+                  height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    // color: const Color.fromARGB(255, 214, 216, 218),
+                    borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+                  ),
+                  child: itemImage,
                 ),
-                child: itemImage,
-              ),
-              FutureBuilder<ColorScheme>(
-                  future: getColorFromImage(itemImage.image, ref.watch(isDarkMode)),
-                  builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
-                    if(snapshot.hasData){
-                      return SizedBox(
-                        height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
-                        child: Stack(
-                          children: [
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                height: 159,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 9 : 19),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [colorShadeItemImage, snapshot.data!.primaryContainer.withOpacity(.8), snapshot.data!.primaryContainer],
+                FutureBuilder<ColorScheme>(
+                    future: getColorFromImage(itemImage.image, ref.watch(isDarkMode)),
+                    builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
+                      if(snapshot.hasData){
+                        return SizedBox(
+                          height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
+                          child: Stack(
+                            children: [
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  height: 159,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 9 : 19),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [colorShadeItemImage, snapshot.data!.primaryContainer.withOpacity(.8), snapshot.data!.primaryContainer],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-                              decoration: BoxDecoration(
-                                color: snapshot.data!.primaryContainer.withOpacity(.9),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(getIsMobileSize(context) ? 9 : 19),
-                                  bottomRight: Radius.circular(getIsMobileSize(context) ? 9 : 19),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+                                decoration: BoxDecoration(
+                                  color: snapshot.data!.primaryContainer.withOpacity(.9),
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(getIsMobileSize(context) ? 9 : 19),
+                                    bottomRight: Radius.circular(getIsMobileSize(context) ? 9 : 19),
+                                  ),
+                                ),
+                                child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
+                              ),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: getIsMobileSize(context) ? 14 : 22),
+                                  width: double.maxFinite,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20 - (getIsMobileSize(context) ? 4 : 0), color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                      Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 14, vertical: getIsMobileSize(context) ? 14 : 22),
-                                width: double.maxFinite,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20 - (getIsMobileSize(context) ? 4 : 0), color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
-                                    Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ]
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const SizedBox();
-                    } else {
-                      return const SizedBox();
+                            ]
+                          ),
+                        );
+                      } else if (snapshot.hasError) {
+                        return const SizedBox();
+                      } else {
+                        return const SizedBox();
+                      }
                     }
-                  }
-              ),
-            ]
+                ),
+              ]
+            ),
           ),
-          Container(
-            height: 24,
-            margin: const EdgeInsets.only(top: 14),
-            child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
+          InkWell(
+            onTap: () => context.goNamed("detail_creation", extra: itemData),
+            child: Container(
+              height: 24,
+              margin: const EdgeInsets.only(top: 14),
+              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
+            ),
           ),
           Container(
             height: 24,
@@ -1126,7 +1132,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
     final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePath);
+    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
@@ -1139,19 +1145,25 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 227 - (getIsMobileSize(context) ? 71 : 0),
-            width: double.maxFinite,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              // color: const Color.fromARGB(255, 214, 216, 218),
-              borderRadius: BorderRadius.circular(10),
+          InkWell(
+            onTap: () => context.goNamed("detail_creation", extra: itemData),
+            child: Container(
+              height: 227 - (getIsMobileSize(context) ? 71 : 0),
+              width: double.maxFinite,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                // color: const Color.fromARGB(255, 214, 216, 218),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: itemImage,
             ),
-            child: itemImage,
           ),
-          SizedBox(
-            height: 26,
-            child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+          InkWell(
+            onTap: () => context.goNamed("detail_creation", extra: itemData),
+            child: SizedBox(
+              height: 26,
+              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1338,7 +1350,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
     final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePath);
+    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
@@ -1351,19 +1363,25 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: 227 - (getIsMobileSize(context) ? 71 : 0),
-            width: double.maxFinite,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(
-              // color: const Color.fromARGB(255, 214, 216, 218),
-              borderRadius: BorderRadius.circular(10),
+          InkWell(
+            onTap: () => context.goNamed("detail_creation", extra: itemData),
+            child: Container(
+              height: 227 - (getIsMobileSize(context) ? 71 : 0),
+              width: double.maxFinite,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(
+                // color: const Color.fromARGB(255, 214, 216, 218),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: itemImage,
             ),
-            child: itemImage,
           ),
-          SizedBox(
-            height: 26,
-            child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+          InkWell(
+            onTap: () => context.goNamed("detail_creation", extra: itemData),
+            child: SizedBox(
+              height: 26,
+              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
