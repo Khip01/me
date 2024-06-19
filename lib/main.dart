@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/helper/helper.dart';
+import 'package:me/pages/creation_detail_page.dart';
 import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
 import 'package:me/super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
+import 'package:me/values/values.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'firebase_options.dart';
@@ -39,9 +41,35 @@ class MyApp extends ConsumerWidget {
         GoRoute(path: "/", name: "welcome", pageBuilder: (context, state){
           return buildPageWithDefaultTransition(context: context, state: state, child: const WelcomePage());
         }),
-        GoRoute(path: "/creation", name: "creation", pageBuilder: (context, state){
-          return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
-        }),
+        GoRoute(
+          path: "/creation",
+          name: "creation",
+          routes: [
+            GoRoute(
+              path: "detail",
+              name: "detail_creation",
+              pageBuilder: (context, state) {
+                Object? object = state.extra;
+
+                if(object != null && object is ProjectItemData){
+                  return buildPageWithDefaultTransition(context: context, state: state, child: CreationDetailPage(selectedProject: object));
+                } else {
+                  // Mengarahkan kembali ke halaman /creation jika extra tidak valid
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.go('/creation');
+                  });
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: const SizedBox.shrink(),
+                  );
+                }
+              },
+            ),
+          ],
+          pageBuilder: (context, state){
+            return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
+          },
+        ),
         GoRoute(path: "/history", name: "history", pageBuilder: (context, state){
           return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
         }),
