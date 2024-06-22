@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
 
@@ -23,6 +24,7 @@ class CreationDetailPage extends ConsumerStatefulWidget {
 class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   // General
   final StyleUtil _styleUtil = StyleUtil();
+  final IconUtil _iconUtil = IconUtil();
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +55,36 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
       padding: contentCardPaddingAround(context),
       width: MediaQuery.sizeOf(context).width,
       color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
-          Flexible(
-            fit: FlexFit.tight,
-            child: Column(
+          Padding(
+            padding: EdgeInsets.only(bottom: 93 +  (getIsMobileSize(context) ? 71 : 0)),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ListImageSection(
-                  images: widget.selectedProject.projectImagePathList,
-                  listViewHeight: 360 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
-                  imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
-                  imageWidth: contentHighlightWidth(context) - 32,
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Column(
+                    children: [
+                      ListImageSection(
+                        images: widget.selectedProject.projectImagePathList,
+                        listViewHeight: 360 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
+                        imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
+                        imageWidth: contentHighlightWidth(context) - 32,
+                      ),
+                      DetailCreationAdditionalInfo(
+                        timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
+                        detailTags: widget.selectedProject.projectCategories,
+                      ),
+                      _otherCreationHorizontal(),
+                    ],
+                  ),
                 ),
-                DetailCreationAdditionalInfo(
-                  timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
-                  detailTags: widget.selectedProject.projectCategories,
-                ),
-                _otherCreationHorizontal(),
+                _otherCreationVertical(),
               ],
             ),
           ),
-          _otherCreationVertical(),
+          _footerTechnology(),
         ],
       ),
     );
@@ -85,10 +95,13 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
       visible: !getIsDesktopMdAndBelowSize(context),
       child: Container(
         margin: const EdgeInsets.only(left: 28),
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(20),
+        ),
         height: 500,
         width: 300,
-        color: Colors.blue,
-        child: const Center(child: Text("Related Project, more")),
+        child: const Center(child: Text("Related Project, this section is coming soon")),
       ),
     );
   }
@@ -96,12 +109,39 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   Widget _otherCreationHorizontal(){
     return Visibility(
       visible: getIsDesktopMdAndBelowSize(context),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 32),
-        height: 300,
-        width: double.maxFinite,
-        color: Colors.blue,
-        child: const Center(child: Text("Related Project, more")),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 45),
+        child: Container(
+          margin: contentCardPadding(context) / 2,
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          height: 300,
+          width: double.maxFinite,
+          child: const Center(child: Text("Related Project, this section is coming soon")),
+        ),
+      ),
+    );
+  }
+
+  Widget _footerTechnology(){
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 39),
+      child: Center(
+        child: SizedBox(
+          width: 125,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Tooltip(message: "Flutter Framework", child: Image.asset(_iconUtil.flutterLogo)),
+              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+              Tooltip(message: "Firebase RTDB", child: Image.asset(_iconUtil.firebaseLogoNew)),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -257,7 +297,7 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
         boxShadow: [
           BoxShadow(
             color: (ref.watch(isDarkMode))
-                ? const Color.fromARGB(255, 61, 61, 61)
+                ? const Color.fromARGB(255, 200, 200, 200)
                 : const Color.fromARGB(255, 233, 233, 233),
             blurRadius: 7.0,
           ),
@@ -311,7 +351,7 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Created on", style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text("Created on", style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
           Text(formatedDate, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
         ],
       ),

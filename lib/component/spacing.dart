@@ -181,27 +181,27 @@ EdgeInsets contentCardPaddingAround(BuildContext context) => ResponsiveValue(
   conditionalValues: [
     const Condition.equals(
       name: '4K',
-      value: EdgeInsets.symmetric(horizontal: 80, vertical: 80),
+      value: EdgeInsets.only(left: 80, right: 80, top: 80),
     ),
     const Condition.equals(
       name: 'DESKTOP-LG',
-      value: EdgeInsets.symmetric(horizontal: 65, vertical: 80),
+      value: EdgeInsets.only(left: 65, right: 65, top: 80),
     ),
     const Condition.equals(
       name: 'DESKTOP-MD',
-      value: EdgeInsets.symmetric(horizontal: 55, vertical: 80),
+      value: EdgeInsets.only(left: 55, right: 55, top: 80),
     ),
     const Condition.equals(
       name: 'DESKTOP-SM',
-      value: EdgeInsets.symmetric(horizontal: 50, vertical: 80),
+      value: EdgeInsets.only(left: 50, right: 50, top: 80),
     ),
     const Condition.equals(
       name: TABLET,
-      value: EdgeInsets.symmetric(horizontal: 35, vertical: 80),
+      value: EdgeInsets.only(left: 35, right: 35, top: 80),
     ),
     const Condition.equals(
       name: MOBILE,
-      value: EdgeInsets.symmetric(horizontal: 30, vertical: 80),
+      value: EdgeInsets.only(left: 30, right: 30, top: 80),
     ),
   ],
   defaultValue: const EdgeInsets.symmetric(horizontal: 0),
