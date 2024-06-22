@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
-import 'package:me/widget/scroll_behavior.dart';
-import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 
 class CreationDetailPage extends ConsumerStatefulWidget {
@@ -23,7 +22,7 @@ class CreationDetailPage extends ConsumerStatefulWidget {
 
 class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   // General
-  StyleUtil _styleUtil = StyleUtil();
+  final StyleUtil _styleUtil = StyleUtil();
 
   @override
   Widget build(BuildContext context) {
@@ -67,24 +66,16 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                   imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                   imageWidth: contentHighlightWidth(context) - 32,
                 ),
-                _detailCreationTag(),
+                DetailCreationAdditionalInfo(
+                  timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
+                  detailTags: widget.selectedProject.projectCategories,
+                ),
                 _otherCreationHorizontal(),
               ],
             ),
           ),
           _otherCreationVertical(),
         ],
-      ),
-    );
-  }
-
-  Widget _detailCreationTag(){
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Container(
-        height: 100,
-        color: Colors.yellow,
-        child: const Center(child: Text("Tag, etc")),
       ),
     );
   }
@@ -181,7 +172,6 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
         _selectedIndex = newIndex;
       });
     }
-    // if ()
   }
 
   @override
@@ -279,4 +269,80 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
     );
   }
 }
+
+class DetailCreationAdditionalInfo extends ConsumerWidget {
+  final int timestampDetailDateCreated;
+  final List<String> detailTags;
+
+  DetailCreationAdditionalInfo({
+    super.key,
+    required this.timestampDetailDateCreated,
+    required this.detailTags,
+  });
+
+  final StyleUtil _styleUtil = StyleUtil();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(timestampDetailDateCreated);
+    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    
+    return Padding(
+      padding: contentCardPadding(context) / 2,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: _createdOnSection(dateFormatter.format(itemDate), ref),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: _creationTagSection(ref),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _createdOnSection(String formatedDate, WidgetRef ref){
+    return SizedBox(
+      width: double.maxFinite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text("Created on", style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text(formatedDate, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+        ],
+      ),
+    );
+  }
+
+  Widget _creationTagSection(WidgetRef ref){
+    return SizedBox(
+      width: double.maxFinite,
+      child: Wrap(
+        spacing: 7, // spacing horizontally
+        runSpacing: 7, // spacing vertically
+        children: List.generate(detailTags.length, (index){
+          return DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: _styleUtil.c_170,
+                width: 1,
+              ),
+              color: Colors.transparent,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
+              child: Text(detailTags[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+            ),
+          );
+        }, growable: true),
+      ),
+    );
+  }
+}
+
 
