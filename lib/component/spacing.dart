@@ -175,3 +175,34 @@ EdgeInsets contentHighlightListSpace (BuildContext context) => ResponsiveValue(
   ],
   defaultValue: EdgeInsets.only(right: 28),
 ).value;
+
+EdgeInsets contentCardPaddingAround(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.equals(
+      name: '4K',
+      value: EdgeInsets.symmetric(horizontal: 80, vertical: 80),
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-LG',
+      value: EdgeInsets.symmetric(horizontal: 65, vertical: 80),
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-MD',
+      value: EdgeInsets.symmetric(horizontal: 55, vertical: 80),
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-SM',
+      value: EdgeInsets.symmetric(horizontal: 50, vertical: 80),
+    ),
+    const Condition.equals(
+      name: TABLET,
+      value: EdgeInsets.symmetric(horizontal: 35, vertical: 80),
+    ),
+    const Condition.equals(
+      name: MOBILE,
+      value: EdgeInsets.symmetric(horizontal: 30, vertical: 80),
+    ),
+  ],
+  defaultValue: const EdgeInsets.symmetric(horizontal: 0),
+).value;
