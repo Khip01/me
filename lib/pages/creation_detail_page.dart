@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
+import 'package:me/provider/image_preview_provider.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
+import 'package:me/widget/scroll_behavior.dart';
 
+import '../widget/text_highlight_decider.dart';
 
 class CreationDetailPage extends ConsumerStatefulWidget {
   final ProjectItemData selectedProject;
@@ -30,14 +33,21 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            _coverSectionSelectedCreation(),
-            _contentBodySelectedCreation(),
-          ],
-        ),
+      body: Stack(
+        children: [
+            SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                _coverSectionSelectedCreation(),
+                _contentBodySelectedCreation(),
+              ],
+            ),
+          ),
+          ImagePreview(
+            images: widget.selectedProject.projectImagePathList,
+          ),
+        ],
       ),
     );
   }
@@ -170,10 +180,12 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   final ScrollController _scrollController = ScrollController();
 
   int _selectedIndex = 0;
+  List<bool>? cardIsHovered;
 
   @override
   void initState() {
     _scrollController.addListener(_onScrollActiveIndex);
+    cardIsHovered = List.generate(widget.images.length, (_) => false);
     super.initState();
   }
 
@@ -222,17 +234,20 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
           padding: const EdgeInsets.symmetric(horizontal: 32),
           child: SizedBox(
             height:  widget.listViewHeight,
-            child: ListView.separated(
-              controller: _scrollController,
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
-              addAutomaticKeepAlives: false,
-              cacheExtent: 100,
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.images.length,
-              itemBuilder: (context, index) {
-                return _buildCardImage(index);
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: 12,),
+            child: ScrollConfiguration(
+              behavior: ScrollWithDragBehavior(),
+              child: ListView.separated(
+                controller: _scrollController,
+                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+                addAutomaticKeepAlives: false,
+                cacheExtent: 100,
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.images.length,
+                itemBuilder: (context, index) {
+                  return _buildCardImage(index);
+                },
+                separatorBuilder: (context, index) => const SizedBox(width: 12,),
+              ),
             ),
           ),
         ),
@@ -287,25 +302,43 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   }
 
   Widget _buildCardImage(int index){
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
-        color: (ref.watch(isDarkMode))
-            ? _styleUtil.c_33
-            : _styleUtil.c_255,
-        boxShadow: [
-          BoxShadow(
+    return Stack(
+      children: [
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
             color: (ref.watch(isDarkMode))
-                ? const Color.fromARGB(255, 200, 200, 200)
-                : const Color.fromARGB(255, 233, 233, 233),
-            blurRadius: 7.0,
+                ? _styleUtil.c_33
+                : _styleUtil.c_255,
+            boxShadow: [
+              BoxShadow(
+                color: (ref.watch(isDarkMode))
+                    ? const Color.fromARGB(255, 200, 200, 200)
+                    : const Color.fromARGB(255, 233, 233, 233),
+                blurRadius: 7.0,
+              ),
+            ],
           ),
-        ],
-      ),
-      height: widget.imageHeight,
-      width: widget.imageWidth,
-      child: Image.asset(widget.images[index], fit: BoxFit.cover),
+          height: widget.imageHeight,
+          width: widget.imageWidth,
+          child: Image.asset(widget.images[index], fit: BoxFit.cover),
+        ),
+        InkWell(
+          onTap: () => ref.read(isPreviewMode.notifier).state = index,
+          onHover: (val) => setState(() => cardIsHovered![index] = val),
+          child: SizedBox(
+            height: widget.imageHeight,
+            width: widget.imageWidth,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
+                color: cardIsHovered![index] ? _styleUtil.c_170.withOpacity(.1) : Colors.transparent,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -384,5 +417,172 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
     );
   }
 }
+
+class ImagePreview extends ConsumerStatefulWidget {
+  final List<String> images;
+
+  const ImagePreview({
+    super.key,
+    required this.images,
+  });
+
+  @override
+  ConsumerState<ImagePreview> createState() => _ImagePreviewState();
+}
+
+class _ImagePreviewState extends ConsumerState<ImagePreview> {
+  // General
+  final StyleUtil _styleUtil = StyleUtil();
+
+  @override
+  Widget build(BuildContext context) {
+    int? selectedIndexImagePreview = ref.watch(isPreviewMode);
+
+    return Visibility(
+      visible: ref.watch(isPreviewMode) != null,
+      child: GestureDetector(
+        onTap: () => ref.read(isPreviewMode.notifier).state = null,
+        child: Container(
+          width: MediaQuery.sizeOf(context).width,
+          height: MediaQuery.sizeOf(context).height,
+          color: _styleUtil.c_61.withOpacity(.5),
+          child: Stack(
+            children: [
+              Center(
+                child: GestureDetector(
+                  onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
+                  child: ref.watch(isPreviewMode) != null ?
+                    Image.asset(widget.images[selectedIndexImagePreview!]) :
+                    const SizedBox(),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: contentCardPadding(context),
+                    child: SizedBox(
+                      width: MediaQuery.sizeOf(context).width,
+                      height: 100,
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextHighlightDecider(
+                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                          colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
+                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          additionalOnTapAction: () => ref.read(isPreviewMode.notifier).state = null,
+                          builder: (color) {
+                            return Icon(
+                              Icons.close,
+                              size: 33,
+                              color: color,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: contentCardPadding(context),
+                    child: GestureDetector(
+                      onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 30),
+                              color: (ref.watch(isDarkMode))
+                                  ? _styleUtil.c_33
+                                  : _styleUtil.c_255,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: (ref.watch(isDarkMode))
+                                      ? const Color.fromARGB(255, 61, 61, 61)
+                                      : const Color.fromARGB(255, 203, 203, 203),
+                                  blurRadius: 80.0,
+                                ),
+                              ],
+                            ),
+                            width: 100,
+                            height: 50,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IgnorePointer(
+                                  ignoring: ref.read(isPreviewMode) == 0 ? true : false,
+                                  child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 100),
+                                    opacity: ref.read(isPreviewMode) == 0 ? 0 : 1,
+                                    curve: Curves.easeInOut,
+                                    child: TextHighlightDecider(
+                                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                                      colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
+                                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                                      additionalOnTapAction: () {
+                                        if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! > 0){
+                                          int currentIndex = ref.read(isPreviewMode)!;
+                                          ref.read(isPreviewMode.notifier).state = (currentIndex - 1);
+                                        }
+                                      },
+                                      builder: (color) {
+                                        return Icon(
+                                          Icons.keyboard_arrow_left_rounded,
+                                          size: 33,
+                                          color: color,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                IgnorePointer(
+                                  ignoring: ref.read(isPreviewMode) == widget.images.length-1 ? true : false,
+                                  child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 100),
+                                    opacity: ref.read(isPreviewMode) == widget.images.length-1 ? 0 : 1,
+                                    curve: Curves.easeInOut,
+                                    child: TextHighlightDecider(
+                                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
+                                      colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
+                                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                                      additionalOnTapAction: () {
+                                        if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! < widget.images.length-1){
+                                          int currentIndex = ref.read(isPreviewMode)!;
+                                          ref.read(isPreviewMode.notifier).state = (currentIndex + 1);
+                                        }
+                                      },
+                                      builder: (color) {
+                                        return Icon(
+                                          Icons.keyboard_arrow_right_rounded,
+                                          size: 33,
+                                          color: color,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 
