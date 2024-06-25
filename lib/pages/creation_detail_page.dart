@@ -84,7 +84,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                       ),
                       DetailCreationAdditionalInfo(
                         timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
-                        detailTags: widget.selectedProject.projectCategories,
+                        detailProjectData: widget.selectedProject,
                       ),
                       _otherCreationHorizontal(),
                     ],
@@ -345,12 +345,12 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
 
 class DetailCreationAdditionalInfo extends ConsumerWidget {
   final int timestampDetailDateCreated;
-  final List<String> detailTags;
+  final ProjectItemData detailProjectData;
 
   DetailCreationAdditionalInfo({
     super.key,
     required this.timestampDetailDateCreated,
-    required this.detailTags,
+    required this.detailProjectData,
   });
 
   final StyleUtil _styleUtil = StyleUtil();
@@ -366,6 +366,10 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 15),
+            child: _creatorSection(detailProjectData.creatorPhotoProfilePath, detailProjectData.creatorName, detailProjectData.creatorRole, ref),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30),
             child: _createdOnSection(dateFormatter.format(itemDate), ref),
           ),
           Padding(
@@ -373,6 +377,44 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
             child: _creationTagSection(ref),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorName, List<String> creatorRole, WidgetRef ref){
+    return SizedBox(
+      width: double.maxFinite,
+      child: Wrap(
+        spacing: 24,
+        runSpacing: 12,
+        direction: Axis.horizontal,
+        children: List.generate(creatorImageProfile.length, (int index) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: SizedBox(
+                  height: 42,
+                  width: 42,
+                  child: ClipOval(
+                    child: Image.asset(creatorImageProfile[index]),
+                  ),
+                ),
+              ),
+              SizedBox(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                    Text(creatorRole[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+                  ],
+                ),
+              ),
+            ],
+          );
+        }, growable: true),
       ),
     );
   }
@@ -397,7 +439,7 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
       child: Wrap(
         spacing: 7, // spacing horizontally
         runSpacing: 7, // spacing vertically
-        children: List.generate(detailTags.length, (index){
+        children: List.generate(detailProjectData.projectCategories.length, (index){
           return DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -409,7 +451,7 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
-              child: Text(detailTags[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+              child: Text(detailProjectData.projectCategories[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
             ),
           );
         }, growable: true),

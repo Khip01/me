@@ -9,7 +9,10 @@ class StringConst {
   static const String CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION = "installer";
   static const String CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> CAFEAPP_KHIPCAFE_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> CAFEAPP_KHIPCAFE_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED = 1679418000000;
   static const List<String> CAFEAPP_KHIPCAFE_PROJECT_CATEGORIES = [
@@ -29,7 +32,10 @@ class StringConst {
   static const String SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK_DESCRIPTION = "";
   static const String SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> SPPPAYMENT_SPPPAY_V2_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> SPPPAYMENT_SPPPAY_V2_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED = 1671123600000;
   static const List<String> SPPPAYMENT_SPPPAY_V2_PROJECT_CATEGORIES = [
@@ -49,7 +55,10 @@ class StringConst {
   static const String ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK_DESCRIPTION = "executable";
   static const String ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> ROCK_PAPPER_SCISSORS_GAME_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> ROCK_PAPPER_SCISSORS_GAME_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED = 1607446800000;
   static const List<String> ROCK_PAPPER_SCISSORS_GAME_PROJECT_CATEGORIES = [
@@ -69,7 +78,10 @@ class StringConst {
   static const String SPPPAYMENT_SPPPAY_ADDITIONAL_LINK_DESCRIPTION = "";
   static const String SPPPAYMENT_SPPPAY_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> SPPPAYMENT_SPPPAY_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> SPPPAYMENT_SPPPAY_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int SPPPAYMENT_SPPPAY_DATE_PROJECT_CREATED = 1664125200000;
   static const List<String> SPPPAYMENT_SPPPAY_PROJECT_CATEGORIES = [
@@ -89,7 +101,10 @@ class StringConst {
   static const String FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION = "";
   static const String FIRST_WEB_PORTFOLIO_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> FIRST_WEB_PORTFOLIO_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> FIRST_WEB_PORTFOLIO_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int FIRST_WEB_PORTFOLIO_DATE_PROJECT_CREATED = 1629997200000;
   static const List<String> FIRST_WEB_PORTFOLIO_PROJECT_CATEGORIES = [
@@ -108,7 +123,10 @@ class StringConst {
   static const String CALCULATOR_GUI_JAVA_ADDITIONAL_LINK_DESCRIPTION = "";
   static const String CALCULATOR_GUI_JAVA_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> CALCULATOR_GUI_JAVA_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> CALCULATOR_GUI_JAVA_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int CALCULATOR_GUI_JAVA_DATE_PROJECT_CREATED = 1611766800000;
   static const List<String> CALCULATOR_GUI_JAVA_PROJECT_CATEGORIES = [
@@ -129,7 +147,10 @@ class StringConst {
   static const String KALKULATOR_BASIC_CPP_ADDITIONAL_LINK_DESCRIPTION = "executable";
   static const String KALKULATOR_BASIC_CPP_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> KALKULATOR_BASIC_CPP_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> KALKULATOR_BASIC_CPP_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int KALKULATOR_BASIC_CPP_DATE_PROJECT_CREATED = 1596474000000;
   static const List<String> KALKULATOR_BASIC_CPP_PROJECT_CATEGORIES = [
@@ -149,7 +170,10 @@ class StringConst {
   static const String FLUTTER_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION = "";
   static const String FLUTTER_PORTFOLIO_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> FLUTTER_PORTFOLIO_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> FLUTTER_PORTFOLIO_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int FLUTTER_PORTFOLIO_DATE_PROJECT_CREATED = 1708794000000;
   static const List<String> FLUTTER_PORTFOLIO_PROJECT_CATEGORIES = [
@@ -171,7 +195,10 @@ class StringConst {
   static const String COMMENT_SECTION_WEB_ADDITIONAL_LINK_DESCRIPTION = "release-mobile-app";
   static const String COMMENT_SECTION_WEB_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> COMMENT_SECTION_WEB_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> COMMENT_SECTION_WEB_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int COMMENT_SECTION_WEB_DATE_PROJECT_CREATED = 1707411600000;
   static const List<String> COMMENT_SECTION_WEB_PROJECT_CATEGORIES = [
@@ -194,7 +221,10 @@ class StringConst {
   static const String RESTAURANT_KHIP01_ADDITIONAL_LINK_DESCRIPTION = "release-app";
   static const String RESTAURANT_KHIP01_CREATOR_GITHUB_LINK = "https://github.com/Khip01";
   static const List<String> RESTAURANT_KHIP01_CREATOR_NAME = [
-    "Akhmad Aakhif A"
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> RESTAURANT_KHIP01_CREATOR_ROLE = [
+    "Creator",
   ];
   static const int RESTAURANT_KHIP01_DATE_PROJECT_CREATED = 1702054800000;
   static const List<String> RESTAURANT_KHIP01_PROJECT_CATEGORIES = [
