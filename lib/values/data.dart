@@ -310,9 +310,9 @@ class ProjectItemData {
     required this.projectName,
     required this.projectDescription,
     required this.projectCategories,
-    required this.creatorName, //
-    required this.creatorRole, //
-    required this.creatorPhotoProfilePath, //
+    required this.creatorName,
+    required this.creatorRole,
+    required this.creatorPhotoProfilePath,
     required this.creatorGithubLink, //
     required this.timestampDateCreated,
     required this.isProjectRelated,
