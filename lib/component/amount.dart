@@ -65,22 +65,22 @@ double contentHighlightHeight (BuildContext context) => ResponsiveValue(
   conditionalValues: [
     const Condition.largerThan(
       name: 'DESKTOP-SM',
-      value: 398,
+      value: 406,
     ),
     const Condition.equals(
       name: 'DESKTOP-SM',
-      value: 398,
+      value: 406,
     ),
     const Condition.equals(
       name: TABLET,
-      value: 347,
+      value: 355,
     ),
     const Condition.smallerThan(
       name: TABLET,
-      value: (398 * 3 / 5) + 59,
+      value: ((406) * 3 / 5) + 59,
     ),
   ],
-  defaultValue: 378,
+  defaultValue: 386,
 ).value.toDouble();
 
 double contentHighlightWidthListView (BuildContext context) => ResponsiveValue(
