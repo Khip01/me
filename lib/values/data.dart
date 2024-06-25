@@ -34,8 +34,9 @@ class Projects {
     projectDescription: StringConst.CAFEAPP_KHIPCAFE_PROJECT_DESCRIPTION,
     projectCategories: StringConst.CAFEAPP_KHIPCAFE_PROJECT_CATEGORIES,
     creatorName: StringConst.CAFEAPP_KHIPCAFE_CREATOR_NAME,
+    creatorRole: StringConst.CAFEAPP_KHIPCAFE_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK
@@ -59,10 +60,12 @@ class Projects {
     projectDescription: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_DESCRIPTION,
     projectCategories: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_CATEGORIES,
     creatorName: StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_NAME,
+    creatorRole: StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
+      StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK,
       StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK
     ],
     timestampDateCreated: StringConst.SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED,
@@ -83,8 +86,9 @@ class Projects {
     projectDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_DESCRIPTION,
     projectCategories: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_CATEGORIES,
     creatorName: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_NAME,
+    creatorRole: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK
@@ -107,8 +111,9 @@ class Projects {
     projectDescription: StringConst.SPPPAYMENT_SPPPAY_PROJECT_DESCRIPTION,
     projectCategories: StringConst.SPPPAYMENT_SPPPAY_PROJECT_CATEGORIES,
     creatorName: StringConst.SPPPAYMENT_SPPPAY_CREATOR_NAME,
+    creatorRole: StringConst.SPPPAYMENT_SPPPAY_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.SPPPAYMENT_SPPPAY_CREATOR_GITHUB_LINK
@@ -132,8 +137,9 @@ class Projects {
     projectDescription: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_DESCRIPTION,
     projectCategories: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_CATEGORIES,
     creatorName: StringConst.FIRST_WEB_PORTFOLIO_CREATOR_NAME,
+    creatorRole: StringConst.FIRST_WEB_PORTFOLIO_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.FIRST_WEB_PORTFOLIO_CREATOR_GITHUB_LINK
@@ -155,8 +161,9 @@ class Projects {
     projectDescription: StringConst.CALCULATOR_GUI_JAVA_PROJECT_DESCRIPTION,
     projectCategories: StringConst.CALCULATOR_GUI_JAVA_PROJECT_CATEGORIES,
     creatorName: StringConst.CALCULATOR_GUI_JAVA_CREATOR_NAME,
+    creatorRole: StringConst.CALCULATOR_GUI_JAVA_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.CALCULATOR_GUI_JAVA_CREATOR_GITHUB_LINK
@@ -178,8 +185,9 @@ class Projects {
     projectDescription: StringConst.KALKULATOR_BASIC_CPP_PROJECT_DESCRIPTION,
     projectCategories: StringConst.KALKULATOR_BASIC_CPP_PROJECT_CATEGORIES,
     creatorName: StringConst.KALKULATOR_BASIC_CPP_CREATOR_NAME,
+    creatorRole: StringConst.KALKULATOR_BASIC_CPP_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.KALKULATOR_BASIC_CPP_CREATOR_GITHUB_LINK
@@ -201,8 +209,9 @@ class Projects {
     projectDescription: StringConst.FLUTTER_PORTFOLIO_PROJECT_DESCRIPTION,
     projectCategories: StringConst.FLUTTER_PORTFOLIO_PROJECT_CATEGORIES,
     creatorName: StringConst.FLUTTER_PORTFOLIO_CREATOR_NAME,
+    creatorRole: StringConst.FLUTTER_PORTFOLIO_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.FLUTTER_PORTFOLIO_CREATOR_GITHUB_LINK
@@ -227,8 +236,9 @@ class Projects {
     projectDescription: StringConst.COMMENT_SECTION_WEB_PROJECT_DESCRIPTION,
     projectCategories: StringConst.COMMENT_SECTION_WEB_PROJECT_CATEGORIES,
     creatorName: StringConst.COMMENT_SECTION_WEB_CREATOR_NAME,
+    creatorRole: StringConst.COMMENT_SECTION_WEB_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.COMMENT_SECTION_WEB_CREATOR_GITHUB_LINK
@@ -253,8 +263,9 @@ class Projects {
     projectDescription: StringConst.RESTAURANT_KHIP01_PROJECT_DESCRIPTION,
     projectCategories: StringConst.RESTAURANT_KHIP01_PROJECT_CATEGORIES,
     creatorName: StringConst.RESTAURANT_KHIP01_CREATOR_NAME,
+    creatorRole: StringConst.RESTAURANT_KHIP01_CREATOR_ROLE,
     creatorPhotoProfilePath: [
-      ImagePath.KHIP01_PHOTO_PROFILE
+      ImagePath.KHIP01_PHOTO_PROFILE,
     ],
     creatorGithubLink: [
       StringConst.RESTAURANT_KHIP01_CREATOR_GITHUB_LINK
@@ -279,6 +290,7 @@ class ProjectItemData {
   final String projectDescription;
   final List<String> projectCategories;
   final List<String> creatorName;
+  final List<String> creatorRole;
   final List<String> creatorPhotoProfilePath;
   final List<String> creatorGithubLink;
   final int timestampDateCreated;
@@ -298,18 +310,19 @@ class ProjectItemData {
     required this.projectName,
     required this.projectDescription,
     required this.projectCategories,
-    required this.creatorName,
-    required this.creatorPhotoProfilePath,
-    required this.creatorGithubLink,
+    required this.creatorName, //
+    required this.creatorRole, //
+    required this.creatorPhotoProfilePath, //
+    required this.creatorGithubLink, //
     required this.timestampDateCreated,
     required this.isProjectRelated,
     required this.isProjectHighlighted,
     this.projectHighlightHeader,
     this.projectHighlightDescription,
     this.projectHighlightTopic,
-    required this.linkProjectToGithub,
-    required this.linkDemoWeb,
-    required this.additionalLink,
-    required this.additionalLinkDescription,
+    required this.linkProjectToGithub, //
+    required this.linkDemoWeb, //
+    required this.additionalLink, //
+    required this.additionalLinkDescription, //
   });
 }
