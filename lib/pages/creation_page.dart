@@ -893,7 +893,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
-    String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length -1} other" : ""}";
+    String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
 
     return Container(
       margin: contentHighlightListSpace(context),
@@ -978,13 +978,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           InkWell(
             onTap: () => context.goNamed("detail_creation", extra: itemData),
             child: Container(
-              height: 24,
+              height: 28,
               margin: const EdgeInsets.only(top: 14),
               child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
             ),
           ),
           Container(
-            height: 24,
+            height: 28,
             margin: const EdgeInsets.only(top: 6),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -996,19 +996,33 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(right: 10),
-                        child: Align(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: List.generate(itemImageProfile.length, (index) {
+                            return Align(
                               widthFactor: 0.5,
-                              child: SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: ClipOval(
-                                  child: itemImageProfile[0],
+                              child: Container(
+                                width: 28,
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xff7c94b6),
+                                  image: DecorationImage(
+                                    image: itemImageProfile[index].image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius: const BorderRadius.all( Radius.circular(50.0)),
+                                  border: Border.all(
+                                    color: ref.watch(isDarkMode) ? _styleUtil.c_24 : _styleUtil.c_255,
+                                    width: 2,
+                                  ),
                                 ),
                               ),
-                            ),
+                            );
+                          }, growable: true),
+                        )
                       ),
                       Text(
-                        creatorsName,
+                         creatorsName,
                         style: TextStyle(
                           fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
                         ),
