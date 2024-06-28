@@ -9,6 +9,7 @@ import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
 import 'package:me/widget/scroll_behavior.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widget/text_highlight_decider.dart';
 
@@ -86,51 +87,26 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                         timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
                         detailProjectData: widget.selectedProject,
                       ),
-                      _otherCreationHorizontal(),
+                      RelatedAboutCreationBottom(
+                        requirementData: RelatedSectionObject(
+                          creationsData: widget.selectedProject,
+                          isShowed: getIsDesktopMdAndBelowSize(context),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                _otherCreationVertical(),
+                RelatedAboutCreationSide(
+                  requirementData: RelatedSectionObject(
+                    creationsData: widget.selectedProject,
+                    isShowed: !getIsDesktopMdAndBelowSize(context),
+                  ),
+                ),
               ],
             ),
           ),
           _footerTechnology(),
         ],
-      ),
-    );
-  }
-
-  Widget _otherCreationVertical(){
-    return Visibility(
-      visible: !getIsDesktopMdAndBelowSize(context),
-      child: Container(
-        margin: const EdgeInsets.only(left: 28),
-        decoration: BoxDecoration(
-          color: Colors.grey,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        height: 500,
-        width: 300,
-        child: const Center(child: Text("Related Project, this section is coming soon")),
-      ),
-    );
-  }
-
-  Widget _otherCreationHorizontal(){
-    return Visibility(
-      visible: getIsDesktopMdAndBelowSize(context),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 45),
-        child: Container(
-          margin: contentCardPadding(context) / 2,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          height: 300,
-          width: double.maxFinite,
-          child: const Center(child: Text("Related Project, this section is coming soon")),
-        ),
       ),
     );
   }
@@ -343,7 +319,7 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   }
 }
 
-class DetailCreationAdditionalInfo extends ConsumerWidget {
+class DetailCreationAdditionalInfo extends ConsumerStatefulWidget {
   final int timestampDetailDateCreated;
   final ProjectItemData detailProjectData;
 
@@ -353,35 +329,101 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
     required this.detailProjectData,
   });
 
+  @override
+  ConsumerState<DetailCreationAdditionalInfo> createState() => _DetailCreationAdditionalInfoState();
+}
+
+class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdditionalInfo> {
   final StyleUtil _styleUtil = StyleUtil();
 
+  // Open Url
+  Future<void> _openUrl(String url) async {
+    Uri uri = Uri.parse(url);
+    !await launchUrl(uri);
+  }
+
+  // Show Snackbar Template
+  Future<void> _showSnackbar(String message, String url) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 30),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 5,
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0, vertical: 14.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Icon(
+                        Icons.check_circle,
+                        color: _styleUtil.c_255,
+                      ),
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                        letterSpacing: 1,
+                        fontFamily: "Lato",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: _styleUtil.c_255,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    await _openUrl(url);
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(timestampDetailDateCreated);
+  Widget build(BuildContext context) {
+    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(widget.timestampDetailDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
-    
+
     return Padding(
       padding: contentCardPadding(context) / 2,
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 15),
-            child: _creatorSection(detailProjectData.creatorPhotoProfilePath, detailProjectData.creatorName, detailProjectData.creatorRole, ref),
+            child: _creatorSection(
+              widget.detailProjectData.creatorPhotoProfilePath,
+              widget.detailProjectData.creatorName,
+              widget.detailProjectData.creatorRole,
+              widget.detailProjectData.creatorGithubLink,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 30),
-            child: _createdOnSection(dateFormatter.format(itemDate), ref),
+            child: _createdOnSection(dateFormatter.format(itemDate)),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 15),
-            child: _creationTagSection(ref),
+            child: _creationTagSection(),
           ),
         ],
       ),
     );
   }
 
-  Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorName, List<String> creatorRole, WidgetRef ref){
+  Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorName, List<String> creatorRole, List<String> creatorLinkProfile){
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
@@ -394,11 +436,17 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: SizedBox(
-                  height: 42,
-                  width: 42,
-                  child: ClipOval(
-                    child: Image.asset(creatorImageProfile[index]),
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
+                    child: SizedBox(
+                      height: 42,
+                      width: 42,
+                      child: ClipOval(
+                        child: Image.asset(creatorImageProfile[index]),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -407,7 +455,13 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: GestureDetector(
+                        onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
+                        child: Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                      ),
+                    ),
                     Text(creatorRole[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
                   ],
                 ),
@@ -419,7 +473,7 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
     );
   }
 
-  Widget _createdOnSection(String formatedDate, WidgetRef ref){
+  Widget _createdOnSection(String formatedDate){
     return SizedBox(
       width: double.maxFinite,
       child: Column(
@@ -433,25 +487,25 @@ class DetailCreationAdditionalInfo extends ConsumerWidget {
     );
   }
 
-  Widget _creationTagSection(WidgetRef ref){
+  Widget _creationTagSection(){
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
         spacing: 7, // spacing horizontally
         runSpacing: 7, // spacing vertically
-        children: List.generate(detailProjectData.projectCategories.length, (index){
+        children: List.generate(widget.detailProjectData.projectCategories.length, (index){
           return DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: _styleUtil.c_170,
+                color: _styleUtil.c_238,
                 width: 1,
               ),
               color: Colors.transparent,
             ),
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
-              child: Text(detailProjectData.projectCategories[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+              child: Text(widget.detailProjectData.projectCategories[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
             ),
           );
         }, growable: true),
@@ -628,6 +682,271 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
     );
   }
 }
+
+class RelatedAboutCreationSide extends ConsumerStatefulWidget {
+  final RelatedSectionObject requirementData;
+
+  const RelatedAboutCreationSide({
+    super.key,
+    required this.requirementData,
+  });
+
+  @override
+  ConsumerState<RelatedAboutCreationSide> createState() => _RelatedAboutCreationSideState();
+}
+
+class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationSide> {
+  final StyleUtil _styleUtil = StyleUtil();
+  final IconUtil _iconUtil = IconUtil();
+  
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: widget.requirementData.isShowed,
+      child: Column(
+        children: [
+          if (widget.requirementData.creationsData.linkProjectToGithub != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              title: widget.requirementData.creationsData.projectName,
+              desc: "see the repository",
+              paddingTop: 28,
+              link: widget.requirementData.creationsData.linkProjectToGithub
+            ),
+          if (widget.requirementData.creationsData.linkDemoWeb != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              title: "Site",
+              desc: "visit the site",
+              paddingTop: 14,
+              link: widget.requirementData.creationsData.linkDemoWeb
+            ),
+          if (widget.requirementData.creationsData.additionalLink != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              title: "Additional Link",
+              desc: widget.requirementData.creationsData.additionalLinkDescription,
+              paddingTop: 14,
+              link: widget.requirementData.creationsData.additionalLink
+            ),
+          // Container(
+          //   margin: const EdgeInsets.only(left: 28),
+          //   decoration: BoxDecoration(
+          //     color: Colors.blue,
+          //     borderRadius: BorderRadius.circular(20),
+          //   ),
+          //   height: 500,
+          //   width: 300,
+          //   child: const Center(child: Text("Related Project, this section is coming soon")),
+          // ),
+        ],
+      ),
+    );
+  }
+}
+
+class LinkCardItem extends ConsumerStatefulWidget {
+  final String imgPath;
+  final String title;
+  final String desc;
+  final double paddingTop;
+  final String link;
+
+  const LinkCardItem({
+    super.key,
+    required this.imgPath,
+    required this.title,
+    required this.desc,
+    required this.paddingTop,
+    required this.link,
+  });
+
+  @override
+  ConsumerState<LinkCardItem> createState() => _LinkCardItemState();
+}
+
+class _LinkCardItemState extends ConsumerState<LinkCardItem> {
+  final StyleUtil _styleUtil = StyleUtil();
+
+  bool cardIsHovered = false;
+
+  // Open Url
+  Future<void> _openUrl(String url) async {
+    Uri uri = Uri.parse(url);
+    !await launchUrl(uri);
+  }
+
+  // Show Snackbar Template
+  Future<void> _showSnackbar(String message, String url) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        elevation: 0,
+        margin: const EdgeInsets.only(bottom: 30),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              elevation: 5,
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0, vertical: 14.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Icon(
+                        Icons.check_circle,
+                        color: _styleUtil.c_255,
+                      ),
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                        letterSpacing: 1,
+                        fontFamily: "Lato",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: _styleUtil.c_255,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    await _openUrl(url);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () async => await _showSnackbar("${widget.title} Opened Successfully!", widget.link),
+      onHover: (val) => setState(() => cardIsHovered = val),
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        width: 350,
+        margin: EdgeInsets.only(left: 28, top: widget.paddingTop),
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: ref.watch(isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_238,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8),
+          gradient: cardIsHovered
+              ? LinearGradient(
+            begin: Alignment.center,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.transparent,
+              ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(0.5) : _styleUtil.c_170.withOpacity(0.1),
+            ],
+          )
+              : const LinearGradient(colors: [Colors.transparent, Colors.transparent]),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Image.asset(widget.imgPath, width: 36),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.title,
+                    style: TextStyle(
+                      fontFamily: 'Lato',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color:  (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                    ),
+                  ),
+                  Text(
+                    widget.desc,
+                    style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 16,
+                        color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 150),
+              opacity: cardIsHovered ? 1 : 0,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: Icon(Icons.arrow_forward_ios, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+class RelatedAboutCreationBottom extends StatefulWidget {
+  final RelatedSectionObject requirementData;
+
+  const RelatedAboutCreationBottom({
+    super.key,
+    required this.requirementData,
+  });
+
+  @override
+  State<RelatedAboutCreationBottom> createState() => _RelatedAboutCreationBottomState();
+}
+
+class _RelatedAboutCreationBottomState extends State<RelatedAboutCreationBottom> {
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: widget.requirementData.isShowed,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 45),
+        child: Container(
+          margin: contentCardPadding(context) / 2,
+          decoration: BoxDecoration(
+            color: Colors.orange,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          height: 300,
+          width: double.maxFinite,
+          child: const Center(child: Text("Related Project, this section is coming soon")),
+        ),
+      ),
+    );
+  }
+}
+
+// BLUEPRINT CLASS
+class RelatedSectionObject{
+  final ProjectItemData creationsData;
+  final bool isShowed;
+
+  RelatedSectionObject({
+    required this.creationsData,
+    required this.isShowed,
+  });
+}
+
 
 
 
