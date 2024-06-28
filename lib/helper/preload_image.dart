@@ -53,6 +53,8 @@ Future<void> preloadImage() async {
       _iconUtil.flutterLogo,
       _iconUtil.firebaseLogoNew,
       // Icons Social Media
+      _iconUtil.imgBrowserDark, // Browser
+      _iconUtil.imgBrowserLight,
       _iconUtil.imgGithubDefault, // Github
       _iconUtil.imgGithubDark,
       _iconUtil.imgGithubLight,
@@ -68,6 +70,8 @@ Future<void> preloadImage() async {
       _iconUtil.imgLinkedinDefault, // LijnkedIn
       _iconUtil.imgLinkedinDark,
       _iconUtil.imgLinkedinLight,
+      _iconUtil.imgLinkDark, // Link
+      _iconUtil.imgLinkLight,
     // Super User Page
     _iconUtil.incognitoMode,
     _iconUtil.incognitoFingerprint,

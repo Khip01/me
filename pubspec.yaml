@@ -83,11 +83,13 @@ flutter:
     - assets/icons/incognito_mode.png
     - assets/icons/incognito_fingerprint.png
     - assets/icons/iconcognito_mask.png
+    - assets/icons/browser/
     - assets/icons/facebook/
     - assets/icons/github/
     - assets/icons/gmail/
     - assets/icons/instagram/
     - assets/icons/linkedin/
+    - assets/icons/link/
     - assets/data/khip01-portfolio-default-rtdb-export.json
     - assets/images/projects/
     - assets/images/projects/cafeapp_khipcafe/
