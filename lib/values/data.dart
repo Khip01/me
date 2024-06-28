@@ -38,13 +38,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.CAFEAPP_KHIPCAFE_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION,
@@ -64,14 +62,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK,
-      StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.SPPPAYMENT_SPPPAY_V2_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK_DESCRIPTION,
@@ -90,13 +85,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK_DESCRIPTION,
@@ -115,13 +108,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.SPPPAYMENT_SPPPAY_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.SPPPAYMENT_SPPPAY_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.SPPPAYMENT_SPPPAY_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.SPPPAYMENT_SPPPAY_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.SPPPAYMENT_SPPPAY_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.SPPPAYMENT_SPPPAY_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.SPPPAYMENT_SPPPAY_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_ADDITIONAL_LINK_DESCRIPTION,
@@ -141,13 +132,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.FIRST_WEB_PORTFOLIO_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.FIRST_WEB_PORTFOLIO_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.FIRST_WEB_PORTFOLIO_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.FIRST_WEB_PORTFOLIO_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
@@ -165,13 +154,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.CALCULATOR_GUI_JAVA_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.CALCULATOR_GUI_JAVA_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.CALCULATOR_GUI_JAVA_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.CALCULATOR_GUI_JAVA_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.CALCULATOR_GUI_JAVA_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.CALCULATOR_GUI_JAVA_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.CALCULATOR_GUI_JAVA_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.CALCULATOR_GUI_JAVA_ADDITIONAL_LINK_DESCRIPTION,
@@ -189,13 +176,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.KALKULATOR_BASIC_CPP_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.KALKULATOR_BASIC_CPP_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.KALKULATOR_BASIC_CPP_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.KALKULATOR_BASIC_CPP_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.KALKULATOR_BASIC_CPP_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.KALKULATOR_BASIC_CPP_ADDITIONAL_LINK_DESCRIPTION,
@@ -213,13 +198,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.FLUTTER_PORTFOLIO_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.FLUTTER_PORTFOLIO_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.FLUTTER_PORTFOLIO_DATE_PROJECT_CREATED,
     isProjectRelated: true,
     isProjectHighlighted: true,
-    linkProjectToGithub: StringConst.FLUTTER_PORTFOLIO_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.FLUTTER_PORTFOLIO_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.FLUTTER_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.FLUTTER_PORTFOLIO_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.FLUTTER_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
@@ -240,13 +223,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.COMMENT_SECTION_WEB_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.COMMENT_SECTION_WEB_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.COMMENT_SECTION_WEB_DATE_PROJECT_CREATED,
     isProjectRelated: true,
     isProjectHighlighted: true,
-    linkProjectToGithub: StringConst.COMMENT_SECTION_WEB_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.COMMENT_SECTION_WEB_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.COMMENT_SECTION_WEB_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.COMMENT_SECTION_WEB_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.COMMENT_SECTION_WEB_ADDITIONAL_LINK_DESCRIPTION,
@@ -267,13 +248,11 @@ class Projects {
     creatorPhotoProfilePath: [
       ImagePath.KHIP01_PHOTO_PROFILE,
     ],
-    creatorGithubLink: [
-      StringConst.RESTAURANT_KHIP01_CREATOR_GITHUB_LINK
-    ],
+    creatorGithubLink: StringConst.RESTAURANT_KHIP01_CREATOR_GITHUB_LINK,
     timestampDateCreated: StringConst.RESTAURANT_KHIP01_DATE_PROJECT_CREATED,
     isProjectRelated: true,
     isProjectHighlighted: true,
-    linkProjectToGithub: StringConst.RESTAURANT_KHIP01_CREATOR_GITHUB_LINK,
+    linkProjectToGithub: StringConst.RESTAURANT_KHIP01_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.RESTAURANT_KHIP01_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.RESTAURANT_KHIP01_ADDITIONAL_LINK,
     additionalLinkDescription: StringConst.RESTAURANT_KHIP01_ADDITIONAL_LINK_DESCRIPTION,
@@ -313,7 +292,7 @@ class ProjectItemData {
     required this.creatorName,
     required this.creatorRole,
     required this.creatorPhotoProfilePath,
-    required this.creatorGithubLink, //
+    required this.creatorGithubLink,
     required this.timestampDateCreated,
     required this.isProjectRelated,
     required this.isProjectHighlighted,
