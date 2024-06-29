@@ -77,7 +77,7 @@ double contentHighlightHeight (BuildContext context) => ResponsiveValue(
     ),
     const Condition.smallerThan(
       name: TABLET,
-      value: ((406) * 3 / 5) + 59,
+      value: ((406) * 3 / 5) + 62,
     ),
   ],
   defaultValue: 386,

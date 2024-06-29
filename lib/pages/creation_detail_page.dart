@@ -788,6 +788,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
               imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
+              customSnackbarTitle: "Github Repo",
               cardWidth: double.maxFinite,
               paddingTop: 0,
               paddingLeft: 0,
@@ -870,6 +871,7 @@ class LinkCardItem extends ConsumerStatefulWidget {
   final String imgPath;
   final String title;
   final String desc;
+  final String? customSnackbarTitle;
   final double? cardWidth;
   final double? paddingTop;
   final double? paddingLeft;
@@ -881,6 +883,7 @@ class LinkCardItem extends ConsumerStatefulWidget {
     required this.imgPath,
     required this.title,
     required this.desc,
+    this.customSnackbarTitle,
     this.cardWidth,
     this.paddingTop,
     this.paddingLeft,
@@ -956,7 +959,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () async => await _showSnackbar("${widget.title} Opened Successfully!", widget.link),
+      onTap: () async => await _showSnackbar("${widget.customSnackbarTitle ?? widget.title} Opened Successfully!", widget.link),
       onHover: (val) => setState(() => cardIsHovered = val),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
