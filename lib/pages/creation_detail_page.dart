@@ -236,15 +236,16 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
                 child: ElevatedButton(
                   onPressed: () => setState(() => _doSwapFocusedIndex(true)),
                   style: ElevatedButton.styleFrom(
-                    elevation: 1,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(20),
-                    backgroundColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255, // <-- Button color
+                    backgroundColor: (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255).withOpacity(.7), // <-- Button color
                     foregroundColor: _styleUtil.c_170, // <-- Splash color
                   ),
                   child: Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                    color: (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.7),
                     size: 20,
                   ),
                 ),
@@ -254,15 +255,16 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
                 child: ElevatedButton(
                   onPressed: () => setState(() => _doSwapFocusedIndex(false)),
                   style: ElevatedButton.styleFrom(
-                    elevation: 1,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(20),
-                    backgroundColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255, // <-- Button color
+                    backgroundColor: (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255).withOpacity(.7), // <-- Button color
                     foregroundColor: _styleUtil.c_170, // <-- Splash color
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                    color: (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.7),
                     size: 20,
                   ),
                 ),
@@ -538,7 +540,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
         child: Container(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
-          color: _styleUtil.c_61.withOpacity(.5),
+          color: _styleUtil.c_61.withOpacity(.7),
           child: Stack(
             children: [
               Center(
@@ -591,9 +593,9 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 30),
-                                color: (ref.watch(isDarkMode))
+                                color: ((ref.watch(isDarkMode))
                                     ? _styleUtil.c_33
-                                    : _styleUtil.c_255,
+                                    : _styleUtil.c_255).withOpacity(.7),
                                 boxShadow: [
                                   BoxShadow(
                                     color: (ref.watch(isDarkMode))
@@ -618,7 +620,8 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                         isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                                         colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
                                         colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-                                        actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                                        actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
+                                        delayAfterAnimation: const Duration(milliseconds: 0),
                                         additionalOnTapAction: () {
                                           if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! > 0){
                                             int currentIndex = ref.read(isPreviewMode)!;
@@ -629,7 +632,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                           return Icon(
                                             Icons.keyboard_arrow_left_rounded,
                                             size: 33,
-                                            color: color,
+                                            color: color.withOpacity(.7),
                                           );
                                         },
                                       ),
@@ -645,7 +648,8 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                         isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                                         colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
                                         colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-                                        actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                                        actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
+                                        delayAfterAnimation: const Duration(milliseconds: 0),
                                         additionalOnTapAction: () {
                                           if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! < widget.images.length-1){
                                             int currentIndex = ref.read(isPreviewMode)!;
@@ -656,7 +660,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                           return Icon(
                                             Icons.keyboard_arrow_right_rounded,
                                             size: 33,
-                                            color: color,
+                                            color: color.withOpacity(.7),
                                           );
                                         },
                                       ),
