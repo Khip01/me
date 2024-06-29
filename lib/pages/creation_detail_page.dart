@@ -206,24 +206,21 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
-          child: SizedBox(
-            height:  widget.listViewHeight,
-            child: ScrollConfiguration(
-              behavior: ScrollWithDragBehavior(),
-              child: ListView.separated(
-                controller: _scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
-                addAutomaticKeepAlives: false,
-                cacheExtent: 100,
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.images.length,
-                itemBuilder: (context, index) {
-                  return _buildCardImage(index);
-                },
-                separatorBuilder: (context, index) => const SizedBox(width: 12,),
-              ),
+        SizedBox(
+          height:  widget.listViewHeight,
+          child: ScrollConfiguration(
+            behavior: ScrollWithDragBehavior(),
+            child: ListView.separated(
+              controller: _scrollController,
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+              addAutomaticKeepAlives: false,
+              cacheExtent: 100,
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.images.length,
+              itemBuilder: (context, index) {
+                return _buildCardImage(index);
+              },
+              separatorBuilder: (context, index) => const SizedBox(width: 12,),
             ),
           ),
         ),
@@ -242,12 +239,12 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
                     elevation: 1,
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(20),
-                    backgroundColor: _styleUtil.c_255, // <-- Button color
+                    backgroundColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255, // <-- Button color
                     foregroundColor: _styleUtil.c_170, // <-- Splash color
                   ),
                   child: Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    color: _styleUtil.c_61,
+                    color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
                     size: 20,
                   ),
                 ),
@@ -260,12 +257,12 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
                     elevation: 1,
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(20),
-                    backgroundColor: _styleUtil.c_255, // <-- Button color
+                    backgroundColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255, // <-- Button color
                     foregroundColor: _styleUtil.c_170, // <-- Splash color
                   ),
                   child: Icon(
                     Icons.arrow_forward_ios_rounded,
-                    color: _styleUtil.c_61,
+                    color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
                     size: 20,
                   ),
                 ),
@@ -323,7 +320,7 @@ class DetailCreationAdditionalInfo extends ConsumerStatefulWidget {
   final int timestampDetailDateCreated;
   final ProjectItemData detailProjectData;
 
-  DetailCreationAdditionalInfo({
+  const DetailCreationAdditionalInfo({
     super.key,
     required this.timestampDetailDateCreated,
     required this.detailProjectData,
@@ -696,7 +693,6 @@ class RelatedAboutCreationSide extends ConsumerStatefulWidget {
 }
 
 class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationSide> {
-  final StyleUtil _styleUtil = StyleUtil();
   final IconUtil _iconUtil = IconUtil();
   
   @override
@@ -711,7 +707,8 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               paddingTop: 28,
-              link: widget.requirementData.creationsData.linkProjectToGithub
+              link: widget.requirementData.creationsData.linkProjectToGithub,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
@@ -719,7 +716,8 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
               title: "Site",
               desc: "visit the site",
               paddingTop: 14,
-              link: widget.requirementData.creationsData.linkDemoWeb
+              link: widget.requirementData.creationsData.linkDemoWeb,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
@@ -727,7 +725,8 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
               title: "Additional Link",
               desc: widget.requirementData.creationsData.additionalLinkDescription,
               paddingTop: 14,
-              link: widget.requirementData.creationsData.additionalLink
+              link: widget.requirementData.creationsData.additionalLink,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
             ),
           // Container(
           //   margin: const EdgeInsets.only(left: 28),
@@ -745,20 +744,144 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
   }
 }
 
+class RelatedAboutCreationBottom extends ConsumerStatefulWidget{
+  final RelatedSectionObject requirementData;
+
+  const RelatedAboutCreationBottom({
+    super.key,
+    required this.requirementData,
+  });
+
+  @override
+  ConsumerState<RelatedAboutCreationBottom> createState() => _RelatedAboutCreationBottomState();
+}
+
+class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreationBottom> {
+  final IconUtil _iconUtil = IconUtil();
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: widget.requirementData.isShowed,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 45),
+        child: SizedBox(
+          width: double.maxFinite,
+          child: _linkCardWidgetDecider(MediaQuery.sizeOf(context).width <= 850),
+        ),
+      ),
+    );
+  }
+
+  Widget _linkCardWidgetDecider(bool isVeryCompactDeviceMode){
+    if (isVeryCompactDeviceMode) { // 1 Column List Link Card
+      return ListView(
+        shrinkWrap: true,
+        physics: const  NeverScrollableScrollPhysics(),
+        children: [
+          if (widget.requirementData.creationsData.linkProjectToGithub != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              title: widget.requirementData.creationsData.projectName,
+              desc: "see the repository",
+              cardWidth: double.maxFinite,
+              paddingTop: 0,
+              paddingLeft: 0,
+              link: widget.requirementData.creationsData.linkProjectToGithub,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+            ),
+          if (widget.requirementData.creationsData.linkDemoWeb != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              title: "Site",
+              desc: "visit the site",
+              cardWidth: double.maxFinite,
+              paddingTop: 14,
+              paddingLeft: 0,
+              link: widget.requirementData.creationsData.linkDemoWeb,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+            ),
+          if (widget.requirementData.creationsData.additionalLink != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              title: "Additional Link",
+              desc: widget.requirementData.creationsData.additionalLinkDescription,
+              cardWidth: double.maxFinite,
+              paddingTop: 14,
+              paddingLeft: 0,
+              link: widget.requirementData.creationsData.additionalLink,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+            ),
+        ],
+      );
+    } else { // 2 Column List Link card
+      return GridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 28,
+        crossAxisSpacing: 28,
+        shrinkWrap: true,
+        childAspectRatio: 4 / 1,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          if (widget.requirementData.creationsData.linkProjectToGithub != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              title: widget.requirementData.creationsData.projectName,
+              desc: "see the repository",
+              cardWidth: double.maxFinite,
+              paddingTop: 0,
+              paddingLeft: 0,
+              link: widget.requirementData.creationsData.linkProjectToGithub,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+            ),
+          if (widget.requirementData.creationsData.linkDemoWeb != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              title: "Site",
+              desc: "visit the site",
+              cardWidth: double.maxFinite,
+              paddingTop: 0,
+              paddingLeft: 0,
+              link: widget.requirementData.creationsData.linkDemoWeb,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+            ),
+          if (widget.requirementData.creationsData.additionalLink != "")
+            LinkCardItem(
+              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              title: "Additional Link",
+              desc: widget.requirementData.creationsData.additionalLinkDescription,
+              cardWidth: double.maxFinite,
+              paddingTop: 0,
+              paddingLeft: 0,
+              link: widget.requirementData.creationsData.additionalLink,
+              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+            ),
+        ],
+      );
+    }
+  }
+}
+
 class LinkCardItem extends ConsumerStatefulWidget {
   final String imgPath;
   final String title;
   final String desc;
-  final double paddingTop;
+  final double? cardWidth;
+  final double? paddingTop;
+  final double? paddingLeft;
   final String link;
+  final bool isCompactDeviceMode;
 
   const LinkCardItem({
     super.key,
     required this.imgPath,
     required this.title,
     required this.desc,
-    required this.paddingTop,
+    this.cardWidth,
+    this.paddingTop,
+    this.paddingLeft,
     required this.link,
+    required this.isCompactDeviceMode,
   });
 
   @override
@@ -835,8 +958,8 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
-        width: 350,
-        margin: EdgeInsets.only(left: 28, top: widget.paddingTop),
+        width: widget.cardWidth ?? 350,
+        margin: EdgeInsets.only(left: widget.paddingLeft ?? 28, top: widget.paddingTop ?? 28),
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           border: Border.all(
@@ -844,16 +967,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
             width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
-          gradient: cardIsHovered
-              ? LinearGradient(
-            begin: Alignment.center,
-            end: Alignment.centerRight,
-            colors: [
-              Colors.transparent,
-              ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(0.5) : _styleUtil.c_170.withOpacity(0.1),
-            ],
-          )
-              : const LinearGradient(colors: [Colors.transparent, Colors.transparent]),
+          gradient: gradientColorAnimationDecider(),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -864,6 +978,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
             ),
             Expanded(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -888,7 +1003,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
             ),
             AnimatedOpacity(
               duration: const Duration(milliseconds: 150),
-              opacity: cardIsHovered ? 1 : 0,
+              opacity:  opacityAnimationDecider(),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16),
                 child: Icon(Icons.arrow_forward_ios, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
@@ -899,40 +1014,30 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
       ),
     );
   }
-}
 
+  LinearGradient gradientColorAnimationDecider(){
+    if(widget.isCompactDeviceMode){ // Compact device Mode
+      return const LinearGradient(colors: [Colors.transparent, Colors.transparent]);
+    }
 
-class RelatedAboutCreationBottom extends StatefulWidget {
-  final RelatedSectionObject requirementData;
+    if(cardIsHovered){ // Card is Hovered
+      return LinearGradient(
+        begin: Alignment.center,
+        end: Alignment.centerRight,
+        colors: [
+          Colors.transparent,
+          ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(0.5) : _styleUtil.c_170.withOpacity(0.1),
+        ],
+      );
+    } else {
+      return const LinearGradient(colors: [Colors.transparent, Colors.transparent]);
+    }
+  }
 
-  const RelatedAboutCreationBottom({
-    super.key,
-    required this.requirementData,
-  });
+  double opacityAnimationDecider(){
+    if (widget.isCompactDeviceMode) return 1; // Compact device Mode
 
-  @override
-  State<RelatedAboutCreationBottom> createState() => _RelatedAboutCreationBottomState();
-}
-
-class _RelatedAboutCreationBottomState extends State<RelatedAboutCreationBottom> {
-  @override
-  Widget build(BuildContext context) {
-    return Visibility(
-      visible: widget.requirementData.isShowed,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 45),
-        child: Container(
-          margin: contentCardPadding(context) / 2,
-          decoration: BoxDecoration(
-            color: Colors.orange,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          height: 300,
-          width: double.maxFinite,
-          child: const Center(child: Text("Related Project, this section is coming soon")),
-        ),
-      ),
-    );
+    return (cardIsHovered) ? 1 : 0; // Determine Card Hover
   }
 }
 
