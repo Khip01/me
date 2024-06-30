@@ -11,6 +11,7 @@ import 'package:me/super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:me/values/values.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 import 'firebase_options.dart';
 
@@ -25,6 +26,8 @@ Future<void> main() async {
   // setCreationMap(resultMap);
   // final creationsMap = await getDataCreationsJson();
 
+  // url strategy remove hashtag # on production flutter web
+  setPathUrlStrategy();
   runApp(ProviderScope(child: MyApp()));
 }
 
