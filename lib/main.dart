@@ -17,6 +17,9 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // url strategy remove hashtag # on production flutter web
+  // setPathUrlStrategy();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
   // Load All Image Icon
   await preloadImage();
@@ -25,9 +28,6 @@ Future<void> main() async {
   // Map<String, dynamic> resultMap = await creationController.getCreationsMap();
   // setCreationMap(resultMap);
   // final creationsMap = await getDataCreationsJson();
-
-  // url strategy remove hashtag # on production flutter web
-  setPathUrlStrategy();
   runApp(ProviderScope(child: MyApp()));
 }
 

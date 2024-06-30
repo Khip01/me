@@ -543,12 +543,16 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
           color: _styleUtil.c_61.withOpacity(.7),
           child: Stack(
             children: [
-              Center(
-                child: GestureDetector(
-                  onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
-                  child: ref.watch(isPreviewMode) != null ?
+              InteractiveViewer(
+                minScale: 0.5, // Minimum scale (zoom out)
+                maxScale: 2.0, // Maximum scale (zoom in)
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
+                    child: ref.watch(isPreviewMode) != null ?
                     Image.asset(widget.images[selectedIndexImagePreview!]) :
                     const SizedBox(),
+                  ),
                 ),
               ),
               Column(
