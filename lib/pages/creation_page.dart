@@ -215,30 +215,32 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
     return Stack(
       children: [
-        Scaffold(
-          backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-          body: CustomScrollView(
-            controller: _navScrollController,
-            slivers: [
-              SliverToBoxAdapter(
-                child: _coverPageSection(scrHeight),
-              ),
-              MultiSliver(
-                  pushPinnedChildren: true,
-                  children: [
-                    ValueListenableBuilder<bool>(
-                      valueListenable: _navIsStickyNotifier,
-                      builder: (context, isVisible, child) {
-                        return SliverPinnedHeader(
-                          child: _navTopSticky(isVisible),
-                        );
-                      }
-                    ),
-                    _creationPageSection(),
-                    _footerTechnology(),
-                  ]
-              ),
-            ],
+        SelectionArea(
+          child: Scaffold(
+            backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+            body: CustomScrollView(
+              controller: _navScrollController,
+              slivers: [
+                SliverToBoxAdapter(
+                  child: _coverPageSection(scrHeight),
+                ),
+                MultiSliver(
+                    pushPinnedChildren: true,
+                    children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _navIsStickyNotifier,
+                        builder: (context, isVisible, child) {
+                          return SliverPinnedHeader(
+                            child: _navTopSticky(isVisible),
+                          );
+                        }
+                      ),
+                      _creationPageSection(),
+                      _footerTechnology(),
+                    ]
+                ),
+              ],
+            ),
           ),
         ),
         // Normal Nav

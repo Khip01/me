@@ -32,23 +32,25 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-      body: Stack(
-        children: [
-            SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                _coverSectionSelectedCreation(),
-                _contentBodySelectedCreation(),
-              ],
+    return SelectionArea(
+      child: Scaffold(
+        backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        body: Stack(
+          children: [
+              SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  _coverSectionSelectedCreation(),
+                  _contentBodySelectedCreation(),
+                ],
+              ),
             ),
-          ),
-          ImagePreview(
-            images: widget.selectedProject.projectImagePathList,
-          ),
-        ],
+            ImagePreview(
+              images: widget.selectedProject.projectImagePathList,
+            ),
+          ],
+        ),
       ),
     );
   }

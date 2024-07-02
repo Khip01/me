@@ -151,81 +151,83 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
     return Stack(
       children: [
-        Scaffold(
-          body: Container(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-            height: scrHeight,
-            padding: mainCardPaddingWithBottomQuote(context),
-            child: Column(
-              children: [
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      maxWidth: 1100,
-                    ),
-                    padding: contentCardPadding(context),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-                      boxShadow: [
-                        BoxShadow(
-                          color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
-                              255, 61, 61, 61) : const Color.fromARGB(255, 203, 203, 203),
-                          blurRadius: 80.0,
-                        ),
-                      ],
-                    ),
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                          top: 55,
-                          right: -5,
-                          child: dashHorizontal(context, ref.watch(isDarkMode)),
-                        ),
-                        Positioned(
-                          top: 50,
-                          right: 0,
-                          child: RotatedBox(
-                            quarterTurns: 1,
-                            child: dashVertical(context, ref.watch(isDarkMode)),
+        SelectionArea(
+          child: Scaffold(
+            body: Container(
+              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+              height: scrHeight,
+              padding: mainCardPaddingWithBottomQuote(context),
+              child: Column(
+                children: [
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Container(
+                      constraints: const BoxConstraints(
+                        maxWidth: 1100,
+                      ),
+                      padding: contentCardPadding(context),
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+                        boxShadow: [
+                          BoxShadow(
+                            color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
+                                255, 61, 61, 61) : const Color.fromARGB(255, 203, 203, 203),
+                            blurRadius: 80.0,
                           ),
-                        ),
-                        Column(
-                          children: [
-                            Flexible(
-                              fit: FlexFit.tight,
-                              flex: 1,
-                              child: Container(
-                                // color: Colors.red,
-                                child: _topContent(),
-                              ),
+                        ],
+                      ),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            top: 55,
+                            right: -5,
+                            child: dashHorizontal(context, ref.watch(isDarkMode)),
+                          ),
+                          Positioned(
+                            top: 50,
+                            right: 0,
+                            child: RotatedBox(
+                              quarterTurns: 1,
+                              child: dashVertical(context, ref.watch(isDarkMode)),
                             ),
-                            Flexible(
-                              flex: 3,
-                              child: SizedBox(
-                                // color: Colors.green,
-                                child: _content(),
+                          ),
+                          Column(
+                            children: [
+                              Flexible(
+                                fit: FlexFit.tight,
+                                flex: 1,
+                                child: Container(
+                                  // color: Colors.red,
+                                  child: _topContent(),
+                                ),
                               ),
-                            ),
-                            Flexible(
-                              fit: FlexFit.tight,
-                              flex: 1,
-                              child: Container(
-                                // color: Colors.blue,
-                                child: _navSection(),
+                              Flexible(
+                                flex: 3,
+                                child: SizedBox(
+                                  // color: Colors.green,
+                                  child: _content(),
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              Flexible(
+                                fit: FlexFit.tight,
+                                flex: 1,
+                                child: Container(
+                                  // color: Colors.blue,
+                                  child: _navSection(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                _quoteContentSection(),
-              ],
+                  _quoteContentSection(),
+                ],
+              ),
             ),
           ),
         ),
