@@ -4,14 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/helper/helper.dart';
-import 'package:me/pages/creation_detail_page.dart';
-import 'package:me/pages/not_found_page.dart';
 import 'package:me/pages/pages.dart';
 import 'package:me/super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:me/values/values.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:url_strategy/url_strategy.dart';
+// import 'package:url_strategy/url_strategy.dart';
 
 import 'firebase_options.dart';
 
