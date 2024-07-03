@@ -10,6 +10,7 @@ import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
+import '../widget/animated_scroll_idle.dart';
 
 class HistoryPage extends ConsumerStatefulWidget {
   const HistoryPage({super.key});
@@ -37,9 +38,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   List.generate(4, (index) => index == 2 ? true : false);
   // Controller for Sliver Nav
   static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
-  bool _navIsSticky = false;
   // Value Notifier Sticky Nav Header
   late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
+  // Value Notifier Idle Scroll animation
+  late ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
 
   //  Other Hover
   bool _themeSwitch = false;
@@ -80,9 +82,15 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   @override
   void initState() {
     _navScrollController.addListener((){
+      // Sticky Nav Top
       final isVisible = _navScrollController.offset > scrHeight;
       if(_navIsStickyNotifier.value != isVisible){
         _navIsStickyNotifier.value = isVisible;
+      }
+      // Animated Scroll Idle
+      final isScrollIdleVisible = _navScrollController.offset <= 1;
+      if(_scrollIdleNotifier.value != isScrollIdleVisible){
+        _scrollIdleNotifier.value = isScrollIdleVisible;
       }
     });
 
@@ -197,11 +205,23 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               controller: _navScrollController,
               slivers: [
                 SliverToBoxAdapter(
-                  child: _coverPageSection(scrHeight),
+                  child: Stack(
+                    children: [
+                      _coverPageSection(scrHeight),
+                      // Scroll Idle Animation
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _scrollIdleNotifier,
+                        builder: (context, isVisible, child) {
+                          return _scrollIldeSticky(isVisible);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 MultiSliver(
                     pushPinnedChildren: true,
                     children: [
+                      // Sticky Navbar
                       ValueListenableBuilder<bool>(
                         valueListenable: _navIsStickyNotifier,
                         builder: (context, isVisible, child){
@@ -312,6 +332,27 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           ),
           _quoteContentSection(),
         ],
+      ),
+    );
+  }
+  // ------ Scroll idle animation ------
+  Widget _scrollIldeSticky(bool isVisible){
+    bool _compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
+
+    return Visibility(
+      visible: isVisible && _compactDeviceMode,
+      child: SizedBox(
+        height: MediaQuery.sizeOf(context).height + 1,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: AnimatedScrollIdle(
+            animDuration: const Duration(milliseconds: 1000),
+            mainIcon: Icons.keyboard_double_arrow_down_rounded,
+            mainColor: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+            containerHeight: getIsMobileSize(context) ? 60 : null,
+            iconHeight: getIsMobileSize(context) ? 25 : null,
+          ),
+        ),
       ),
     );
   }

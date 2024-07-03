@@ -10,6 +10,7 @@ import 'package:me/controller/controller.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
+import 'package:me/widget/animated_scroll_idle.dart';
 import 'package:me/widget/scroll_behavior.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
@@ -45,6 +46,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
   // Value Notifier Sticky Nav Header
   late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
+  // Value Notifier Idle Scroll animation
+  late ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
 
   //  Other Hover
   bool themeSwitch = false;
@@ -100,9 +103,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   void initState() {
     // _navScrollController listener
     _navScrollController.addListener(() {
+      // Sticky Nav Top
       final isVisible = _navScrollController.offset > scrHeight;
       if (_navIsStickyNotifier.value != isVisible) {
         _navIsStickyNotifier.value = isVisible;
+      }
+      // Animated Scroll Idle
+      final isScrollIdleVisible = _navScrollController.offset <= 1;
+      if(_scrollIdleNotifier.value != isScrollIdleVisible){
+        _scrollIdleNotifier.value = isScrollIdleVisible;
       }
     });
 
@@ -222,11 +231,23 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               controller: _navScrollController,
               slivers: [
                 SliverToBoxAdapter(
-                  child: _coverPageSection(scrHeight),
+                  child: Stack(
+                    children: [
+                      _coverPageSection(scrHeight),
+                      // Scroll Idle Animation
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _scrollIdleNotifier,
+                        builder: (context, isVisible, child) {
+                          return _scrollIldeSticky(isVisible);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 MultiSliver(
                     pushPinnedChildren: true,
                     children: [
+                      // Sticky Navbar
                       ValueListenableBuilder<bool>(
                         valueListenable: _navIsStickyNotifier,
                         builder: (context, isVisible, child) {
@@ -337,6 +358,27 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           ),
           _quoteContentSection(),
         ],
+      ),
+    );
+  }
+  // ------ Scroll idle animation ------
+  Widget _scrollIldeSticky(bool isVisible){
+    bool _compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
+
+    return Visibility(
+      visible: isVisible && _compactDeviceMode,
+      child: SizedBox(
+        height: MediaQuery.sizeOf(context).height + 1,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: AnimatedScrollIdle(
+            animDuration: const Duration(milliseconds: 1000),
+            mainIcon: Icons.keyboard_double_arrow_down_rounded,
+            mainColor: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+            containerHeight: getIsMobileSize(context) ? 60 : null,
+            iconHeight: getIsMobileSize(context) ? 25 : null,
+          ),
+        ),
       ),
     );
   }
