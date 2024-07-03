@@ -71,6 +71,24 @@ bool getIsTabletSize(BuildContext context) => ResponsiveValue(
     ],
 ).value;
 
+bool getIsDesktopSmSize(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: "DESKTOP-SM",
+      value: false,
+    ),
+    const Condition.equals(
+      name: "DESKTOP-SM",
+      value: true,
+    ),
+    const Condition.smallerThan(
+      name: "DESKTOP-SM",
+      value: false,
+    ),
+  ],
+).value;
+
 bool getIsDesktopMdAndBelowSize(BuildContext context) => ResponsiveValue(
   context,
   conditionalValues: [
