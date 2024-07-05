@@ -398,29 +398,26 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
     DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(widget.timestampDetailDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
-    return Padding(
-      padding: contentCardPadding(context) / 2,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: _creatorSection(
-              widget.detailProjectData.creatorPhotoProfilePath,
-              widget.detailProjectData.creatorName,
-              widget.detailProjectData.creatorRole,
-              widget.detailProjectData.creatorGithubLink,
-            ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: _creatorSection(
+            widget.detailProjectData.creatorPhotoProfilePath,
+            widget.detailProjectData.creatorName,
+            widget.detailProjectData.creatorRole,
+            widget.detailProjectData.creatorGithubLink,
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: _createdOnSection(dateFormatter.format(itemDate)),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: _creationTagSection(),
-          ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: _createdOnSection(dateFormatter.format(itemDate)),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: _creationTagSection(),
+        ),
+      ],
     );
   }
 
@@ -458,9 +455,11 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                   children: [
                     MouseRegion(
                       cursor: SystemMouseCursors.click,
-                      child: GestureDetector(
-                        onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
-                        child: Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                      child: SelectionContainer.disabled(
+                        child: GestureDetector(
+                          onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
+                          child: Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                        ),
                       ),
                     ),
                     Text(creatorRole[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),

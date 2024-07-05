@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
+import 'package:me/component/visible.dart';
 import 'package:me/controller/controller.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
@@ -907,12 +908,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
-    List<Image> itemImageProfile = List<Image>.generate(itemData.creatorPhotoProfilePath.length, (index) => Image.asset(itemData.creatorPhotoProfilePath[index]));
-    Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
-    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
-    String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
+    final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
+    final List<Image> itemImageProfile = List<Image>.generate(itemData.creatorPhotoProfilePath.length, (index) => Image.asset(itemData.creatorPhotoProfilePath[index]));
+    final Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
+    final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
+    final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    final String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
 
     return Container(
       margin: contentHighlightListSpace(context),
@@ -1149,7 +1150,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             child: ScrollConfiguration(
               behavior: ScrollWithDragBehavior(), // My Custom Behavior for Drag ListView
               child: ListView.builder(
-                padding: const EdgeInsets.only(left: 28),
+                padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                 scrollDirection: Axis.horizontal,
                 itemCount: Data.relatedCreations.length,
                 itemBuilder: (BuildContext context, int index){
@@ -1165,9 +1166,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
     final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
-    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
+    final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
+    final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return Container(
       margin: const EdgeInsets.only(right: 28),
@@ -1262,7 +1263,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
               highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
               child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 28),
+                  padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   itemBuilder: (BuildContext context, int index){
@@ -1367,7 +1368,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             child: ScrollConfiguration(
               behavior: ScrollWithDragBehavior(),  // My Custom Behavior for Drag ListView
               child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 28),
+                  padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
                   itemCount: Data.anotherCreations.length,
                   itemBuilder: (BuildContext context, int index){
@@ -1383,9 +1384,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
     final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
-    Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
-    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
+    final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
+    final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return Container(
       margin: const EdgeInsets.only(right: 28),
@@ -1471,7 +1472,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
               highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
               child: ListView.builder(
-                  padding: const EdgeInsets.only(left: 28),
+                  padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
                   itemBuilder: (BuildContext context, int index){
