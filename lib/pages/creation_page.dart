@@ -12,6 +12,7 @@ import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/animated_scroll_idle.dart';
+import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:me/widget/scroll_behavior.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
@@ -915,15 +916,18 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
     final String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
 
-    return Container(
-      margin: contentHighlightListSpace(context),
-      width: contentHighlightWidth(context),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: () => context.goNamed("detail_creation", extra: itemData),
-            child: Stack(
+    return HighlightedWidgetOnHover(
+      widgetHeight: contentHighlightHeight(context),
+      widgetWidth: contentHighlightWidth(context),
+      onTapAction: () => context.goNamed("detail_creation", extra: itemData),
+      customBorderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+      child: Container(
+        margin: contentHighlightListSpace(context),
+        width: contentHighlightWidth(context),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
               children: [
                 Container(
                   height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
@@ -994,72 +998,70 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 ),
               ]
             ),
-          ),
-          InkWell(
-            onTap: () => context.goNamed("detail_creation", extra: itemData),
-            child: Container(
+            Container(
               height: 28,
               margin: const EdgeInsets.only(top: 14),
               child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
             ),
-          ),
-          Container(
-            height: 28,
-            margin: const EdgeInsets.only(top: 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: List.generate(itemImageProfile.length, (index) {
-                            return Align(
-                              widthFactor: 0.5,
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff7c94b6),
-                                  image: DecorationImage(
-                                    image: itemImageProfile[index].image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  borderRadius: const BorderRadius.all( Radius.circular(50.0)),
-                                  border: Border.all(
-                                    color: ref.watch(isDarkMode) ? _styleUtil.c_24 : _styleUtil.c_255,
-                                    width: 2,
+            Container(
+              height: 28,
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              margin: const EdgeInsets.only(top: 6),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: List.generate(itemImageProfile.length, (index) {
+                              return Align(
+                                widthFactor: 0.5,
+                                child: Container(
+                                  width: 28,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff7c94b6),
+                                    image: DecorationImage(
+                                      image: itemImageProfile[index].image,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: const BorderRadius.all( Radius.circular(50.0)),
+                                    border: Border.all(
+                                      color: ref.watch(isDarkMode) ? _styleUtil.c_24 : _styleUtil.c_255,
+                                      width: 2,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }, growable: true),
-                        )
-                      ),
-                      Text(
-                         creatorsName,
-                        style: TextStyle(
-                          fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                              );
+                            }, growable: true),
+                          )
                         ),
-                      ),
-                    ],
+                        Text(
+                           creatorsName,
+                          style: TextStyle(
+                            fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Text(
-                  dateFormatter.format(itemDate),
-                  style: TextStyle(
-                    fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                  Text(
+                    dateFormatter.format(itemDate),
+                    style: TextStyle(
+                      fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -1170,18 +1172,21 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
-    return Container(
-      margin: const EdgeInsets.only(right: 28),
-      // height: 286 - (getIsMobileSize(context) ? 71 : 0), check the Listview
-      // builder to edit the height
-      width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: () => context.goNamed("detail_creation", extra: itemData),
-            child: Container(
+    return HighlightedWidgetOnHover(
+      widgetHeight: 286 - (getIsMobileSize(context) ? 71 : 0),
+      widgetWidth: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
+      onTapAction: () => context.goNamed("detail_creation", extra: itemData),
+      customBorderRadius: BorderRadius.circular(10),
+      child: Container(
+        margin: const EdgeInsets.only(right: 28),
+        // height: 286 - (getIsMobileSize(context) ? 71 : 0), check the Listview
+        // builder to edit the height
+        width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
               height: 227 - (getIsMobileSize(context) ? 71 : 0),
               width: double.maxFinite,
               clipBehavior: Clip.antiAlias,
@@ -1191,53 +1196,50 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ),
               child: itemImage,
             ),
-          ),
-          InkWell(
-            onTap: () => context.goNamed("detail_creation", extra: itemData),
-            child: SizedBox(
+            SizedBox(
               height: 26,
               child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
             ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 16,
-                constraints: BoxConstraints(
-                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 16,
+                  constraints: BoxConstraints(
+                    maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
+                  ),
+                  child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: itemData.projectCategories.length,
+                    itemBuilder: (BuildContext context, int indexCategories){
+                      return Text(
+                        itemData.projectCategories[indexCategories],
+                        style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 12,
+                            color: ref.watch(isDarkMode) ?
+                            _styleUtil.c_238 :
+                            _styleUtil.c_61,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                    },
+                  ),
                 ),
-                child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: itemData.projectCategories.length,
-                  itemBuilder: (BuildContext context, int indexCategories){
-                    return Text(
-                      itemData.projectCategories[indexCategories],
-                      style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 12,
-                          color: ref.watch(isDarkMode) ?
-                          _styleUtil.c_238 :
-                          _styleUtil.c_61,
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
-                  },
+                Text(
+                  dateFormatter.format(itemDate),
+                  style: TextStyle(
+                    fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                  ),
                 ),
-              ),
-              Text(
-                dateFormatter.format(itemDate),
-                style: TextStyle(
-                  fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1388,18 +1390,21 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
-    return Container(
-      margin: const EdgeInsets.only(right: 28),
-      // height: 286 - (getIsMobileSize(context) ? 71 : 0), check the Listview
-      // builder to edit the height
-      width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          InkWell(
-            onTap: () => context.goNamed("detail_creation", extra: itemData),
-            child: Container(
+    return HighlightedWidgetOnHover(
+      widgetHeight: 286 - (getIsMobileSize(context) ? 71 : 0),
+      widgetWidth: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
+      onTapAction: () => context.goNamed("detail_creation", extra: itemData),
+      customBorderRadius: BorderRadius.circular(10),
+      child: Container(
+        margin: const EdgeInsets.only(right: 28),
+        // height: 286 - (getIsMobileSize(context) ? 71 : 0), check the Listview
+        // builder to edit the height
+        width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
               height: 227 - (getIsMobileSize(context) ? 71 : 0),
               width: double.maxFinite,
               clipBehavior: Clip.antiAlias,
@@ -1409,44 +1414,41 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ),
               child: itemImage,
             ),
-          ),
-          InkWell(
-            onTap: () => context.goNamed("detail_creation", extra: itemData),
-            child: SizedBox(
+            SizedBox(
               height: 26,
               child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
             ),
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                height: 16,
-                constraints: BoxConstraints(
-                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  height: 16,
+                  constraints: BoxConstraints(
+                    maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
+                  ),
+                  child: ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: itemData.projectCategories.length,
+                    itemBuilder: (BuildContext context, int indexCategories){
+                        return Text(itemData.projectCategories[indexCategories], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                    },
+                    separatorBuilder: (context, index) {
+                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                    },
+                  ),
                 ),
-                child: ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: itemData.projectCategories.length,
-                  itemBuilder: (BuildContext context, int indexCategories){
-                      return Text(itemData.projectCategories[indexCategories], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
-                  },
-                  separatorBuilder: (context, index) {
-                    return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
-                  },
+                Text(
+                  dateFormatter.format(itemDate),
+                  style: TextStyle(
+                    fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                  ),
                 ),
-              ),
-              Text(
-                dateFormatter.format(itemDate),
-                style: TextStyle(
-                  fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
-                ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
