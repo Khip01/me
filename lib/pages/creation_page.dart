@@ -795,34 +795,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              padding: const EdgeInsets.only(bottom: 36),
-              margin: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-              constraints: const BoxConstraints(
-                maxWidth: 471,
-              ),
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    width: 359,
-                    child: FittedBox(
-                      fit: BoxFit.fill,
-                      child: Text(
-                        "M Y   P R O J E C T   P L A Y G R O U N D",
-                        style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 20,
-                            color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61
-                        ),
-                      ),
-                    ),
-                  ),
-                  Text("A collection of small projects from my past that reflect my learning journey in the realm of coding.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
-                ],
-              ),
+            CreationsHeaderTitle(
+              titleText: "M Y   P R O J E C T   P L A Y G R O U N D",
+              subTitleText: "A collection of small projects from my past that reflect my learning journey in the realm of coding.",
             ),
             // _creationCachedDecision(),
             // FutureBuilder(
@@ -1157,15 +1132,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _creationsContentRelatedProject(){
     return Container(
       margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
-      height: 338 - (getIsMobileSize(context) ? 71 : 0),
+      height: 338 - (getIsMobileSize(context) ? 71 : 0) + 79,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: SizedBox(
-              height: 26,
-              child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            child: CreationSubHeaderTitle(
+              titleText: "Related Projects",
+              subTitleText: "Find related portfolios featuring projects related to my area of expertise.",
             ),
           ),
           Container(
@@ -1269,15 +1244,15 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _creationsContentRelatedProjectShimmer(){
     return Container(
       margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
-      height: 338 - (getIsMobileSize(context) ? 71 : 0),
+      height: 338 - (getIsMobileSize(context) ? 71 : 0) + 79,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: SizedBox(
-              height: 26,
-              child: Text("Related Projects", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            child: CreationSubHeaderTitle(
+              titleText: "Related Projects",
+              subTitleText: "Find related portfolios featuring projects related to my area of expertise.",
             ),
           ),
           Container(
@@ -1381,9 +1356,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: SizedBox(
-              // height: 26,
-              child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            child: CreationSubHeaderTitle(
+              titleText: "Another Project",
+              subTitleText: "Check out the projects that showcase the diversity of my skills that I've explored.",
             ),
           ),
           Container(
@@ -1484,9 +1459,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: SizedBox(
-              // height: 26,
-              child: Text("Another project that has been my stepping stone", style: TextStyle(fontFamily: 'Lato', fontSize: 20, fontWeight: FontWeight.w500, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            child: CreationSubHeaderTitle(
+              titleText: "Another Project",
+              subTitleText: "Check out the projects that showcase the diversity of my skills that I've explored.",
             ),
           ),
           Container(
@@ -1686,3 +1661,88 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 }
+
+class CreationsHeaderTitle extends ConsumerWidget {
+  final String titleText;
+  final String subTitleText;
+
+  CreationsHeaderTitle({
+    super.key,
+    required this.titleText,
+    required this.subTitleText,
+  });
+
+  // general
+  final StyleUtil _styleUtil = StyleUtil();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: 36),
+      margin: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
+      constraints: const BoxConstraints(
+        maxWidth: 471,
+      ),
+      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(bottom: 10),
+            width: 359,
+            child: FittedBox(
+              fit: BoxFit.fill,
+              child: Text(
+                titleText,
+                style: TextStyle(
+                    fontFamily: 'Lato',
+                    fontSize: 20,
+                    color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61
+                ),
+              ),
+            ),
+          ),
+          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+        ],
+      ),
+    );
+  }
+}
+
+class CreationSubHeaderTitle extends ConsumerWidget {
+  final String titleText;
+  final String subTitleText;
+
+  CreationSubHeaderTitle({
+    super.key,
+    required this.titleText,
+    required this.subTitleText,
+  });
+
+  final StyleUtil _styleUtil = StyleUtil();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        maxWidth: 471
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: SizedBox(
+              height: 26,
+              child: Text(titleText, style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+            ),
+          ),
+          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+        ],
+      ),
+    );
+  }
+}
+
+
