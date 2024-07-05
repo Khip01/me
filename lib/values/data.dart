@@ -238,7 +238,7 @@ class Projects {
   static ProjectItemData RESTAURANT_KHIP01 = ProjectItemData(
     projectImagePathCover: ImagePath.RESTAURANT_KHIP01_C,
     projectImagePathList: [
-      ImagePath.CAFEAPP_KHIPCAFE_C,
+      ImagePath.RESTAURANT_KHIP01_C,
     ],
     projectName: StringConst.RESTAURANT_KHIP01_PROJECT_NAME,
     projectDescription: StringConst.RESTAURANT_KHIP01_PROJECT_DESCRIPTION,
