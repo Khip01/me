@@ -269,7 +269,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
               isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
               colorStart: _styleUtil.c_170,
               colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-              actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+              actionDelay: const Duration(milliseconds: 100),
               delayAfterAnimation: const Duration(milliseconds: 300),
               additionalOnTapAction: () => switchWithTransition(),
               additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
@@ -444,7 +444,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcome(),
                       builder: (Color color){
                         return Text(
@@ -467,7 +467,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreation(),
                       builder: (Color color){
                         return Text(
@@ -490,7 +490,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectHistory(),
                       builder: (Color color){
                         return Text(

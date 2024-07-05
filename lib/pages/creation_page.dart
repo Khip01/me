@@ -363,10 +363,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
   // ------ Scroll idle animation ------
   Widget _scrollIldeSticky(bool isVisible){
-    bool _compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
+    bool compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
 
     return Visibility(
-      visible: isVisible && _compactDeviceMode,
+      visible: isVisible && compactDeviceMode,
       child: SizedBox(
         height: MediaQuery.sizeOf(context).height + 1,
         child: Align(
@@ -460,7 +460,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                   colorStart: _styleUtil.c_170,
                   colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-                  actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                  actionDelay: const Duration(milliseconds: 100),
                   delayAfterAnimation: const Duration(milliseconds: 300),
                   additionalOnTapAction: () => switchWithTransition(),
                   additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
@@ -550,7 +550,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
                           colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectWelcome(),
                           builder: (Color color){
                             return Text(
@@ -589,7 +589,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                             isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                             colorStart: _styleUtil.c_170,
                             colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                            actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                            actionDelay: const Duration(milliseconds: 100),
                             additionalOnTapAction: () => _pushNamedWithRectHistory(),
                             builder: (Color color){
                               return Text(
@@ -616,7 +616,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
                           colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectFurther(),
                           builder: (Color color){
                             return Text(
@@ -662,7 +662,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
                           colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
                           builder: (Color color){
                             return Text(
@@ -701,7 +701,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
                           colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectHistorySticky(),
                           builder: (Color color){
                             return Text(
@@ -728,7 +728,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
                           colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                          actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
                           builder: (Color color){
                             return Text(

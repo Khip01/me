@@ -432,7 +432,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
               colorStart: _styleUtil.c_170,
               colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-              actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+              actionDelay: const Duration(milliseconds: 100),
               delayAfterAnimation: const Duration(milliseconds: 300),
               additionalOnTapAction: () => switchWithTransition(),
               additionalOnHoverAction: (value) => setState(() => _themeSwitch = value),
@@ -518,7 +518,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcome(),
                       builder: (Color color){
                         return Text(
@@ -541,7 +541,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreation(),
                       builder: (Color color){
                         return Text(
@@ -576,7 +576,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectFurther(),
                       builder: (Color color){
                         return Text(
@@ -618,7 +618,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
                       builder: (Color color){
                         return Text(
@@ -641,7 +641,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreationSticky(),
                       builder: (Color color){
                         return Text(
@@ -676,7 +676,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
                       colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
-                      actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                      actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
                       builder: (Color color){
                         return Text(
