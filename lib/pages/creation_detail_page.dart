@@ -209,73 +209,95 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
-          height:  widget.listViewHeight,
-          child: ScrollConfiguration(
-            behavior: ScrollWithDragBehavior(),
-            child: ListView.separated(
-              controller: _scrollController,
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
-              addAutomaticKeepAlives: false,
-              cacheExtent: 100,
-              scrollDirection: Axis.horizontal,
-              itemCount: widget.images.length,
-              itemBuilder: (context, index) {
-                return _buildCardImage(index);
-              },
-              separatorBuilder: (context, index) => const SizedBox(width: 12,),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 1),
+          child: SizedBox(
+            height:  widget.listViewHeight,
+            child: ScrollConfiguration(
+              behavior: ScrollWithDragBehavior(),
+              child: ListView.separated(
+                controller: _scrollController,
+                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+                addAutomaticKeepAlives: false,
+                cacheExtent: 100,
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.images.length,
+                itemBuilder: (context, index) {
+                  return _buildCardImage(index);
+                },
+                separatorBuilder: (context, index) => const SizedBox(width: 12,),
+              ),
             ),
           ),
         ),
         SizedBox(
-          width: double.maxFinite,
+          width: MediaQuery.sizeOf(context).width,
           height: widget.listViewHeight,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Visibility(
-                visible: _selectedIndex != 0,
-                child: ElevatedButton(
-                  onPressed: () => setState(() => _doSwapFocusedIndex(true)),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(20),
-                    backgroundColor: (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255).withOpacity(.7), // <-- Button color
-                    foregroundColor: _styleUtil.c_170, // <-- Splash color
-                  ),
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.7),
-                    size: 20,
-                  ),
-                ),
+              _listViewButtonController(
+                _selectedIndex != 0,
+                true,
+                getIsMobileSize(context) ? 40 : 80,
+                getIsMobileSize(context) ? 16 : 24,
+                () => setState(() => _doSwapFocusedIndex(true)),
               ),
-              Visibility(
-                visible: _selectedIndex != widget.images.length - 1,
-                child: ElevatedButton(
-                  onPressed: () => setState(() => _doSwapFocusedIndex(false)),
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    shadowColor: Colors.transparent,
-                    shape: const CircleBorder(),
-                    padding: const EdgeInsets.all(20),
-                    backgroundColor: (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255).withOpacity(.7), // <-- Button color
-                    foregroundColor: _styleUtil.c_170, // <-- Splash color
-                  ),
-                  child: Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.7),
-                    size: 20,
-                  ),
-                ),
-              )
+              _listViewButtonController(
+                _selectedIndex != widget.images.length - 1,
+                false,
+                getIsMobileSize(context) ? 40 : 80,
+                getIsMobileSize(context) ? 16 : 24,
+                () => setState(() => _doSwapFocusedIndex(false)),
+              ),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  Widget _listViewButtonController(bool buttonCondition, bool isButtonLeft, double buttonWidth, double iconSize, Function() onTapAction){
+    const Duration animationDuration = Duration(milliseconds: 150);
+    final Alignment beginGradientAlign = isButtonLeft ? Alignment.centerLeft : Alignment.centerRight;
+    final Alignment endGradientAlign = isButtonLeft ? Alignment.centerRight : Alignment.centerLeft;
+    final Color baseButtonColor = (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255);
+    final Color baseIconColor = (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.9);
+    final IconData mainIcon = isButtonLeft ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded;
+
+    return AnimatedOpacity(
+      duration: animationDuration,
+      opacity: buttonCondition ? 1.0 : 0.0,
+      child: AnimatedContainer(
+        duration: animationDuration,
+        width: buttonCondition ? buttonWidth : 0,
+        child: InkWell(
+          onTap: onTapAction,
+          splashColor: _styleUtil.c_170, // <-- Splash color
+          child: Container(
+            height: double.maxFinite,
+            width: buttonWidth,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: beginGradientAlign,
+                end: endGradientAlign,
+                colors: [
+                  baseButtonColor.withOpacity(1.0), // <-- Button color
+                  baseButtonColor.withOpacity(0.0),
+                ],
+              ),
+            ),
+            child: Center(
+              child: Icon(
+                mainIcon,
+                color: baseIconColor,
+                size: iconSize,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
