@@ -8,6 +8,7 @@ import 'package:me/Utility/style_util.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
+import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:me/widget/scroll_behavior.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -279,43 +280,30 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   }
 
   Widget _buildCardImage(int index){
-    return Stack(
-      children: [
-        Container(
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
-            color: (ref.watch(isDarkMode))
-                ? _styleUtil.c_33
-                : _styleUtil.c_255,
-            boxShadow: [
-              BoxShadow(
-                color: (ref.watch(isDarkMode))
-                    ? const Color.fromARGB(255, 200, 200, 200)
-                    : const Color.fromARGB(255, 233, 233, 233),
-                blurRadius: 7.0,
-              ),
-            ],
-          ),
-          height: widget.imageHeight,
-          width: widget.imageWidth,
-          child: Image.asset(widget.images[index], fit: BoxFit.cover),
-        ),
-        InkWell(
-          onTap: () => ref.read(isPreviewMode.notifier).state = index,
-          onHover: (val) => setState(() => cardIsHovered![index] = val),
-          child: SizedBox(
-            height: widget.imageHeight,
-            width: widget.imageWidth,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
-                color: cardIsHovered![index] ? _styleUtil.c_170.withOpacity(.1) : Colors.transparent,
-              ),
+    return HighlightedWidgetOnHover(
+      widgetHeight: widget.imageHeight,
+      widgetWidth: widget.imageWidth,
+      onTapAction: () => ref.read(isPreviewMode.notifier).state = index,
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
+          color: (ref.watch(isDarkMode))
+              ? _styleUtil.c_33
+              : _styleUtil.c_255,
+          boxShadow: [
+            BoxShadow(
+              color: (ref.watch(isDarkMode))
+                  ? const Color.fromARGB(255, 200, 200, 200)
+                  : const Color.fromARGB(255, 233, 233, 233),
+              blurRadius: 7.0,
             ),
-          ),
+          ],
         ),
-      ],
+        height: widget.imageHeight,
+        width: widget.imageWidth,
+        child: Image.asset(widget.images[index], fit: BoxFit.cover),
+      ),
     );
   }
 }
