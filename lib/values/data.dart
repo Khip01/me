@@ -16,10 +16,10 @@ class Data {
   static List<ProjectItemData> anotherCreations = [
     Projects.CAFEAPP_KHIPCAFE,
     Projects.SPPPAYMENT_SPPPAY_V2,
-    Projects.ROCK_PAPPER_SCISSORS_GAME,
     Projects.SPPPAYMENT_SPPPAY,
     Projects.FIRST_WEB_PORTFOLIO,
     Projects.CALCULATOR_GUI_JAVA,
+    Projects.ROCK_PAPPER_SCISSORS_GAME,
     Projects.KALKULATOR_BASIC_CPP,
   ];
 }
