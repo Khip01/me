@@ -26,6 +26,7 @@ class Data {
 
 class Projects {
   static ProjectItemData CAFEAPP_KHIPCAFE = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.CAFEAPP_KHIPCAFE_C,
     projectImagePathList: [
       ImagePath.CAFEAPP_KHIPCAFE_C,
@@ -48,6 +49,7 @@ class Projects {
     additionalLinkDescription: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData SPPPAYMENT_SPPPAY_V2 = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.SPPPAYMENT_SPPPAY_V2_C,
     projectImagePathList: [
       ImagePath.SPPPAYMENT_SPPPAY_V2_C,
@@ -72,6 +74,7 @@ class Projects {
     additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData ROCK_PAPPER_SCISSORS_GAME = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.ROCK_PAPPER_SCISSORS_GAME_C,
     projectImagePathList: [
       ImagePath.ROCK_PAPPER_SCISSORS_GAME_C,
@@ -95,6 +98,7 @@ class Projects {
     additionalLinkDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData SPPPAYMENT_SPPPAY = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.SPPPAYMENT_SPPPAY_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.SPPPAYMENT_SPPPAY_C,
     projectImagePathList: [
       ImagePath.SPPPAYMENT_SPPPAY_C,
@@ -118,6 +122,7 @@ class Projects {
     additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData FIRST_WEB_PORTFOLIO = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.FIRST_WEB_PORTFOLIO_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.FIRST_WEB_PORTFOLIO_C,
     projectImagePathList: [
       ImagePath.FIRST_WEB_PORTFOLIO_C,
@@ -142,6 +147,7 @@ class Projects {
     additionalLinkDescription: StringConst.FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData CALCULATOR_GUI_JAVA = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.CALCULATOR_GUI_JAVA_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.CALCULATOR_GUI_JAVA_C,
     projectImagePathList: [
       ImagePath.CALCULATOR_GUI_JAVA_C,
@@ -164,6 +170,7 @@ class Projects {
     additionalLinkDescription: StringConst.CALCULATOR_GUI_JAVA_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData KALKULATOR_BASIC_CPP = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.KALKULATOR_BASIC_CPP_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.KALKULATOR_BASIC_CPP_C,
     projectImagePathList: [
       ImagePath.KALKULATOR_BASIC_CPP_C,
@@ -186,6 +193,7 @@ class Projects {
     additionalLinkDescription: StringConst.KALKULATOR_BASIC_CPP_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData FLUTTER_PORTFOLIO = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.FLUTTER_PORTFOLIO_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.FLUTTER_PORTFOLIO_C,
     projectImagePathList: [
       ImagePath.FLUTTER_PORTFOLIO_C,
@@ -211,6 +219,7 @@ class Projects {
     projectHighlightDescription: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData COMMENT_SECTION_WEB = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.COMMENT_SECTION_WEB_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.COMMENT_SECTION_WEB_C,
     projectImagePathList: [
       ImagePath.COMMENT_SECTION_WEB_C,
@@ -236,6 +245,7 @@ class Projects {
     projectHighlightDescription: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData RESTAURANT_KHIP01 = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.RESTAURANT_KHIP01_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.RESTAURANT_KHIP01_C,
     projectImagePathList: [
       ImagePath.RESTAURANT_KHIP01_C,
@@ -263,6 +273,7 @@ class Projects {
 }
 
 class ProjectItemData {
+  final String projectId;
   final String projectImagePathCover;
   final List<String> projectImagePathList;
   final String projectName;
@@ -284,6 +295,7 @@ class ProjectItemData {
   final String additionalLinkDescription;
 
   ProjectItemData({
+    required this.projectId,
     required this.projectImagePathCover,
     required this.projectImagePathList,
     required this.projectName,
@@ -299,9 +311,9 @@ class ProjectItemData {
     this.projectHighlightHeader,
     this.projectHighlightDescription,
     this.projectHighlightTopic,
-    required this.linkProjectToGithub, //
-    required this.linkDemoWeb, //
-    required this.additionalLink, //
-    required this.additionalLinkDescription, //
+    required this.linkProjectToGithub,
+    required this.linkDemoWeb,
+    required this.additionalLink,
+    required this.additionalLinkDescription,
   });
 }
