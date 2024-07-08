@@ -6,8 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
-import 'package:me/component/visible.dart';
-import 'package:me/controller/controller.dart';
+import 'package:me/helper/generate_id_from_timestamp.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
@@ -915,11 +914,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
     final String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
+    final generatedId = generateShortUniqueIdFromTimestamp(itemData.timestampDateCreated);
 
     return HighlightedWidgetOnHover(
       widgetHeight: contentHighlightHeight(context),
       widgetWidth: contentHighlightWidth(context),
-      onTapAction: () => context.goNamed("detail_creation", extra: itemData),
+      onTapAction: () => context.go('/creation/details?id=$generatedId'),
       customBorderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
       child: Container(
         margin: contentHighlightListSpace(context),
@@ -1171,11 +1171,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    final generatedId = generateShortUniqueIdFromTimestamp(itemData.timestampDateCreated);
 
     return HighlightedWidgetOnHover(
       widgetHeight: 286 - (getIsMobileSize(context) ? 71 : 0),
       widgetWidth: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
-      onTapAction: () => context.goNamed("detail_creation", extra: itemData),
+      onTapAction: () => context.go('/creation/details?id=$generatedId'),
       customBorderRadius: BorderRadius.circular(10),
       child: Container(
         margin: const EdgeInsets.only(right: 28),
@@ -1389,11 +1390,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    final generatedId = generateShortUniqueIdFromTimestamp(itemData.timestampDateCreated);
 
     return HighlightedWidgetOnHover(
       widgetHeight: 286 - (getIsMobileSize(context) ? 71 : 0),
       widgetWidth: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
-      onTapAction: () => context.goNamed("detail_creation", extra: itemData),
+      onTapAction: () => context.go('/creation/details?id=$generatedId'),
       customBorderRadius: BorderRadius.circular(10),
       child: Container(
         margin: const EdgeInsets.only(right: 28),
