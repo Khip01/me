@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:me/helper/find_project_by_id.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/pages/pages.dart';
 import 'package:me/super_user/super_user.dart';
@@ -47,15 +48,30 @@ class MyApp extends ConsumerWidget {
           name: "creation",
           routes: [
             GoRoute(
-              path: "detail",
-              name: "detail_creation",
+              path: "details",
+              name: "details_creation",
               pageBuilder: (context, state) {
-                Object? object = state.extra;
+                // Catch id Parameter Route
+                final id = state.uri.queryParameters["id"];
+
+                // Return /creation page if parameter is invalid
+                if(id == null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                      context.go('/creation');
+                    });
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: const SizedBox.shrink(),
+                  );
+                }
+
+                // try to convert timestamp to base62
+                Object? object = findProjectById(id);
 
                 if(object != null && object is ProjectItemData){
                   return buildPageWithDefaultTransition(context: context, state: state, child: CreationDetailPage(selectedProject: object));
                 } else {
-                  // Mengarahkan kembali ke halaman /creation jika extra tidak valid
+                  // Mengarahkan kembali ke halaman /creation jika parameter tidak valid / tidak ditemukan data
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     context.go('/creation');
                   });
