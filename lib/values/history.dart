@@ -24,13 +24,23 @@ class Histories {
       historyYear: StringConst.MALANG_STATE_POLYTECHNIC_YEAR,
       historyTag: StringConst.MALANG_STATE_POLYTECHNIC_TAG,
       historyDescription: StringConst.MALANG_STATE_POLYTECHNIC_DESC,
-      historyDocumentations: []);
+      historyDocumentations: [
+        Documentations.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS,
+        Documentations.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART,
+      ],
+  );
 
   static HistoryItemData VOC_HIGH_SCHOOL = HistoryItemData(
     historyTitle: StringConst.VOC_HIGH_SCHOOL_TITLE,
     historyYear: StringConst.VOC_HIGH_SCHOOL_YEAR,
     historyTag: StringConst.VOC_HIGH_SCHOOL_TAG,
     historyDescription: StringConst.VOC_HIGH_SCHOOL_DESC,
+    historyDocumentations: [
+      Documentations.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS,
+      Documentations.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE,
+      Documentations.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM,
+      Documentations.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION,
+    ],
   );
 }
 
@@ -96,8 +106,8 @@ class Documentations {
   static HistoryItemDocumentation PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM =
     HistoryItemDocumentation(
       docType: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTYPE,
-      docTitle: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTYPE,
-      docDesc: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTYPE,
+      docTitle: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTITLE,
+      docDesc: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCDESC,
       docImageList: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCIMAGELIST,
       docFileLink: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCFILELINK,
     );
