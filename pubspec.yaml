@@ -105,6 +105,12 @@ flutter:
     - assets/images/projects/spppayment_spppay_v2/
     - assets/images/creators_photo/
     - assets/images/certificates/
+    - assets/images/certificates/competency_test_for_software_engineering_expertise/
+    - assets/images/certificates/dicoding_getting_started_programming_with_dart/
+    - assets/images/certificates/dicoding_learn_to_make_flutter_apps_for_beginners/
+    - assets/images/certificates/it_software_solutions_for_business/
+    - assets/images/certificates/professional_certification_institute_exam/
+    - assets/images/certificates/test_of_english_for_international_communication/
 #     - images/a_dot_burr.jpeg
 #     - images/a_dot_ham.jpeg
 
