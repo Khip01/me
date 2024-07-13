@@ -276,4 +276,65 @@ class StringConst {
     "#Past"
   ];
   static const String VOC_HIGH_SCHOOL_DESC = "I have completed Vocational High School in Software Engineering for 3 years.";
+
+
+  // HISTORY ------------------------------------------------------------------
+  // Learn to Make Flutter Apps for Beginners
+  static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCTYPE = "Certification";
+  static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCTITLE = "Learn to Make Flutter Apps for Beginners";
+  static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCDESC = "Completed the flutter class for beginners held by dicoding indonesia. Which at the end of the class there is a submission (final project) in the form of a simple Flutter application.";
+  static const List<String> DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCIMAGELIST = [
+    ImagePath.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_01,
+    ImagePath.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_02,
+  ];
+  static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCFILELINK = "https://www.dicoding.com/certificates/1OP8N60N1XQK";
+
+  // Getting Started Programming with Dart
+  static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCTYPE = "Certification";
+  static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCTITLE = "Getting Started Programming with Dart";
+  static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCDESC = "Completed the dart programming language class for beginners held by dicoding indonesia with reference to industry standards. Which at the end of the class there is a final exam that discusses the dart programming language.";
+  static const List<String> DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCIMAGELIST = [
+    ImagePath.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_01,
+    ImagePath.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_02,
+    ImagePath.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_03,
+  ];
+  static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCFILELINK = "https://www.dicoding.com/certificates/1RXY08L2KZVM";
+
+  // IT Softwre Solution for Business - Lomba Kompetensi Siswa
+  static const String IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCTYPE = "Certification";
+  static const String IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCTITLE = "IT Software Solutions for Business";
+  static const String IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCDESC = "Participated in software engineering competitions up to the East Java provincial level focusing on desktop and mobile-based applications.";
+  static const List<String> IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCIMAGELIST = [
+    ImagePath.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_01,
+  ];
+  static const String IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCFILELINK = "https://drive.google.com/file/d/1C8XEL9BZcJPsTZ-gpyBhmmEtfg-ZF58O/view?usp=sharing";
+
+  // Competency Test for Software Engineering Expertise - Sertifikat Uji Kompetensi
+  static const String COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCTYPE = "Certification";
+  static const String COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCTITLE = "Competency Test for Software Engineering Expertise";
+  static const String COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCDESC = "Completed the Final Competency Exam in Software Engineering at State Vocational High School 1 Purwosari. Testing which includes a presentation of the creation of Desktop-based applications that are done individually for 3 months.";
+  static const List<String> COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCIMAGELIST = [
+    ImagePath.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_01,
+    ImagePath.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_02,
+  ];
+  static const String COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCFILELINK = "https://drive.google.com/file/d/1xl7sgGVATnXTh_M_7w_maWm0sZ-iLCVX/view?usp=sharing";
+
+  // Professional Certification Institute Exam - Lembaga Sertifikasi Profesi
+  static const String PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTYPE = "Certification";
+  static const String PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTITLE = "Professional Certification Institute Exam";
+  static const String PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCDESC = "Complete the Examination held by the Indonesian Professional Certification Authority to prove that the person concerned is competent in the field of Software Engineering.";
+  static const List<String> PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCIMAGELIST = [
+    ImagePath.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_01,
+    ImagePath.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_02,
+  ];
+  static const String PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCFILELINK = "https://drive.google.com/file/d/1T_YTnlbmqk142-6IUPkmeTaAuV60mkC3/view?usp=sharing";
+
+  // Test of English for International Communication - TOEIC
+  static const String TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCTYPE = "Certification";
+  static const String TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCTITLE = "Test of English for International Communication";
+  static const String TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCDESC = "Take the Test of English for International Communication while at the Vocational High School level.";
+  static const List<String> TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCIMAGELIST = [
+    ImagePath.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_01,
+  ];
+  static const String TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCFILELINK = "https://drive.google.com/file/d/1jqPcJKwYIpq0U0A75G4Im1TQgGZBtjYV/view?usp=sharing";
 }
