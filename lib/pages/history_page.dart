@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -5,6 +7,7 @@ import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
+import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -976,6 +979,7 @@ class HistoryType extends ConsumerWidget {
                 year: historyData[index].historyYear,
                 tag: historyData[index].historyTag,
                 desc: historyData[index].historyDescription,
+                listDcoumentation: historyData[index].historyDocumentations,
               );
             }
           ),
@@ -985,28 +989,99 @@ class HistoryType extends ConsumerWidget {
   }
 }
 
-class HistoryPath extends ConsumerWidget {
-  // General
-  StyleUtil _styleUtil = StyleUtil();
-
+class HistoryPath extends ConsumerStatefulWidget {
   final String title;
   final String year;
   final List<String> tag;
   final String desc;
+  final List<HistoryItemDocumentation>? listDcoumentation;
 
-  HistoryPath({
+  const HistoryPath({
     super.key,
     required this.title,
     required this.year,
     required this.tag,
     required this.desc,
+    required this.listDcoumentation,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HistoryPath> createState() => _HistoryPathState();
+}
+
+class _HistoryPathState extends ConsumerState<HistoryPath> {
+  // General
+  final StyleUtil _styleUtil = StyleUtil();
+
+  bool isDocsExpand = false;
+  Timer? _animationTimer;
+  int animDuration = 100;
+
+  late List<bool> _itemWrapIsVisible;
+  late List<bool> _itemColumnIsVisible;
+
+  // TODO: FUNCTION
+  void startWrapAnimation() {
+    clearColumnAnimation();
+    _animationTimer?.cancel();
+    int index = 0;
+    _animationTimer = Timer.periodic(Duration(milliseconds: animDuration), (timer) {
+      if (index < _itemWrapIsVisible.length) {
+        setState(() {
+          _itemWrapIsVisible[index] = true;
+        });
+        index++;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  void startColumnAnimation() {
+    clearWrapAnimation();
+    _animationTimer?.cancel();
+    int index = 0;
+    _animationTimer = Timer.periodic(Duration(milliseconds: animDuration), (timer) {
+      if (index < _itemColumnIsVisible.length) {
+        setState(() {
+          _itemColumnIsVisible[index] = true;
+        });
+        index++;
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  void clearWrapAnimation() {
+    _itemWrapIsVisible = List.generate((widget.listDcoumentation?.length ?? 0) > 3 ? 3 : widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+  }
+
+  void clearColumnAnimation() {
+    _itemColumnIsVisible = List.generate(widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+  }
+  // TODO: END FUCNTION
+
+  @override
+  void initState() {
+    _itemWrapIsVisible = List.generate((widget.listDcoumentation?.length ?? 0) > 3 ? 3 : widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemColumnIsVisible = List.generate(widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+    startWrapAnimation();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(top: 30),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: double.maxFinite,
@@ -1018,12 +1093,12 @@ class HistoryPath extends ConsumerWidget {
                   fit: FlexFit.tight,
                   flex: 4,
                   child: Text(
-                    title,
+                    widget.title,
                     style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
                   ),
                 ),
                 Text(
-                  year,
+                  widget.year,
                   style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
                   textAlign: TextAlign.right,
                 ),
@@ -1041,7 +1116,7 @@ class HistoryPath extends ConsumerWidget {
             child: Wrap(
               spacing: 8.0,
               runSpacing: 4.0,
-              children: tag.map((item) {
+              children: widget.tag.map((item) {
                 return Text(
                   item,
                   style: TextStyle(
@@ -1057,7 +1132,7 @@ class HistoryPath extends ConsumerWidget {
             width: double.maxFinite,
             margin: const EdgeInsets.only(top: 10),
             child: Text(
-              desc,
+              widget.desc,
               style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 16,
@@ -1065,11 +1140,348 @@ class HistoryPath extends ConsumerWidget {
               ),
             ),
           ),
+          documentationSection(),
         ],
       ),
     );
   }
+
+  Widget documentationSection(){
+    bool isDocsAvailable = widget.listDcoumentation != null;
+
+    return Visibility(
+      visible: isDocsAvailable,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: InkWell(
+              onTap: () => setState(() {
+                (!isDocsExpand) ? startColumnAnimation() : startWrapAnimation();
+                isDocsExpand = !isDocsExpand;
+              }),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(isDocsExpand ? "Collapse all documentation for this history" : "See all documentation for this history", style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: _styleUtil.c_170),),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: AnimatedRotation(
+                      turns: isDocsExpand ? -0.5 : 0,
+                      duration: const Duration(milliseconds: 200),
+                      child: Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        size: 16,
+                        color: _styleUtil.c_170,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: AnimatedSize(
+              alignment: Alignment.topLeft,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              child: docsContentDecider(widget.listDcoumentation?.length ?? 0),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget docsContentDecider(int totalItem) {
+    if(!isDocsExpand){ // Collapse Mode
+      return Wrap(
+        spacing: 10,
+        direction: Axis.horizontal,
+        children: [
+          for (int index = 0; index < (totalItem > 3 ? 3 : totalItem); index++)
+            contentWrapItem(totalItem, index),
+        ],
+      );
+    } else { // Expanded Mode
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (int index = 0; index < totalItem; index++)
+            contentColumnItem(totalItem, index),
+        ],
+      );
+    }
+  }
+
+  Widget contentWrapItem(int totalItem, int index){
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: animDuration),
+      opacity: _itemWrapIsVisible[index] ? 1 : 0,
+      child: SizedBox(
+        width: 75,
+        height: 75,
+        child: Stack(
+          children: [
+            Container(
+              clipBehavior: Clip.antiAlias,
+              width: double.maxFinite,
+              height: double.maxFinite,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: _styleUtil.c_170,
+              ),
+              child: Image.asset(
+                fit: BoxFit.cover,
+                widget.listDcoumentation![index].docImageList[0],
+              ),
+            ),
+            (totalItem > 3 && index == 2)
+                ? Container(
+              width: double.maxFinite,
+              height: double.maxFinite,
+              decoration: BoxDecoration(
+                color: _styleUtil.c_61.withOpacity(.7),
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(.0) : _styleUtil.c_61.withOpacity(0),
+                    ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(1) : _styleUtil.c_61.withOpacity(1),
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  "+${totalItem - 3}",
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_255,)
+                ),
+              ),
+            )
+                : Container(
+              width: double.maxFinite,
+              height: double.maxFinite,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget contentColumnItem(int totalItem, int index){
+    return AnimatedOpacity(
+      duration: Duration(milliseconds: animDuration),
+      opacity: _itemColumnIsVisible[index] ? 1 : 0,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: index == totalItem-1 ? 0 : 8),
+        child: HighlightedWidgetOnHover(
+          widgetWidth: double.maxFinite,
+          widgetHeight: 75,
+          onTapAction: (){},
+          child: SizedBox(
+            width: double.maxFinite,
+            height: 75,
+            child: Row(
+              children: [
+                Flexible(
+                  fit: FlexFit.tight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.listDcoumentation![index].docType,
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w700, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          ),
+                        ),
+                        Text(
+                          widget.listDcoumentation![index].docTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 16,
+                            color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                          ),
+                        ),
+                        Text(
+                          widget.listDcoumentation![index].docDesc,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            fontSize: 14,
+                            color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  clipBehavior: Clip.antiAlias,
+                  width: 75,
+                  height: 75,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: _styleUtil.c_170,
+                  ),
+                  child: Image.asset(
+                    fit: BoxFit.cover,
+                    widget.listDcoumentation![index].docImageList[0],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
+// class DocsContentDecider extends StatelessWidget {
+//   final bool isExpanded;
+//   final int totalItem;
+//   final int animDuration;
+//   final List<bool> itemWrapIsVisible;
+//   final List<bool> itemColumnIsVisible;
+//
+//   const DocsContentDecider({
+//     super.key,
+//     required this.isExpanded,
+//     required this.totalItem,
+//     required this.animDuration,
+//     required this.itemWrapIsVisible,
+//     required this.itemColumnIsVisible,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     if(!isExpanded){ // Collapse Mode
+//       return Wrap(
+//         spacing: 10,
+//         direction: Axis.horizontal,
+//         children: [
+//           for (int index = 0; index < (totalItem > 3 ? 3 : totalItem); index++)
+//             ContentWrapItem(
+//               index: index,
+//               totalItem: totalItem,
+//               animDuration: animDuration,
+//               itemWrapIsVisible: itemWrapIsVisible,
+//             ),
+//         ],
+//       );
+//     } else { // Expanded Mode
+//       return Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           for (int index = 0; index < totalItem; index++)
+//             ContentColumnItem(
+//               index: index,
+//               animDuration: animDuration,
+//               totalItem: totalItem,
+//               itemColumnIsVisible: itemColumnIsVisible,
+//             ),
+//         ],
+//       );
+//     }
+//   }
+// }
+// class ContentWrapItem extends StatelessWidget {
+//   final int index;
+//   final int totalItem;
+//   final int animDuration;
+//   final List<bool> itemWrapIsVisible;
+//
+//   const ContentWrapItem({
+//     super.key,
+//     required this.index,
+//     required this.totalItem,
+//     required this.animDuration,
+//     required this.itemWrapIsVisible,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedOpacity(
+//       duration: Duration(milliseconds: animDuration),
+//       opacity: itemWrapIsVisible[index] ? 1 : 0,
+//       child: Container(
+//         width: 75,
+//         height: 75,
+//         decoration: BoxDecoration(
+//           borderRadius: BorderRadius.circular(5),
+//           color: Colors.grey,
+//         ),
+//         child: (totalItem > 3 && index == 2) ? Center(child: Text("+${totalItem - 3}")) : const SizedBox(),
+//       ),
+//     );
+//   }
+// }
+// class ContentColumnItem extends StatelessWidget {
+//   final int index;
+//   final int totalItem;
+//   final int animDuration;
+//   final List<bool> itemColumnIsVisible;
+//
+//   const ContentColumnItem({
+//     super.key,
+//     required this.index,
+//     required this.totalItem,
+//     required this.animDuration,
+//     required this.itemColumnIsVisible,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return AnimatedOpacity(
+//       duration: Duration(milliseconds: animDuration),
+//       opacity: itemColumnIsVisible[index] ? 1 : 0,
+//       child: Padding(
+//         padding: EdgeInsets.only(bottom: index == totalItem-1 ? 0 : 8),
+//         child: SizedBox(
+//           width: double.maxFinite,
+//           height: 75,
+//           child: Row(
+//             children: [
+//               Flexible(
+//                 fit: FlexFit.tight,
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text("Ini title index ke-$index"),
+//                     Text("Ini sub-title dari index ke-$index"),
+//                   ],
+//                 ),
+//               ),
+//               Container(
+//                 width: 75,
+//                 height: 75,
+//                 decoration: BoxDecoration(
+//                   color: Colors.grey,
+//                   borderRadius: BorderRadius.circular(5),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class HistoryScoopeType extends ConsumerWidget {
   // General
