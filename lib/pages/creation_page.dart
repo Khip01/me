@@ -1,12 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
-import 'package:me/helper/generate_id_from_timestamp.dart';
+import 'package:me/helper/id_generator_formula.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
@@ -914,12 +913,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
     final String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
-    final generatedId = generateShortUniqueIdFromTimestamp(itemData.timestampDateCreated);
 
     return HighlightedWidgetOnHover(
       widgetHeight: contentHighlightHeight(context),
       widgetWidth: contentHighlightWidth(context),
-      onTapAction: () => context.go('/creation/details?id=$generatedId'),
+      onTapAction: () => context.goNamed("details_creation", queryParameters: {
+        "id": itemData.projectId,
+      }),
       customBorderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
       child: Container(
         margin: contentHighlightListSpace(context),
