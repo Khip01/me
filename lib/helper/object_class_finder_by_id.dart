@@ -10,3 +10,14 @@ ProjectItemData? findProjectById(String? id){
   }
   return null;
 }
+
+HistoryItemData? findHistoryById(String? id){
+  if (id == null) return null;
+  // Combine All Creations
+  List<HistoryItemData> allHistoriesData = [...History.historyDataWork, ...History.historyDataEdu];
+
+  for (int i = 0; i < allHistoriesData.length; i++) {
+    if (allHistoriesData[i].historyItemDataId.contains(id)) return allHistoriesData[i];
+  }
+  return null;
+}
