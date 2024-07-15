@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/helper/find_project_by_id.dart';
 import 'package:me/helper/helper.dart';
+import 'package:me/pages/history_detail_page.dart';
 import 'package:me/pages/pages.dart';
 import 'package:me/super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
@@ -87,9 +88,35 @@ class MyApp extends ConsumerWidget {
             return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
           },
         ),
-        GoRoute(path: "/history", name: "history", pageBuilder: (context, state){
-          return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
-        }),
+        GoRoute(
+          path: "/history",
+          name: "history",
+          routes: [
+            GoRoute(
+              path: "details",
+              name: "details_history",
+              pageBuilder: (context, state) {
+                Object? object = state.extra;
+
+                if(object != null && object is Map<String, dynamic>){
+                  return buildPageWithDefaultTransition(context: context, state: state, child: HistoryDetailPage(index: object["index"], historyData: object["data"]));
+                } else {
+                  // Mengarahkan kembali ke halaman /creation jika parameter tidak valid / tidak ditemukan data
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.go('/history');
+                  });
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: const SizedBox.shrink(),
+                  );
+                }
+              },
+            ),
+          ],
+          pageBuilder: (context, state){
+            return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
+          },
+        ),
         GoRoute(path: "/further", name: "further", pageBuilder: (context, state){
           return buildPageWithDefaultTransition(context: context, state: state, child: const FurtherPage());
         }),

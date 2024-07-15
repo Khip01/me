@@ -975,11 +975,12 @@ class HistoryType extends ConsumerWidget {
             itemCount: historyData.length,
             itemBuilder: (context, index) {
               return HistoryPath(
-                title: historyData[index].historyTitle,
-                year: historyData[index].historyYear,
-                tag: historyData[index].historyTag,
-                desc: historyData[index].historyDescription,
-                listDcoumentation: historyData[index].historyDocumentations,
+                // title: historyData[index].historyTitle,
+                // year: historyData[index].historyYear,
+                // tag: historyData[index].historyTag,
+                // desc: historyData[index].historyDescription,
+                // listDcoumentation: historyData[index].historyDocumentations,
+                historyItemData: historyData[index],
               );
             }
           ),
@@ -990,19 +991,16 @@ class HistoryType extends ConsumerWidget {
 }
 
 class HistoryPath extends ConsumerStatefulWidget {
-  final String title;
-  final String year;
-  final List<String> tag;
-  final String desc;
-  final List<HistoryItemDocumentation>? listDcoumentation;
+  final HistoryItemData historyItemData;
 
   const HistoryPath({
     super.key,
-    required this.title,
-    required this.year,
-    required this.tag,
-    required this.desc,
-    required this.listDcoumentation,
+    // required this.title,
+    // required this.year,
+    // required this.tag,
+    // required this.desc,
+    // required this.listDcoumentation,
+    required this.historyItemData,
   });
 
   @override
@@ -1010,6 +1008,13 @@ class HistoryPath extends ConsumerStatefulWidget {
 }
 
 class _HistoryPathState extends ConsumerState<HistoryPath> {
+  // Attrib
+  late final String title;
+  late final String year;
+  late final List<String> tag;
+  late final String desc;
+  late final List<HistoryItemDocumentation>? listDocumentation;
+
   // General
   final StyleUtil _styleUtil = StyleUtil();
 
@@ -1021,6 +1026,14 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   late List<bool> _itemColumnIsVisible;
 
   // TODO: FUNCTION
+  void initAttrib() {
+    title = widget.historyItemData.historyTitle;
+    year = widget.historyItemData.historyYear;
+    tag = widget.historyItemData.historyTag;
+    desc = widget.historyItemData.historyDescription;
+    listDocumentation = widget.historyItemData.historyDocumentations;
+  }
+
   void startWrapAnimation() {
     clearColumnAnimation();
     _animationTimer?.cancel();
@@ -1054,18 +1067,21 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   }
 
   void clearWrapAnimation() {
-    _itemWrapIsVisible = List.generate((widget.listDcoumentation?.length ?? 0) > 3 ? 3 : widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemWrapIsVisible = List.generate((listDocumentation?.length ?? 0) > 3 ? 3 : listDocumentation?.length ?? 0, (_) => false, growable: false,);
   }
 
   void clearColumnAnimation() {
-    _itemColumnIsVisible = List.generate(widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemColumnIsVisible = List.generate(listDocumentation?.length ?? 0, (_) => false, growable: false,);
   }
   // TODO: END FUCNTION
 
   @override
   void initState() {
-    _itemWrapIsVisible = List.generate((widget.listDcoumentation?.length ?? 0) > 3 ? 3 : widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
-    _itemColumnIsVisible = List.generate(widget.listDcoumentation?.length ?? 0, (_) => false, growable: false,);
+    // Atrib Init
+    initAttrib();
+    // Animation Init
+    _itemWrapIsVisible = List.generate((listDocumentation?.length ?? 0) > 3 ? 3 : listDocumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemColumnIsVisible = List.generate(listDocumentation?.length ?? 0, (_) => false, growable: false,);
     startWrapAnimation();
     super.initState();
   }
@@ -1093,12 +1109,12 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   fit: FlexFit.tight,
                   flex: 4,
                   child: Text(
-                    widget.title,
+                    title,
                     style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
                   ),
                 ),
                 Text(
-                  widget.year,
+                  year,
                   style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
                   textAlign: TextAlign.right,
                 ),
@@ -1116,7 +1132,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
             child: Wrap(
               spacing: 8.0,
               runSpacing: 4.0,
-              children: widget.tag.map((item) {
+              children: tag.map((item) {
                 return Text(
                   item,
                   style: TextStyle(
@@ -1132,7 +1148,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
             width: double.maxFinite,
             margin: const EdgeInsets.only(top: 10),
             child: Text(
-              widget.desc,
+              desc,
               style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 16,
@@ -1147,7 +1163,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   }
 
   Widget documentationSection(){
-    bool isDocsAvailable = widget.listDcoumentation != null;
+    bool isDocsAvailable = listDocumentation != null;
 
     return Visibility(
       visible: isDocsAvailable,
@@ -1190,7 +1206,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
               alignment: Alignment.topLeft,
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut,
-              child: docsContentDecider(widget.listDcoumentation?.length ?? 0),
+              child: docsContentDecider(listDocumentation?.length ?? 0),
             ),
           ),
         ],
@@ -1200,13 +1216,16 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
 
   Widget docsContentDecider(int totalItem) {
     if(!isDocsExpand){ // Collapse Mode
-      return Wrap(
-        spacing: 10,
-        direction: Axis.horizontal,
-        children: [
-          for (int index = 0; index < (totalItem > 3 ? 3 : totalItem); index++)
-            contentWrapItem(totalItem, index),
-        ],
+      return SizedBox(
+        width: double.maxFinite,
+        child: Wrap(
+          spacing: 10,
+          direction: Axis.horizontal,
+          children: [
+            for (int index = 0; index < (totalItem > 3 ? 3 : totalItem); index++)
+              contentWrapItem(totalItem, index),
+          ],
+        ),
       );
     } else { // Expanded Mode
       return Column(
@@ -1223,54 +1242,63 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     return AnimatedOpacity(
       duration: Duration(milliseconds: animDuration),
       opacity: _itemWrapIsVisible[index] ? 1 : 0,
-      child: SizedBox(
-        width: 75,
-        height: 75,
-        child: Stack(
-          children: [
-            Container(
-              clipBehavior: Clip.antiAlias,
-              width: double.maxFinite,
-              height: double.maxFinite,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: _styleUtil.c_170,
-              ),
-              child: Image.asset(
-                fit: BoxFit.cover,
-                widget.listDcoumentation![index].docImageList[0],
-              ),
-            ),
-            (totalItem > 3 && index == 2)
-                ? Container(
-              width: double.maxFinite,
-              height: double.maxFinite,
-              decoration: BoxDecoration(
-                color: _styleUtil.c_61.withOpacity(.7),
-                gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  colors: [
-                    ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(.0) : _styleUtil.c_61.withOpacity(0),
-                    ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(1) : _styleUtil.c_61.withOpacity(1),
-                  ],
+      child: HighlightedWidgetOnHover(
+        widgetWidth: 75,
+        widgetHeight: 75,
+        onTapAction: () => setState(() {
+          (!isDocsExpand) ? startColumnAnimation() : startWrapAnimation();
+          isDocsExpand = !isDocsExpand;
+        }),
+        customBorderRadius: BorderRadius.circular(5),
+        child: SizedBox(
+          width: 75,
+          height: 75,
+          child: Stack(
+            children: [
+              Container(
+                clipBehavior: Clip.antiAlias,
+                width: double.maxFinite,
+                height: double.maxFinite,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: _styleUtil.c_170,
+                ),
+                child: Image.asset(
+                  fit: BoxFit.cover,
+                  listDocumentation![index].docImageList[0],
                 ),
               ),
-              child: Center(
-                child: Text(
-                  "+${totalItem - 3}",
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_255,)
+              (totalItem > 3 && index == 2)
+                  ? Container(
+                width: double.maxFinite,
+                height: double.maxFinite,
+                decoration: BoxDecoration(
+                  color: _styleUtil.c_61.withOpacity(.7),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(.0) : _styleUtil.c_61.withOpacity(0),
+                      ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(1) : _styleUtil.c_61.withOpacity(1),
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "+${totalItem - 3}",
+                    style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_255,)
+                  ),
+                ),
+              )
+                  : Container(
+                width: double.maxFinite,
+                height: double.maxFinite,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
-            )
-                : Container(
-              width: double.maxFinite,
-              height: double.maxFinite,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -1285,7 +1313,13 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
         child: HighlightedWidgetOnHover(
           widgetWidth: double.maxFinite,
           widgetHeight: 75,
-          onTapAction: (){},
+          onTapAction: () {
+            Map<String, dynamic> extra = {
+              "index": index,
+              "data": widget.historyItemData,
+            };
+            context.goNamed("details_history", extra: extra);
+          },
           child: SizedBox(
             width: double.maxFinite,
             height: 75,
@@ -1300,7 +1334,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.listDcoumentation![index].docType,
+                          listDocumentation![index].docType,
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 14,
@@ -1308,7 +1342,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                           ),
                         ),
                         Text(
-                          widget.listDcoumentation![index].docTitle,
+                          listDocumentation![index].docTitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -1318,7 +1352,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                           ),
                         ),
                         Text(
-                          widget.listDcoumentation![index].docDesc,
+                          listDocumentation![index].docDesc,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -1341,7 +1375,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   ),
                   child: Image.asset(
                     fit: BoxFit.cover,
-                    widget.listDcoumentation![index].docImageList[0],
+                    listDocumentation![index].docImageList[0],
                   ),
                 ),
               ],
