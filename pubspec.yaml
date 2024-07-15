@@ -45,6 +45,7 @@ dependencies:
   file_picker: ^8.0.0+1
   shimmer: ^3.0.0
   shared_preferences: ^2.2.3
+  scrollable_positioned_list: ^0.3.8
 #  url_strategy: ^0.2.0
 #  flutter_screenutil: ^5.9.0
 #  google_fonts: ^6.2.1
