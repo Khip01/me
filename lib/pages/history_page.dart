@@ -995,11 +995,6 @@ class HistoryPath extends ConsumerStatefulWidget {
 
   const HistoryPath({
     super.key,
-    // required this.title,
-    // required this.year,
-    // required this.tag,
-    // required this.desc,
-    // required this.listDcoumentation,
     required this.historyItemData,
   });
 
@@ -1314,11 +1309,10 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
           widgetWidth: double.maxFinite,
           widgetHeight: 75,
           onTapAction: () {
-            Map<String, dynamic> extra = {
-              "index": index,
-              "data": widget.historyItemData,
-            };
-            context.goNamed("details_history", extra: extra);
+            context.goNamed("details_history", queryParameters: {
+              "index": index.toString(),
+              "id": widget.historyItemData.historyItemDataId,
+            });
           },
           child: SizedBox(
             width: double.maxFinite,

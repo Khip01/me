@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/helper/find_project_by_id.dart';
+import 'package:me/helper/object_class_finder_by_id.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/pages/history_detail_page.dart';
 import 'package:me/pages/pages.dart';
@@ -66,7 +66,7 @@ class MyApp extends ConsumerWidget {
                   );
                 }
 
-                // try to convert timestamp to base62
+                // Search Project By ID
                 Object? object = findProjectById(id);
 
                 if(object != null && object is ProjectItemData){
@@ -96,10 +96,30 @@ class MyApp extends ConsumerWidget {
               path: "details",
               name: "details_history",
               pageBuilder: (context, state) {
-                Object? object = state.extra;
+                // Catch the givin query parameter
+                // Index
+                final index = state.uri.queryParameters["index"];
+                // History Item Data Id
+                final historyItemDataId = state.uri.queryParameters["id"];
 
-                if(object != null && object is Map<String, dynamic>){
-                  return buildPageWithDefaultTransition(context: context, state: state, child: HistoryDetailPage(index: object["index"], historyData: object["data"]));
+                // Return /creation page if parameter is invalid
+                if(index == null || historyItemDataId == null) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.go('/history');
+                  });
+                  return MaterialPage(
+                    key: state.pageKey,
+                    child: const SizedBox.shrink(),
+                  );
+                }
+
+                // Search HistoryitemData by ID
+                Object? object = findHistoryById(historyItemDataId);
+                // convert to integer
+                int indexInt = int.parse(index);
+
+                if(object != null && object is HistoryItemData && indexInt < object.historyDocumentations!.length && indexInt >= 0){
+                  return buildPageWithDefaultTransition(context: context, state: state, child: HistoryDetailPage(index: indexInt, historyData: object));
                 } else {
                   // Mengarahkan kembali ke halaman /creation jika parameter tidak valid / tidak ditemukan data
                   WidgetsBinding.instance.addPostFrameCallback((_) {
