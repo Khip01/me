@@ -1,6 +1,6 @@
 library values;
 
-import 'package:me/helper/generate_id_from_timestamp.dart';
+import 'package:me/helper/id_generator_formula.dart';
 
 part 'images.dart';
 part 'strings.dart';

@@ -13,6 +13,10 @@ class History {
 
 class Histories {
   static HistoryItemData HAWARI_TIGER_ENGINE = HistoryItemData(
+    historyItemDataId: generateShortUniqueIdFromStrings([
+      StringConst.HAWARI_TIGER_ENGINE_TITLE,
+      StringConst.HAWARI_TIGER_ENGINE_DESC,
+    ]),
     historyTitle: StringConst.HAWARI_TIGER_ENGINE_TITLE,
     historyYear: StringConst.HAWARI_TIGER_ENGINE_YEAR,
     historyTag: StringConst.HAWARI_TIGER_ENGINE_TAG,
@@ -20,17 +24,25 @@ class Histories {
   );
 
   static HistoryItemData MALANG_STATE_POLYTECHNIC = HistoryItemData(
-      historyTitle: StringConst.MALANG_STATE_POLYTECHNIC_TITLE,
-      historyYear: StringConst.MALANG_STATE_POLYTECHNIC_YEAR,
-      historyTag: StringConst.MALANG_STATE_POLYTECHNIC_TAG,
-      historyDescription: StringConst.MALANG_STATE_POLYTECHNIC_DESC,
-      historyDocumentations: [
-        Documentations.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS,
-        Documentations.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART,
-      ],
+    historyItemDataId: generateShortUniqueIdFromStrings([
+      StringConst.MALANG_STATE_POLYTECHNIC_TITLE,
+      StringConst.MALANG_STATE_POLYTECHNIC_DESC,
+    ]),
+    historyTitle: StringConst.MALANG_STATE_POLYTECHNIC_TITLE,
+    historyYear: StringConst.MALANG_STATE_POLYTECHNIC_YEAR,
+    historyTag: StringConst.MALANG_STATE_POLYTECHNIC_TAG,
+    historyDescription: StringConst.MALANG_STATE_POLYTECHNIC_DESC,
+    historyDocumentations: [
+      Documentations.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS,
+      Documentations.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART,
+    ],
   );
 
   static HistoryItemData VOC_HIGH_SCHOOL = HistoryItemData(
+    historyItemDataId: generateShortUniqueIdFromStrings([
+      StringConst.VOC_HIGH_SCHOOL_TITLE,
+      StringConst.VOC_HIGH_SCHOOL_DESC,
+    ]),
     historyTitle: StringConst.VOC_HIGH_SCHOOL_TITLE,
     historyYear: StringConst.VOC_HIGH_SCHOOL_YEAR,
     historyTag: StringConst.VOC_HIGH_SCHOOL_TAG,
@@ -45,6 +57,7 @@ class Histories {
 }
 
 class HistoryItemData {
+  final String historyItemDataId;
   final String historyTitle;
   final String historyYear;
   final List<String> historyTag;
@@ -52,6 +65,7 @@ class HistoryItemData {
   final List<HistoryItemDocumentation>? historyDocumentations;
 
   HistoryItemData({
+    required this.historyItemDataId,
     required this.historyTitle,
     required this.historyYear,
     required this.historyTag,
