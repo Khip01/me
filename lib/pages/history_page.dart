@@ -1380,140 +1380,10 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     );
   }
 }
-// class DocsContentDecider extends StatelessWidget {
-//   final bool isExpanded;
-//   final int totalItem;
-//   final int animDuration;
-//   final List<bool> itemWrapIsVisible;
-//   final List<bool> itemColumnIsVisible;
-//
-//   const DocsContentDecider({
-//     super.key,
-//     required this.isExpanded,
-//     required this.totalItem,
-//     required this.animDuration,
-//     required this.itemWrapIsVisible,
-//     required this.itemColumnIsVisible,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     if(!isExpanded){ // Collapse Mode
-//       return Wrap(
-//         spacing: 10,
-//         direction: Axis.horizontal,
-//         children: [
-//           for (int index = 0; index < (totalItem > 3 ? 3 : totalItem); index++)
-//             ContentWrapItem(
-//               index: index,
-//               totalItem: totalItem,
-//               animDuration: animDuration,
-//               itemWrapIsVisible: itemWrapIsVisible,
-//             ),
-//         ],
-//       );
-//     } else { // Expanded Mode
-//       return Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           for (int index = 0; index < totalItem; index++)
-//             ContentColumnItem(
-//               index: index,
-//               animDuration: animDuration,
-//               totalItem: totalItem,
-//               itemColumnIsVisible: itemColumnIsVisible,
-//             ),
-//         ],
-//       );
-//     }
-//   }
-// }
-// class ContentWrapItem extends StatelessWidget {
-//   final int index;
-//   final int totalItem;
-//   final int animDuration;
-//   final List<bool> itemWrapIsVisible;
-//
-//   const ContentWrapItem({
-//     super.key,
-//     required this.index,
-//     required this.totalItem,
-//     required this.animDuration,
-//     required this.itemWrapIsVisible,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return AnimatedOpacity(
-//       duration: Duration(milliseconds: animDuration),
-//       opacity: itemWrapIsVisible[index] ? 1 : 0,
-//       child: Container(
-//         width: 75,
-//         height: 75,
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.circular(5),
-//           color: Colors.grey,
-//         ),
-//         child: (totalItem > 3 && index == 2) ? Center(child: Text("+${totalItem - 3}")) : const SizedBox(),
-//       ),
-//     );
-//   }
-// }
-// class ContentColumnItem extends StatelessWidget {
-//   final int index;
-//   final int totalItem;
-//   final int animDuration;
-//   final List<bool> itemColumnIsVisible;
-//
-//   const ContentColumnItem({
-//     super.key,
-//     required this.index,
-//     required this.totalItem,
-//     required this.animDuration,
-//     required this.itemColumnIsVisible,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return AnimatedOpacity(
-//       duration: Duration(milliseconds: animDuration),
-//       opacity: itemColumnIsVisible[index] ? 1 : 0,
-//       child: Padding(
-//         padding: EdgeInsets.only(bottom: index == totalItem-1 ? 0 : 8),
-//         child: SizedBox(
-//           width: double.maxFinite,
-//           height: 75,
-//           child: Row(
-//             children: [
-//               Flexible(
-//                 fit: FlexFit.tight,
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     Text("Ini title index ke-$index"),
-//                     Text("Ini sub-title dari index ke-$index"),
-//                   ],
-//                 ),
-//               ),
-//               Container(
-//                 width: 75,
-//                 height: 75,
-//                 decoration: BoxDecoration(
-//                   color: Colors.grey,
-//                   borderRadius: BorderRadius.circular(5),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
 class HistoryScoopeType extends ConsumerWidget {
   // General
-  StyleUtil _styleUtil = StyleUtil();
+  final StyleUtil _styleUtil = StyleUtil();
 
   final String titleHistoryScoope;
   final List<HistoryItemData> historyData;
@@ -1557,7 +1427,7 @@ class HistoryScoopeType extends ConsumerWidget {
 
 class SubHistoryScoope extends ConsumerWidget {
   // General
-  StyleUtil _styleUtil = StyleUtil();
+  final StyleUtil _styleUtil = StyleUtil();
 
   final String titleHistory;
 
