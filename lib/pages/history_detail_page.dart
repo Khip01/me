@@ -3,10 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/values/values.dart';
+import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../widget/text_highlight_decider.dart';
@@ -200,6 +202,9 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
   }
 
   Widget historyModeHorizontal(BoxConstraints constraints){
+    final HistoryItemDocumentation historyItemDocumentation = widget.historyItemData.historyDocumentations![widget.index];
+    final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+
     return SizedBox(
       width: double.maxFinite,
       height: double.maxFinite,
@@ -226,11 +231,11 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                   alignment: Alignment.center,
                   children: [
                     blurredImage(
-                      widget.historyItemData.historyDocumentations![widget.index].docImageList[0],
+                      historyItemDocumentation.docImageList[0],
                       BoxFit.cover,
                     ),
                     Image.asset(
-                      widget.historyItemData.historyDocumentations![widget.index].docImageList[0],
+                      historyItemDocumentation.docImageList[0],
                       fit: BoxFit.cover,
                     ),
                   ],
@@ -251,7 +256,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                           minHeight: constraints.maxHeight / 2,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 20, top: 40, bottom: 40),
+                          padding: const EdgeInsets.only(left: 20, top: 40, bottom: 20),
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Column(
@@ -261,7 +266,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Text(
-                                    widget.historyItemData.historyDocumentations![widget.index].docType,
+                                    historyItemDocumentation.docType,
                                     style: TextStyle(
                                       fontFamily: 'Lato',
                                       fontSize: 14,
@@ -272,7 +277,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Text(
-                                    widget.historyItemData.historyDocumentations![widget.index].docTitle,
+                                    historyItemDocumentation.docTitle,
                                     style: TextStyle(
                                       fontFamily: 'Lato',
                                       fontSize: 20,
@@ -281,7 +286,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                   ),
                                 ),
                                 Text(
-                                  widget.historyItemData.historyDocumentations![widget.index].docDesc,
+                                  historyItemDocumentation.docDesc,
                                   style: TextStyle(
                                     fontFamily: 'Lato',
                                     fontSize: 16,
@@ -293,14 +298,158 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                           ),
                         ),
                       ),
-                      if (widget.historyItemData.historyDocumentations![widget.index].docRelatedProjects != null)
-                        const Flexible(
+                      if (historyItemDocumentation.docRelatedProjects != null)
+                        Flexible(
                           fit: FlexFit.tight,
                           child: Padding(
-                            padding: EdgeInsets.all(40),
-                            child: Center(
-                              child: Text("Related Project Available!"),
-                            ),
+                            padding: const EdgeInsets.only(left: 20, top: 20, bottom: 40),
+                            child: SizedBox(
+                              width: double.maxFinite,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  // Tab Related Creations
+                                  SizedBox(
+                                    height: 40,
+                                    width: 160,
+                                    child: Wrap(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 6),
+                                          child: Text(
+                                            "Related Creations",
+                                            style: TextStyle(
+                                              fontFamily: 'Lato',
+                                              fontSize: 16,
+                                              color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: double.maxFinite,
+                                          height: 4,
+                                          child: DecoratedBox(decoration: BoxDecoration(
+                                            color: _styleUtil.c_170,
+                                            borderRadius: const BorderRadius.only(
+                                              topRight: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: (ref.watch(isDarkMode))
+                                                    ? _styleUtil.c_170
+                                                    : _styleUtil.c_170,
+                                                blurRadius: 5.0,
+                                              ),
+                                            ],
+                                          )),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  // List Related Project
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      for(int index = 0; index < historyItemDocumentation.docRelatedProjects!.length; index++)
+                                        HighlightedWidgetOnHover(
+                                          onTapAction: () => context.goNamed(
+                                            "details_creation",
+                                            queryParameters: {
+                                              "id": historyItemDocumentation.docRelatedProjects![index].projectId,
+                                            },
+                                            extra: "/history/details?index=${widget.index}&id=${widget.historyItemData.historyItemDataId}",
+                                          ),
+                                          widgetHeight: 125,
+                                          widgetWidth: double.maxFinite,
+                                          customBorderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(0),
+                                            bottomLeft: Radius.circular(0),
+                                            topRight: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                          ),
+                                          child: SizedBox(
+                                            width: double.maxFinite,
+                                            height: 125,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 20),
+                                              child: Row(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(right: 10),
+                                                    child: SizedBox(
+                                                      height: double.maxFinite,
+                                                      width: 134,
+                                                      child: Image.asset(
+                                                        historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    fit: FlexFit.tight,
+                                                    child: SizedBox(
+                                                      height: double.maxFinite,
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            historyItemDocumentation.docRelatedProjects![index].projectName,
+                                                            style: TextStyle(
+                                                              fontFamily: 'Lato',
+                                                              fontSize: 16,
+                                                              color: _styleUtil.c_24,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: double.maxFinite,
+                                                            height: 16,
+                                                            child: ListView.separated(
+                                                              physics: const NeverScrollableScrollPhysics(),
+                                                              scrollDirection: Axis.horizontal,
+                                                              itemCount: historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
+                                                              itemBuilder: (BuildContext context, int indexCategories){
+                                                                return Text(
+                                                                  historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
+                                                                  style: TextStyle(
+                                                                    fontFamily: 'Lato',
+                                                                    fontSize: 12,
+                                                                    color: ref.watch(isDarkMode) ?
+                                                                    _styleUtil.c_238 :
+                                                                    _styleUtil.c_61,
+                                                                  ),
+                                                                );
+                                                              },
+                                                              separatorBuilder: (BuildContext context, int index) {
+                                                                return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                                                              },
+                                                            ),
+                                                          ),
+                                                          const Spacer(),
+                                                          Text(
+                                                            dateFormatter.format(
+                                                              DateTime.fromMillisecondsSinceEpoch(historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
+                                                            ),
+                                                            style: TextStyle(
+                                                              fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
                           ),
                         ),
                     ],
