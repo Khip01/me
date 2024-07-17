@@ -54,6 +54,8 @@ class MyApp extends ConsumerWidget {
               pageBuilder: (context, state) {
                 // Catch id Parameter Route
                 final id = state.uri.queryParameters["id"];
+                // Catch Page Name Point to pop
+                final pagePopTo = state.extra as String?;
 
                 // Return /creation page if parameter is invalid
                 if(id == null) {
@@ -70,7 +72,7 @@ class MyApp extends ConsumerWidget {
                 Object? object = findProjectById(id);
 
                 if(object != null && object is ProjectItemData){
-                  return buildPageWithDefaultTransition(context: context, state: state, child: CreationDetailPage(selectedProject: object));
+                  return buildPageWithDefaultTransition(context: context, state: state, child: CreationDetailPage(selectedProject: object, pagePopTo: pagePopTo,));
                 } else {
                   // Mengarahkan kembali ke halaman /creation jika parameter tidak valid / tidak ditemukan data
                   WidgetsBinding.instance.addPostFrameCallback((_) {
