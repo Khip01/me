@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/image_preview_provider.dart';
@@ -16,10 +17,12 @@ import '../widget/text_highlight_decider.dart';
 
 class CreationDetailPage extends ConsumerStatefulWidget {
   final ProjectItemData selectedProject;
+  final String? pagePopTo; // Page Name that will be landed after pop
 
   const CreationDetailPage({
     super.key,
     required this.selectedProject,
+    required this.pagePopTo,
   });
 
   @override
@@ -61,6 +64,13 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
       isCompactDevice: getIsMobileSize(context) || getIsTabletSize(context),
       selectedProject: widget.selectedProject,
       imageCountToBeShown: widget.selectedProject.projectImagePathList.length,
+      onTapPopRoute: (){
+        if (widget.pagePopTo != null){
+          context.go(widget.pagePopTo!);
+        } else {
+          context.goNamed("creation");
+        }
+      },
     );
   }
 

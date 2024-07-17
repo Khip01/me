@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
@@ -12,12 +11,14 @@ class CoverImageSlidingCreation extends ConsumerStatefulWidget {
   final bool isCompactDevice; // Only have 2 option, between compact device and desktop device
   final ProjectItemData selectedProject;
   final int imageCountToBeShown; // should be length of the listImage, or u can custom it :)
+  final Function() onTapPopRoute; // custom pop navigator, where page should be landed after pop
 
   const CoverImageSlidingCreation({
     super.key,
     required this.isCompactDevice,
     required this.selectedProject,
     required this.imageCountToBeShown,
+    required this.onTapPopRoute,
   });
 
   @override
@@ -202,7 +203,7 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                 colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
                 colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
                 actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
-                additionalOnTapAction: () => context.goNamed("creation"),
+                additionalOnTapAction: widget.onTapPopRoute,
                 builder: (color) {
                   return Icon(
                     Icons.arrow_back,
