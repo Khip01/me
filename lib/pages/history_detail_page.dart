@@ -108,7 +108,7 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
                   widget.historyData.historyTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61),
                 ),
               ],
             ),
@@ -273,7 +273,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                     style: TextStyle(
                                       fontFamily: 'Lato',
                                       fontSize: 20,
-                                      color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                                      color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
                                     ),
                                   ),
                                 ),
@@ -392,7 +392,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                                             style: TextStyle(
                                                               fontFamily: 'Lato',
                                                               fontSize: 16,
-                                                              color: _styleUtil.c_24,
+                                                              color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
                                                             ),
                                                           ),
                                                           SizedBox(
@@ -530,7 +530,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                 style: TextStyle(
                                   fontFamily: 'Lato',
                                   fontSize: 20,
-                                  color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                                  color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
                                 ),
                               ),
                             ),
@@ -647,7 +647,7 @@ class _ContentItemHistorySectionState extends ConsumerState<ContentItemHistorySe
                                                           style: TextStyle(
                                                             fontFamily: 'Lato',
                                                             fontSize: 16,
-                                                            color: _styleUtil.c_24,
+                                                            color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
                                                           ),
                                                         ),
                                                         SizedBox(
