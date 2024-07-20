@@ -14,6 +14,7 @@ class ListImageSection extends ConsumerStatefulWidget {
   final double listViewHeight;
   final double imageWidth;
   final double? imageHeight;
+  final double? customBorderCircularValue;
   final Function<Widget>(String image) childImageBuilder;
   final Color? customBackgroundImageColor;
   final EdgeInsets? listViewCustomPadding;
@@ -25,6 +26,7 @@ class ListImageSection extends ConsumerStatefulWidget {
     required this.listViewHeight,
     required this.imageWidth,
     this.imageHeight,
+    this.customBorderCircularValue,
     required this.childImageBuilder,
     this.customBackgroundImageColor,
     this.listViewCustomPadding,
@@ -97,7 +99,6 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
             behavior: ScrollWithDragBehavior(),
             child: ListView.separated(
               controller: _scrollController,
-              // padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
               padding: widget.listViewCustomPadding,
               addAutomaticKeepAlives: false,
               cacheExtent: 100,
@@ -203,7 +204,7 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
+          borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : widget.customBorderCircularValue ??  8),
           color:  (widget.customBackgroundImageColor != null) ? widget.customBackgroundImageColor! :
           (ref.watch(isDarkMode))
               ? _styleUtil.c_33
