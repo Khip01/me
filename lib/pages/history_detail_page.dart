@@ -7,12 +7,15 @@ import 'package:intl/intl.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:me/helper/get_size_from_widget.dart';
+import 'package:me/provider/image_preview_provider.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/blurred_image.dart';
 import 'package:me/widget/highlighted_widget_on_hover.dart';
+import 'package:me/widget/image_preview.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
+import '../widget/list_image_section.dart';
 import '../widget/text_highlight_decider.dart';
 
 class HistoryDetailPage extends ConsumerStatefulWidget {
@@ -55,17 +58,27 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
-      body: SizedBox(
-        height: MediaQuery.sizeOf(context).height,
-        width: MediaQuery.sizeOf(context).width,
-        child: Column(
+    return SelectionArea(
+      child: Scaffold(
+        backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        body: Stack(
           children: [
-            appBarSection(),
-            Flexible(
-              fit: FlexFit.tight,
-              child: historySection(),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height,
+              width: MediaQuery.sizeOf(context).width,
+              child: Column(
+                children: [
+                  appBarSection(),
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: historySection(),
+                  ),
+                ],
+              ),
+            ),
+            ImagePreview(
+              images: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageList,
+              isPreviewMode: ref.watch(isPreviewMode),
             ),
           ],
         ),
@@ -535,26 +548,44 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                     width: constraints.maxWidth / 2,
                     height: getWidgetSize(widgetRightSideKey.currentContext)?.height ?? constraints.minHeight,
                     decoration: const BoxDecoration(
+                      border: Border.fromBorderSide(BorderSide.none),
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         topLeft: Radius.circular(20),
                       ),
                     ),
-                    child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Positioned.fill(
-                            child: BlurredImage(
-                              imageAsset: historyItemDocumentation.docImageList[0],
-                              fit: BoxFit.cover,
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Positioned.fill(
+                              child: BlurredImage(
+                                imageAsset: historyItemDocumentation.docImageList[0],
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          Image.asset(
-                            historyItemDocumentation.docImageList[0],
-                            fit: BoxFit.cover,
-                          ),
-                        ],
-                      ),
+                            ListImageSection(
+                              images: historyItemDocumentation.docImageList,
+                              listViewHeight: constraints.maxHeight,
+                              imageWidth: constraints.maxWidth,
+                              customBackgroundImageColor: Colors.transparent,
+                              childImageBuilder: <Widget>(image) {
+                                return Center(
+                                  child: Image.asset(
+                                    image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              },
+                              customOnTapItem: () {
+                                ref.read(indexDocumentation.notifier).state = itemIndex;
+                              },
+                            ),
+                          ],
+                        );
+                      }
+                    ),
                   ),
                   // TODO: RIGHT SIDE
                   Container(
