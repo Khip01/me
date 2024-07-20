@@ -9,11 +9,10 @@ import 'package:me/Utility/style_util.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
-import 'package:me/widget/highlighted_widget_on_hover.dart';
-import 'package:me/widget/scroll_behavior.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../widget/text_highlight_decider.dart';
+import '../widget/image_preview.dart';
+import '../widget/list_image_section.dart';
 
 class CreationDetailPage extends ConsumerStatefulWidget {
   final ProjectItemData selectedProject;
@@ -41,7 +40,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
         backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
         body: Stack(
           children: [
-              SingleChildScrollView(
+            SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
@@ -52,6 +51,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
             ),
             ImagePreview(
               images: widget.selectedProject.projectImagePathList,
+              isPreviewMode: ref.watch(isPreviewMode),
             ),
           ],
         ),
@@ -95,6 +95,10 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                         listViewHeight: 360 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                         imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                         imageWidth: contentHighlightWidth(context) - 32,
+                        listViewCustomPadding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+                        childImageBuilder: <Widget>(image) {
+                         return Image.asset(image, fit: BoxFit.cover);
+                        },
                       ),
                       DetailCreationAdditionalInfo(
                         timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
@@ -141,200 +145,6 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class ListImageSection extends ConsumerStatefulWidget {
-  final List<String> images;
-  final double listViewHeight;
-  final double imageHeight;
-  final double imageWidth;
-
-  const ListImageSection({
-    super.key,
-    required this.images,
-    required this.listViewHeight,
-    required this.imageHeight,
-    required this.imageWidth,
-  });
-
-  @override
-  ConsumerState<ListImageSection> createState() => _ListImageSectionState();
-}
-
-class _ListImageSectionState extends ConsumerState<ListImageSection> {
-  final StyleUtil _styleUtil = StyleUtil();
-  final ScrollController _scrollController = ScrollController();
-
-  int _selectedIndex = 0;
-  List<bool>? cardIsHovered;
-
-  @override
-  void initState() {
-    _scrollController.addListener(_onScrollActiveIndex);
-    cardIsHovered = List.generate(widget.images.length, (_) => false);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_onScrollActiveIndex);
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _doSwapFocusedIndex(bool isToLeft){
-    if (isToLeft) {
-      if(_selectedIndex <= 0) return;
-      _selectedIndex--;
-    } else {
-      if(_selectedIndex >= widget.images.length - 1) return;
-      _selectedIndex++;
-    }
-    _scrollController.animateTo(
-      widget.imageWidth * _selectedIndex,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOutQuad,
-    );
-  }
-
-  void _onScrollActiveIndex() {
-    int newIndex = (_scrollController.offset / widget.imageWidth).round();
-    // Ensure the last item is selected when the scroll reaches the end
-    if (_scrollController.position.atEdge) {
-      if (_scrollController.position.pixels > 0) {
-        newIndex = widget.images.length - 1;
-      }
-    }
-    if (newIndex != _selectedIndex) {
-      setState(() {
-        _selectedIndex = newIndex;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 1),
-          child: SizedBox(
-            height:  widget.listViewHeight,
-            child: ScrollConfiguration(
-              behavior: ScrollWithDragBehavior(),
-              child: ListView.separated(
-                controller: _scrollController,
-                padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
-                addAutomaticKeepAlives: false,
-                cacheExtent: 100,
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.images.length,
-                itemBuilder: (context, index) {
-                  return _buildCardImage(index);
-                },
-                separatorBuilder: (context, index) => const SizedBox(width: 12,),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: MediaQuery.sizeOf(context).width,
-          height: widget.listViewHeight,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _listViewButtonController(
-                _selectedIndex != 0,
-                true,
-                getIsMobileSize(context) ? 40 : 80,
-                getIsMobileSize(context) ? 16 : 24,
-                () => setState(() => _doSwapFocusedIndex(true)),
-              ),
-              _listViewButtonController(
-                _selectedIndex != widget.images.length - 1,
-                false,
-                getIsMobileSize(context) ? 40 : 80,
-                getIsMobileSize(context) ? 16 : 24,
-                () => setState(() => _doSwapFocusedIndex(false)),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _listViewButtonController(bool buttonCondition, bool isButtonLeft, double buttonWidth, double iconSize, Function() onTapAction){
-    const Duration animationDuration = Duration(milliseconds: 150);
-    final Alignment beginGradientAlign = isButtonLeft ? Alignment.centerLeft : Alignment.centerRight;
-    final Alignment endGradientAlign = isButtonLeft ? Alignment.centerRight : Alignment.centerLeft;
-    final Color baseButtonColor = (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255);
-    final Color baseIconColor = (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.9);
-    final IconData mainIcon = isButtonLeft ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded;
-
-    return AnimatedOpacity(
-      duration: animationDuration,
-      opacity: buttonCondition ? 1.0 : 0.0,
-      child: AnimatedContainer(
-        duration: animationDuration,
-        width: buttonCondition ? buttonWidth : 0,
-        child: InkWell(
-          onTap: onTapAction,
-          splashColor: _styleUtil.c_170, // <-- Splash color
-          child: Container(
-            height: double.maxFinite,
-            width: buttonWidth,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: beginGradientAlign,
-                end: endGradientAlign,
-                colors: [
-                  baseButtonColor.withOpacity(1.0), // <-- Button color
-                  baseButtonColor.withOpacity(0.0),
-                ],
-              ),
-            ),
-            child: Center(
-              child: Icon(
-                mainIcon,
-                color: baseIconColor,
-                size: iconSize,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCardImage(int index){
-    return HighlightedWidgetOnHover(
-      widgetHeight: widget.imageHeight,
-      widgetWidth: widget.imageWidth,
-      onTapAction: () => ref.read(isPreviewMode.notifier).state = index,
-      child: Container(
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
-          color: (ref.watch(isDarkMode))
-              ? _styleUtil.c_33
-              : _styleUtil.c_255,
-          boxShadow: [
-            BoxShadow(
-              color: (ref.watch(isDarkMode))
-                  ? const Color.fromARGB(255, 200, 200, 200)
-                  : const Color.fromARGB(255, 233, 233, 233),
-              blurRadius: 7.0,
-            ),
-          ],
-        ),
-        height: widget.imageHeight,
-        width: widget.imageWidth,
-        child: Image.asset(widget.images[index], fit: BoxFit.cover),
       ),
     );
   }
@@ -529,181 +339,6 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
             ),
           );
         }, growable: true),
-      ),
-    );
-  }
-}
-
-class ImagePreview extends ConsumerStatefulWidget {
-  final List<String> images;
-
-  const ImagePreview({
-    super.key,
-    required this.images,
-  });
-
-  @override
-  ConsumerState<ImagePreview> createState() => _ImagePreviewState();
-}
-
-class _ImagePreviewState extends ConsumerState<ImagePreview> {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
-  @override
-  Widget build(BuildContext context) {
-    int? selectedIndexImagePreview = ref.watch(isPreviewMode);
-
-    return Visibility(
-      visible: ref.watch(isPreviewMode) != null,
-      child: GestureDetector(
-        onTap: () => ref.read(isPreviewMode.notifier).state = null,
-        child: Container(
-          width: MediaQuery.sizeOf(context).width,
-          height: MediaQuery.sizeOf(context).height,
-          color: _styleUtil.c_61.withOpacity(.7),
-          child: Stack(
-            children: [
-              InteractiveViewer(
-                minScale: 0.5, // Minimum scale (zoom out)
-                maxScale: 2.0, // Maximum scale (zoom in)
-                child: Center(
-                  child: GestureDetector(
-                    onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
-                    child: ref.watch(isPreviewMode) != null ?
-                    Image.asset(widget.images[selectedIndexImagePreview!]) :
-                    const SizedBox(),
-                  ),
-                ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: contentCardPadding(context),
-                    child: SizedBox(
-                      width: MediaQuery.sizeOf(context).width,
-                      height: 100,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextHighlightDecider(
-                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
-                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-                          actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
-                          additionalOnTapAction: () => ref.read(isPreviewMode.notifier).state = null,
-                          builder: (color) {
-                            return Icon(
-                              Icons.close,
-                              size: 33,
-                              color: color,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: contentCardPadding(context),
-                    child: GestureDetector(
-                      onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
-                      child: Visibility(
-                        visible: widget.images.length > 1 ? true : false,
-                        child: SizedBox(
-                          width: MediaQuery.sizeOf(context).width,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 30),
-                                color: ((ref.watch(isDarkMode))
-                                    ? _styleUtil.c_33
-                                    : _styleUtil.c_255).withOpacity(.7),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: (ref.watch(isDarkMode))
-                                        ? const Color.fromARGB(255, 61, 61, 61)
-                                        : const Color.fromARGB(255, 203, 203, 203),
-                                    blurRadius: 80.0,
-                                  ),
-                                ],
-                              ),
-                              width: 100,
-                              height: 50,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  IgnorePointer(
-                                    ignoring: ref.read(isPreviewMode) == 0 ? true : false,
-                                    child: AnimatedOpacity(
-                                      duration: const Duration(milliseconds: 100),
-                                      opacity: ref.read(isPreviewMode) == 0 ? 0 : 1,
-                                      curve: Curves.easeInOut,
-                                      child: TextHighlightDecider(
-                                        isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                                        colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
-                                        colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-                                        actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
-                                        delayAfterAnimation: const Duration(milliseconds: 0),
-                                        additionalOnTapAction: () {
-                                          if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! > 0){
-                                            int currentIndex = ref.read(isPreviewMode)!;
-                                            ref.read(isPreviewMode.notifier).state = (currentIndex - 1);
-                                          }
-                                        },
-                                        builder: (color) {
-                                          return Icon(
-                                            Icons.keyboard_arrow_left_rounded,
-                                            size: 33,
-                                            color: color.withOpacity(.7),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: ref.read(isPreviewMode) == widget.images.length-1 ? true : false,
-                                    child: AnimatedOpacity(
-                                      duration: const Duration(milliseconds: 100),
-                                      opacity: ref.read(isPreviewMode) == widget.images.length-1 ? 0 : 1,
-                                      curve: Curves.easeInOut,
-                                      child: TextHighlightDecider(
-                                        isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                                        colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
-                                        colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
-                                        actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
-                                        delayAfterAnimation: const Duration(milliseconds: 0),
-                                        additionalOnTapAction: () {
-                                          if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! < widget.images.length-1){
-                                            int currentIndex = ref.read(isPreviewMode)!;
-                                            ref.read(isPreviewMode.notifier).state = (currentIndex + 1);
-                                          }
-                                        },
-                                        builder: (color) {
-                                          return Icon(
-                                            Icons.keyboard_arrow_right_rounded,
-                                            size: 33,
-                                            color: color.withOpacity(.7),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
