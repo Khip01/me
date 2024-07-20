@@ -276,9 +276,22 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                     imageAsset: historyItemDocumentation.docImageList[0],
                     fit: BoxFit.cover,
                   ),
-                  Image.asset(
-                    historyItemDocumentation.docImageList[0],
-                    fit: BoxFit.cover,
+                  ListImageSection(
+                    images: historyItemDocumentation.docImageList,
+                    listViewHeight: constraints.maxHeight,
+                    imageWidth: constraints.maxWidth,
+                    customBackgroundImageColor: Colors.transparent,
+                    childImageBuilder: <Widget>(image) {
+                      return Center(
+                        child: Image.asset(
+                          image,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
+                    customOnTapItem: () {
+                      ref.read(indexDocumentation.notifier).state = itemIndex;
+                    },
                   ),
                 ],
               ),
@@ -570,6 +583,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                               listViewHeight: constraints.maxHeight,
                               imageWidth: constraints.maxWidth,
                               customBackgroundImageColor: Colors.transparent,
+                              customBorderCircularValue: 0,
                               childImageBuilder: <Widget>(image) {
                                 return Center(
                                   child: Image.asset(
