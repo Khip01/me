@@ -5,7 +5,7 @@ import 'package:me/Utility/style_util.dart';
 import '../component/visible.dart';
 
 class HighlightedWidgetOnHover extends ConsumerStatefulWidget {
-  final double widgetHeight;
+  final double? widgetHeight;
   final double widgetWidth;
   final Widget child;
   final Function() onTapAction;
@@ -42,7 +42,9 @@ class _HighlightedWidgetOnHoverState extends ConsumerState<HighlightedWidgetOnHo
           child: SizedBox(
             height: widget.widgetHeight,
             width: widget.widgetWidth,
-            child: DecoratedBox(
+            child: Container(
+              height: widget.widgetHeight,
+              width: widget.widgetWidth,
               decoration: BoxDecoration(
                 borderRadius: widget.customBorderRadius ?? BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
                 color: widgetIshovered ? _styleUtil.c_170.withOpacity(.1) : Colors.transparent,
