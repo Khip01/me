@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -92,12 +93,20 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                     children: [
                       ListImageSection(
                         images: widget.selectedProject.projectImagePathList,
+                        imagesHash: widget.selectedProject.projectImagePathListHash,
                         listViewHeight: 360 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                         imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                         imageWidth: contentHighlightWidth(context) - 32,
                         listViewCustomPadding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
-                        childImageBuilder: <Widget>(image) {
-                         return Image.asset(image, fit: BoxFit.cover);
+                        childImageBuilder: <Widget>(image, hash) {
+                          return BlurHash(
+                            hash: hash,
+                            image: image,
+                            imageFit: BoxFit.cover,
+                            color: Colors.transparent,
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.easeOutQuart,
+                          );
                         },
                       ),
                       DetailCreationAdditionalInfo(
@@ -234,6 +243,7 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
           padding: const EdgeInsets.only(top: 15),
           child: _creatorSection(
             widget.detailProjectData.creatorPhotoProfilePath,
+            widget.detailProjectData.creatorPhotoProfilePathHash,
             widget.detailProjectData.creatorName,
             widget.detailProjectData.creatorRole,
             widget.detailProjectData.creatorGithubLink,
@@ -251,7 +261,7 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
     );
   }
 
-  Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorName, List<String> creatorRole, List<String> creatorLinkProfile){
+  Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorImageProfileHash, List<String> creatorName, List<String> creatorRole, List<String> creatorLinkProfile){
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
@@ -272,7 +282,13 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                       height: 42,
                       width: 42,
                       child: ClipOval(
-                        child: Image.asset(creatorImageProfile[index]),
+                        child: BlurHash(
+                          hash: creatorImageProfileHash[index],
+                          image: creatorImageProfile[index],
+                          color: Colors.transparent,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeOutQuart,
+                        ),
                       ),
                     ),
                   ),

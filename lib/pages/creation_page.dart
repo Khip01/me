@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -906,8 +907,28 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
-    final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
-    final List<Image> itemImageProfile = List<Image>.generate(itemData.creatorPhotoProfilePath.length, (index) => Image.asset(itemData.creatorPhotoProfilePath[index]));
+    // final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover,);
+    final BlurHash itemImage = BlurHash(
+      imageFit: BoxFit.cover,
+      hash: itemData.projectImagePathCoverHash,
+      image: itemData.projectImagePathCover,
+      color: Colors.transparent,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutQuart,
+    );
+    final List<BlurHash> itemImageProfile = List<BlurHash>.generate(
+      itemData.creatorPhotoProfilePath.length,
+      (index) {
+        // return Image.asset(itemData.creatorPhotoProfilePath[index]);
+        return BlurHash(
+          hash: itemData.creatorPhotoProfilePathHash[index],
+          image: itemData.creatorPhotoProfilePath[index],
+          color: Colors.transparent,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutQuart,
+        );
+      },
+    );
     final Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
@@ -938,7 +959,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   child: itemImage,
                 ),
                 FutureBuilder<ColorScheme>(
-                    future: getColorFromImage(itemImage.image, ref.watch(isDarkMode)),
+                    future: getColorFromImage(Image.asset(itemImage.image!).image, ref.watch(isDarkMode)),
                     builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
                       if(snapshot.hasData){
                         return SizedBox(
@@ -1022,19 +1043,24 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               return Align(
                                 widthFactor: 0.5,
                                 child: Container(
+                                  clipBehavior: Clip.antiAlias,
                                   width: 28,
                                   height: 28,
                                   decoration: BoxDecoration(
                                     color: const Color(0xff7c94b6),
-                                    image: DecorationImage(
-                                      image: itemImageProfile[index].image,
-                                      fit: BoxFit.cover,
-                                    ),
+                                    // image: DecorationImage(
+                                    //   image: itemImageProfile[index].image,
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                     borderRadius: const BorderRadius.all( Radius.circular(50.0)),
                                     border: Border.all(
                                       color: ref.watch(isDarkMode) ? _styleUtil.c_24 : _styleUtil.c_255,
                                       width: 2,
                                     ),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all( Radius.circular(50.0)),
+                                    child: itemImageProfile[index],
                                   ),
                                 ),
                               );
@@ -1167,7 +1193,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
     final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
-    final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
+    final BlurHash itemImage = BlurHash(
+      imageFit: BoxFit.cover,
+      hash: itemData.projectImagePathCoverHash,
+      image: itemData.projectImagePathCover,
+      color: Colors.transparent,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutQuart,
+    );
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
@@ -1390,7 +1423,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
     final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
-    final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover);
+    final BlurHash itemImage = BlurHash(
+      imageFit: BoxFit.cover,
+      hash: itemData.projectImagePathCoverHash,
+      image: itemData.projectImagePathCover,
+      color: Colors.transparent,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutQuart,
+    );
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 

@@ -1,6 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -274,18 +273,24 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                 children: [
                   BlurredImage(
                     imageAsset: historyItemDocumentation.docImageList[0],
+                    imageAssetHash: historyItemDocumentation.docImageListHash[0],
                     fit: BoxFit.cover,
                   ),
                   ListImageSection(
                     images: historyItemDocumentation.docImageList,
+                    imagesHash: historyItemDocumentation.docImageListHash,
                     listViewHeight: constraints.maxHeight,
                     imageWidth: constraints.maxWidth,
                     customBackgroundImageColor: Colors.transparent,
-                    childImageBuilder: <Widget>(image) {
+                    childImageBuilder: <Widget>(image, hash) {
                       return Center(
-                        child: Image.asset(
-                          image,
-                          fit: BoxFit.cover,
+                        child: BlurHash(
+                          hash: hash,
+                          image: image,
+                          imageFit: BoxFit.cover,
+                          color: Colors.transparent,
+                          duration: const Duration(milliseconds: 400),
+                          curve: Curves.easeOutQuart,
                         ),
                       );
                     },
@@ -575,20 +580,22 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                             Positioned.fill(
                               child: BlurredImage(
                                 imageAsset: historyItemDocumentation.docImageList[0],
+                                imageAssetHash: historyItemDocumentation.docImageListHash[0],
                                 fit: BoxFit.cover,
                               ),
                             ),
                             ListImageSection(
                               images: historyItemDocumentation.docImageList,
+                              imagesHash: historyItemDocumentation.docImageListHash,
                               listViewHeight: constraints.maxHeight,
                               imageWidth: constraints.maxWidth,
                               customBackgroundImageColor: Colors.transparent,
                               customBorderCircularValue: 0,
-                              childImageBuilder: <Widget>(image) {
+                              childImageBuilder: <Widget>(image, hash) {
                                 return Center(
                                   child: Image.asset(
                                     image,
-                                    fit: BoxFit.cover,
+                                    fit: BoxFit.contain,
                                   ),
                                 );
                               },
@@ -763,9 +770,13 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                 child: SizedBox(
                   height: double.maxFinite,
                   width: 134,
-                  child: Image.asset(
-                    historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
-                    fit: BoxFit.cover,
+                  child: BlurHash(
+                    hash: historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                    image: historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                    imageFit: BoxFit.cover,
+                    color: Colors.transparent,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOutQuart,
                   ),
                 ),
               ),

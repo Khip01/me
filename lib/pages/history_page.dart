@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/component/components.dart';
@@ -340,10 +341,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
   // ------ Scroll idle animation ------
   Widget _scrollIldeSticky(bool isVisible){
-    bool _compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
+    bool compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
 
     return Visibility(
-      visible: isVisible && _compactDeviceMode,
+      visible: isVisible && compactDeviceMode,
       child: SizedBox(
         height: MediaQuery.sizeOf(context).height + 1,
         child: Align(
@@ -975,11 +976,6 @@ class HistoryType extends ConsumerWidget {
             itemCount: historyData.length,
             itemBuilder: (context, index) {
               return HistoryPath(
-                // title: historyData[index].historyTitle,
-                // year: historyData[index].historyYear,
-                // tag: historyData[index].historyTag,
-                // desc: historyData[index].historyDescription,
-                // listDcoumentation: historyData[index].historyDocumentations,
                 historyItemData: historyData[index],
               );
             }
@@ -1258,9 +1254,13 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   borderRadius: BorderRadius.circular(5),
                   color: _styleUtil.c_170,
                 ),
-                child: Image.asset(
-                  fit: BoxFit.cover,
-                  listDocumentation![index].docImageList[0],
+                child: BlurHash(
+                  hash: listDocumentation![index].docImageListHash[0],
+                  image: listDocumentation![index].docImageList[0],
+                  imageFit: BoxFit.cover,
+                  color: Colors.transparent,
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeOutQuart,
                 ),
               ),
               (totalItem > 3 && index == 2)
@@ -1367,9 +1367,13 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                     borderRadius: BorderRadius.circular(5),
                     color: _styleUtil.c_170,
                   ),
-                  child: Image.asset(
-                    fit: BoxFit.cover,
-                    listDocumentation![index].docImageList[0],
+                  child: BlurHash(
+                    hash: listDocumentation![index].docImageListHash[0],
+                    image: listDocumentation![index].docImageList[0],
+                    imageFit: BoxFit.cover,
+                    color: Colors.transparent,
+                    duration: const Duration(milliseconds: 400),
+                    curve: Curves.easeOutQuart,
                   ),
                 ),
               ],
