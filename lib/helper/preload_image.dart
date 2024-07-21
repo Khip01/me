@@ -79,5 +79,5 @@ Future<void> preloadIconImage() async {
   ];
 
   // Load the image
-  preloadedAsset.for((imageAsset) async => await loadImage(AssetImage(imageAsset)));
+  preloadedAsset.forEach((imageAsset) async => await loadImage(AssetImage(imageAsset)));
 }
