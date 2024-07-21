@@ -81,6 +81,7 @@ class Documentations {
       docTitle: StringConst.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCTITLE,
       docDesc: StringConst.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCDESC,
       docImageList: StringConst.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCIMAGELIST,
+      docImageListHash: StringConst.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCIMAGELIST_HASH,
       docFileLink: StringConst.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCFILELINK,
       docRelatedProjects: [
         Projects.RESTAURANT_KHIP01,
@@ -93,6 +94,7 @@ class Documentations {
       docTitle: StringConst.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCTITLE,
       docDesc: StringConst.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCDESC,
       docImageList: StringConst.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCIMAGELIST,
+      docImageListHash: StringConst.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCIMAGELIST_HASH,
       docFileLink: StringConst.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCFILELINK,
     );
 
@@ -102,6 +104,7 @@ class Documentations {
       docTitle: StringConst.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCTITLE,
       docDesc: StringConst.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCDESC,
       docImageList: StringConst.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCIMAGELIST,
+      docImageListHash: StringConst.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCIMAGELIST_HASH,
       docFileLink: StringConst.IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_DOCFILELINK,
     );
 
@@ -111,6 +114,7 @@ class Documentations {
       docTitle: StringConst.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCTITLE,
       docDesc: StringConst.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCDESC,
       docImageList: StringConst.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCIMAGELIST,
+      docImageListHash: StringConst.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCIMAGELIST_HASH,
       docFileLink: StringConst.COMPETENCY_TEST_FOR_SOFTWARE_ENGINEERING_EXPERTISE_DOCFILELINK,
       docRelatedProjects: [
         Projects.CAFEAPP_KHIPCAFE,
@@ -123,6 +127,7 @@ class Documentations {
       docTitle: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCTITLE,
       docDesc: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCDESC,
       docImageList: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCIMAGELIST,
+      docImageListHash: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCIMAGELIST_HASH,
       docFileLink: StringConst.PROFESSIONAL_CERTIFICATION_INSTITUTE_EXAM_DOCFILELINK,
     );
 
@@ -132,6 +137,7 @@ class Documentations {
       docTitle: StringConst.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCTITLE,
       docDesc: StringConst.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCDESC,
       docImageList: StringConst.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCIMAGELIST,
+      docImageListHash: StringConst.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCIMAGELIST_HASH,
       docFileLink: StringConst.TEST_OF_ENGLISH_FOR_INTERNATIONAL_COMMUNICATION_DOCFILELINK,
     );
 }
@@ -141,6 +147,7 @@ class HistoryItemDocumentation {
   final String docTitle;
   final String docDesc;
   final List<String> docImageList;
+  final List<String> docImageListHash;
   final String docFileLink;
   final List<ProjectItemData>? docRelatedProjects;
 
@@ -149,6 +156,7 @@ class HistoryItemDocumentation {
     required this.docTitle,
     required this.docDesc,
     required this.docImageList,
+    required this.docImageListHash,
     required this.docFileLink,
     this.docRelatedProjects,
   });
