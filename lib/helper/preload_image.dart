@@ -44,7 +44,7 @@ Future<void> loadImage(ImageProvider provider) {
 // https://github.com/flutter/flutter/issues/26127#issuecomment-782083060
 
 
-Future<void> preloadImage() async {
+Future<void> preloadIconImage() async {
   // Asset List
   List<String> preloadedAsset = [
     // Welcome Page
@@ -79,5 +79,5 @@ Future<void> preloadImage() async {
   ];
 
   // Load the image
-  preloadedAsset.forEach((imageAsset) async => await loadImage(AssetImage(imageAsset)));
+  preloadedAsset.for((imageAsset) async => await loadImage(AssetImage(imageAsset)));
 }
