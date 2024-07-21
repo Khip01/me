@@ -4,6 +4,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 
 bool contentQuoteIconVisible(BuildContext context) => ResponsiveValue(
   context,
+  defaultValue: true,
   conditionalValues: [
     const Condition.largerThan(
         name: 'DESKTOP-MD',
@@ -18,11 +19,11 @@ bool contentQuoteIconVisible(BuildContext context) => ResponsiveValue(
         value: false,
     ),
   ],
-  defaultValue: true,
 ).value;
 
 bool contentHistoryVisible(BuildContext context) => ResponsiveValue(
   context,
+  defaultValue: false,
   conditionalValues: [
     const Condition.largerThan(
       name: 'DESKTOP-MD',
@@ -41,6 +42,7 @@ bool contentHistoryVisible(BuildContext context) => ResponsiveValue(
 
 bool getIsMobileSize(BuildContext context) => ResponsiveValue(
   context,
+  defaultValue: false,
   conditionalValues: [
     const Condition.largerThan(
       name: MOBILE,
@@ -54,25 +56,27 @@ bool getIsMobileSize(BuildContext context) => ResponsiveValue(
 ).value;
 
 bool getIsTabletSize(BuildContext context) => ResponsiveValue(
-    context,
-    conditionalValues: [
-      const Condition.largerThan(
-        name: TABLET,
-        value: false,
-      ),
-      const Condition.equals(
-        name: TABLET,
-        value: true,
-      ),
-      const Condition.smallerThan(
-        name: TABLET,
-        value: false,
-      ),
-    ],
+  context,
+  defaultValue: false,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: TABLET,
+      value: false,
+    ),
+    const Condition.equals(
+      name: TABLET,
+      value: true,
+    ),
+    const Condition.smallerThan(
+      name: TABLET,
+      value: false,
+    ),
+  ],
 ).value;
 
 bool getIsDesktopSmSize(BuildContext context) => ResponsiveValue(
   context,
+  defaultValue: false,
   conditionalValues: [
     const Condition.largerThan(
       name: "DESKTOP-SM",
@@ -91,6 +95,7 @@ bool getIsDesktopSmSize(BuildContext context) => ResponsiveValue(
 
 bool getIsDesktopMdAndBelowSize(BuildContext context) => ResponsiveValue(
   context,
+  defaultValue: false,
   conditionalValues: [
     const Condition.largerThan(
       name: "DESKTOP-MD",
