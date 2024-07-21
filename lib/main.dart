@@ -22,7 +22,7 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
   // Load All Image Icon
-  await preloadImage();
+  await preloadIconImage();
   // Load Map Creation
   // final CreationController creationController = CreationController();
   // Map<String, dynamic> resultMap = await creationController.getCreationsMap();
@@ -35,7 +35,7 @@ Future<void> main() async {
 class MyApp extends ConsumerWidget {
   late final GoRouter _router;
 
-  MyApp({Key? key}) : super(key: key) {
+  MyApp({super.key}) {
     _router = GoRouter(
       errorBuilder: (context, state) {
         return const NotFoundPage();
@@ -165,7 +165,6 @@ class MyApp extends ConsumerWidget {
       ),
       builder: (BuildContext context, child) =>
           ResponsiveBreakpoints(
-              child: child!,
               breakpoints: const [
                 Breakpoint(start: 0, end: 480, name: MOBILE),
                 Breakpoint(start: 481, end: 600, name: TABLET),
@@ -174,6 +173,7 @@ class MyApp extends ConsumerWidget {
                 Breakpoint(start: 1101, end: 1920, name: 'DESKTOP-LG'),
                 Breakpoint(start: 1921, end: double.infinity, name: '4K'),
               ],
+              child: child!,
           ),
       routerConfig: _router,
       debugShowCheckedModeBanner: false, // Remove Debug banner when debugging
