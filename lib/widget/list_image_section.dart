@@ -11,11 +11,12 @@ import 'highlighted_widget_on_hover.dart';
 
 class ListImageSection extends ConsumerStatefulWidget {
   final List<String> images;
+  final List<String> imagesHash;
   final double listViewHeight;
   final double imageWidth;
   final double? imageHeight;
   final double? customBorderCircularValue;
-  final Function<Widget>(String image) childImageBuilder;
+  final Function<Widget>(String image, String hashImage) childImageBuilder;
   final Color? customBackgroundImageColor;
   final EdgeInsets? listViewCustomPadding;
   final Function()? customOnTapItem;
@@ -23,6 +24,7 @@ class ListImageSection extends ConsumerStatefulWidget {
   const ListImageSection({
     super.key,
     required this.images,
+    required this.imagesHash,
     required this.listViewHeight,
     required this.imageWidth,
     this.imageHeight,
@@ -221,7 +223,7 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
         ),
         height: widget.imageHeight,
         width: widget.imageWidth,
-        child: widget.childImageBuilder(widget.images[index]),
+        child: widget.childImageBuilder(widget.images[index], widget.imagesHash[index]),
       ),
     );
   }

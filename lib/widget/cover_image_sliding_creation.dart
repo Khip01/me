@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/component/components.dart';
@@ -27,7 +28,7 @@ class CoverImageSlidingCreation extends ConsumerStatefulWidget {
 
 class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCreation> {
   // General
-  StyleUtil _styleUtil = StyleUtil();
+  final StyleUtil _styleUtil = StyleUtil();
 
   // Class atribute
   bool _isZoomOut = false;
@@ -110,7 +111,14 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                     child: SizedBox(
                       width: constraints.maxWidth / widget.imageCountToBeShown,
                       height: MediaQuery.sizeOf(context).height,
-                      child: Image.asset(widget.selectedProject.projectImagePathList[index], fit: BoxFit.fitHeight,),
+                      child: BlurHash(
+                        hash: widget.selectedProject.projectImagePathListHash[index],
+                        image: widget.selectedProject.projectImagePathList[index],
+                        imageFit: BoxFit.fitHeight,
+                        color: Colors.transparent,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeOutQuart,
+                      ),
                     ),
                   ),
               ],
@@ -134,7 +142,14 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                     child: SizedBox(
                       width: MediaQuery.sizeOf(context).width,
                       height: constraints.maxHeight / widget.imageCountToBeShown,
-                      child: Image.asset(widget.selectedProject.projectImagePathList[index], fit: BoxFit.fitWidth,),
+                      child: BlurHash(
+                        hash: widget.selectedProject.projectImagePathListHash[index],
+                        image: widget.selectedProject.projectImagePathList[index],
+                        imageFit: BoxFit.fitWidth,
+                        color: Colors.transparent,
+                        duration: const Duration(milliseconds: 400),
+                        curve: Curves.easeOutQuart,
+                      ),
                     ),
                   ),
               ],
