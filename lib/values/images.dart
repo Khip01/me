@@ -39,8 +39,8 @@ class ImagePath {
   static const String KALKULATOR_BASIC_CPP_C_HASH = "VqG98Mof%Mj[xuxuj[j[fQj[~qayWBfQWBt7ayayfQay"; // (HASH in BlurHash Website Component 5x4)
 
   // RESTAURANT KHIP01 C#
-  static const String RESTAURANT_KHIP01_C = '$projectDir/restaurant_khip01/restaurant_khip01_cover.jpg';
-  static const String RESTAURANT_KHIP01_C_HASH = "VARfXz8w-p?w_Nn,VssotSxu~WtSI;Z~IU_2WXM|s+M{"; // (HASH in BlurHash Website Component 5x4)
+  static const String RESTAURANT_KHIP01_C = '$projectDir/restaurant_khip01/restaurant_khip01_cover.png';
+  static const String RESTAURANT_KHIP01_C_HASH = "VARfXz8w-o_4_Nn,VssotSxu~WtSI;Z~IU_2WXM|s+M{"; // (HASH in BlurHash Website Component 5x4)
 
   // ROCK PAPPER SCISSORS GAME CPP
   static const String ROCK_PAPPER_SCISSORS_GAME_C = '$projectDir/rock_papper_scissors_game/rock_papper_scissors_game_cover.png';
