@@ -108,16 +108,20 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                     bottom: index % 2 == 1
                         ? (_imageIsVisible[index] ? 0 : -MediaQuery.sizeOf(context).height)
                         : null,
-                    child: SizedBox(
+                    child: Container(
                       width: constraints.maxWidth / widget.imageCountToBeShown,
                       height: MediaQuery.sizeOf(context).height,
-                      child: BlurHash(
-                        hash: widget.selectedProject.projectImagePathListHash[index],
-                        image: widget.selectedProject.projectImagePathList[index],
-                        imageFit: BoxFit.fitHeight,
-                        color: Colors.transparent,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeOutQuart,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fitHeight,
+                          image: BlurHashImage(
+                            widget.selectedProject.projectImagePathListHash[index],
+                          ),
+                        ),
+                      ),
+                      child: Image.asset(
+                        widget.selectedProject.projectImagePathList[index],
+                        fit: BoxFit.fitHeight,
                       ),
                     ),
                   ),
@@ -139,16 +143,20 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                     right: index % 2 == 1
                         ? (_imageIsVisible[index] ? 0 : -MediaQuery.sizeOf(context).width)
                         : null,
-                    child: SizedBox(
+                    child: Container(
                       width: MediaQuery.sizeOf(context).width,
                       height: constraints.maxHeight / widget.imageCountToBeShown,
-                      child: BlurHash(
-                        hash: widget.selectedProject.projectImagePathListHash[index],
-                        image: widget.selectedProject.projectImagePathList[index],
-                        imageFit: BoxFit.fitWidth,
-                        color: Colors.transparent,
-                        duration: const Duration(milliseconds: 400),
-                        curve: Curves.easeOutQuart,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fitWidth,
+                          image: BlurHashImage(
+                            widget.selectedProject.projectImagePathListHash[index],
+                          ),
+                        ),
+                      ),
+                      child: Image.asset(
+                        widget.selectedProject.projectImagePathList[index],
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),

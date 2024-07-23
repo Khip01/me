@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me/widget/scroll_behavior.dart';
 
@@ -12,6 +13,7 @@ import 'highlighted_widget_on_hover.dart';
 class ListImageSection extends ConsumerStatefulWidget {
   final List<String> images;
   final List<String> imagesHash;
+  final BoxFit? imagePlaceholderFit;
   final double listViewHeight;
   final double imageWidth;
   final double? imageHeight;
@@ -25,6 +27,7 @@ class ListImageSection extends ConsumerStatefulWidget {
     super.key,
     required this.images,
     required this.imagesHash,
+    required this.imagePlaceholderFit,
     required this.listViewHeight,
     required this.imageWidth,
     this.imageHeight,
@@ -206,6 +209,12 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
       child: Container(
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: widget.imagePlaceholderFit,
+            image: BlurHashImage(
+              widget.imagesHash[index],
+            ),
+          ),
           borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : widget.customBorderCircularValue ??  8),
           color:  (widget.customBackgroundImageColor != null) ? widget.customBackgroundImageColor! :
           (ref.watch(isDarkMode))

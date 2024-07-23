@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 
@@ -10,11 +11,13 @@ import '../provider/theme_provider.dart';
 
 class ImagePreview extends ConsumerStatefulWidget {
   final List<String> images;
+  final List<String> imagesHash;
   final int? isPreviewMode;
 
   const ImagePreview({
     super.key,
     required this.images,
+    required this.imagesHash,
     required this.isPreviewMode,
   });
 
@@ -49,7 +52,18 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                     onTap: () {}, // Prevent the outer GestureDetector from closing the preview,
                     // child: ref.watch(isPreviewMode) != null ?
                     child: widget.isPreviewMode != null ?
-                    Image.asset(widget.images[widget.isPreviewMode!]) :
+                    Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: BlurHashImage(
+                            widget.imagesHash[widget.isPreviewMode!],
+                          ),
+                        ),
+                      ),
+                      child: Image.asset(
+                        widget.images[widget.isPreviewMode!],
+                      ),
+                    ) :
                     const SizedBox(),
                   ),
                 ),
