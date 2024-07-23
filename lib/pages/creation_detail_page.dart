@@ -52,6 +52,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
             ),
             ImagePreview(
               images: widget.selectedProject.projectImagePathList,
+              imagesHash: widget.selectedProject.projectImagePathListHash,
               isPreviewMode: ref.watch(isPreviewMode),
             ),
           ],
@@ -94,19 +95,13 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                       ListImageSection(
                         images: widget.selectedProject.projectImagePathList,
                         imagesHash: widget.selectedProject.projectImagePathListHash,
+                        imagePlaceholderFit: BoxFit.cover,
                         listViewHeight: 360 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                         imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
                         imageWidth: contentHighlightWidth(context) - 32,
                         listViewCustomPadding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
                         childImageBuilder: <Widget>(image, hash) {
-                          return BlurHash(
-                            hash: hash,
-                            image: image,
-                            imageFit: BoxFit.cover,
-                            color: Colors.transparent,
-                            duration: const Duration(milliseconds: 400),
-                            curve: Curves.easeOutQuart,
-                          );
+                          return Image.asset(image, fit: BoxFit.cover);
                         },
                       ),
                       DetailCreationAdditionalInfo(
@@ -278,16 +273,23 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
                     onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
-                    child: SizedBox(
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
                       height: 42,
                       width: 42,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: BlurHashImage(
+                            creatorImageProfileHash[index],
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
                       child: ClipOval(
-                        child: BlurHash(
-                          hash: creatorImageProfileHash[index],
-                          image: creatorImageProfile[index],
-                          color: Colors.transparent,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeOutQuart,
+                        child: Image.asset(
+                          creatorImageProfile[index],
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),

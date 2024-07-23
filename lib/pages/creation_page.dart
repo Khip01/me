@@ -907,26 +907,25 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
-    // final Image itemImage = Image.asset(fit: BoxFit.cover, itemData.projectImagePathCover,);
-    final BlurHash itemImage = BlurHash(
-      imageFit: BoxFit.cover,
-      hash: itemData.projectImagePathCoverHash,
-      image: itemData.projectImagePathCover,
-      color: Colors.transparent,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutQuart,
+    final Image itemImage = Image.asset(
+      itemData.projectImagePathCover,
+      fit: BoxFit.cover,
     );
-    final List<BlurHash> itemImageProfile = List<BlurHash>.generate(
+    final BlurHashImage itemImageHash = BlurHashImage(
+      itemData.projectImagePathCoverHash,
+    );
+    final List<Image> itemImageProfile = List<Image>.generate(
       itemData.creatorPhotoProfilePath.length,
       (index) {
-        // return Image.asset(itemData.creatorPhotoProfilePath[index]);
-        return BlurHash(
-          hash: itemData.creatorPhotoProfilePathHash[index],
-          image: itemData.creatorPhotoProfilePath[index],
-          color: Colors.transparent,
-          duration: const Duration(milliseconds: 400),
-          curve: Curves.easeOutQuart,
+        return Image.asset(
+          itemData.creatorPhotoProfilePath[index],
         );
+      },
+    );
+    final List<BlurHashImage> itemImageProfileHash = List<BlurHashImage>.generate(
+      itemData.creatorPhotoProfilePathHash.length,
+      (index){
+        return BlurHashImage(itemData.creatorPhotoProfilePathHash[index]);
       },
     );
     final Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
@@ -953,13 +952,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
-                    // color: const Color.fromARGB(255, 214, 216, 218),
+                    image: DecorationImage(
+                      image: itemImageHash,
+                      fit: BoxFit.cover,
+                    ),
                     borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
                   ),
                   child: itemImage,
                 ),
                 FutureBuilder<ColorScheme>(
-                    future: getColorFromImage(Image.asset(itemImage.image!).image, ref.watch(isDarkMode)),
+                    future: getColorFromImage(Image.asset(itemData.projectImagePathCover).image, ref.watch(isDarkMode)),
                     builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
                       if(snapshot.hasData){
                         return SizedBox(
@@ -1012,7 +1014,17 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                       } else if (snapshot.hasError) {
                         return const SizedBox();
                       } else {
-                        return const SizedBox();
+                        return Container(
+                          height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: itemImageHash,
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+                          ),
+                          child: itemImage,
+                        );
                       }
                     }
                 ),
@@ -1047,11 +1059,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                   width: 28,
                                   height: 28,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xff7c94b6),
-                                    // image: DecorationImage(
-                                    //   image: itemImageProfile[index].image,
-                                    //   fit: BoxFit.cover,
-                                    // ),
+                                    // color: const Color(0xff7c94b6),
+                                    image: DecorationImage(
+                                      image: itemImageProfileHash[index],
+                                      fit: BoxFit.cover,
+                                    ),
                                     borderRadius: const BorderRadius.all( Radius.circular(50.0)),
                                     border: Border.all(
                                       color: ref.watch(isDarkMode) ? _styleUtil.c_24 : _styleUtil.c_255,
@@ -1193,13 +1205,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
     final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
-    final BlurHash itemImage = BlurHash(
-      imageFit: BoxFit.cover,
-      hash: itemData.projectImagePathCoverHash,
-      image: itemData.projectImagePathCover,
-      color: Colors.transparent,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutQuart,
+    final Image itemImage = Image.asset(
+      itemData.projectImagePathCover,
+      fit: BoxFit.cover,
+    );
+    final BlurHashImage itemImageHash = BlurHashImage(
+      itemData.projectImagePathCoverHash,
     );
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
@@ -1229,6 +1240,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 // color: const Color.fromARGB(255, 214, 216, 218),
+                image: DecorationImage(
+                  image: itemImageHash,
+                  fit: BoxFit.cover,
+                ),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: itemImage,
@@ -1423,13 +1438,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
     final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
-    final BlurHash itemImage = BlurHash(
-      imageFit: BoxFit.cover,
-      hash: itemData.projectImagePathCoverHash,
-      image: itemData.projectImagePathCover,
-      color: Colors.transparent,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutQuart,
+    final Image itemImage = Image.asset(
+      itemData.projectImagePathCover,
+      fit: BoxFit.cover,
+    );
+    final BlurHashImage itemImageHash = BlurHashImage(
+      itemData.projectImagePathCoverHash,
     );
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
@@ -1456,6 +1470,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 // color: const Color.fromARGB(255, 214, 216, 218),
+                image: DecorationImage(
+                  image: itemImageHash,
+                  fit: BoxFit.cover,
+                ),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: itemImage,

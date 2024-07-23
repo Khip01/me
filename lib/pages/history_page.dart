@@ -1251,16 +1251,26 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                 width: double.maxFinite,
                 height: double.maxFinite,
                 decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: BlurHashImage(
+                      listDocumentation![index].docImageListHash[0],
+                    ),
+                  ),
                   borderRadius: BorderRadius.circular(5),
                   color: _styleUtil.c_170,
                 ),
-                child: BlurHash(
-                  hash: listDocumentation![index].docImageListHash[0],
-                  image: listDocumentation![index].docImageList[0],
-                  imageFit: BoxFit.cover,
-                  color: Colors.transparent,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeOutQuart,
+                // child: BlurHash(
+                //   hash: listDocumentation![index].docImageListHash[0],
+                //   image: listDocumentation![index].docImageList[0],
+                //   imageFit: BoxFit.cover,
+                //   color: Colors.transparent,
+                //   duration: const Duration(milliseconds: 400),
+                //   curve: Curves.easeOutQuart,
+                // ),
+                child: Image.asset(
+                  fit: BoxFit.cover,
+                  listDocumentation![index].docImageList[0],
                 ),
               ),
               (totalItem > 3 && index == 2)
@@ -1364,16 +1374,26 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   width: 75,
                   height: 75,
                   decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: BlurHashImage(
+                        listDocumentation![index].docImageListHash[0],
+                      ),
+                    ),
                     borderRadius: BorderRadius.circular(5),
                     color: _styleUtil.c_170,
                   ),
-                  child: BlurHash(
-                    hash: listDocumentation![index].docImageListHash[0],
-                    image: listDocumentation![index].docImageList[0],
-                    imageFit: BoxFit.cover,
-                    color: Colors.transparent,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOutQuart,
+                  // child: BlurHash(
+                  //   hash: listDocumentation![index].docImageListHash[0],
+                  //   image: listDocumentation![index].docImageList[0],
+                  //   imageFit: BoxFit.cover,
+                  //   color: Colors.transparent,
+                  //   duration: const Duration(milliseconds: 400),
+                  //   curve: Curves.easeOutQuart,
+                  // ),
+                  child: Image.asset(
+                      fit: BoxFit.cover,
+                      listDocumentation![index].docImageList[0],
                   ),
                 ),
               ],

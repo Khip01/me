@@ -77,6 +77,7 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
             ),
             ImagePreview(
               images: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageList,
+              imagesHash: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageListHash,
               isPreviewMode: ref.watch(isPreviewMode),
             ),
           ],
@@ -271,26 +272,23 @@ class ContentItemHistoryVertical extends ConsumerWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  BlurredImage(
-                    imageAsset: historyItemDocumentation.docImageList[0],
-                    imageAssetHash: historyItemDocumentation.docImageListHash[0],
-                    fit: BoxFit.cover,
-                  ),
+                  // BlurredImage(
+                  //   imageAsset: historyItemDocumentation.docImageList[0],
+                  //   imageAssetHash: historyItemDocumentation.docImageListHash[0],
+                  //   fit: BoxFit.cover,
+                  // ),
                   ListImageSection(
                     images: historyItemDocumentation.docImageList,
                     imagesHash: historyItemDocumentation.docImageListHash,
+                    imagePlaceholderFit: BoxFit.cover,
                     listViewHeight: constraints.maxHeight,
                     imageWidth: constraints.maxWidth,
                     customBackgroundImageColor: Colors.transparent,
                     childImageBuilder: <Widget>(image, hash) {
                       return Center(
-                        child: BlurHash(
-                          hash: hash,
-                          image: image,
-                          imageFit: BoxFit.cover,
-                          color: Colors.transparent,
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.easeOutQuart,
+                        child: Image.asset(
+                          image,
+                          fit: BoxFit.contain,
                         ),
                       );
                     },
@@ -450,9 +448,17 @@ class ContentItemHistoryVertical extends ConsumerWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
+                child: Container(
                   height: double.maxFinite,
                   width: 134,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: BlurHashImage(
+                        historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                      ),
+                    ),
+                  ),
                   child: Image.asset(
                     historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
                     fit: BoxFit.cover,
@@ -577,16 +583,17 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                         return Stack(
                           alignment: Alignment.center,
                           children: [
-                            Positioned.fill(
-                              child: BlurredImage(
-                                imageAsset: historyItemDocumentation.docImageList[0],
-                                imageAssetHash: historyItemDocumentation.docImageListHash[0],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            // Positioned.fill(
+                            //   child: BlurredImage(
+                            //     imageAsset: historyItemDocumentation.docImageList[0],
+                            //     imageAssetHash: historyItemDocumentation.docImageListHash[0],
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
                             ListImageSection(
                               images: historyItemDocumentation.docImageList,
                               imagesHash: historyItemDocumentation.docImageListHash,
+                              imagePlaceholderFit: BoxFit.cover,
                               listViewHeight: constraints.maxHeight,
                               imageWidth: constraints.maxWidth,
                               customBackgroundImageColor: Colors.transparent,
@@ -767,16 +774,20 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
+                child: Container(
                   height: double.maxFinite,
                   width: 134,
-                  child: BlurHash(
-                    hash: historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
-                    image: historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
-                    imageFit: BoxFit.cover,
-                    color: Colors.transparent,
-                    duration: const Duration(milliseconds: 400),
-                    curve: Curves.easeOutQuart,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: BlurHashImage(
+                        historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                      ),
+                    ),
+                  ),
+                  child: Image.asset(
+                    historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
