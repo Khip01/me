@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "967013239009",
+    "firebase_url": "https://khip01-portfolio-default-rtdb.firebaseio.com",
+    "project_id": "khip01-portfolio",
+    "storage_bucket": "khip01-portfolio.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:967013239009:android:9f9d58f609b52147440fa0",
+        "android_client_info": {
+          "package_name": "com.khip01_portfolio.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4O7Zyhf4r9Qb13J3g50vvgZ9OkLT_iBU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
