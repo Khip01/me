@@ -31,7 +31,8 @@ class ImagePath {
   static const String FIRST_WEB_PORTFOLIO_3_HASH = "V2OgKN_3WB~q4n9Fxu-;ofD%00IU%MD%xuRjM{D%j[?b"; // (HASH in BlurHash Website Component 5x4)
 
   // FLUTTER PORTFOLIO
-  static const String FLUTTER_PORTFOLIO_C = '$projectDir/flutter_portfolio/flutter_portfolio_cover.png';
+  // static const String FLUTTER_PORTFOLIO_C = '$projectDir/flutter_portfolio/flutter_portfolio_cover.png';
+  static const String FLUTTER_PORTFOLIO_C = '$projectDir/restaurant_khip01/restaurant_khip01_cover.png';
   static const String FLUTTER_PORTFOLIO_C_HASH = "V2S?DVIU?a~q_3?bWBj[t7fRRj?b%M4nax~qxuWBM{Rj"; // (HASH in BlurHash Website Component 5x4)
 
   // KALKULATOR BASIC CPP
@@ -39,7 +40,8 @@ class ImagePath {
   static const String KALKULATOR_BASIC_CPP_C_HASH = "VqG98Mof%Mj[xuxuj[j[fQj[~qayWBfQWBt7ayayfQay"; // (HASH in BlurHash Website Component 5x4)
 
   // RESTAURANT KHIP01 C#
-  static const String RESTAURANT_KHIP01_C = '$projectDir/restaurant_khip01/restaurant_khip01_cover.png';
+  // static const String RESTAURANT_KHIP01_C = '$projectDir/restaurant_khip01/restaurant_khip01_cover.png';
+  static const String RESTAURANT_KHIP01_C = '$projectDir/kalkulator_basic_cpp/kalkulator_basic_cpp.png';
   static const String RESTAURANT_KHIP01_C_HASH = "VARfXz8w-o_4_Nn,VssotSxu~WtSI;Z~IU_2WXM|s+M{"; // (HASH in BlurHash Website Component 5x4)
 
   // ROCK PAPPER SCISSORS GAME CPP
