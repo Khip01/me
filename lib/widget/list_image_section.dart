@@ -5,7 +5,6 @@ import 'package:me/widget/scroll_behavior.dart';
 
 import '../Utility/style_util.dart';
 import '../component/visible.dart';
-import '../provider/image_preview_provider.dart';
 import '../provider/theme_provider.dart';
 import 'highlighted_widget_on_hover.dart';
 
@@ -22,6 +21,7 @@ class ListImageSection extends ConsumerStatefulWidget {
   final Color? customBackgroundImageColor;
   final EdgeInsets? listViewCustomPadding;
   final Function()? customOnTapItem;
+  final Function(int? activeIndex) callbackPreviewMode;
 
   const ListImageSection({
     super.key,
@@ -36,6 +36,7 @@ class ListImageSection extends ConsumerStatefulWidget {
     this.customBackgroundImageColor,
     this.listViewCustomPadding,
     this.customOnTapItem,
+    required this.callbackPreviewMode,
   });
 
   @override
@@ -204,7 +205,8 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
       widgetWidth: widget.imageWidth,
       onTapAction: () {
         if (widget.customOnTapItem != null) widget.customOnTapItem!();
-        ref.read(isPreviewMode.notifier).state = index;
+        // ref.read(isPreviewMode.notifier).state = index;
+        widget.callbackPreviewMode(index);
       },
       child: Container(
         clipBehavior: Clip.antiAlias,

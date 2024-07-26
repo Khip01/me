@@ -6,19 +6,20 @@ import 'package:me/widget/text_highlight_decider.dart';
 import '../Utility/style_util.dart';
 import '../component/spacing.dart';
 import '../component/visible.dart';
-import '../provider/image_preview_provider.dart';
 import '../provider/theme_provider.dart';
 
 class ImagePreview extends ConsumerStatefulWidget {
   final List<String> images;
   final List<String> imagesHash;
   final int? isPreviewMode;
+  final Function(int? activeIndex) callbackPreviewMode;
 
   const ImagePreview({
     super.key,
     required this.images,
     required this.imagesHash,
     required this.isPreviewMode,
+    required this.callbackPreviewMode,
   });
 
   @override
@@ -37,7 +38,9 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
       // visible: ref.watch(isPreviewMode) != null,
       visible: widget.isPreviewMode != null,
       child: GestureDetector(
-        onTap: () => ref.read(isPreviewMode.notifier).state = null,
+        onTap: () => setState(() {
+          widget.callbackPreviewMode(null);
+        }),
         child: Container(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
@@ -84,7 +87,9 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                           colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
                           colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
                           actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
-                          additionalOnTapAction: () => ref.read(isPreviewMode.notifier).state = null,
+                          additionalOnTapAction: () => setState(() {
+                            widget.callbackPreviewMode(null);
+                          }),
                           builder: (color) {
                             return Icon(
                               Icons.close,
@@ -128,10 +133,10 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
                                   IgnorePointer(
-                                    ignoring: ref.read(isPreviewMode) == 0 ? true : false,
+                                    ignoring: widget.isPreviewMode == 0 ? true : false,
                                     child: AnimatedOpacity(
                                       duration: const Duration(milliseconds: 100),
-                                      opacity: ref.read(isPreviewMode) == 0 ? 0 : 1,
+                                      opacity: widget.isPreviewMode == 0 ? 0 : 1,
                                       curve: Curves.easeInOut,
                                       child: TextHighlightDecider(
                                         isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
@@ -140,9 +145,11 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                         actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
                                         delayAfterAnimation: const Duration(milliseconds: 0),
                                         additionalOnTapAction: () {
-                                          if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! > 0){
-                                            int currentIndex = ref.read(isPreviewMode)!;
-                                            ref.read(isPreviewMode.notifier).state = (currentIndex - 1);
+                                          if(widget.isPreviewMode != null && widget.isPreviewMode! > 0){
+                                            int currentIndex = widget.isPreviewMode!;
+                                            setState(() {
+                                              widget.callbackPreviewMode(currentIndex - 1);
+                                            });
                                           }
                                         },
                                         builder: (color) {
@@ -156,10 +163,10 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                     ),
                                   ),
                                   IgnorePointer(
-                                    ignoring: ref.read(isPreviewMode) == widget.images.length-1 ? true : false,
+                                    ignoring:widget.isPreviewMode == widget.images.length-1 ? true : false,
                                     child: AnimatedOpacity(
                                       duration: const Duration(milliseconds: 100),
-                                      opacity: ref.read(isPreviewMode) == widget.images.length-1 ? 0 : 1,
+                                      opacity: widget.isPreviewMode == widget.images.length-1 ? 0 : 1,
                                       curve: Curves.easeInOut,
                                       child: TextHighlightDecider(
                                         isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
@@ -168,9 +175,9 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                         actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
                                         delayAfterAnimation: const Duration(milliseconds: 0),
                                         additionalOnTapAction: () {
-                                          if(ref.read(isPreviewMode) != null && ref.read(isPreviewMode)! < widget.images.length-1){
-                                            int currentIndex = ref.read(isPreviewMode)!;
-                                            ref.read(isPreviewMode.notifier).state = (currentIndex + 1);
+                                          if(widget.isPreviewMode != null && widget.isPreviewMode! < widget.images.length-1){
+                                            int currentIndex = widget.isPreviewMode!;
+                                            widget.callbackPreviewMode(currentIndex + 1);
                                           }
                                         },
                                         builder: (color) {
