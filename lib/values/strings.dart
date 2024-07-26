@@ -215,7 +215,7 @@ class StringConst {
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_HEADER = "Firebase?! Light up my brother";
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_TOPIC = "Currently being explored";
   // RESTAURANT_KHIP01
-  static const String RESTAURANT_KHIP01_PROJECT_NAME = "Restaurant_Khip01";
+  static const String RESTAURANT_KHIP01_PROJECT_NAME = "Restaurant Khip01";
   static const String RESTAURANT_KHIP01_PROJECT_DESCRIPTION = "Create Simple RESTful API with GO, Complete with simple Mobile and Desktop App";
   static const String RESTAURANT_KHIP01_ADDITIONAL_LINK = "https://github.com/Khip01/Restaurant_Khip01/releases";
   static const String RESTAURANT_KHIP01_ADDITIONAL_LINK_DESCRIPTION = "release-app";

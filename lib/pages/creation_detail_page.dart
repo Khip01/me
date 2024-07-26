@@ -101,7 +101,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                         imageWidth: contentHighlightWidth(context) - 32,
                         listViewCustomPadding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
                         childImageBuilder: <Widget>(image, hash) {
-                          return Image.asset(image, fit: BoxFit.cover);
+                          return Image.asset(image, fit: BoxFit.contain);
                         },
                       ),
                       DetailCreationAdditionalInfo(

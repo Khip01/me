@@ -319,9 +319,13 @@ class Projects {
     projectImagePathCoverHash: ImagePath.RESTAURANT_KHIP01_C_HASH,
     projectImagePathList: [
       ImagePath.RESTAURANT_KHIP01_C,
+      ImagePath.RESTAURANT_KHIP01_2,
+      ImagePath.RESTAURANT_KHIP01_3,
     ],
     projectImagePathListHash: [
-      ImagePath.RESTAURANT_KHIP01_C_HASH
+      ImagePath.RESTAURANT_KHIP01_C_HASH,
+      ImagePath.RESTAURANT_KHIP01_2_HASH,
+      ImagePath.RESTAURANT_KHIP01_3_HASH,
     ],
     projectName: StringConst.RESTAURANT_KHIP01_PROJECT_NAME,
     projectDescription: StringConst.RESTAURANT_KHIP01_PROJECT_DESCRIPTION,
