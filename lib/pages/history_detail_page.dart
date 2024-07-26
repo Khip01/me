@@ -9,7 +9,6 @@ import 'package:me/helper/get_size_from_widget.dart';
 import 'package:me/provider/image_preview_provider.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/values/values.dart';
-import 'package:me/widget/blurred_image.dart';
 import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:me/widget/image_preview.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
@@ -38,6 +37,8 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
   final historyItemController = ItemScrollController();
 
   final double appBarHeight = 80;
+
+  int? indexPreviewed;
 
   @override
   void initState() {
@@ -78,7 +79,11 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
             ImagePreview(
               images: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageList,
               imagesHash: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageListHash,
-              isPreviewMode: ref.watch(isPreviewMode),
+              // isPreviewMode: ref.watch(isPreviewMode),
+              isPreviewMode: indexPreviewed,
+              callbackPreviewMode: (activeIndex) => setState(() {
+                indexPreviewed = activeIndex;
+              }),
             ),
           ],
         ),
@@ -153,6 +158,9 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
             index: index,
             appBarHeight: appBarHeight,
             historyItemData: widget.historyData,
+            callbackPreviewMode: (activeIndex) => setState(() {
+              indexPreviewed = activeIndex;
+            }),
           );
         },
       ),
@@ -164,12 +172,14 @@ class ItemHistorySection extends StatefulWidget {
   final int index;
   final double appBarHeight;
   final HistoryItemData historyItemData;
+  final Function(int? activeIndex) callbackPreviewMode;
 
   const ItemHistorySection({
     super.key,
     required this.index,
     required this.appBarHeight,
     required this.historyItemData,
+    required this.callbackPreviewMode,
   });
 
   @override
@@ -214,6 +224,9 @@ class _ItemHistorySectionState extends State<ItemHistorySection> {
         historyItemData: widget.historyItemData,
         historyItemDocumentation: historyItemDocumentation,
         dateFormatter: dateFormatter,
+        callbackPreviewMode: (activeItemIndex) => setState(() {
+          widget.callbackPreviewMode(activeItemIndex);
+        }),
       );
     } else {
       return ContentItemHistoryHorizontal(
@@ -222,37 +235,47 @@ class _ItemHistorySectionState extends State<ItemHistorySection> {
         historyItemData: widget.historyItemData,
         historyItemDocumentation: historyItemDocumentation,
         dateFormatter: dateFormatter,
+        callbackPreviewMode: (activeItemIndex) => setState(() {
+          widget.callbackPreviewMode(activeItemIndex);
+        }),
       );
     }
   }
 }
 
-class ContentItemHistoryVertical extends ConsumerWidget {
+class ContentItemHistoryVertical extends ConsumerStatefulWidget {
   final int itemIndex;
   final BoxConstraints constraints;
   final HistoryItemData historyItemData;
   final HistoryItemDocumentation historyItemDocumentation;
   final DateFormat dateFormatter;
+  final Function(int? activeIndex) callbackPreviewMode;
 
-  ContentItemHistoryVertical({
+  const ContentItemHistoryVertical({
     super.key,
     required this.itemIndex,
     required this.constraints,
     required this.historyItemData,
     required this.historyItemDocumentation,
     required this.dateFormatter,
+    required this.callbackPreviewMode,
   });
 
+  @override
+  ConsumerState<ContentItemHistoryVertical> createState() => _ContentItemHistoryVerticalState();
+}
+
+class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryVertical> {
   final StyleUtil _styleUtil = StyleUtil();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: itemIndex == historyItemData.historyDocumentations!.length-1 ? 0 : (getIsMobileSize(context) ? 64 : 40)),
+      padding: EdgeInsets.only(bottom: widget.itemIndex == widget.historyItemData.historyDocumentations!.length-1 ? 0 : (getIsMobileSize(context) ? 64 : 40)),
       child: Container(
         width: double.maxFinite,
         constraints: BoxConstraints(
-          minHeight: constraints.minHeight,
+          minHeight: widget.constraints.minHeight,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -261,7 +284,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.only(bottom: 20), //
               clipBehavior: Clip.antiAlias,
-              height: constraints.minHeight / 2,
+              height: widget.constraints.minHeight / 2,
               width: double.maxFinite,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -278,11 +301,11 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                   //   fit: BoxFit.cover,
                   // ),
                   ListImageSection(
-                    images: historyItemDocumentation.docImageList,
-                    imagesHash: historyItemDocumentation.docImageListHash,
+                    images: widget.historyItemDocumentation.docImageList,
+                    imagesHash: widget.historyItemDocumentation.docImageListHash,
                     imagePlaceholderFit: BoxFit.cover,
-                    listViewHeight: constraints.maxHeight,
-                    imageWidth: constraints.maxWidth,
+                    listViewHeight: widget.constraints.maxHeight,
+                    imageWidth: widget.constraints.maxWidth,
                     customBackgroundImageColor: Colors.transparent,
                     childImageBuilder: <Widget>(image, hash) {
                       return Center(
@@ -293,8 +316,11 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                       );
                     },
                     customOnTapItem: () {
-                      ref.read(indexDocumentation.notifier).state = itemIndex;
+                      ref.read(indexDocumentation.notifier).state = widget.itemIndex;
                     },
+                    callbackPreviewMode: (activeIndex) => setState(() {
+                      widget.callbackPreviewMode(activeIndex);
+                    }),
                   ),
                 ],
               ),
@@ -316,7 +342,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
-                              historyItemDocumentation.docType,
+                              widget.historyItemDocumentation.docType,
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 14,
@@ -327,7 +353,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
-                              historyItemDocumentation.docTitle,
+                              widget.historyItemDocumentation.docTitle,
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 20,
@@ -336,7 +362,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                             ),
                           ),
                           Text(
-                            historyItemDocumentation.docDesc,
+                            widget.historyItemDocumentation.docDesc,
                             style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 16,
@@ -347,7 +373,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  if (historyItemDocumentation.docRelatedProjects != null)
+                  if (widget.historyItemDocumentation.docRelatedProjects != null)
                     relatedProjectSection(context, ref),
                 ],
               ),
@@ -412,7 +438,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  for(int index = 0; index < historyItemDocumentation.docRelatedProjects!.length; index++)
+                  for(int index = 0; index < widget.historyItemDocumentation.docRelatedProjects!.length; index++)
                     itemRelatedProject(context, ref, index),
                 ],
               )
@@ -427,9 +453,9 @@ class ContentItemHistoryVertical extends ConsumerWidget {
       onTapAction: () => context.goNamed(
         "details_creation",
         queryParameters: {
-          "id": historyItemDocumentation.docRelatedProjects![index].projectId,
+          "id": widget.historyItemDocumentation.docRelatedProjects![index].projectId,
         },
-        extra: "/history/details?index=$itemIndex&id=${historyItemData.historyItemDataId}",
+        extra: "/history/details?index=${widget.itemIndex}&id=${widget.historyItemData.historyItemDataId}",
       ),
       widgetHeight: 125,
       widgetWidth: double.maxFinite,
@@ -455,12 +481,12 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: BlurHashImage(
-                        historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                        widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
                       ),
                     ),
                   ),
                   child: Image.asset(
-                    historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                    widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -473,7 +499,7 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        historyItemDocumentation.docRelatedProjects![index].projectName,
+                        widget.historyItemDocumentation.docRelatedProjects![index].projectName,
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 16,
@@ -486,10 +512,10 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
+                          itemCount: widget.historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
                           itemBuilder: (BuildContext context, int indexCategories){
                             return Text(
-                              historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
+                              widget.historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 12,
@@ -506,8 +532,8 @@ class ContentItemHistoryVertical extends ConsumerWidget {
                       ),
                       const Spacer(),
                       Text(
-                        dateFormatter.format(
-                            DateTime.fromMillisecondsSinceEpoch(historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
+                        widget.dateFormatter.format(
+                            DateTime.fromMillisecondsSinceEpoch(widget.historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
                         ),
                         style: TextStyle(
                           fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
@@ -525,22 +551,29 @@ class ContentItemHistoryVertical extends ConsumerWidget {
   }
 }
 
-class ContentItemHistoryHorizontal extends ConsumerWidget {
+class ContentItemHistoryHorizontal extends ConsumerStatefulWidget {
   final int itemIndex;
   final BoxConstraints constraints;
   final HistoryItemData historyItemData;
   final HistoryItemDocumentation historyItemDocumentation;
   final DateFormat dateFormatter;
+  final Function(int? activeItemIndex) callbackPreviewMode;
 
-  ContentItemHistoryHorizontal({
+  const ContentItemHistoryHorizontal({
     super.key,
     required this.itemIndex,
     required this.constraints,
     required this.historyItemData,
     required this.historyItemDocumentation,
     required this.dateFormatter,
+    required this.callbackPreviewMode,
   });
 
+  @override
+  ConsumerState<ContentItemHistoryHorizontal> createState() => _ContentItemHistoryHorizontalState();
+}
+
+class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistoryHorizontal> {
   final StyleUtil _styleUtil = StyleUtil();
 
   final GlobalKey widgetRightSideKey = GlobalKey();
@@ -548,11 +581,11 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
   Size? widgetRightSideSize;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
       constraints: BoxConstraints(
-        minHeight: constraints.minHeight - 80,
+        minHeight: widget.constraints.minHeight - 80,
       ),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 40, top: 40),
@@ -591,8 +624,8 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                             //   ),
                             // ),
                             ListImageSection(
-                              images: historyItemDocumentation.docImageList,
-                              imagesHash: historyItemDocumentation.docImageListHash,
+                              images: widget.historyItemDocumentation.docImageList,
+                              imagesHash: widget.historyItemDocumentation.docImageListHash,
                               imagePlaceholderFit: BoxFit.cover,
                               listViewHeight: constraints.maxHeight,
                               imageWidth: constraints.maxWidth,
@@ -607,8 +640,11 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                                 );
                               },
                               customOnTapItem: () {
-                                ref.read(indexDocumentation.notifier).state = itemIndex;
+                                ref.read(indexDocumentation.notifier).state = widget.itemIndex;
                               },
+                              callbackPreviewMode: (activeIndex) => setState(() {
+                                widget.callbackPreviewMode(activeIndex);
+                              }),
                             ),
                           ],
                         );
@@ -641,7 +677,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: Text(
-                                      historyItemDocumentation.docType,
+                                      widget.historyItemDocumentation.docType,
                                       style: TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 14,
@@ -652,7 +688,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: Text(
-                                      historyItemDocumentation.docTitle,
+                                      widget.historyItemDocumentation.docTitle,
                                       style: TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 20,
@@ -661,7 +697,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                                     ),
                                   ),
                                   Text(
-                                    historyItemDocumentation.docDesc,
+                                    widget.historyItemDocumentation.docDesc,
                                     style: TextStyle(
                                       fontFamily: 'Lato',
                                       fontSize: 16,
@@ -673,7 +709,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        if (historyItemDocumentation.docRelatedProjects != null)
+                        if (widget.historyItemDocumentation.docRelatedProjects != null)
                           relatedProjectSection(context, ref),
                       ],
                     ),
@@ -739,7 +775,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                for(int index = 0; index < historyItemDocumentation.docRelatedProjects!.length; index++)
+                for(int index = 0; index < widget.historyItemDocumentation.docRelatedProjects!.length; index++)
                   itemRelatedProject(context, ref, index),
               ],
             )
@@ -753,9 +789,9 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
       onTapAction: () => context.goNamed(
         "details_creation",
         queryParameters: {
-          "id": historyItemDocumentation.docRelatedProjects![index].projectId,
+          "id": widget.historyItemDocumentation.docRelatedProjects![index].projectId,
         },
-        extra: "/history/details?index=$itemIndex&id=${historyItemData.historyItemDataId}",
+        extra: "/history/details?index=${widget.itemIndex}&id=${widget.historyItemData.historyItemDataId}",
       ),
       widgetHeight: 125,
       widgetWidth: double.maxFinite,
@@ -781,12 +817,12 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: BlurHashImage(
-                        historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                        widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
                       ),
                     ),
                   ),
                   child: Image.asset(
-                    historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                    widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -799,7 +835,7 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        historyItemDocumentation.docRelatedProjects![index].projectName,
+                        widget.historyItemDocumentation.docRelatedProjects![index].projectName,
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 16,
@@ -812,10 +848,10 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
+                          itemCount: widget.historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
                           itemBuilder: (BuildContext context, int indexCategories){
                             return Text(
-                              historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
+                              widget.historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 12,
@@ -832,8 +868,8 @@ class ContentItemHistoryHorizontal extends ConsumerWidget {
                       ),
                       const Spacer(),
                       Text(
-                        dateFormatter.format(
-                            DateTime.fromMillisecondsSinceEpoch(historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
+                        widget.dateFormatter.format(
+                            DateTime.fromMillisecondsSinceEpoch(widget.historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
                         ),
                         style: TextStyle(
                           fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,

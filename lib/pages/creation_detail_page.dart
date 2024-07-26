@@ -34,6 +34,8 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   final StyleUtil _styleUtil = StyleUtil();
   final IconUtil _iconUtil = IconUtil();
 
+  int? indexPreviewed;
+
   @override
   Widget build(BuildContext context) {
     return SelectionArea(
@@ -53,7 +55,11 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
             ImagePreview(
               images: widget.selectedProject.projectImagePathList,
               imagesHash: widget.selectedProject.projectImagePathListHash,
-              isPreviewMode: ref.watch(isPreviewMode),
+              // isPreviewMode: ref.watch(isPreviewMode),
+              isPreviewMode: indexPreviewed,
+              callbackPreviewMode: (activeIndex) => setState(() {
+                indexPreviewed = activeIndex;
+              }),
             ),
           ],
         ),
@@ -103,6 +109,9 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                         childImageBuilder: <Widget>(image, hash) {
                           return Image.asset(image, fit: BoxFit.contain);
                         },
+                        callbackPreviewMode: (activeIndex) => setState(() {
+                          indexPreviewed = activeIndex;
+                        }),
                       ),
                       DetailCreationAdditionalInfo(
                         timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
