@@ -39,11 +39,11 @@ class ImagePath {
   static const String KALKULATOR_BASIC_CPP_C_HASH = "VqG98Mof%Mj[xuxuj[j[fQj[~qayWBfQWBt7ayayfQay"; // (HASH in BlurHash Website Component 5x4)
 
   // RESTAURANT KHIP01 C#
-  static const String RESTAURANT_KHIP01_C = '$projectDir/khip01_restaurant/khip01_restaurant_cover.png';
+  static const String RESTAURANT_KHIP01_C = '$projectDir/restaurant_khip01/restaurant_khip01_cover.png';
   static const String RESTAURANT_KHIP01_C_HASH = "VARfXz8w-o_4_Nn,VssotSxu~WtSI;Z~IU_2WXM|s+M{"; // (HASH in BlurHash Website Component 5x4)
-  static const String RESTAURANT_KHIP01_2 = '$projectDir/khip01_restaurant/khip01_restaurant_2.jpg';
+  static const String RESTAURANT_KHIP01_2 = '$projectDir/restaurant_khip01/restaurant_khip01_2.jpg';
   static const String RESTAURANT_KHIP01_2_HASH = "V1I#fN8wiJ*J.T007y4-q]Hr00hzRQTdcF00.mxbR5VF"; // (HASH in BlurHash Website Component 5x4)
-  static const String RESTAURANT_KHIP01_3 = '$projectDir/khip01_restaurant/khip01_restaurant_3.jpg';
+  static const String RESTAURANT_KHIP01_3 = '$projectDir/restaurant_khip01/restaurant_khip01_3.jpg';
   static const String RESTAURANT_KHIP01_3_HASH = "V5Bo?X}r5SrqSO9FtRjFt7WB?H%MIUkCay0KIU%2j[of"; // (HASH in BlurHash Website Component 5x4)
 
   // ROCK PAPPER SCISSORS GAME CPP
