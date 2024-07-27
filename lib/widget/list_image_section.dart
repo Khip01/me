@@ -146,11 +146,13 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   }
 
   Widget _listViewButtonController(bool buttonCondition, bool isButtonLeft, double buttonWidth, double iconSize, Function() onTapAction){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     const Duration animationDuration = Duration(milliseconds: 150);
     final Alignment beginGradientAlign = isButtonLeft ? Alignment.centerLeft : Alignment.centerRight;
     final Alignment endGradientAlign = isButtonLeft ? Alignment.centerRight : Alignment.centerLeft;
-    final Color baseButtonColor = (ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255);
-    final Color baseIconColor = (ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.9);
+    final Color baseButtonColor = (isDarkMode ? _styleUtil.c_33 : _styleUtil.c_255);
+    final Color baseIconColor = (isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.9);
     final IconData mainIcon = isButtonLeft ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded;
 
     return AnimatedOpacity(
@@ -200,6 +202,8 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
   }
 
   Widget _buildCardImage(int index){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return HighlightedWidgetOnHover(
       widgetHeight: widget.imageHeight,
       widgetWidth: widget.imageWidth,
@@ -219,13 +223,13 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
           ),
           borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : widget.customBorderCircularValue ??  8),
           color:  (widget.customBackgroundImageColor != null) ? widget.customBackgroundImageColor! :
-          (ref.watch(isDarkMode))
+          (isDarkMode)
               ? _styleUtil.c_33
               : _styleUtil.c_255,
           boxShadow: [
             BoxShadow(
               color: (widget.customBackgroundImageColor != null) ? widget.customBackgroundImageColor! :
-                (ref.watch(isDarkMode))
+                (isDarkMode)
                   ? const Color.fromARGB(255, 200, 200, 200)
                   : const Color.fromARGB(255, 233, 233, 233),
               blurRadius: 7.0,
