@@ -56,7 +56,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     setState(() => transitionIsActive = !transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(animationDuration, () => setState(() {
-        ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
+        ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
       }));
       Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
         transitionIsActive = !transitionIsActive;
@@ -73,6 +73,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   }
   // Show Snackbar Template + Open URL
   Future<void> _showSnackbar(String message, String url) async {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         elevation: 0,
@@ -87,7 +89,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              color: (isDarkMode) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -147,6 +149,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
     final scrHeight = MediaQuery.sizeOf(context).height;
 
     return Stack(
@@ -154,7 +157,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
         SelectionArea(
           child: Scaffold(
             body: Container(
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+              color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
               height: scrHeight,
               padding: mainCardPaddingWithBottomQuote(context),
               child: Column(
@@ -169,10 +172,10 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       clipBehavior: Clip.antiAlias,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+                        color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
                         boxShadow: [
                           BoxShadow(
-                            color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
+                            color: (isDarkMode) ? const Color.fromARGB(
                                 255, 61, 61, 61) : const Color.fromARGB(255, 203, 203, 203),
                             blurRadius: 80.0,
                           ),
@@ -184,14 +187,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                           Positioned(
                             top: 55,
                             right: -5,
-                            child: dashHorizontal(context, ref.watch(isDarkMode)),
+                            child: dashHorizontal(context, isDarkMode),
                           ),
                           Positioned(
                             top: 50,
                             right: 0,
                             child: RotatedBox(
                               quarterTurns: 1,
-                              child: dashVertical(context, ref.watch(isDarkMode)),
+                              child: dashVertical(context, isDarkMode),
                             ),
                           ),
                           Column(
@@ -241,6 +244,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
   // ------ Content Body -----
   Widget _topContent() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Stack(
       children: [
         AnimatedPositioned(
@@ -253,7 +258,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 12,
-                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : Colors.transparent),
+                color: (themeSwitch) ? (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24 : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
               "change mode",
@@ -268,14 +273,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
             child: TextHighlightDecider(
               isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
               colorStart: _styleUtil.c_170,
-              colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+              colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
               actionDelay: const Duration(milliseconds: 100),
               delayAfterAnimation: const Duration(milliseconds: 300),
               additionalOnTapAction: () => switchWithTransition(),
               additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
               builder: (Color color){
                 return Icon(
-                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  (isDarkMode) ? Icons.dark_mode : Icons.sunny,
                   size: 32,
                   color: color,
                 );
@@ -287,6 +292,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     );
   }
   Widget _content() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -308,7 +315,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   color:
-                  (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                  (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -342,7 +349,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[0]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight : _iconUtil.imgGithubDefault,
+                      (_iconsHover[0]) ? (isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight : _iconUtil.imgGithubDefault,
                     ),
                   ),
                 ),
@@ -360,7 +367,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[1]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgInstagramDark : _iconUtil.imgInstagramLight : _iconUtil.imgInstagramDefault,
+                      (_iconsHover[1]) ? (isDarkMode) ? _iconUtil.imgInstagramDark : _iconUtil.imgInstagramLight : _iconUtil.imgInstagramDefault,
                     ),
                   ),
               ),
@@ -378,7 +385,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[2]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgFacebookDark : _iconUtil.imgFacebookLight : _iconUtil.imgFacebookDefault,
+                      (_iconsHover[2]) ? (isDarkMode) ? _iconUtil.imgFacebookDark : _iconUtil.imgFacebookLight : _iconUtil.imgFacebookDefault,
                     ),
                   ),
               ),
@@ -396,7 +403,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[3]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgGmailDark : _iconUtil.imgGmailLight : _iconUtil.imgGmailDefault,
+                      (_iconsHover[3]) ? (isDarkMode) ? _iconUtil.imgGmailDark : _iconUtil.imgGmailLight : _iconUtil.imgGmailDefault,
                     ),
                   ),
               ),
@@ -414,7 +421,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       });
                     },
                     child: Image.asset(
-                      (_iconsHover[4]) ? (ref.watch(isDarkMode)) ? _iconUtil.imgLinkedinDark : _iconUtil.imgLinkedinLight : _iconUtil.imgLinkedinDefault,
+                      (_iconsHover[4]) ? (isDarkMode) ? _iconUtil.imgLinkedinDark : _iconUtil.imgLinkedinLight : _iconUtil.imgLinkedinDefault,
                     ),
                   ),
               ),
@@ -426,6 +433,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     );
   }
   Widget _navSection() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: FittingMobileSizeDecider(
@@ -443,7 +452,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcome(),
                       builder: (Color color){
@@ -466,7 +475,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreation(),
                       builder: (Color color){
@@ -489,7 +498,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectHistory(),
                       builder: (Color color){
@@ -510,7 +519,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                   child: Text(
                     "Further",
                     style: TextStyle(
-                        fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33),
+                        fontFamily: 'Lato', fontSize: 14, color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),
                   ),
                 ),
               ],
@@ -545,6 +554,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   }
   // ------ Transition Page -----
   Widget _transitionToWelcomePage() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(_rectWelcome == null) {
       return const SizedBox();
     }
@@ -557,13 +568,15 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       left: _rectWelcome!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
   Widget _transitionToCreationPage() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(_rectCreation == null) {
       return const SizedBox();
     }
@@ -576,13 +589,15 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       left: _rectCreation!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
   Widget _transitionToHistoryPage() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(_rectHistory == null) {
       return const SizedBox();
     }
@@ -595,13 +610,15 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       left: _rectHistory!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
   Widget _switchTapedWithTransition() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return AnimatedPositioned(
       duration: animationDuration,
       top: 0,
@@ -611,7 +628,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+            color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
             shape: BoxShape.rectangle
         ),
       ),

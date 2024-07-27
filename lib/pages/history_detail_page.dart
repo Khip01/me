@@ -58,9 +58,11 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SelectionArea(
       child: Scaffold(
-        backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
         body: Stack(
           children: [
             SizedBox(
@@ -92,6 +94,8 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
   }
 
   Widget appBarSection() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       height: appBarHeight,
       width: double.maxFinite,
@@ -106,8 +110,8 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
               child: Center(
                 child: TextHighlightDecider(
                   isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                  colorStart: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61,
-                  colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                  colorStart: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
+                  colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
                   actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
                   additionalOnTapAction: () => context.goNamed("history"),
                   builder: (color) {
@@ -130,13 +134,13 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
               children: [
                 Text(
                   "Documentation",
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
                 ),
                 Text(
                   widget.historyData.historyTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61),
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61),
                 ),
               ],
             ),
@@ -270,6 +274,8 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Padding(
       padding: EdgeInsets.only(bottom: widget.itemIndex == widget.historyItemData.historyDocumentations!.length-1 ? 0 : (getIsMobileSize(context) ? 64 : 40)),
       child: Container(
@@ -346,7 +352,7 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 14,
-                                color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                                color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
                               ),
                             ),
                           ),
@@ -357,7 +363,7 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 20,
-                                color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
+                                color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
                               ),
                             ),
                           ),
@@ -366,7 +372,7 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                             style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 16,
-                              color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                              color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
                             ),
                           ),
                         ],
@@ -385,6 +391,8 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
   }
 
   Widget relatedProjectSection(BuildContext context, WidgetRef ref){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Padding( // removed flexible
         padding: const EdgeInsets.only(top: 10),
         child: SizedBox(
@@ -407,7 +415,7 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 16,
-                          color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                          color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
                         ),
                       ),
                     ),
@@ -422,7 +430,7 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: (ref.watch(isDarkMode))
+                            color: (isDarkMode)
                                 ? _styleUtil.c_170
                                 : _styleUtil.c_170,
                             blurRadius: 5.0,
@@ -449,6 +457,8 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
   }
 
   Widget itemRelatedProject(BuildContext context, WidgetRef ref, int index){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return HighlightedWidgetOnHover(
       onTapAction: () => context.goNamed(
         "details_creation",
@@ -503,7 +513,7 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 16,
-                          color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                          color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
                         ),
                       ),
                       SizedBox(
@@ -519,14 +529,14 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 12,
-                                color: ref.watch(isDarkMode) ?
+                                color: isDarkMode ?
                                 _styleUtil.c_238 :
                                 _styleUtil.c_61,
                               ),
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                            return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
                           },
                         ),
                       ),
@@ -582,6 +592,8 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       width: double.maxFinite,
       constraints: BoxConstraints(
@@ -681,7 +693,7 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                                       style: TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 14,
-                                        color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                                        color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
                                       ),
                                     ),
                                   ),
@@ -692,7 +704,7 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                                       style: TextStyle(
                                         fontFamily: 'Lato',
                                         fontSize: 20,
-                                        color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
+                                        color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
                                       ),
                                     ),
                                   ),
@@ -701,7 +713,7 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                                     style: TextStyle(
                                       fontFamily: 'Lato',
                                       fontSize: 16,
-                                      color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                                      color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
                                     ),
                                   ),
                                 ],
@@ -724,6 +736,8 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
   }
 
   Widget relatedProjectSection(BuildContext context, WidgetRef ref){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Padding(
         padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
         child: Column(
@@ -744,7 +758,7 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                       style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 16,
-                        color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                        color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
                       ),
                     ),
                   ),
@@ -759,7 +773,7 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: (ref.watch(isDarkMode))
+                          color: (isDarkMode)
                               ? _styleUtil.c_170
                               : _styleUtil.c_170,
                           blurRadius: 5.0,
@@ -785,6 +799,8 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
   }
 
   Widget itemRelatedProject(BuildContext context, WidgetRef ref, int index) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return HighlightedWidgetOnHover(
       onTapAction: () => context.goNamed(
         "details_creation",
@@ -839,7 +855,7 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontSize: 16,
-                          color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                          color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
                         ),
                       ),
                       SizedBox(
@@ -855,14 +871,14 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                               style: TextStyle(
                                 fontFamily: 'Lato',
                                 fontSize: 12,
-                                color: ref.watch(isDarkMode) ?
+                                color: isDarkMode ?
                                 _styleUtil.c_238 :
                                 _styleUtil.c_61,
                               ),
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                            return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
                           },
                         ),
                       ),

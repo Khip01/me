@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/component/visible.dart';
 import 'package:me/utility/utility.dart';
 import 'package:me/component/components.dart';
 import 'package:me/widget/text_highlight_decider.dart';
@@ -53,7 +52,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     setState(() => transitionIsActive = !transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(animationDuration, () => setState(() {
-        ref.read(isDarkMode.notifier).state = !ref.read(isDarkMode); // SET DARK MODE HERE
+        ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
       }));
       Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
         transitionIsActive = !transitionIsActive;
@@ -70,6 +69,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   }
   // Show Snackbar Template
   Future<void> _showSnackbar(String message, String url) async {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         elevation: 0,
@@ -84,7 +85,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              color: (isDarkMode) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -144,6 +145,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
     final scrHeight = MediaQuery.sizeOf(context).height;
 
     return Stack(
@@ -151,7 +153,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
         SelectionArea(
           child: Scaffold(
             body: Container(
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+              color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
               height: scrHeight,
               padding: mainCardPadding(context),
               child: Center(
@@ -163,10 +165,10 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+                    color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
                     boxShadow: [
                       BoxShadow(
-                        color: (ref.watch(isDarkMode)) ? const Color.fromARGB(
+                        color: (isDarkMode) ? const Color.fromARGB(
                             255, 61, 61, 61) : const Color.fromARGB(255, 203, 203, 203),
                         blurRadius: 80.0,
                       ),
@@ -178,14 +180,14 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       Positioned(
                         top: 55,
                         right: -5,
-                        child: dashHorizontal(context, ref.watch(isDarkMode)),
+                        child: dashHorizontal(context, isDarkMode),
                       ),
                       Positioned(
                         top: 50,
                         right: 0,
                         child: RotatedBox(
                           quarterTurns: 1,
-                          child: dashVertical(context, ref.watch(isDarkMode)),
+                          child: dashVertical(context, isDarkMode),
                         ),
                       ),
                       Column(
@@ -232,6 +234,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
 
   // ------ Content Body -----
   Widget _topContent() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Stack(
       children: [
         AnimatedPositioned(
@@ -244,7 +248,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 12,
-                color: (themeSwitch) ? (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24 : Colors.transparent),
+                color: (themeSwitch) ? (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24 : Colors.transparent),
             duration: const Duration(milliseconds: 100),
             child: const Text(
               "change mode",
@@ -259,14 +263,14 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             child: TextHighlightDecider(
               isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
               colorStart: _styleUtil.c_170,
-              colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+              colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
               actionDelay: const Duration(milliseconds: 100),
               delayAfterAnimation: const Duration(milliseconds: 300),
               additionalOnTapAction: () => switchWithTransition(),
               additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
               builder: (Color color){
                 return Icon(
-                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  (isDarkMode) ? Icons.dark_mode : Icons.sunny,
                   size: 32,
                   color: color,
                 );
@@ -278,6 +282,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     );
   }
   Widget _content() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -296,7 +302,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   fontFamily: "Lato",
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
-                  color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                  color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
                 ),
               ),
               Image.asset(_iconUtil.wavingHand),
@@ -316,7 +322,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 fontFamily: "Lato",
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
-                color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
               ),
               textAlign: textAlignment(context),
             ),
@@ -335,7 +341,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 fontFamily: "Lato",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
               textAlign: textAlignment(context),
             ),
@@ -354,7 +360,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                 TextHighlightDecider(
                   isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                   colorStart: _styleUtil.c_170,
-                  colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                  colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
                   actionDelay: const Duration(milliseconds: 300),
                   additionalOnTapAction: () async => await _showSnackbar("Github Opened Successfully!", _linkUtil.githubLink),
                   builder: (Color color){
@@ -386,7 +392,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   child: TextHighlightDecider(
                     isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                     colorStart: _styleUtil.c_170,
-                    colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                    colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
                     actionDelay: const Duration(milliseconds: 300),
                     additionalOnTapAction: () async => await _showSnackbar("CV Opened Successfully!", _linkUtil.cvLink),
                     builder: (Color color){
@@ -422,6 +428,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     );
   }
   Widget _navSection() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: FittingMobileSizeDecider(
@@ -437,7 +445,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   child: Text(
                     "Welcome",
                     style: TextStyle(
-                        fontFamily: 'Lato', fontSize: 14, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33),
+                        fontFamily: 'Lato', fontSize: 14, color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),
                   ),
                 ),
                 Padding(
@@ -447,7 +455,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreation(),
                       builder: (Color color){
@@ -470,7 +478,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectHistory(),
                       builder: (Color color){
@@ -493,7 +501,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectFurther(),
                       builder: (Color color){
@@ -520,6 +528,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
 
   // ------ Transition Page -----
   Widget _transitionToCreationPage() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(_rectCreation == null) {
       return const SizedBox();
     }
@@ -532,13 +542,15 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       left: _rectCreation!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
   Widget _transitionToHistoryPage() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(_rectHistory == null) {
       return const SizedBox();
     }
@@ -551,13 +563,15 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       left: _rectHistory!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
   Widget _transitionToFurtherPage() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(_rectFurther == null) {
       return const SizedBox();
     }
@@ -570,13 +584,15 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       left: _rectFurther!.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
     );
   }
   Widget _switchTapedWithTransition() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return AnimatedPositioned(
       duration: animationDuration,
       top: 0,
@@ -586,7 +602,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.rectangle
         ),
       ),

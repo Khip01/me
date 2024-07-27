@@ -38,9 +38,11 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SelectionArea(
       child: Scaffold(
-        backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -83,10 +85,12 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   }
 
   Widget _contentBodySelectedCreation() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       padding: contentCardPaddingAround(context),
       width: MediaQuery.sizeOf(context).width,
-      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
       child: Column(
         children: [
           Padding(
@@ -188,6 +192,8 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
 
   // Show Snackbar Template
   Future<void> _showSnackbar(String message, String url) async {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         elevation: 0,
@@ -202,7 +208,7 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              color: (isDarkMode) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -266,6 +272,8 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
   }
 
   Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorImageProfileHash, List<String> creatorName, List<String> creatorRole, List<String> creatorLinkProfile){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
@@ -315,11 +323,11 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                       child: SelectionContainer.disabled(
                         child: GestureDetector(
                           onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
-                          child: Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                          child: Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
                         ),
                       ),
                     ),
-                    Text(creatorRole[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+                    Text(creatorRole[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
                   ],
                 ),
               ),
@@ -331,20 +339,24 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
   }
 
   Widget _createdOnSection(String formatedDate){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Created on", style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
-          Text(formatedDate, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text("Created on", style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+          Text(formatedDate, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
         ],
       ),
     );
   }
 
   Widget _creationTagSection(){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
@@ -362,7 +374,7 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
             ),
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
-              child: Text(widget.detailProjectData.projectCategories[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61),),
+              child: Text(widget.detailProjectData.projectCategories[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
             ),
           );
         }, growable: true),
@@ -388,13 +400,15 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
   
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Visibility(
       visible: widget.requirementData.isShowed,
       child: Column(
         children: [
           if (widget.requirementData.creationsData.linkProjectToGithub != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              imgPath: isDarkMode ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               paddingTop: 28,
@@ -403,7 +417,7 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              imgPath: isDarkMode ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
               title: "Site",
               desc: "visit the site",
               paddingTop: 14,
@@ -412,7 +426,7 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              imgPath: isDarkMode ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
               title: "Additional Link",
               desc: widget.requirementData.creationsData.additionalLinkDescription,
               paddingTop: 14,
@@ -465,6 +479,8 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
   }
 
   Widget _linkCardWidgetDecider(bool isVeryCompactDeviceMode){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (isVeryCompactDeviceMode) { // 1 Column List Link Card
       return ListView(
         shrinkWrap: true,
@@ -472,7 +488,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
         children: [
           if (widget.requirementData.creationsData.linkProjectToGithub != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              imgPath: isDarkMode ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               customSnackbarTitle: "Github Repo",
@@ -484,7 +500,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              imgPath: isDarkMode ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
               title: "Site",
               desc: "visit the site",
               cardWidth: double.maxFinite,
@@ -495,7 +511,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              imgPath: isDarkMode ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
               title: "Additional Link",
               desc: widget.requirementData.creationsData.additionalLinkDescription,
               cardWidth: double.maxFinite,
@@ -517,7 +533,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
         children: [
           if (widget.requirementData.creationsData.linkProjectToGithub != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              imgPath: isDarkMode ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               cardWidth: double.maxFinite,
@@ -528,7 +544,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              imgPath: isDarkMode ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
               title: "Site",
               desc: "visit the site",
               cardWidth: double.maxFinite,
@@ -539,7 +555,7 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
-              imgPath: ref.watch(isDarkMode) ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              imgPath: isDarkMode ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
               title: "Additional Link",
               desc: widget.requirementData.creationsData.additionalLinkDescription,
               cardWidth: double.maxFinite,
@@ -595,6 +611,8 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
 
   // Show Snackbar Template
   Future<void> _showSnackbar(String message, String url) async {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         elevation: 0,
@@ -609,7 +627,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              color: (isDarkMode) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
@@ -645,6 +663,8 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return InkWell(
       onTap: () async => await _showSnackbar("${widget.customSnackbarTitle ?? widget.title} Opened Successfully!", widget.link),
       onHover: (val) => setState(() => cardIsHovered = val),
@@ -657,7 +677,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           border: Border.all(
-            color: ref.watch(isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_238,
+            color: isDarkMode ? _styleUtil.c_170 : _styleUtil.c_238,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
@@ -681,7 +701,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
                       fontFamily: 'Lato',
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
-                      color:  (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                      color:  (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
                     ),
                   ),
                   Text(
@@ -689,7 +709,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 16,
-                        color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61
+                        color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61
                     ),
                   ),
                 ],
@@ -700,7 +720,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
               opacity:  opacityAnimationDecider(),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16),
-                child: Icon(Icons.arrow_forward_ios, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                child: Icon(Icons.arrow_forward_ios, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
               ),
             ),
           ],
@@ -710,6 +730,8 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
   }
 
   LinearGradient gradientColorAnimationDecider(){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if(widget.isCompactDeviceMode){ // Compact device Mode
       return const LinearGradient(colors: [Colors.transparent, Colors.transparent]);
     }
@@ -720,7 +742,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
         end: Alignment.centerRight,
         colors: [
           Colors.transparent,
-          ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(0.5) : _styleUtil.c_170.withOpacity(0.1),
+          isDarkMode ? _styleUtil.c_238.withOpacity(0.5) : _styleUtil.c_170.withOpacity(0.1),
         ],
       );
     } else {

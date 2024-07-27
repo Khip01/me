@@ -112,8 +112,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       Future.delayed(
           _animationDuration,
               () => setState(() {
-            ref.read(isDarkMode.notifier).state =
-            !ref.read(isDarkMode); // SET DARK MODE HERE
+            ref.read(isDarkModeProvider.notifier).value =
+            !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
           }));
       Future.delayed(
         _animationDuration + _afterAnimationDelay,
@@ -198,13 +198,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
     scrHeight = MediaQuery.sizeOf(context).height;
 
     return Stack(
       children: [
         SelectionArea(
           child: Scaffold(
-            backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+            backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
             body: CustomScrollView(
               controller: _navScrollController,
               slivers: [
@@ -259,8 +260,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: ------ Page Section ------
   // ------ Cover ------
   Widget _coverPageSection(double screenHeight){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
-      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
       height: screenHeight,
       padding: mainCardPaddingWithBottomQuote(context),
       child: Column(
@@ -275,12 +278,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
-                color: (ref.watch(isDarkMode))
+                color: (isDarkMode)
                     ? _styleUtil.c_33
                     : _styleUtil.c_255,
                 boxShadow: [
                   BoxShadow(
-                    color: (ref.watch(isDarkMode))
+                    color: (isDarkMode)
                         ? const Color.fromARGB(255, 61, 61, 61)
                         : const Color.fromARGB(255, 203, 203, 203),
                     blurRadius: 80.0,
@@ -293,14 +296,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   Positioned(
                     top: 55,
                     right: -5,
-                    child: dashHorizontal(context, ref.watch(isDarkMode)),
+                    child: dashHorizontal(context, isDarkMode),
                   ),
                   Positioned(
                     top: 50,
                     right: 0,
                     child: RotatedBox(
                       quarterTurns: 1,
-                      child: dashVertical(context, ref.watch(isDarkMode)),
+                      child: dashVertical(context, isDarkMode),
                     ),
                   ),
                   Column(
@@ -341,6 +344,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
   // ------ Scroll idle animation ------
   Widget _scrollIldeSticky(bool isVisible){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
     bool compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
 
     return Visibility(
@@ -352,7 +356,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           child: AnimatedScrollIdle(
             animDuration: const Duration(milliseconds: 1000),
             mainIcon: Icons.keyboard_double_arrow_down_rounded,
-            mainColor: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+            mainColor: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33,
             containerHeight: getIsMobileSize(context) ? 60 : null,
             iconHeight: getIsMobileSize(context) ? 25 : null,
           ),
@@ -362,6 +366,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
   // ------ Nav Top Sticky ------
   Widget _navTopSticky(bool isVisible) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Visibility(
       visible: true,
       maintainAnimation: true,
@@ -373,12 +379,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         child: Container(
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode))
+            color: (isDarkMode)
                 ? _styleUtil.c_33
                 : _styleUtil.c_255,
             boxShadow: [
               BoxShadow(
-                color: (ref.watch(isDarkMode))
+                color: (isDarkMode)
                     ? const Color.fromARGB(255, 61, 61, 61)
                     : const Color.fromARGB(255, 203, 203, 203),
                 blurRadius: 80.0,
@@ -404,6 +410,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: ------ Other ------
   // ------ Content Body -----
   Widget _topContent() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Stack(
       children: [
         AnimatedPositioned(
@@ -417,7 +425,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 fontFamily: 'Lato',
                 fontSize: 12,
                 color: (_themeSwitch)
-                    ? (ref.watch(isDarkMode))
+                    ? (isDarkMode)
                     ? _styleUtil.c_255
                     : _styleUtil.c_24
                     : Colors.transparent),
@@ -435,14 +443,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             child: TextHighlightDecider(
               isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
               colorStart: _styleUtil.c_170,
-              colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+              colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
               actionDelay: const Duration(milliseconds: 100),
               delayAfterAnimation: const Duration(milliseconds: 300),
               additionalOnTapAction: () => switchWithTransition(),
               additionalOnHoverAction: (value) => setState(() => _themeSwitch = value),
               builder: (Color color){
                 return Icon(
-                  (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                  (isDarkMode) ? Icons.dark_mode : Icons.sunny,
                   size: 32,
                   color: color,
                 );
@@ -455,6 +463,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _content() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -473,7 +483,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
                 color:
-                (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
               ),
               textAlign: TextAlign.center,
             ),
@@ -493,7 +503,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color:
-                (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
               textAlign: TextAlign.center,
             ),
@@ -504,6 +514,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _navSection() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: FittingMobileSizeDecider(
@@ -521,7 +533,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcome(),
                       builder: (Color color){
@@ -544,7 +556,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreation(),
                       builder: (Color color){
@@ -567,7 +579,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (ref.watch(isDarkMode))
+                        color: (isDarkMode)
                             ? _styleUtil.c_255
                             : _styleUtil.c_33),
                   ),
@@ -579,7 +591,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectFurther(),
                       builder: (Color color){
@@ -604,6 +616,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _navSectionSticky() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: FittingMobileSizeDecider(
@@ -621,7 +635,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
                       builder: (Color color){
@@ -644,7 +658,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreationSticky(),
                       builder: (Color color){
@@ -667,7 +681,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (ref.watch(isDarkMode))
+                        color: (isDarkMode)
                             ? _styleUtil.c_255
                             : _styleUtil.c_33),
                   ),
@@ -679,7 +693,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     child: TextHighlightDecider(
                       isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                       colorStart: _styleUtil.c_170,
-                      colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
                       builder: (Color color){
@@ -735,6 +749,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _historySection(){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Padding(
       padding: mainCardPaddingWithBottomQuote(context),
       child: Container(
@@ -751,7 +767,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               constraints: const BoxConstraints(
                 maxWidth: 471,
               ),
-              color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+              color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -765,12 +781,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 20,
-                            color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61
+                            color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61
                         ),
                       ),
                     ),
                   ),
-                  Text("This section narrates the story of my educational and professional journey, tracing the footsteps of learning and self-development.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+                  Text("This section narrates the story of my educational and professional journey, tracing the footsteps of learning and self-development.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
                 ],
               ),
             ),
@@ -856,6 +872,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   // ------ Transition Page -----
   Widget _transitionToWelcomePage(Rect? rectWelcome) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (rectWelcome == null) {
       return const SizedBox();
     }
@@ -868,7 +886,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       left: rectWelcome.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -876,6 +894,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _transitionToCreationPage(Rect? rectHistory) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (rectHistory == null) {
       return const SizedBox();
     }
@@ -888,7 +908,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       left: rectHistory.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -896,6 +916,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _transitionToFurtherPage(Rect? rectFurther) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (rectFurther == null) {
       return const SizedBox();
     }
@@ -908,7 +930,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       left: rectFurther.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -916,6 +938,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   }
 
   Widget _switchTapedWithTransition() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return AnimatedPositioned(
       duration: _animationDuration,
       top: 0,
@@ -933,7 +957,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       child: AnimatedContainer(
         duration: _animationDuration,
         decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+            color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
             shape: BoxShape.rectangle),
       ),
     );
@@ -955,6 +979,8 @@ class HistoryType extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 60),
       width: double.maxFinite,
@@ -967,7 +993,7 @@ class HistoryType extends ConsumerWidget {
               fontFamily: 'Lato',
               fontSize: 14,
               fontWeight: FontWeight.w700,
-              color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
+              color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
             ),
           ),
           ListView.builder(
@@ -1085,6 +1111,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       margin: const EdgeInsets.only(top: 30),
       child: Column(
@@ -1101,12 +1129,12 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   flex: 4,
                   child: Text(
                     title,
-                    style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                    style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
                   ),
                 ),
                 Text(
                   year,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),
+                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
                   textAlign: TextAlign.right,
                 ),
               ],
@@ -1116,7 +1144,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
             margin: const EdgeInsets.symmetric(vertical: 8),
             width: double.maxFinite,
             height: 1,
-            color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+            color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
           ),
           SizedBox(
             width: double.maxFinite,
@@ -1129,7 +1157,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 14,
-                    color: ref.watch(isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61
+                    color: isDarkMode ? _styleUtil.c_170 : _styleUtil.c_61
                   ),
                 );
               }).toList(),
@@ -1143,7 +1171,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
               style: TextStyle(
                 fontFamily: 'Lato',
                 fontSize: 16,
-                color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
             ),
           ),
@@ -1230,6 +1258,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   }
 
   Widget contentWrapItem(int totalItem, int index){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return AnimatedOpacity(
       duration: Duration(milliseconds: animDuration),
       opacity: _itemWrapIsVisible[index] ? 1 : 0,
@@ -1283,15 +1313,15 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                     colors: [
-                      ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(.0) : _styleUtil.c_61.withOpacity(0),
-                      ref.watch(isDarkMode) ? _styleUtil.c_238.withOpacity(1) : _styleUtil.c_61.withOpacity(1),
+                      isDarkMode ? _styleUtil.c_238.withOpacity(.0) : _styleUtil.c_61.withOpacity(0),
+                      isDarkMode ? _styleUtil.c_238.withOpacity(1) : _styleUtil.c_61.withOpacity(1),
                     ],
                   ),
                 ),
                 child: Center(
                   child: Text(
                     "+${totalItem - 3}",
-                    style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_255,)
+                    style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_255,)
                   ),
                 ),
               )
@@ -1310,6 +1340,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   }
 
   Widget contentColumnItem(int totalItem, int index){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return AnimatedOpacity(
       duration: Duration(milliseconds: animDuration),
       opacity: _itemColumnIsVisible[index] ? 1 : 0,
@@ -1342,7 +1374,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 14,
-                            fontWeight: FontWeight.w700, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                            fontWeight: FontWeight.w700, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33,
                           ),
                         ),
                         Text(
@@ -1352,7 +1384,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 16,
-                            color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                            color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
                           ),
                         ),
                         Text(
@@ -1362,7 +1394,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                           style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 14,
-                            color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                            color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
                           ),
                         ),
                       ],
@@ -1420,6 +1452,8 @@ class HistoryScoopeType extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       child: Column(
@@ -1431,7 +1465,7 @@ class HistoryScoopeType extends ConsumerWidget {
               fontFamily: 'Lato',
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61,
+              color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
             ),
           ),
           ListView.builder(
@@ -1462,6 +1496,8 @@ class SubHistoryScoope extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       margin: const EdgeInsets.only(top: 7, left: 28),
       height: 24,
@@ -1470,7 +1506,7 @@ class SubHistoryScoope extends ConsumerWidget {
         style: TextStyle(
           fontFamily: 'Lato',
           fontSize: 16,
-          color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+          color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
         ),
       ),
     );

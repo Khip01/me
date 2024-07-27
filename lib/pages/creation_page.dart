@@ -138,11 +138,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     setState(() => transitionIsActive = !transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(
-          animationDuration,
-          () => setState(() {
-                ref.read(isDarkMode.notifier).state =
-                    !ref.read(isDarkMode); // SET DARK MODE HERE
-              }));
+        animationDuration,
+        // () => setState(() {
+        //       ref.read(isDarkMode.notifier).state =
+        //           !ref.read(isDarkMode); // SET DARK MODE HERE
+        //     }),
+        () => setState(() {
+          ref.read(isDarkModeProvider.notifier).value =
+          !ref.read(isDarkModeProvider.notifier).value; // SET DARK MODE HERE
+        }),
+      );
       Future.delayed(
           animationDuration + afterAnimationDelay,
           () => setState(() {
@@ -221,12 +226,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     scrHeight = MediaQuery.sizeOf(context).height;
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Stack(
       children: [
         SelectionArea(
           child: Scaffold(
-            backgroundColor: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+            backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
             body: CustomScrollView(
               controller: _navScrollController,
               slivers: [
@@ -281,8 +287,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: ------ Page Section ------
   // ------ Cover ------
   Widget _coverPageSection(double screenHeight){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
-      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
       height: screenHeight,
       padding: mainCardPaddingWithBottomQuote(context),
       child: Column(
@@ -297,12 +305,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
-                color: (ref.watch(isDarkMode))
+                color: (isDarkMode)
                     ? _styleUtil.c_33
                     : _styleUtil.c_255,
                 boxShadow: [
                   BoxShadow(
-                    color: (ref.watch(isDarkMode))
+                    color: (isDarkMode)
                         ? const Color.fromARGB(255, 61, 61, 61)
                         : const Color.fromARGB(255, 203, 203, 203),
                     blurRadius: 80.0,
@@ -315,14 +323,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   Positioned(
                     top: 55,
                     right: -5,
-                    child: dashHorizontal(context, ref.watch(isDarkMode)),
+                    child: dashHorizontal(context, isDarkMode),
                   ),
                   Positioned(
                     top: 50,
                     right: 0,
                     child: RotatedBox(
                       quarterTurns: 1,
-                      child: dashVertical(context, ref.watch(isDarkMode)),
+                      child: dashVertical(context, isDarkMode),
                     ),
                   ),
                   Column(
@@ -363,6 +371,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
   // ------ Scroll idle animation ------
   Widget _scrollIldeSticky(bool isVisible){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
     bool compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
 
     return Visibility(
@@ -374,7 +383,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           child: AnimatedScrollIdle(
             animDuration: const Duration(milliseconds: 1000),
             mainIcon: Icons.keyboard_double_arrow_down_rounded,
-            mainColor: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+            mainColor: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33,
             containerHeight: getIsMobileSize(context) ? 60 : null,
             iconHeight: getIsMobileSize(context) ? 25 : null,
           ),
@@ -384,6 +393,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
   // ------ Nav Top Sticky ------
   Widget _navTopSticky(bool isVisible) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Visibility(
       visible: true,
       maintainAnimation: true,
@@ -395,12 +406,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         child: Container(
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode))
+            color: (isDarkMode)
                 ? _styleUtil.c_33
                 : _styleUtil.c_255,
             boxShadow: [
               BoxShadow(
-                color: (ref.watch(isDarkMode))
+                color: (isDarkMode)
                     ? const Color.fromARGB(255, 61, 61, 61)
                     : const Color.fromARGB(255, 203, 203, 203),
                 blurRadius: 80.0,
@@ -426,6 +437,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // TODO: ------ Other ------
   // ------ Content Body -----
   Widget _topContent() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return StatefulBuilder(
       builder: (BuildContext context, setState){
         return Stack(
@@ -441,7 +454,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     fontFamily: 'Lato',
                     fontSize: 12,
                     color: (themeSwitch)
-                        ? (ref.watch(isDarkMode))
+                        ? (isDarkMode)
                         ? _styleUtil.c_255
                         : _styleUtil.c_24
                         : Colors.transparent),
@@ -459,14 +472,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 child: TextHighlightDecider(
                   isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                   colorStart: _styleUtil.c_170,
-                  colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_24,
+                  colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
                   actionDelay: const Duration(milliseconds: 100),
                   delayAfterAnimation: const Duration(milliseconds: 300),
                   additionalOnTapAction: () => switchWithTransition(),
                   additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
                   builder: (Color color){
                     return Icon(
-                      (ref.watch(isDarkMode)) ? Icons.dark_mode : Icons.sunny,
+                      (isDarkMode) ? Icons.dark_mode : Icons.sunny,
                       size: 32,
                       color: color,
                     );
@@ -481,6 +494,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _content() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -499,7 +514,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
                 color:
-                    (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                    (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
               ),
               textAlign: TextAlign.center,
             ),
@@ -519,7 +534,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color:
-                    (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                    (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
               ),
               textAlign: TextAlign.center,
             ),
@@ -530,6 +545,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _navSection() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: FittingMobileSizeDecider(
@@ -549,7 +566,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         child: TextHighlightDecider(
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
-                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectWelcome(),
                           builder: (Color color){
@@ -574,7 +591,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (ref.watch(isDarkMode))
+                        color: (isDarkMode)
                             ? _styleUtil.c_255
                             : _styleUtil.c_33),
                   ),
@@ -588,7 +605,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                           child: TextHighlightDecider(
                             isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                             colorStart: _styleUtil.c_170,
-                            colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                            colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                             actionDelay: const Duration(milliseconds: 100),
                             additionalOnTapAction: () => _pushNamedWithRectHistory(),
                             builder: (Color color){
@@ -615,7 +632,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         child: TextHighlightDecider(
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
-                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectFurther(),
                           builder: (Color color){
@@ -642,6 +659,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _navSectionSticky() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return SizedBox(
       width: double.maxFinite,
       child: FittingMobileSizeDecider(
@@ -661,7 +680,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         child: TextHighlightDecider(
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
-                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
                           builder: (Color color){
@@ -686,7 +705,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     style: TextStyle(
                         fontFamily: 'Lato',
                         fontSize: 14,
-                        color: (ref.watch(isDarkMode))
+                        color: (isDarkMode)
                             ? _styleUtil.c_255
                             : _styleUtil.c_33),
                   ),
@@ -700,7 +719,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         child: TextHighlightDecider(
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
-                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectHistorySticky(),
                           builder: (Color color){
@@ -727,7 +746,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         child: TextHighlightDecider(
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
                           colorStart: _styleUtil.c_170,
-                          colorEnd: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
                           additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
                           builder: (Color color){
@@ -870,9 +889,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   // TODO: CREATIONS CONTENT HIGHLIGHT
   Widget _creationsContentHighlight() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     doFocusScrollSnapListOnFocusHighlight();
     return Container(
-        color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+        color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
         margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
         height: contentHighlightHeight(context),
         child: ScrollConfiguration(
@@ -905,6 +926,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     // Menggunakan data dari creationsMap untuk membangun item list
     final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
     final Image itemImage = Image.asset(
@@ -928,7 +951,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         return BlurHashImage(itemData.creatorPhotoProfilePathHash[index]);
       },
     );
-    final Color colorShadeItemImage = ref.watch(isDarkMode) ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
+    final Color colorShadeItemImage = isDarkMode ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
     final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
     final String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
@@ -961,7 +984,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   child: itemImage,
                 ),
                 FutureBuilder<ColorScheme>(
-                    future: getColorFromImage(Image.asset(itemData.projectImagePathCover).image, ref.watch(isDarkMode)),
+                    future: getColorFromImage(Image.asset(itemData.projectImagePathCover).image, isDarkMode),
                     builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
                       if(snapshot.hasData){
                         return SizedBox(
@@ -991,7 +1014,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                     bottomRight: Radius.circular(getIsMobileSize(context) ? 9 : 19),
                                   ),
                                 ),
-                                child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33),),
+                                child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33),),
                               ),
                               Align(
                                 alignment: Alignment.bottomCenter,
@@ -1002,8 +1025,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20 - (getIsMobileSize(context) ? 4 : 0), color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
-                                      Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                      Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20 - (getIsMobileSize(context) ? 4 : 0), color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
+                                      Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
                                     ],
                                   ),
                                 ),
@@ -1033,7 +1056,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             Container(
               height: 28,
               margin: const EdgeInsets.only(top: 14),
-              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61),),
+              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61),),
             ),
             Container(
               height: 28,
@@ -1066,7 +1089,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                     ),
                                     borderRadius: const BorderRadius.all( Radius.circular(50.0)),
                                     border: Border.all(
-                                      color: ref.watch(isDarkMode) ? _styleUtil.c_24 : _styleUtil.c_255,
+                                      color: isDarkMode ? _styleUtil.c_24 : _styleUtil.c_255,
                                       width: 2,
                                     ),
                                   ),
@@ -1082,7 +1105,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         Text(
                            creatorsName,
                           style: TextStyle(
-                            fontFamily: 'Lato', fontSize: 12, color: (ref.watch(isDarkMode)) ? _styleUtil.c_238 : _styleUtil.c_61,
+                            fontFamily: 'Lato', fontSize: 12, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
                           ),
                         ),
                       ],
@@ -1104,14 +1127,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _creationContentHighlightShimmer(){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     _timerContentHighlight?.cancel();
     return Container(
-      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
       height: contentHighlightHeight(context),
       margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
       child: Shimmer.fromColors(
-        baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
-        highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+        baseColor: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_170,
+        highlightColor: isDarkMode ? _styleUtil.c_33 : _styleUtil.c_238,
         child: ScrollSnapList(
           key: _creationHighlightKey,
           margin: const EdgeInsets.symmetric(vertical: 10),
@@ -1204,6 +1229,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
     final Image itemImage = Image.asset(
       itemData.projectImagePathCover,
@@ -1250,7 +1277,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ),
             SizedBox(
               height: 26,
-              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24),),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1271,14 +1298,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         style: TextStyle(
                             fontFamily: 'Lato',
                             fontSize: 12,
-                            color: ref.watch(isDarkMode) ?
+                            color: isDarkMode ?
                             _styleUtil.c_238 :
                             _styleUtil.c_61,
                         ),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
                     },
                   ),
                 ),
@@ -1297,6 +1324,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _creationsContentRelatedProjectShimmer(){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
       height: 338 - (getIsMobileSize(context) ? 71 : 0) + 79,
@@ -1314,8 +1343,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: Shimmer.fromColors(
-              baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
-              highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+              baseColor: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_170,
+              highlightColor: isDarkMode ? _styleUtil.c_33 : _styleUtil.c_238,
               child: ListView.builder(
                   padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
@@ -1437,6 +1466,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
     final Image itemImage = Image.asset(
       itemData.projectImagePathCover,
@@ -1480,7 +1511,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ),
             SizedBox(
               height: 26,
-              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: ref.watch(isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24),),
+              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24),),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1496,10 +1527,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     scrollDirection: Axis.horizontal,
                     itemCount: itemData.projectCategories.length,
                     itemBuilder: (BuildContext context, int indexCategories){
-                        return Text(itemData.projectCategories[indexCategories], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                        return Text(itemData.projectCategories[indexCategories], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
                     },
                     separatorBuilder: (context, index) {
-                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),);
+                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
                     },
                   ),
                 ),
@@ -1518,6 +1549,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _creationsContentSteppingStoneShimmer(){
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
       // height: 338 - (getIsMobileSize(context) ? 71 : 0),
@@ -1535,8 +1568,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: Shimmer.fromColors(
-              baseColor: ref.watch(isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
-              highlightColor: ref.watch(isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_238,
+              baseColor: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_170,
+              highlightColor: isDarkMode ? _styleUtil.c_33 : _styleUtil.c_238,
               child: ListView.builder(
                   padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
@@ -1645,6 +1678,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   // ------ Transition Page -----
   Widget _transitionToWelcomePage(Rect? rectWelcome) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (rectWelcome == null) {
       return const SizedBox();
     }
@@ -1657,7 +1692,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       left: rectWelcome.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -1665,6 +1700,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _transitionToHistoryPage(Rect? rectHistory) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (rectHistory == null) {
       return const SizedBox();
     }
@@ -1677,7 +1714,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       left: rectHistory.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -1685,6 +1722,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _transitionToFurtherPage(Rect? rectFurther) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     if (rectFurther == null) {
       return const SizedBox();
     }
@@ -1697,7 +1736,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       left: rectFurther.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -1705,6 +1744,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   }
 
   Widget _switchTapedWithTransition() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return AnimatedPositioned(
       duration: animationDuration,
       top: 0,
@@ -1722,7 +1763,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-            color: (ref.watch(isDarkMode)) ? _styleUtil.c_61 : _styleUtil.c_170,
+            color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
             shape: BoxShape.rectangle),
       ),
     );
@@ -1744,13 +1785,15 @@ class CreationsHeaderTitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       padding: const EdgeInsets.only(bottom: 36),
       margin: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
       constraints: const BoxConstraints(
         maxWidth: 471,
       ),
-      color: (ref.watch(isDarkMode)) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1764,12 +1807,12 @@ class CreationsHeaderTitle extends ConsumerWidget {
                 style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 20,
-                    color: (ref.watch(isDarkMode)) ? _styleUtil.c_255 : _styleUtil.c_61
+                    color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61
                 ),
               ),
             ),
           ),
-          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
         ],
       ),
     );
@@ -1790,6 +1833,8 @@ class CreationSubHeaderTitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return ConstrainedBox(
       constraints: const BoxConstraints(
         maxWidth: 471
@@ -1802,10 +1847,10 @@ class CreationSubHeaderTitle extends ConsumerWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: SizedBox(
               height: 26,
-              child: Text(titleText, style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: ref.watch(isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_24),),
+              child: Text(titleText, style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_24),),
             ),
           ),
-          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (ref.watch(isDarkMode)) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
         ],
       ),
     );
