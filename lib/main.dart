@@ -163,7 +163,6 @@ class _MyAppState extends ConsumerState<MyApp> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final Brightness brightness = MediaQuery.platformBrightnessOf(context);
-      brightness == Brightness.dark ? debugPrint("Iyaiya ini gelap") : debugPrint("ini Terang ko");
       brightness == Brightness.dark ? ref.read(isDarkModeProvider.notifier).setThemeDark() : ref.read(isDarkModeProvider.notifier).setThemeLight();
     });
   }
