@@ -7,6 +7,7 @@ import 'package:me/helper/object_class_finder_by_id.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/pages/history_detail_page.dart';
 import 'package:me/pages/pages.dart';
+import 'package:me/provider/theme_provider.dart';
 import 'package:me/super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:me/values/values.dart';
@@ -32,7 +33,7 @@ Future<void> main() async {
 }
 
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   late final GoRouter _router;
 
   MyApp({super.key}) {
@@ -152,7 +153,23 @@ class MyApp extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final Brightness brightness = MediaQuery.platformBrightnessOf(context);
+      brightness == Brightness.dark ? debugPrint("Iyaiya ini gelap") : debugPrint("ini Terang ko");
+      brightness == Brightness.dark ? ref.read(isDarkModeProvider.notifier).setThemeDark() : ref.read(isDarkModeProvider.notifier).setThemeLight();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
         textSelectionTheme: const TextSelectionThemeData(
@@ -175,7 +192,7 @@ class MyApp extends ConsumerWidget {
               ],
               child: child!,
           ),
-      routerConfig: _router,
+      routerConfig: widget._router,
       debugShowCheckedModeBanner: false, // Remove Debug banner when debugging
     );
   }
