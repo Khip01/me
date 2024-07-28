@@ -73,9 +73,9 @@ Future<void> preloadIconImage() async {
       _iconUtil.imgLinkDark, // Link
       _iconUtil.imgLinkLight,
     // Super User Page
-    _iconUtil.incognitoMode,
-    _iconUtil.incognitoFingerprint,
-    _iconUtil.incognitoMask,
+    // _iconUtil.incognitoMode,
+    // _iconUtil.incognitoFingerprint,
+    // _iconUtil.incognitoMask,
   ];
 
   // Load the image
