@@ -3,11 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:me/helper/init_app_theme.dart';
 import 'package:me/helper/object_class_finder_by_id.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/pages/history_detail_page.dart';
 import 'package:me/pages/pages.dart';
-import 'package:me/provider/theme_provider.dart';
 import 'package:me/super_user/super_user.dart';
 import 'package:me/transition_setting/default_transition_page.dart';
 import 'package:me/values/values.dart';
@@ -162,8 +162,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final Brightness brightness = MediaQuery.platformBrightnessOf(context);
-      brightness == Brightness.dark ? ref.read(isDarkModeProvider.notifier).setThemeDark() : ref.read(isDarkModeProvider.notifier).setThemeLight();
+      initAppTheme(context, ref);
     });
   }
 
