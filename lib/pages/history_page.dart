@@ -14,6 +14,7 @@ import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 import '../Utility/style_util.dart';
+import '../helper/init_app_theme.dart';
 import '../widget/animated_scroll_idle.dart';
 
 class HistoryPage extends ConsumerStatefulWidget {
@@ -110,11 +111,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     setState(() => _transitionIsActive = !_transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Future.delayed(
-          _animationDuration,
-              () => setState(() {
-            ref.read(isDarkModeProvider.notifier).value =
-            !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
-          }));
+      _animationDuration,
+      () {
+        ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
+        changeCookieValue("${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+      });
       Future.delayed(
         _animationDuration + _afterAnimationDelay,
       () => setState(() {

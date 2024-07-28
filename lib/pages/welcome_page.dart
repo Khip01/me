@@ -8,6 +8,8 @@ import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:me/provider/theme_provider.dart';
 
+import '../helper/init_app_theme.dart';
+
 class WelcomePage extends ConsumerStatefulWidget {
   const WelcomePage({super.key});
 
@@ -51,9 +53,10 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     isFromLeft = !isFromLeft;
     setState(() => transitionIsActive = !transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(animationDuration, () => setState(() {
+      Future.delayed(animationDuration, () {
         ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
-      }));
+        changeCookieValue("${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+      });
       Future.delayed(animationDuration + afterAnimationDelay, () => setState(() {
         transitionIsActive = !transitionIsActive;
       })).then((_) => setState(() {

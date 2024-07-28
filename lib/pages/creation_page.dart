@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/helper/helper.dart';
+import 'package:me/helper/init_app_theme.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/animated_scroll_idle.dart';
@@ -143,11 +144,10 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         //       ref.read(isDarkMode.notifier).state =
         //           !ref.read(isDarkMode); // SET DARK MODE HERE
         //     }),
-        () => setState(() {
-          ref.read(isDarkModeProvider.notifier).value =
-          !ref.read(isDarkModeProvider.notifier).value; // SET DARK MODE HERE
-        }),
-      );
+      () {
+        ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider.notifier).value; // SET DARK MODE HERE
+        changeCookieValue("${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+      });
       Future.delayed(
           animationDuration + afterAnimationDelay,
           () => setState(() {
