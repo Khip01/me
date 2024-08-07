@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:crypto/crypto.dart';
 
-import 'base62_convert.dart';
+import 'helper.dart';
 
 String generateShortUniqueIdFromTimestamp(int timestamp) {
   final random = Random(timestamp);

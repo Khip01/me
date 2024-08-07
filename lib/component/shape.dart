@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-final StyleUtil _styleUtil = StyleUtil();
-
 Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
       context,
       conditionalValues: [
@@ -13,7 +11,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 105,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -23,7 +21,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 105,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -33,7 +31,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 80,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -43,7 +41,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 60,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -53,7 +51,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 40,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -63,7 +61,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 0,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -72,7 +70,7 @@ Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(
         width: 0,
         height: 1,
         child: MySeparator(
-          color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+          color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
         ),
       ),
     ).value;
@@ -86,7 +84,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 282,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -96,7 +94,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 282,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -106,7 +104,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 202,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -116,7 +114,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 142,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -126,7 +124,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 100,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -136,7 +134,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
             width: 0,
             height: 1,
             child: MySeparator(
-              color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+              color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
             ),
           ),
         ),
@@ -145,7 +143,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
         width: 0,
         height: 1,
         child: MySeparator(
-          color: (darkMode) ? _styleUtil.c_255 : _styleUtil.c_170,
+          color: (darkMode) ? StyleUtil.c_255 : StyleUtil.c_170,
         ),
       ),
     ).value;
@@ -153,7 +151,7 @@ Widget dashHorizontal(BuildContext context, bool darkMode) => ResponsiveValue(
 Widget bottomHelper(BuildContext context) => ResponsiveValue(
       context,
       conditionalValues: [
-        Condition.largerThan(
+        const Condition.largerThan(
           name: 'DESKTOP-MD',
           value: SizedBox(
             child: Row(
@@ -163,14 +161,14 @@ Widget bottomHelper(BuildContext context) => ResponsiveValue(
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 12,
-                    color: _styleUtil.c_170,
+                    color: StyleUtil.c_170,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 3),
+                  padding: EdgeInsets.only(left: 3),
                   child: Icon(
                     Icons.arrow_right_sharp,
-                    color: _styleUtil.c_170,
+                    color: StyleUtil.c_170,
                     size: 14,
                   ),
                 ),
@@ -178,7 +176,7 @@ Widget bottomHelper(BuildContext context) => ResponsiveValue(
             ),
           ),
         ),
-        Condition.equals(
+        const Condition.equals(
           name: 'DESKTOP-MD',
           value: SizedBox(
             child: Row(
@@ -188,14 +186,14 @@ Widget bottomHelper(BuildContext context) => ResponsiveValue(
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontSize: 12,
-                    color: _styleUtil.c_170,
+                    color: StyleUtil.c_170,
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 3),
+                  padding: EdgeInsets.only(left: 3),
                   child: Icon(
                     Icons.arrow_right_sharp,
-                    color: _styleUtil.c_170,
+                    color: StyleUtil.c_170,
                     size: 14,
                   ),
                 ),
@@ -214,8 +212,7 @@ Widget bottomHelper(BuildContext context) => ResponsiveValue(
 // ---------- ADDITIONAL HELPER------------------
 // Dash Line
 class MySeparator extends StatelessWidget {
-  const MySeparator({Key? key, this.height = 1, this.color = Colors.black})
-      : super(key: key);
+  const MySeparator({super.key, this.height = 1, this.color = Colors.black});
   final double height;
   final Color color;
 
@@ -228,6 +225,8 @@ class MySeparator extends StatelessWidget {
         final dashHeight = height;
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
         return Flex(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
           children: List.generate(dashCount, (_) {
             return SizedBox(
               width: dashWidth,
@@ -237,8 +236,6 @@ class MySeparator extends StatelessWidget {
               ),
             );
           }),
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
         );
       },
     );

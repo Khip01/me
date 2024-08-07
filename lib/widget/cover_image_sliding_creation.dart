@@ -27,9 +27,6 @@ class CoverImageSlidingCreation extends ConsumerStatefulWidget {
 }
 
 class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCreation> {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   // Class atribute
   bool _isZoomOut = false;
   late List<bool> _imageIsVisible;
@@ -180,8 +177,8 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
           decoration: BoxDecoration(
             color:
             isDarkMode ?
-            _styleUtil.c_33.withOpacity(_isZoomOut ? 0.7 : 0) :
-            _styleUtil.c_255.withOpacity(_isZoomOut ? 0.7 : 0), // TODO DARK MODE SETTING
+            StyleUtil.c_33.withOpacity(_isZoomOut ? 0.7 : 0) :
+            StyleUtil.c_255.withOpacity(_isZoomOut ? 0.7 : 0), // TODO DARK MODE SETTING
           ),
         ),
         AnimatedContainer(
@@ -197,8 +194,8 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                 Colors.transparent,
                 _isZoomOut ?
                   isDarkMode ?
-                  _styleUtil.c_33 :
-                  _styleUtil.c_255 :
+                  StyleUtil.c_33 :
+                  StyleUtil.c_255 :
                 Colors.transparent, // TODO DARK MODE SETTING
               ],
             ),
@@ -227,8 +224,8 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
               alignment: Alignment.centerLeft,
               child: TextHighlightDecider(
                 isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                colorStart: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
-                colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                colorStart: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+                colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                 actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
                 additionalOnTapAction: widget.onTapPopRoute,
                 builder: (color) {
@@ -262,7 +259,7 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                         fontSize: 32,
                         fontWeight: FontWeight.w700,
                         color:
-                        (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                        (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -280,7 +277,7 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color:
-                        (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                        (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
                       ),
                       textAlign: TextAlign.center,
                     ),

@@ -6,8 +6,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:me/utility/icon_util.dart';
 
-final IconUtil _iconUtil = IconUtil();
-
 Future<void> loadImage(ImageProvider provider) {
   final config = ImageConfiguration(
     bundle: rootBundle,
@@ -48,34 +46,34 @@ Future<void> preloadIconImage() async {
   // Asset List
   List<String> preloadedAsset = [
     // Welcome Page
-      _iconUtil.wavingHand,
+      IconUtil.wavingHand,
     // Further Page
-      _iconUtil.flutterLogo,
-      _iconUtil.firebaseLogoNew,
+      IconUtil.flutterLogo,
+      IconUtil.firebaseLogoNew,
       // Icons Social Media
-      _iconUtil.imgBrowserDark, // Browser
-      _iconUtil.imgBrowserLight,
-      _iconUtil.imgGithubDefault, // Github
-      _iconUtil.imgGithubDark,
-      _iconUtil.imgGithubLight,
-      _iconUtil.imgInstagramDefault, // Instagram
-      _iconUtil.imgInstagramDark,
-      _iconUtil.imgInstagramLight,
-      _iconUtil.imgFacebookDefault, // Facebook
-      _iconUtil.imgFacebookDark,
-      _iconUtil.imgFacebookLight,
-      _iconUtil.imgGmailDefault, // Gmail
-      _iconUtil.imgGmailDark,
-      _iconUtil.imgGmailLight,
-      _iconUtil.imgLinkedinDefault, // LijnkedIn
-      _iconUtil.imgLinkedinDark,
-      _iconUtil.imgLinkedinLight,
-      _iconUtil.imgLinkDark, // Link
-      _iconUtil.imgLinkLight,
+      IconUtil.imgBrowserDark, // Browser
+      IconUtil.imgBrowserLight,
+      IconUtil.imgGithubDefault, // Github
+      IconUtil.imgGithubDark,
+      IconUtil.imgGithubLight,
+      IconUtil.imgInstagramDefault, // Instagram
+      IconUtil.imgInstagramDark,
+      IconUtil.imgInstagramLight,
+      IconUtil.imgFacebookDefault, // Facebook
+      IconUtil.imgFacebookDark,
+      IconUtil.imgFacebookLight,
+      IconUtil.imgGmailDefault, // Gmail
+      IconUtil.imgGmailDark,
+      IconUtil.imgGmailLight,
+      IconUtil.imgLinkedinDefault, // LijnkedIn
+      IconUtil.imgLinkedinDark,
+      IconUtil.imgLinkedinLight,
+      IconUtil.imgLinkDark, // Link
+      IconUtil.imgLinkLight,
     // Super User Page
-    // _iconUtil.incognitoMode,
-    // _iconUtil.incognitoFingerprint,
-    // _iconUtil.incognitoMask,
+    // IconUtil.incognitoMode,
+    // IconUtil.incognitoFingerprint,
+    // IconUtil.incognitoMask,
   ];
 
   // Load the image

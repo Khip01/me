@@ -26,10 +26,6 @@ class HistoryPage extends ConsumerStatefulWidget {
 
 class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: ------ Declaration ------
-  // --- General ---
-  final StyleUtil _styleUtil = StyleUtil();
-  final IconUtil _iconUtil = IconUtil();
-
   late double scrHeight;
 
   // --- Content Top Section ---
@@ -40,25 +36,29 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // --- Nav Section ---
   // Nav List Hover
   final List<bool> _navHover =
-  List.generate(4, (index) => index == 2 ? true : false);
+      List.generate(4, (index) => index == 2 ? true : false);
+
   // Controller for Sliver Nav
-  static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
+  static final ScrollController _navScrollController =
+      ScrollController(initialScrollOffset: 1);
+
   // Value Notifier Sticky Nav Header
   late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
+
   // Value Notifier Idle Scroll animation
   late ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
 
   //  Other Hover
-  bool _themeSwitch = false;
+  bool themeSwitch = false;
 
   // --- Transition Nav ---
   // Rect Global Key
   static final GlobalKey<RectGetterState> _rectKeyWelcomePage =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
   static final GlobalKey<RectGetterState> _rectKeyCreationPage =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
   static final GlobalKey<RectGetterState> _rectKeyFurtherPage =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
 
   // Rect
   Rect? _rectWelcome;
@@ -68,11 +68,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // --- Transition Nav Sticky ---
   // Rect Global Key
   static final GlobalKey<RectGetterState> _rectKeyWelcomePageSticky =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
   static final GlobalKey<RectGetterState> _rectKeyCreationPageSticky =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
   static final GlobalKey<RectGetterState> _rectKeyFurtherPageSticky =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
 
   // Rect
   Rect? _rectWelcomeSticky;
@@ -86,15 +86,15 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: INIT STATE
   @override
   void initState() {
-    _navScrollController.addListener((){
+    _navScrollController.addListener(() {
       // Sticky Nav Top
       final isVisible = _navScrollController.offset > scrHeight;
-      if(_navIsStickyNotifier.value != isVisible){
+      if (_navIsStickyNotifier.value != isVisible) {
         _navIsStickyNotifier.value = isVisible;
       }
       // Animated Scroll Idle
       final isScrollIdleVisible = _navScrollController.offset <= 1;
-      if(_scrollIdleNotifier.value != isScrollIdleVisible){
+      if (_scrollIdleNotifier.value != isScrollIdleVisible) {
         _scrollIdleNotifier.value = isScrollIdleVisible;
       }
     });
@@ -110,21 +110,21 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     _isFromLeft = !_isFromLeft;
     setState(() => _transitionIsActive = !_transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(
-      _animationDuration,
-      () {
-        ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
-        changeCookieValue("${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+      Future.delayed(_animationDuration, () {
+        ref.read(isDarkModeProvider.notifier).value =
+            !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
+        changeCookieValue(
+            "${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
       });
       Future.delayed(
-        _animationDuration + _afterAnimationDelay,
-      () => setState(() {
-        _transitionIsActive = !_transitionIsActive;
-      })).then(
-        (_) => setState((){
-          ignoreTapping = false;
-        },
-      ));
+          _animationDuration + _afterAnimationDelay,
+          () => setState(() {
+                _transitionIsActive = !_transitionIsActive;
+              })).then((_) => setState(
+            () {
+              ignoreTapping = false;
+            },
+          ));
     });
   }
 
@@ -132,68 +132,68 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // Push Page With Transition (Normal Nav)
   void _pushNamedWithRectWelcome() async {
     setState(
-            () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+        () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectWelcome =
           _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
       Future.delayed(_animationDuration + _afterAnimationDelay,
-              () => context.goNamed("welcome"));
+          () => context.goNamed("welcome"));
     });
   }
 
   void _pushNamedWithRectCreation() async {
     setState(
-            () => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
+        () => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectCreation =
           _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
       Future.delayed(_animationDuration + _afterAnimationDelay,
-              () => context.goNamed("creation"));
+          () => context.goNamed("creation"));
     });
   }
 
   void _pushNamedWithRectFurther() async {
     setState(
-            () => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
+        () => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() => _rectFurther =
           _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
       Future.delayed(_animationDuration + _afterAnimationDelay,
-              () => context.goNamed("further"));
+          () => context.goNamed("further"));
     });
   }
 
   // Push Page With Transition (Sticky Nav)
   void _pushNamedWithRectWelcomeSticky() async {
-    setState(
-            () => _rectWelcomeSticky = RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
+    setState(() => _rectWelcomeSticky =
+        RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcomeSticky =
-          _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      setState(() => _rectWelcomeSticky = _rectWelcomeSticky!
+          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
       Future.delayed(_animationDuration + _afterAnimationDelay,
-              () => context.goNamed("welcome"));
+          () => context.goNamed("welcome"));
     });
   }
 
   void _pushNamedWithRectCreationSticky() async {
-    setState(
-            () => _rectCreationSticky = RectGetter.getRectFromKey(_rectKeyCreationPageSticky));
+    setState(() => _rectCreationSticky =
+        RectGetter.getRectFromKey(_rectKeyCreationPageSticky));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectCreationSticky =
-          _rectCreationSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      setState(() => _rectCreationSticky = _rectCreationSticky!
+          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
       Future.delayed(_animationDuration + _afterAnimationDelay,
-              () => context.goNamed("creation"));
+          () => context.goNamed("creation"));
     });
   }
 
   void _pushNamedWithRectFurtherSticky() async {
-    setState(
-            () => _rectFurtherSticky = RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
+    setState(() => _rectFurtherSticky =
+        RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurtherSticky =
-          _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      setState(() => _rectFurtherSticky = _rectFurtherSticky!
+          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
       Future.delayed(_animationDuration + _afterAnimationDelay,
-              () => context.goNamed("further"));
+          () => context.goNamed("further"));
     });
   }
 
@@ -206,7 +206,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       children: [
         SelectionArea(
           child: Scaffold(
-            backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+            backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
             body: CustomScrollView(
               controller: _navScrollController,
               slivers: [
@@ -224,22 +224,19 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                     ],
                   ),
                 ),
-                MultiSliver(
-                    pushPinnedChildren: true,
-                    children: [
-                      // Sticky Navbar
-                      ValueListenableBuilder<bool>(
-                        valueListenable: _navIsStickyNotifier,
-                        builder: (context, isVisible, child){
-                          return SliverPinnedHeader(
-                            child: _navTopSticky(isVisible),
-                          );
-                        },
-                      ),
-                      _historyPageSection(),
-                      _footerTechnology(),
-                    ]
-                ),
+                MultiSliver(pushPinnedChildren: true, children: [
+                  // Sticky Navbar
+                  ValueListenableBuilder<bool>(
+                    valueListenable: _navIsStickyNotifier,
+                    builder: (context, isVisible, child) {
+                      return SliverPinnedHeader(
+                        child: _navTopSticky(isVisible),
+                      );
+                    },
+                  ),
+                  _historyPageSection(),
+                  _footerTechnology(),
+                ]),
               ],
             ),
           ),
@@ -260,11 +257,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   // TODO: ------ Page Section ------
   // ------ Cover ------
-  Widget _coverPageSection(double screenHeight){
+  Widget _coverPageSection(double screenHeight) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
-      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
       height: screenHeight,
       padding: mainCardPaddingWithBottomQuote(context),
       child: Column(
@@ -278,10 +275,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               padding: contentCardPadding(context),
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
-                color: (isDarkMode)
-                    ? _styleUtil.c_33
-                    : _styleUtil.c_255,
+                borderRadius:
+                    BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
+                color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
                 boxShadow: [
                   BoxShadow(
                     color: (isDarkMode)
@@ -343,10 +339,13 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       ),
     );
   }
+
   // ------ Scroll idle animation ------
-  Widget _scrollIldeSticky(bool isVisible){
+  Widget _scrollIldeSticky(bool isVisible) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
-    bool compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
+    bool compactDeviceMode = getIsMobileSize(context) ||
+        getIsTabletSize(context) ||
+        getIsDesktopSmSize(context);
 
     return Visibility(
       visible: isVisible && compactDeviceMode,
@@ -357,7 +356,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           child: AnimatedScrollIdle(
             animDuration: const Duration(milliseconds: 1000),
             mainIcon: Icons.keyboard_double_arrow_down_rounded,
-            mainColor: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33,
+            mainColor: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_33,
             containerHeight: getIsMobileSize(context) ? 60 : null,
             iconHeight: getIsMobileSize(context) ? 25 : null,
           ),
@@ -365,6 +364,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       ),
     );
   }
+
   // ------ Nav Top Sticky ------
   Widget _navTopSticky(bool isVisible) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
@@ -380,9 +380,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         child: Container(
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
-            color: (isDarkMode)
-                ? _styleUtil.c_33
-                : _styleUtil.c_255,
+            color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
             boxShadow: [
               BoxShadow(
                 color: (isDarkMode)
@@ -399,6 +397,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       ),
     );
   }
+
   // ------ Creation ------
   Widget _historyPageSection() {
     return Column(
@@ -417,19 +416,18 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       children: [
         AnimatedPositioned(
           // alignment: (_themeSwitch) ? Alignment.bottomCenter : Alignment.center,
-          top: (_themeSwitch) ? 80 : 55,
+          top: (themeSwitch) ? 80 : 55,
           left: 0,
           right: 0,
           duration: const Duration(milliseconds: 150),
           child: AnimatedDefaultTextStyle(
-            style: TextStyle(
-                fontFamily: 'Lato',
-                fontSize: 12,
-                color: (_themeSwitch)
-                    ? (isDarkMode)
-                    ? _styleUtil.c_255
-                    : _styleUtil.c_24
-                    : Colors.transparent),
+            style: StyleUtil.text_xs_Regular.copyWith(
+              color: (themeSwitch)
+                  ? (isDarkMode)
+                      ? StyleUtil.c_255
+                      : StyleUtil.c_24
+                  : Colors.transparent,
+            ),
             duration: const Duration(milliseconds: 100),
             child: const Text(
               "change mode",
@@ -442,14 +440,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
           child: IgnorePointer(
             ignoring: ignoreTapping,
             child: TextHighlightDecider(
-              isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-              colorStart: _styleUtil.c_170,
-              colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+              isCompactMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
+              colorStart: StyleUtil.c_170,
+              colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
               actionDelay: const Duration(milliseconds: 100),
               delayAfterAnimation: const Duration(milliseconds: 300),
               additionalOnTapAction: () => switchWithTransition(),
-              additionalOnHoverAction: (value) => setState(() => _themeSwitch = value),
-              builder: (Color color){
+              additionalOnHoverAction: (value) =>
+                  setState(() => themeSwitch = value),
+              builder: (Color color) {
                 return Icon(
                   (isDarkMode) ? Icons.dark_mode : Icons.sunny,
                   size: 32,
@@ -479,12 +479,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             alignment: Alignment.center,
             child: Text(
               "MY HISTORY",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                color:
-                (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+              style: StyleUtil.text_2xl_Bold.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
               ),
               textAlign: TextAlign.center,
             ),
@@ -499,12 +495,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             alignment: Alignment.center,
             child: Text(
               "Discover a brief overview of my recent experiences, offering a glimpse into the journey I've traveled. Explore the key moments that have shaped my path and accomplishments.",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color:
-                (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+              style: StyleUtil.text_Base_Medium.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
               ),
               textAlign: TextAlign.center,
             ),
@@ -532,17 +524,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   child: RectGetter(
                     key: _rectKeyWelcomePage,
                     child: TextHighlightDecider(
-                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: _styleUtil.c_170,
-                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectWelcome(),
-                      builder: (Color color){
+                      builder: (Color color) {
                         return Text(
                           "Welcome",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
+                          style: StyleUtil.text_small_Regular.copyWith(
                             color: color,
                           ),
                         );
@@ -555,17 +546,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   child: RectGetter(
                     key: _rectKeyCreationPage,
                     child: TextHighlightDecider(
-                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: _styleUtil.c_170,
-                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectCreation(),
-                      builder: (Color color){
+                      builder: (Color color) {
                         return Text(
                           "Creation",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
+                          style: StyleUtil.text_small_Regular.copyWith(
                             color: color,
                           ),
                         );
@@ -577,12 +567,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: Text(
                     "History",
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (isDarkMode)
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33),
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
                   ),
                 ),
                 Padding(
@@ -590,17 +577,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   child: RectGetter(
                     key: _rectKeyFurtherPage,
                     child: TextHighlightDecider(
-                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: _styleUtil.c_170,
-                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
                       additionalOnTapAction: () => _pushNamedWithRectFurther(),
-                      builder: (Color color){
+                      builder: (Color color) {
                         return Text(
                           "Further",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
+                          style: StyleUtil.text_small_Regular.copyWith(
                             color: color,
                           ),
                         );
@@ -634,17 +620,17 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   child: RectGetter(
                     key: _rectKeyWelcomePageSticky,
                     child: TextHighlightDecider(
-                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: _styleUtil.c_170,
-                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
-                      additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
-                      builder: (Color color){
+                      additionalOnTapAction: () =>
+                          _pushNamedWithRectWelcomeSticky(),
+                      builder: (Color color) {
                         return Text(
                           "Welcome",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
+                          style: StyleUtil.text_small_Regular.copyWith(
                             color: color,
                           ),
                         );
@@ -657,17 +643,17 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   child: RectGetter(
                     key: _rectKeyCreationPageSticky,
                     child: TextHighlightDecider(
-                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: _styleUtil.c_170,
-                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
-                      additionalOnTapAction: () => _pushNamedWithRectCreationSticky(),
-                      builder: (Color color){
+                      additionalOnTapAction: () =>
+                          _pushNamedWithRectCreationSticky(),
+                      builder: (Color color) {
                         return Text(
                           "Creation",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
+                          style: StyleUtil.text_small_Regular.copyWith(
                             color: color,
                           ),
                         );
@@ -679,12 +665,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   padding: const EdgeInsets.only(right: 30),
                   child: Text(
                     "History",
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (isDarkMode)
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33),
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
                   ),
                 ),
                 Padding(
@@ -692,17 +675,17 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   child: RectGetter(
                     key: _rectKeyFurtherPageSticky,
                     child: TextHighlightDecider(
-                      isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: _styleUtil.c_170,
-                      colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                       actionDelay: const Duration(milliseconds: 100),
-                      additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
-                      builder: (Color color){
+                      additionalOnTapAction: () =>
+                          _pushNamedWithRectFurtherSticky(),
+                      builder: (Color color) {
                         return Text(
                           "Further",
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
+                          style: StyleUtil.text_small_Regular.copyWith(
                             color: color,
                           ),
                         );
@@ -718,7 +701,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 
-  Widget _quoteContentSection(){
+  Widget _quoteContentSection() {
     return Container(
       padding: contentQuotePadding(context),
       height: contentQuoteHeight(context),
@@ -727,8 +710,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Visibility(visible: contentQuoteIconVisible(context), child: const SizedBox(width: 32, height: 36, child: Text(""))),
-          Text("\"Turn coding into an experience, not just a lesson.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: _styleUtil.c_170),),
+          Visibility(
+              visible: contentQuoteIconVisible(context),
+              child: const SizedBox(width: 32, height: 36, child: Text(""))),
+          Text(
+            "\"Turn coding into an experience, not just a lesson.\"",
+            style: StyleUtil.text_xs_Regular_Italic
+                .copyWith(color: StyleUtil.c_170),
+          ),
           Visibility(
             visible: contentQuoteIconVisible(context),
             child: SizedBox(
@@ -738,8 +727,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_downward_rounded, size: 18, color: _styleUtil.c_170,),
-                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+                  const Icon(
+                    Icons.arrow_downward_rounded,
+                    size: 18,
+                    color: StyleUtil.c_170,
+                  ),
+                  Text(
+                    "scroll",
+                    style: StyleUtil.text_xs_Regular
+                        .copyWith(color: StyleUtil.c_170),
+                  ),
                 ],
               ),
             ),
@@ -749,7 +746,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 
-  Widget _historySection(){
+  Widget _historySection() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Padding(
@@ -768,7 +765,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               constraints: const BoxConstraints(
                 maxWidth: 471,
               ),
-              color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+              color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -779,15 +776,18 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                       fit: BoxFit.fill,
                       child: Text(
                         "U N C O V E R I N G   T H E   P A S T",
-                        style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 20,
-                            color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61
+                        style: StyleUtil.text_lg_Regular.copyWith(
+                          color:
+                              (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_61,
                         ),
                       ),
                     ),
                   ),
-                  Text("This section narrates the story of my educational and professional journey, tracing the footsteps of learning and self-development.", style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
+                  Text(
+                    "This section narrates the story of my educational and professional journey, tracing the footsteps of learning and self-development.",
+                    style: StyleUtil.text_Base_Regular.copyWith(
+                        color: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61),
+                  ),
                 ],
               ),
             ),
@@ -850,7 +850,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     );
   }
 
-  Widget _footerTechnology(){
+  Widget _footerTechnology() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 39),
       child: Center(
@@ -860,10 +860,24 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Tooltip(message: "Flutter Framework", child: Image.asset(_iconUtil.flutterLogo)),
-              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Tooltip(message: "Firebase RTDB", child: Image.asset(_iconUtil.firebaseLogoNew)),
+              Text(
+                "Built with  ",
+                style: StyleUtil.text_xs_Regular.copyWith(
+                  color: StyleUtil.c_170,
+                ),
+              ),
+              Tooltip(
+                  message: "Flutter Framework",
+                  child: Image.asset(IconUtil.flutterLogo)),
+              Text(
+                "  and  ",
+                style: StyleUtil.text_xs_Regular.copyWith(
+                  color: StyleUtil.c_170,
+                ),
+              ),
+              Tooltip(
+                  message: "Firebase RTDB",
+                  child: Image.asset(IconUtil.firebaseLogoNew)),
             ],
           ),
         ),
@@ -887,7 +901,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       left: rectWelcome.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -909,7 +923,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       left: rectHistory.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -931,7 +945,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       left: rectFurther.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -946,19 +960,19 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       top: 0,
       right: _isFromLeft
           ? (!_transitionIsActive)
-          ? 1.3 * MediaQuery.sizeOf(context).width
-          : 0
+              ? 1.3 * MediaQuery.sizeOf(context).width
+              : 0
           : 0,
       bottom: 0,
       left: _isFromLeft
           ? 0
           : (!_transitionIsActive)
-          ? 1.3 * MediaQuery.sizeOf(context).width
-          : 0,
+              ? 1.3 * MediaQuery.sizeOf(context).width
+              : 0,
       child: AnimatedContainer(
         duration: _animationDuration,
         decoration: BoxDecoration(
-            color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+            color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
             shape: BoxShape.rectangle),
       ),
     );
@@ -966,13 +980,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 }
 
 class HistoryType extends ConsumerWidget {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   final String titleType;
   final List<HistoryItemData> historyData;
 
-  HistoryType({
+  const HistoryType({
     super.key,
     required this.titleType,
     required this.historyData,
@@ -990,23 +1001,19 @@ class HistoryType extends ConsumerWidget {
         children: [
           Text(
             titleType,
-            style: TextStyle(
-              fontFamily: 'Lato',
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
+            style: StyleUtil.text_small_Bold.copyWith(
+              color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_61,
             ),
           ),
           ListView.builder(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: historyData.length,
-            itemBuilder: (context, index) {
-              return HistoryPath(
-                historyItemData: historyData[index],
-              );
-            }
-          ),
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: historyData.length,
+              itemBuilder: (context, index) {
+                return HistoryPath(
+                  historyItemData: historyData[index],
+                );
+              }),
         ],
       ),
     );
@@ -1033,9 +1040,6 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   late final String desc;
   late final List<HistoryItemDocumentation>? listDocumentation;
 
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   bool isDocsExpand = false;
   Timer? _animationTimer;
   int animDuration = 100;
@@ -1056,7 +1060,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     clearColumnAnimation();
     _animationTimer?.cancel();
     int index = 0;
-    _animationTimer = Timer.periodic(Duration(milliseconds: animDuration), (timer) {
+    _animationTimer =
+        Timer.periodic(Duration(milliseconds: animDuration), (timer) {
       if (index < _itemWrapIsVisible.length) {
         setState(() {
           _itemWrapIsVisible[index] = true;
@@ -1072,7 +1077,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     clearWrapAnimation();
     _animationTimer?.cancel();
     int index = 0;
-    _animationTimer = Timer.periodic(Duration(milliseconds: animDuration), (timer) {
+    _animationTimer =
+        Timer.periodic(Duration(milliseconds: animDuration), (timer) {
       if (index < _itemColumnIsVisible.length) {
         setState(() {
           _itemColumnIsVisible[index] = true;
@@ -1085,12 +1091,21 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   }
 
   void clearWrapAnimation() {
-    _itemWrapIsVisible = List.generate((listDocumentation?.length ?? 0) > 3 ? 3 : listDocumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemWrapIsVisible = List.generate(
+      (listDocumentation?.length ?? 0) > 3 ? 3 : listDocumentation?.length ?? 0,
+      (_) => false,
+      growable: false,
+    );
   }
 
   void clearColumnAnimation() {
-    _itemColumnIsVisible = List.generate(listDocumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemColumnIsVisible = List.generate(
+      listDocumentation?.length ?? 0,
+      (_) => false,
+      growable: false,
+    );
   }
+
   // TODO: END FUCNTION
 
   @override
@@ -1098,8 +1113,16 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     // Atrib Init
     initAttrib();
     // Animation Init
-    _itemWrapIsVisible = List.generate((listDocumentation?.length ?? 0) > 3 ? 3 : listDocumentation?.length ?? 0, (_) => false, growable: false,);
-    _itemColumnIsVisible = List.generate(listDocumentation?.length ?? 0, (_) => false, growable: false,);
+    _itemWrapIsVisible = List.generate(
+      (listDocumentation?.length ?? 0) > 3 ? 3 : listDocumentation?.length ?? 0,
+      (_) => false,
+      growable: false,
+    );
+    _itemColumnIsVisible = List.generate(
+      listDocumentation?.length ?? 0,
+      (_) => false,
+      growable: false,
+    );
     startWrapAnimation();
     super.initState();
   }
@@ -1130,12 +1153,16 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   flex: 4,
                   child: Text(
                     title,
-                    style: TextStyle(fontFamily: 'Lato', fontSize: 24, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
+                    style: StyleUtil.text_xl_Regular.copyWith(
+                      color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
+                    ),
                   ),
                 ),
                 Text(
                   year,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
+                  style: StyleUtil.text_lg_Regular.copyWith(
+                    color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
+                  ),
                   textAlign: TextAlign.right,
                 ),
               ],
@@ -1145,7 +1172,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
             margin: const EdgeInsets.symmetric(vertical: 8),
             width: double.maxFinite,
             height: 1,
-            color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+            color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
           ),
           SizedBox(
             width: double.maxFinite,
@@ -1155,10 +1182,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
               children: tag.map((item) {
                 return Text(
                   item,
-                  style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 14,
-                    color: isDarkMode ? _styleUtil.c_170 : _styleUtil.c_61
+                  style: StyleUtil.text_small_Regular.copyWith(
+                    color: isDarkMode ? StyleUtil.c_170 : StyleUtil.c_61,
                   ),
                 );
               }).toList(),
@@ -1169,10 +1194,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
             margin: const EdgeInsets.only(top: 10),
             child: Text(
               desc,
-              style: TextStyle(
-                fontFamily: 'Lato',
-                fontSize: 16,
-                color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+              style: StyleUtil.text_Base_Regular.copyWith(
+                color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
               ),
             ),
           ),
@@ -1182,7 +1205,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     );
   }
 
-  Widget documentationSection(){
+  Widget documentationSection() {
     bool isDocsAvailable = listDocumentation != null;
 
     return Visibility(
@@ -1203,16 +1226,22 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(isDocsExpand ? "Collapse all documentation for this history" : "See all documentation for this history", style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: _styleUtil.c_170),),
+                  Text(
+                    isDocsExpand
+                        ? "Collapse all documentation for this history"
+                        : "See all documentation for this history",
+                    style: StyleUtil.text_small_Regular
+                        .copyWith(color: StyleUtil.c_170),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: AnimatedRotation(
                       turns: isDocsExpand ? -0.5 : 0,
                       duration: const Duration(milliseconds: 200),
-                      child: Icon(
+                      child: const Icon(
                         Icons.keyboard_arrow_down_rounded,
                         size: 16,
-                        color: _styleUtil.c_170,
+                        color: StyleUtil.c_170,
                       ),
                     ),
                   ),
@@ -1235,19 +1264,23 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
   }
 
   Widget docsContentDecider(int totalItem) {
-    if(!isDocsExpand){ // Collapse Mode
+    if (!isDocsExpand) {
+      // Collapse Mode
       return SizedBox(
         width: double.maxFinite,
         child: Wrap(
           spacing: 10,
           direction: Axis.horizontal,
           children: [
-            for (int index = 0; index < (totalItem > 3 ? 3 : totalItem); index++)
+            for (int index = 0;
+                index < (totalItem > 3 ? 3 : totalItem);
+                index++)
               contentWrapItem(totalItem, index),
           ],
         ),
       );
-    } else { // Expanded Mode
+    } else {
+      // Expanded Mode
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -1258,7 +1291,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     }
   }
 
-  Widget contentWrapItem(int totalItem, int index){
+  Widget contentWrapItem(int totalItem, int index) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return AnimatedOpacity(
@@ -1289,7 +1322,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                     ),
                   ),
                   borderRadius: BorderRadius.circular(5),
-                  color: _styleUtil.c_170,
+                  color: StyleUtil.c_170,
                 ),
                 // child: BlurHash(
                 //   hash: listDocumentation![index].docImageListHash[0],
@@ -1306,33 +1339,40 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
               ),
               (totalItem > 3 && index == 2)
                   ? Container(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                decoration: BoxDecoration(
-                  color: _styleUtil.c_61.withOpacity(.7),
-                  gradient: LinearGradient(
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                    colors: [
-                      isDarkMode ? _styleUtil.c_238.withOpacity(.0) : _styleUtil.c_61.withOpacity(0),
-                      isDarkMode ? _styleUtil.c_238.withOpacity(1) : _styleUtil.c_61.withOpacity(1),
-                    ],
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    "+${totalItem - 3}",
-                    style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_255,)
-                  ),
-                ),
-              )
+                      width: double.maxFinite,
+                      height: double.maxFinite,
+                      decoration: BoxDecoration(
+                        color: StyleUtil.c_61.withOpacity(.7),
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            isDarkMode
+                                ? StyleUtil.c_238.withOpacity(.0)
+                                : StyleUtil.c_61.withOpacity(0),
+                            isDarkMode
+                                ? StyleUtil.c_238.withOpacity(1)
+                                : StyleUtil.c_61.withOpacity(1),
+                          ],
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "+${totalItem - 3}",
+                          style: StyleUtil.text_lg_Regular.copyWith(
+                            color:
+                                isDarkMode ? StyleUtil.c_61 : StyleUtil.c_255,
+                          ),
+                        ),
+                      ),
+                    )
                   : Container(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
+                      width: double.maxFinite,
+                      height: double.maxFinite,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
             ],
           ),
         ),
@@ -1340,14 +1380,14 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
     );
   }
 
-  Widget contentColumnItem(int totalItem, int index){
+  Widget contentColumnItem(int totalItem, int index) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return AnimatedOpacity(
       duration: Duration(milliseconds: animDuration),
       opacity: _itemColumnIsVisible[index] ? 1 : 0,
       child: Padding(
-        padding: EdgeInsets.only(bottom: index == totalItem-1 ? 0 : 8),
+        padding: EdgeInsets.only(bottom: index == totalItem - 1 ? 0 : 8),
         child: HighlightedWidgetOnHover(
           widgetWidth: double.maxFinite,
           widgetHeight: 75,
@@ -1372,30 +1412,27 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                       children: [
                         Text(
                           listDocumentation![index].docType,
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33,
+                          style: StyleUtil.text_small_Bold.copyWith(
+                            color:
+                                isDarkMode ? StyleUtil.c_255 : StyleUtil.c_33,
                           ),
                         ),
                         Text(
                           listDocumentation![index].docTitle,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 16,
-                            color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+                          style: StyleUtil.text_Base_Regular.copyWith(
+                            color:
+                                isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
                           ),
                         ),
                         Text(
                           listDocumentation![index].docDesc,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 14,
-                            color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+                          style: StyleUtil.text_small_Regular.copyWith(
+                            color:
+                                isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
                           ),
                         ),
                       ],
@@ -1414,7 +1451,7 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                       ),
                     ),
                     borderRadius: BorderRadius.circular(5),
-                    color: _styleUtil.c_170,
+                    color: StyleUtil.c_170,
                   ),
                   // child: BlurHash(
                   //   hash: listDocumentation![index].docImageListHash[0],
@@ -1425,8 +1462,8 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                   //   curve: Curves.easeOutQuart,
                   // ),
                   child: Image.asset(
-                      fit: BoxFit.cover,
-                      listDocumentation![index].docImageList[0],
+                    fit: BoxFit.cover,
+                    listDocumentation![index].docImageList[0],
                   ),
                 ),
               ],
@@ -1439,13 +1476,10 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
 }
 
 class HistoryScoopeType extends ConsumerWidget {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   final String titleHistoryScoope;
   final List<HistoryItemData> historyData;
 
-  HistoryScoopeType({
+  const HistoryScoopeType({
     super.key,
     required this.titleHistoryScoope,
     required this.historyData,
@@ -1462,17 +1496,14 @@ class HistoryScoopeType extends ConsumerWidget {
         children: [
           Text(
             titleHistoryScoope,
-            style: TextStyle(
-              fontFamily: 'Lato',
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
+            style: StyleUtil.text_Base_Bold.copyWith(
+              color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_61,
             ),
           ),
           ListView.builder(
             itemCount: historyData.length,
             shrinkWrap: true,
-            itemBuilder: (context, index){
+            itemBuilder: (context, index) {
               return SubHistoryScoope(
                 titleHistory: historyData[index].historyTitle,
               );
@@ -1485,12 +1516,9 @@ class HistoryScoopeType extends ConsumerWidget {
 }
 
 class SubHistoryScoope extends ConsumerWidget {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   final String titleHistory;
 
-  SubHistoryScoope({
+  const SubHistoryScoope({
     super.key,
     required this.titleHistory,
   });
@@ -1504,16 +1532,10 @@ class SubHistoryScoope extends ConsumerWidget {
       height: 24,
       child: Text(
         titleHistory,
-        style: TextStyle(
-          fontFamily: 'Lato',
-          fontSize: 16,
-          color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+        style: StyleUtil.text_Base_Regular.copyWith(
+          color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
         ),
       ),
     );
   }
 }
-
-
-
-

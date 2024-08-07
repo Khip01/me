@@ -44,7 +44,6 @@ class ListImageSection extends ConsumerStatefulWidget {
 }
 
 class _ListImageSectionState extends ConsumerState<ListImageSection> {
-  final StyleUtil _styleUtil = StyleUtil();
   final ScrollController _scrollController = ScrollController();
   final double _spacingItemWidthListView = 12;
 
@@ -151,8 +150,8 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
     const Duration animationDuration = Duration(milliseconds: 150);
     final Alignment beginGradientAlign = isButtonLeft ? Alignment.centerLeft : Alignment.centerRight;
     final Alignment endGradientAlign = isButtonLeft ? Alignment.centerRight : Alignment.centerLeft;
-    final Color baseButtonColor = (isDarkMode ? _styleUtil.c_33 : _styleUtil.c_255);
-    final Color baseIconColor = (isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61).withOpacity(.9);
+    final Color baseButtonColor = (isDarkMode ? StyleUtil.c_33 : StyleUtil.c_255);
+    final Color baseIconColor = (isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61).withOpacity(.9);
     final IconData mainIcon = isButtonLeft ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded;
 
     return AnimatedOpacity(
@@ -163,7 +162,7 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
         width: buttonCondition ? buttonWidth : 0,
         child: InkWell(
           onTap: onTapAction,
-          // splashColor: _styleUtil.c_170, // <-- Splash color
+          // splashColor: StyleUtil.c_170, // <-- Splash color
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
           overlayColor: const WidgetStatePropertyAll(Colors.transparent),
@@ -224,8 +223,8 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
           borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : widget.customBorderCircularValue ??  8),
           color:  (widget.customBackgroundImageColor != null) ? widget.customBackgroundImageColor! :
           (isDarkMode)
-              ? _styleUtil.c_33
-              : _styleUtil.c_255,
+              ? StyleUtil.c_33
+              : StyleUtil.c_255,
           boxShadow: [
             BoxShadow(
               color: (widget.customBackgroundImageColor != null) ? widget.customBackgroundImageColor! :

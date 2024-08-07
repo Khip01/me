@@ -21,7 +21,6 @@ class SuperUserPage extends StatefulWidget {
 
 class _SuperUserPageState extends State<SuperUserPage> {
   final SuperUserController _superUserController = SuperUserController();
-  final StyleUtil _styleUtil = StyleUtil();
 
   // final TextEditingController _projectImageBase64Controller = TextEditingController();
   Uint8List? _uint8listProjectImage; // For save the image uint8list temporary
@@ -101,27 +100,27 @@ class _SuperUserPageState extends State<SuperUserPage> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: _styleUtil.c_success_light,
+              color: StyleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 10),
                       child: Icon(
                         Icons.check_circle,
-                        color: _styleUtil.c_255,
+                        color: StyleUtil.c_255,
                       ),
                     ),
                     Text(
                       message,
-                      style: TextStyle(
+                      style: const TextStyle(
                         letterSpacing: 1,
                         fontFamily: "Lato",
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: _styleUtil.c_255,
+                        color: StyleUtil.c_255,
                       ),
                     ),
                   ],

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
-import 'package:me/provider/image_preview_provider.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/Utility/style_util.dart';
 import 'package:me/utility/icon_util.dart';
@@ -30,10 +29,6 @@ class CreationDetailPage extends ConsumerStatefulWidget {
 }
 
 class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-  final IconUtil _iconUtil = IconUtil();
-
   int? indexPreviewed;
 
   @override
@@ -42,7 +37,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
 
     return SelectionArea(
       child: Scaffold(
-        backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+        backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -69,13 +64,13 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
     );
   }
 
-  Widget _coverSectionSelectedCreation(){
+  Widget _coverSectionSelectedCreation() {
     return CoverImageSlidingCreation(
       isCompactDevice: getIsMobileSize(context) || getIsTabletSize(context),
       selectedProject: widget.selectedProject,
       imageCountToBeShown: widget.selectedProject.projectImagePathList.length,
-      onTapPopRoute: (){
-        if (widget.pagePopTo != null){
+      onTapPopRoute: () {
+        if (widget.pagePopTo != null) {
           context.go(widget.pagePopTo!);
         } else {
           context.goNamed("creation");
@@ -90,11 +85,12 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
     return Container(
       padding: contentCardPaddingAround(context),
       width: MediaQuery.sizeOf(context).width,
-      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
       child: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 93 +  (getIsMobileSize(context) ? 71 : 0)),
+            padding: EdgeInsets.only(
+                bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -104,12 +100,26 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                     children: [
                       ListImageSection(
                         images: widget.selectedProject.projectImagePathList,
-                        imagesHash: widget.selectedProject.projectImagePathListHash,
+                        imagesHash:
+                            widget.selectedProject.projectImagePathListHash,
                         imagePlaceholderFit: BoxFit.cover,
-                        listViewHeight: 360 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
-                        imageHeight: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0) - 16,
+                        listViewHeight: 360 -
+                            (getIsMobileSize(context)
+                                ? 101
+                                : getIsTabletSize(context)
+                                    ? 51
+                                    : 0) -
+                            16,
+                        imageHeight: 310 -
+                            (getIsMobileSize(context)
+                                ? 101
+                                : getIsTabletSize(context)
+                                    ? 51
+                                    : 0) -
+                            16,
                         imageWidth: contentHighlightWidth(context) - 32,
-                        listViewCustomPadding: const EdgeInsets.symmetric(vertical: 30, horizontal: 5),
+                        listViewCustomPadding: const EdgeInsets.symmetric(
+                            vertical: 30, horizontal: 5),
                         childImageBuilder: <Widget>(image, hash) {
                           return Image.asset(image, fit: BoxFit.contain);
                         },
@@ -118,7 +128,8 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                         }),
                       ),
                       DetailCreationAdditionalInfo(
-                        timestampDetailDateCreated: widget.selectedProject.timestampDateCreated,
+                        timestampDetailDateCreated:
+                            widget.selectedProject.timestampDateCreated,
                         detailProjectData: widget.selectedProject,
                       ),
                       RelatedAboutCreationBottom(
@@ -145,7 +156,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
     );
   }
 
-  Widget _footerTechnology(){
+  Widget _footerTechnology() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 39),
       child: Center(
@@ -155,10 +166,22 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Tooltip(message: "Flutter Framework", child: Image.asset(_iconUtil.flutterLogo)),
-              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Tooltip(message: "Firebase RTDB", child: Image.asset(_iconUtil.firebaseLogoNew)),
+              Text(
+                "Built with  ",
+                style:
+                    StyleUtil.text_xs_Regular.copyWith(color: StyleUtil.c_170),
+              ),
+              Tooltip(
+                  message: "Flutter Framework",
+                  child: Image.asset(IconUtil.flutterLogo)),
+              Text(
+                "  and  ",
+                style:
+                    StyleUtil.text_xs_Regular.copyWith(color: StyleUtil.c_170),
+              ),
+              Tooltip(
+                  message: "Firebase RTDB",
+                  child: Image.asset(IconUtil.firebaseLogoNew)),
             ],
           ),
         ),
@@ -178,12 +201,12 @@ class DetailCreationAdditionalInfo extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<DetailCreationAdditionalInfo> createState() => _DetailCreationAdditionalInfoState();
+  ConsumerState<DetailCreationAdditionalInfo> createState() =>
+      _DetailCreationAdditionalInfoState();
 }
 
-class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdditionalInfo> {
-  final StyleUtil _styleUtil = StyleUtil();
-
+class _DetailCreationAdditionalInfoState
+    extends ConsumerState<DetailCreationAdditionalInfo> {
   // Open Url
   Future<void> _openUrl(String url) async {
     Uri uri = Uri.parse(url);
@@ -208,27 +231,26 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (isDarkMode) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              color: (isDarkMode)
+                  ? StyleUtil.c_success_dark
+                  : StyleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 10),
                       child: Icon(
                         Icons.check_circle,
-                        color: _styleUtil.c_255,
+                        color: StyleUtil.c_255,
                       ),
                     ),
                     Text(
                       message,
-                      style: TextStyle(
+                      style: StyleUtil.text_small_Medium.copyWith(
                         letterSpacing: 1,
-                        fontFamily: "Lato",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: _styleUtil.c_255,
+                        color: StyleUtil.c_255,
                       ),
                     ),
                   ],
@@ -244,7 +266,8 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
 
   @override
   Widget build(BuildContext context) {
-    DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(widget.timestampDetailDateCreated);
+    DateTime itemDate =
+        DateTime.fromMillisecondsSinceEpoch(widget.timestampDetailDateCreated);
     DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return Column(
@@ -271,7 +294,12 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
     );
   }
 
-  Widget _creatorSection(List<String> creatorImageProfile, List<String> creatorImageProfileHash, List<String> creatorName, List<String> creatorRole, List<String> creatorLinkProfile){
+  Widget _creatorSection(
+      List<String> creatorImageProfile,
+      List<String> creatorImageProfileHash,
+      List<String> creatorName,
+      List<String> creatorRole,
+      List<String> creatorLinkProfile) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return SizedBox(
@@ -289,7 +317,9 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
+                    onTap: () async => await _showSnackbar(
+                        "User Profile Opened Successfully!",
+                        creatorLinkProfile[index]),
                     child: Container(
                       clipBehavior: Clip.antiAlias,
                       height: 42,
@@ -322,12 +352,25 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
                       cursor: SystemMouseCursors.click,
                       child: SelectionContainer.disabled(
                         child: GestureDetector(
-                          onTap: () async => await _showSnackbar("User Profile Opened Successfully!", creatorLinkProfile[index]),
-                          child: Text(creatorName[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+                          onTap: () async => await _showSnackbar(
+                              "User Profile Opened Successfully!",
+                              creatorLinkProfile[index]),
+                          child: Text(
+                            creatorName[index],
+                            style: StyleUtil.text_Base_Bold.copyWith(
+                                color: (isDarkMode)
+                                    ? StyleUtil.c_238
+                                    : StyleUtil.c_61),
+                          ),
                         ),
                       ),
                     ),
-                    Text(creatorRole[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
+                    Text(
+                      creatorRole[index],
+                      style: StyleUtil.text_Base_Regular.copyWith(
+                          color:
+                              (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61),
+                    ),
                   ],
                 ),
               ),
@@ -338,7 +381,7 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
     );
   }
 
-  Widget _createdOnSection(String formatedDate){
+  Widget _createdOnSection(String formatedDate) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return SizedBox(
@@ -347,14 +390,22 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Created on", style: TextStyle(fontFamily: 'Lato', fontSize: 16, fontWeight: FontWeight.w700, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
-          Text(formatedDate, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text(
+            "Created on",
+            style: StyleUtil.text_Base_Bold.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61),
+          ),
+          Text(
+            formatedDate,
+            style: StyleUtil.text_Base_Regular.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61),
+          ),
         ],
       ),
     );
   }
 
-  Widget _creationTagSection(){
+  Widget _creationTagSection() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return SizedBox(
@@ -362,19 +413,25 @@ class _DetailCreationAdditionalInfoState extends ConsumerState<DetailCreationAdd
       child: Wrap(
         spacing: 7, // spacing horizontally
         runSpacing: 7, // spacing vertically
-        children: List.generate(widget.detailProjectData.projectCategories.length, (index){
+        children: List.generate(
+            widget.detailProjectData.projectCategories.length, (index) {
           return DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: _styleUtil.c_238,
+                color: StyleUtil.c_238,
                 width: 1,
               ),
               color: Colors.transparent,
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
-              child: Text(widget.detailProjectData.projectCategories[index], style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61),),
+              padding:
+                  const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 7),
+              child: Text(
+                widget.detailProjectData.projectCategories[index],
+                style: StyleUtil.text_Base_Regular.copyWith(
+                    color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61),
+              ),
             ),
           );
         }, growable: true),
@@ -392,12 +449,12 @@ class RelatedAboutCreationSide extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<RelatedAboutCreationSide> createState() => _RelatedAboutCreationSideState();
+  ConsumerState<RelatedAboutCreationSide> createState() =>
+      _RelatedAboutCreationSideState();
 }
 
-class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationSide> {
-  final IconUtil _iconUtil = IconUtil();
-  
+class _RelatedAboutCreationSideState
+    extends ConsumerState<RelatedAboutCreationSide> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
@@ -408,30 +465,38 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
         children: [
           if (widget.requirementData.creationsData.linkProjectToGithub != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              imgPath:
+                  isDarkMode ? IconUtil.imgGithubDark : IconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               paddingTop: 28,
               link: widget.requirementData.creationsData.linkProjectToGithub,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              imgPath: isDarkMode
+                  ? IconUtil.imgBrowserDark
+                  : IconUtil.imgBrowserLight,
               title: "Site",
               desc: "visit the site",
               paddingTop: 14,
               link: widget.requirementData.creationsData.linkDemoWeb,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              imgPath:
+                  isDarkMode ? IconUtil.imgLinkDark : IconUtil.imgLinkLight,
               title: "Additional Link",
-              desc: widget.requirementData.creationsData.additionalLinkDescription,
+              desc: widget
+                  .requirementData.creationsData.additionalLinkDescription,
               paddingTop: 14,
               link: widget.requirementData.creationsData.additionalLink,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           // Container(
           //   margin: const EdgeInsets.only(left: 28),
@@ -449,7 +514,7 @@ class _RelatedAboutCreationSideState extends ConsumerState<RelatedAboutCreationS
   }
 }
 
-class RelatedAboutCreationBottom extends ConsumerStatefulWidget{
+class RelatedAboutCreationBottom extends ConsumerStatefulWidget {
   final RelatedSectionObject requirementData;
 
   const RelatedAboutCreationBottom({
@@ -458,12 +523,12 @@ class RelatedAboutCreationBottom extends ConsumerStatefulWidget{
   });
 
   @override
-  ConsumerState<RelatedAboutCreationBottom> createState() => _RelatedAboutCreationBottomState();
+  ConsumerState<RelatedAboutCreationBottom> createState() =>
+      _RelatedAboutCreationBottomState();
 }
 
-class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreationBottom> {
-  final IconUtil _iconUtil = IconUtil();
-
+class _RelatedAboutCreationBottomState
+    extends ConsumerState<RelatedAboutCreationBottom> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -472,23 +537,26 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
         padding: const EdgeInsets.only(top: 45),
         child: SizedBox(
           width: double.maxFinite,
-          child: _linkCardWidgetDecider(MediaQuery.sizeOf(context).width <= 850),
+          child:
+              _linkCardWidgetDecider(MediaQuery.sizeOf(context).width <= 850),
         ),
       ),
     );
   }
 
-  Widget _linkCardWidgetDecider(bool isVeryCompactDeviceMode){
+  Widget _linkCardWidgetDecider(bool isVeryCompactDeviceMode) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    if (isVeryCompactDeviceMode) { // 1 Column List Link Card
+    if (isVeryCompactDeviceMode) {
+      // 1 Column List Link Card
       return ListView(
         shrinkWrap: true,
-        physics: const  NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         children: [
           if (widget.requirementData.creationsData.linkProjectToGithub != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              imgPath:
+                  isDarkMode ? IconUtil.imgGithubDark : IconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               customSnackbarTitle: "Github Repo",
@@ -496,33 +564,41 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
               paddingTop: 0,
               paddingLeft: 0,
               link: widget.requirementData.creationsData.linkProjectToGithub,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              imgPath: isDarkMode
+                  ? IconUtil.imgBrowserDark
+                  : IconUtil.imgBrowserLight,
               title: "Site",
               desc: "visit the site",
               cardWidth: double.maxFinite,
               paddingTop: 14,
               paddingLeft: 0,
               link: widget.requirementData.creationsData.linkDemoWeb,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              imgPath:
+                  isDarkMode ? IconUtil.imgLinkDark : IconUtil.imgLinkLight,
               title: "Additional Link",
-              desc: widget.requirementData.creationsData.additionalLinkDescription,
+              desc: widget
+                  .requirementData.creationsData.additionalLinkDescription,
               cardWidth: double.maxFinite,
               paddingTop: 14,
               paddingLeft: 0,
               link: widget.requirementData.creationsData.additionalLink,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
         ],
       );
-    } else { // 2 Column List Link card
+    } else {
+      // 2 Column List Link card
       return GridView.count(
         crossAxisCount: 2,
         mainAxisSpacing: 28,
@@ -533,36 +609,44 @@ class _RelatedAboutCreationBottomState extends ConsumerState<RelatedAboutCreatio
         children: [
           if (widget.requirementData.creationsData.linkProjectToGithub != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgGithubDark : _iconUtil.imgGithubLight,
+              imgPath:
+                  isDarkMode ? IconUtil.imgGithubDark : IconUtil.imgGithubLight,
               title: widget.requirementData.creationsData.projectName,
               desc: "see the repository",
               cardWidth: double.maxFinite,
               paddingTop: 0,
               paddingLeft: 0,
               link: widget.requirementData.creationsData.linkProjectToGithub,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.linkDemoWeb != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgBrowserDark : _iconUtil.imgBrowserLight,
+              imgPath: isDarkMode
+                  ? IconUtil.imgBrowserDark
+                  : IconUtil.imgBrowserLight,
               title: "Site",
               desc: "visit the site",
               cardWidth: double.maxFinite,
               paddingTop: 0,
               paddingLeft: 0,
               link: widget.requirementData.creationsData.linkDemoWeb,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
           if (widget.requirementData.creationsData.additionalLink != "")
             LinkCardItem(
-              imgPath: isDarkMode ? _iconUtil.imgLinkDark : _iconUtil.imgLinkLight,
+              imgPath:
+                  isDarkMode ? IconUtil.imgLinkDark : IconUtil.imgLinkLight,
               title: "Additional Link",
-              desc: widget.requirementData.creationsData.additionalLinkDescription,
+              desc: widget
+                  .requirementData.creationsData.additionalLinkDescription,
               cardWidth: double.maxFinite,
               paddingTop: 0,
               paddingLeft: 0,
               link: widget.requirementData.creationsData.additionalLink,
-              isCompactDeviceMode: getIsMobileSize(context) || getIsTabletSize(context),
+              isCompactDeviceMode:
+                  getIsMobileSize(context) || getIsTabletSize(context),
             ),
         ],
       );
@@ -599,8 +683,6 @@ class LinkCardItem extends ConsumerStatefulWidget {
 }
 
 class _LinkCardItemState extends ConsumerState<LinkCardItem> {
-  final StyleUtil _styleUtil = StyleUtil();
-
   bool cardIsHovered = false;
 
   // Open Url
@@ -627,29 +709,28 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
                 borderRadius: BorderRadius.circular(5),
               ),
               elevation: 5,
-              color: (isDarkMode) ? _styleUtil.c_success_dark : _styleUtil.c_success_light,
+              color: (isDarkMode)
+                  ? StyleUtil.c_success_dark
+                  : StyleUtil.c_success_light,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 32.0, vertical: 14.0),
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 10),
                       child: Icon(
                         Icons.check_circle,
-                        color: _styleUtil.c_255,
+                        color: StyleUtil.c_255,
                       ),
                     ),
                     Text(
                       message,
-                      style: TextStyle(
+                      style: StyleUtil.text_small_Medium.copyWith(
                         letterSpacing: 1,
-                        fontFamily: "Lato",
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: _styleUtil.c_255,
+                        color: StyleUtil.c_255,
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -666,18 +747,21 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return InkWell(
-      onTap: () async => await _showSnackbar("${widget.customSnackbarTitle ?? widget.title} Opened Successfully!", widget.link),
+      onTap: () async => await _showSnackbar(
+          "${widget.customSnackbarTitle ?? widget.title} Opened Successfully!",
+          widget.link),
       onHover: (val) => setState(() => cardIsHovered = val),
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 150),
         width: widget.cardWidth ?? 350,
-        margin: EdgeInsets.only(left: widget.paddingLeft ?? 28, top: widget.paddingTop ?? 28),
+        margin: EdgeInsets.only(
+            left: widget.paddingLeft ?? 28, top: widget.paddingTop ?? 28),
         padding: const EdgeInsets.symmetric(vertical: 20),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isDarkMode ? _styleUtil.c_170 : _styleUtil.c_238,
+            color: isDarkMode ? StyleUtil.c_170 : StyleUtil.c_238,
             width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
@@ -697,19 +781,14 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
                 children: [
                   Text(
                     widget.title,
-                    style: TextStyle(
-                      fontFamily: 'Lato',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color:  (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                    style: StyleUtil.text_Base_Bold.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
                     ),
                   ),
                   Text(
                     widget.desc,
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 16,
-                        color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61
+                    style: StyleUtil.text_Base_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
                     ),
                   ),
                 ],
@@ -717,10 +796,11 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
             ),
             AnimatedOpacity(
               duration: const Duration(milliseconds: 150),
-              opacity:  opacityAnimationDecider(),
+              opacity: opacityAnimationDecider(),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16),
-                child: Icon(Icons.arrow_forward_ios, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
+                child: Icon(Icons.arrow_forward_ios,
+                    color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61),
               ),
             ),
           ],
@@ -729,28 +809,34 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
     );
   }
 
-  LinearGradient gradientColorAnimationDecider(){
+  LinearGradient gradientColorAnimationDecider() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    if(widget.isCompactDeviceMode){ // Compact device Mode
-      return const LinearGradient(colors: [Colors.transparent, Colors.transparent]);
+    if (widget.isCompactDeviceMode) {
+      // Compact device Mode
+      return const LinearGradient(
+          colors: [Colors.transparent, Colors.transparent]);
     }
 
-    if(cardIsHovered){ // Card is Hovered
+    if (cardIsHovered) {
+      // Card is Hovered
       return LinearGradient(
         begin: Alignment.center,
         end: Alignment.centerRight,
         colors: [
           Colors.transparent,
-          isDarkMode ? _styleUtil.c_238.withOpacity(0.5) : _styleUtil.c_170.withOpacity(0.1),
+          isDarkMode
+              ? StyleUtil.c_238.withOpacity(0.5)
+              : StyleUtil.c_170.withOpacity(0.1),
         ],
       );
     } else {
-      return const LinearGradient(colors: [Colors.transparent, Colors.transparent]);
+      return const LinearGradient(
+          colors: [Colors.transparent, Colors.transparent]);
     }
   }
 
-  double opacityAnimationDecider(){
+  double opacityAnimationDecider() {
     if (widget.isCompactDeviceMode) return 1; // Compact device Mode
 
     return (cardIsHovered) ? 1 : 0; // Determine Card Hover
@@ -758,7 +844,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
 }
 
 // BLUEPRINT CLASS
-class RelatedSectionObject{
+class RelatedSectionObject {
   final ProjectItemData creationsData;
   final bool isShowed;
 
@@ -767,7 +853,3 @@ class RelatedSectionObject{
     required this.isShowed,
   });
 }
-
-
-
-

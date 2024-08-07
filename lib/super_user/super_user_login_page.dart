@@ -16,9 +16,6 @@ class SuperUserLoginPage extends StatefulWidget {
 }
 
 class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
-  final StyleUtil _styleUtil = StyleUtil();
-  final IconUtil _iconUtil = IconUtil();
-
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -31,7 +28,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
     return SelectionArea(
       child: Scaffold(
         body: Container(
-          color: _styleUtil.c_33,
+          color: StyleUtil.c_33,
           height: MediaQuery.sizeOf(context).height,
           child: Stack(
             children: [
@@ -41,9 +38,9 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                 child: Container(
                   height: 300,
                   width: 300,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: ExactAssetImage(_iconUtil.incognitoFingerprint),
+                        image: ExactAssetImage(IconUtil.incognitoFingerprint),
                         fit: BoxFit.fill),
                   ),
                   child: BackdropFilter(
@@ -61,9 +58,9 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                 child: Container(
                   height: 400,
                   width: 400,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: ExactAssetImage(_iconUtil.incognitoMode),
+                        image: ExactAssetImage(IconUtil.incognitoMode),
                         fit: BoxFit.fitWidth),
                   ),
                   child: BackdropFilter(
@@ -82,9 +79,9 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                 child: Container(
                   height: 400,
                   width: 400,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image: ExactAssetImage(_iconUtil.incognitoMask),
+                        image: ExactAssetImage(IconUtil.incognitoMask),
                         fit: BoxFit.fitWidth),
                   ),
                   child: BackdropFilter(
@@ -108,7 +105,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: _styleUtil.c_33,
+                    color: StyleUtil.c_33,
                     boxShadow: const [
                       BoxShadow(
                         color: Color.fromARGB(255, 61, 61, 61),
@@ -120,20 +117,20 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 20),
                         child: Text(
                           "YOU ARE ABOUT TO ENTER A RESTRICTED AREA!",
                           style: TextStyle(
                             fontFamily: "Lato",
                             fontSize: 28,
                             fontWeight: FontWeight.w700,
-                            color: _styleUtil.c_255,
+                            color: StyleUtil.c_255,
                           ),
                           textAlign: TextAlign.left,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: double.maxFinite,
                         child: Text(
                           "If you have control, then confirm your valid credentials below",
@@ -141,7 +138,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                             fontFamily: "Lato",
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: _styleUtil.c_238,
+                            color: StyleUtil.c_238,
                           ),
                           textAlign: TextAlign.start,
                         ),
@@ -155,11 +152,11 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10),
                                 child: TextFormField(
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: "Lato",
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color: _styleUtil.c_170,
+                                    color: StyleUtil.c_170,
                                   ),
                                   controller: _emailController,
                                   validator: (value) {
@@ -180,19 +177,19 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                                           color: Colors.red, width: 2),
                                     ),
                                     hintText: "?????",
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      color: _styleUtil.c_170,
+                                      color: StyleUtil.c_170,
                                     ),
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: _styleUtil.c_170, width: 2),
+                                          color: StyleUtil.c_170, width: 2),
                                     ),
-                                    enabledBorder: UnderlineInputBorder(
+                                    enabledBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: _styleUtil.c_170, width: 1),
+                                          color: StyleUtil.c_170, width: 1),
                                     ),
                                   ),
                                 ),
@@ -200,17 +197,18 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 10),
                                 child: TextFormField(
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: "Lato",
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
-                                    color: _styleUtil.c_61,
+                                    color: StyleUtil.c_61,
                                   ),
                                   controller: _passwordController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
                                       return "This field is required";
                                     }
+                                    return null;
                                   },
                                   decoration: InputDecoration(
                                     errorText: _errorEmailText,
@@ -219,19 +217,19 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                                           color: Colors.red, width: 2),
                                     ),
                                     hintText: "????????",
-                                    hintStyle: TextStyle(
+                                    hintStyle: const TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
-                                      color: _styleUtil.c_170,
+                                      color: StyleUtil.c_170,
                                     ),
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: _styleUtil.c_170, width: 2),
+                                          color: StyleUtil.c_170, width: 2),
                                     ),
-                                    enabledBorder: UnderlineInputBorder(
+                                    enabledBorder: const UnderlineInputBorder(
                                       borderSide: BorderSide(
-                                          color: _styleUtil.c_170, width: 1),
+                                          color: StyleUtil.c_170, width: 1),
                                     ),
                                   ),
                                 ),
@@ -241,7 +239,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                                 child: Row(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.only(right: 10),
+                                      padding: const EdgeInsets.only(right: 10),
                                       width: 100,
                                       height: 40,
                                       child: ElevatedButton(
@@ -252,17 +250,17 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(7),
                                           ),
-                                          surfaceTintColor: _styleUtil.c_255,
+                                          surfaceTintColor: StyleUtil.c_255,
                                           foregroundColor: Colors.black,
-                                          backgroundColor: _styleUtil.c_255,
+                                          backgroundColor: StyleUtil.c_255,
                                         ),
-                                        child: Text(
+                                        child: const Text(
                                           "Back",
                                           style: TextStyle(
                                             fontFamily: "Lato",
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: _styleUtil.c_33,
+                                            color: StyleUtil.c_33,
                                           ),
                                         ),
                                       ),
@@ -281,17 +279,17 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(7),
                                           ),
-                                          surfaceTintColor: _styleUtil.c_170,
+                                          surfaceTintColor: StyleUtil.c_170,
                                           foregroundColor: Colors.black,
-                                          backgroundColor: _styleUtil.c_170,
+                                          backgroundColor: StyleUtil.c_170,
                                         ),
-                                        child: Text(
+                                        child: const Text(
                                           "Take a look 👁️👁️",
                                           style: TextStyle(
                                             fontFamily: "Lato",
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
-                                            color: _styleUtil.c_33,
+                                            color: StyleUtil.c_33,
                                           ),
                                         ),
                                       ),

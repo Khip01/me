@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/helper/helper.dart';
-import 'package:me/helper/init_app_theme.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/animated_scroll_idle.dart';
@@ -29,12 +28,9 @@ class CreationPage extends ConsumerStatefulWidget {
   ConsumerState<CreationPage> createState() => _CreationPageState();
 }
 
-class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerProviderStateMixin {
+class _CreationPageState extends ConsumerState<CreationPage>
+    with SingleTickerProviderStateMixin {
   // TODO: ------ Declaration ------
-  // --- General ---
-  final StyleUtil _styleUtil = StyleUtil();
-  final IconUtil _iconUtil = IconUtil();
-
   late double scrHeight;
 
   // --- Content Top Section ---
@@ -44,9 +40,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   // --- Nav Section ---
   // Controller for Sliver Nav
-  static final ScrollController _navScrollController = ScrollController(initialScrollOffset: 1);
+  static final ScrollController _navScrollController =
+      ScrollController(initialScrollOffset: 1);
+
   // Value Notifier Sticky Nav Header
   late final ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
+
   // Value Notifier Idle Scroll animation
   late final ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
 
@@ -70,11 +69,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // --- Transition Nav Sticky ---
   // Rect Global Key
   static final GlobalKey<RectGetterState> _rectKeyWelcomePageSticky =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
   static final GlobalKey<RectGetterState> _rectKeyHistoryPageSticky =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
   static final GlobalKey<RectGetterState> _rectKeyFurtherPageSticky =
-  RectGetter.createGlobalKey();
+      RectGetter.createGlobalKey();
 
   // Rect
   Rect? _rectWelcomeSticky;
@@ -89,6 +88,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   final GlobalKey<ScrollSnapListState> _creationHighlightKey = GlobalKey();
   int _focusedIndexHighlight = 0;
   Timer? _timerContentHighlight;
+
   // // Creations Map Data
   // Map<String, dynamic> _creationsData = <String, dynamic>{};
   // // Declare keyString from Map Data
@@ -97,7 +97,6 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
   // late Stream _creationStream;
   // // Show Creation when there is data available
   // bool _creationIsShowed = false;
-
 
   // TODO: INIT STATE
   @override
@@ -111,7 +110,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       }
       // Animated Scroll Idle
       final isScrollIdleVisible = _navScrollController.offset <= 1;
-      if(_scrollIdleNotifier.value != isScrollIdleVisible){
+      if (_scrollIdleNotifier.value != isScrollIdleVisible) {
         _scrollIdleNotifier.value = isScrollIdleVisible;
       }
     });
@@ -138,74 +137,93 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     isFromLeft = !isFromLeft;
     setState(() => transitionIsActive = !transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(
-        animationDuration,
-        // () => setState(() {
-        //       ref.read(isDarkMode.notifier).state =
-        //           !ref.read(isDarkMode); // SET DARK MODE HERE
-        //     }),
-      () {
-        ref.read(isDarkModeProvider.notifier).value = !ref.read(isDarkModeProvider.notifier).value; // SET DARK MODE HERE
-        changeCookieValue("${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+      Future.delayed(animationDuration,
+          // () => setState(() {
+          //       ref.read(isDarkMode.notifier).state =
+          //           !ref.read(isDarkMode); // SET DARK MODE HERE
+          //     }),
+          () {
+        ref.read(isDarkModeProvider.notifier).value =
+            !ref.read(isDarkModeProvider.notifier).value; // SET DARK MODE HERE
+        changeCookieValue(
+            "${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
       });
       Future.delayed(
           animationDuration + afterAnimationDelay,
           () => setState(() {
                 transitionIsActive = !transitionIsActive;
               })).then((_) => setState(() {
-                ignoreTapping = false;
-              }));
+            ignoreTapping = false;
+          }));
     });
   }
 
   // --- Transition Nav ---
   // Push Page With Transition (Normal Nav)
   void _pushNamedWithRectWelcome() async {
-    setState(() => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+    setState(
+        () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcome = _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("welcome"));
+      setState(() => _rectWelcome =
+          _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay,
+          () => context.goNamed("welcome"));
     });
   }
 
   void _pushNamedWithRectHistory() async {
-    setState(() => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
+    setState(
+        () => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistory = _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+      setState(() => _rectHistory =
+          _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay,
+          () => context.goNamed("history"));
     });
   }
 
   void _pushNamedWithRectFurther() async {
-    setState(() => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
+    setState(
+        () => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurther = _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("further"));
+      setState(() => _rectFurther =
+          _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay,
+          () => context.goNamed("further"));
     });
   }
 
   // Push Page With Transition (Sticky Nav)
   void _pushNamedWithRectWelcomeSticky() async {
-    setState(() => _rectWelcomeSticky = RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
+    setState(() => _rectWelcomeSticky =
+        RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcomeSticky = _rectWelcomeSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("welcome"));
+      setState(() => _rectWelcomeSticky = _rectWelcomeSticky!
+          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay,
+          () => context.goNamed("welcome"));
     });
   }
 
   void _pushNamedWithRectHistorySticky() async {
-    setState(() => _rectHistorySticky = RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
+    setState(() => _rectHistorySticky =
+        RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistorySticky = _rectHistorySticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("history"));
+      setState(() => _rectHistorySticky = _rectHistorySticky!
+          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay,
+          () => context.goNamed("history"));
     });
   }
 
   void _pushNamedWithRectFurtherSticky() async {
-    setState(() => _rectFurtherSticky = RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
+    setState(() => _rectFurtherSticky =
+        RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurtherSticky = _rectFurtherSticky!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay, () => context.goNamed("further"));
+      setState(() => _rectFurtherSticky = _rectFurtherSticky!
+          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
+      Future.delayed(animationDuration + afterAnimationDelay,
+          () => context.goNamed("further"));
     });
   }
 
@@ -232,7 +250,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       children: [
         SelectionArea(
           child: Scaffold(
-            backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+            backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
             body: CustomScrollView(
               controller: _navScrollController,
               slivers: [
@@ -250,22 +268,18 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     ],
                   ),
                 ),
-                MultiSliver(
-                    pushPinnedChildren: true,
-                    children: [
-                      // Sticky Navbar
-                      ValueListenableBuilder<bool>(
-                        valueListenable: _navIsStickyNotifier,
-                        builder: (context, isVisible, child) {
-                          return SliverPinnedHeader(
-                            child: _navTopSticky(isVisible),
-                          );
-                        }
-                      ),
-                      _creationPageSection(),
-                      _footerTechnology(),
-                    ]
-                ),
+                MultiSliver(pushPinnedChildren: true, children: [
+                  // Sticky Navbar
+                  ValueListenableBuilder<bool>(
+                      valueListenable: _navIsStickyNotifier,
+                      builder: (context, isVisible, child) {
+                        return SliverPinnedHeader(
+                          child: _navTopSticky(isVisible),
+                        );
+                      }),
+                  _creationPageSection(),
+                  _footerTechnology(),
+                ]),
               ],
             ),
           ),
@@ -286,11 +300,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
 
   // TODO: ------ Page Section ------
   // ------ Cover ------
-  Widget _coverPageSection(double screenHeight){
+  Widget _coverPageSection(double screenHeight) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
-      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
       height: screenHeight,
       padding: mainCardPaddingWithBottomQuote(context),
       child: Column(
@@ -304,10 +318,9 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               padding: contentCardPadding(context),
               clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
-                color: (isDarkMode)
-                    ? _styleUtil.c_33
-                    : _styleUtil.c_255,
+                borderRadius:
+                    BorderRadius.circular(getIsMobileSize(context) ? 0 : 20),
+                color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
                 boxShadow: [
                   BoxShadow(
                     color: (isDarkMode)
@@ -369,10 +382,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       ),
     );
   }
+
   // ------ Scroll idle animation ------
-  Widget _scrollIldeSticky(bool isVisible){
+  Widget _scrollIldeSticky(bool isVisible) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
-    bool compactDeviceMode = getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context);
+    bool compactDeviceMode = getIsMobileSize(context) ||
+        getIsTabletSize(context) ||
+        getIsDesktopSmSize(context);
 
     return Visibility(
       visible: isVisible && compactDeviceMode,
@@ -383,7 +399,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
           child: AnimatedScrollIdle(
             animDuration: const Duration(milliseconds: 1000),
             mainIcon: Icons.keyboard_double_arrow_down_rounded,
-            mainColor: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33,
+            mainColor: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_33,
             containerHeight: getIsMobileSize(context) ? 60 : null,
             iconHeight: getIsMobileSize(context) ? 25 : null,
           ),
@@ -391,6 +407,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       ),
     );
   }
+
   // ------ Nav Top Sticky ------
   Widget _navTopSticky(bool isVisible) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
@@ -406,9 +423,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         child: Container(
           padding: contentCardPadding(context),
           decoration: BoxDecoration(
-            color: (isDarkMode)
-                ? _styleUtil.c_33
-                : _styleUtil.c_255,
+            color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
             boxShadow: [
               BoxShadow(
                 color: (isDarkMode)
@@ -425,6 +440,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       ),
     );
   }
+
   // ------ Creation ------
   Widget _creationPageSection() {
     return Column(
@@ -440,7 +456,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return StatefulBuilder(
-      builder: (BuildContext context, setState){
+      builder: (BuildContext context, setState) {
         return Stack(
           children: [
             AnimatedPositioned(
@@ -450,14 +466,13 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               right: 0,
               duration: const Duration(milliseconds: 150),
               child: AnimatedDefaultTextStyle(
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 12,
-                    color: (themeSwitch)
-                        ? (isDarkMode)
-                        ? _styleUtil.c_255
-                        : _styleUtil.c_24
-                        : Colors.transparent),
+                style: StyleUtil.text_xs_Regular.copyWith(
+                  color: (themeSwitch)
+                      ? (isDarkMode)
+                          ? StyleUtil.c_255
+                          : StyleUtil.c_24
+                      : Colors.transparent,
+                ),
                 duration: const Duration(milliseconds: 100),
                 child: const Text(
                   "change mode",
@@ -470,14 +485,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               child: IgnorePointer(
                 ignoring: ignoreTapping,
                 child: TextHighlightDecider(
-                  isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                  colorStart: _styleUtil.c_170,
-                  colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                  isCompactMode:
+                      getIsMobileSize(context) || getIsTabletSize(context),
+                  colorStart: StyleUtil.c_170,
+                  colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                   actionDelay: const Duration(milliseconds: 100),
                   delayAfterAnimation: const Duration(milliseconds: 300),
                   additionalOnTapAction: () => switchWithTransition(),
-                  additionalOnHoverAction: (value) => setState(() => themeSwitch = value),
-                  builder: (Color color){
+                  additionalOnHoverAction: (value) =>
+                      setState(() => themeSwitch = value),
+                  builder: (Color color) {
                     return Icon(
                       (isDarkMode) ? Icons.dark_mode : Icons.sunny,
                       size: 32,
@@ -509,12 +526,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             alignment: Alignment.center,
             child: Text(
               "MY CREATIONS",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                color:
-                    (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+              style: StyleUtil.text_2xl_Bold.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
               ),
               textAlign: TextAlign.center,
             ),
@@ -529,12 +542,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             alignment: Alignment.center,
             child: Text(
               "As a student, I also made several small projects while adding my experience in making software. The following is software that I have made myself, both from my first program to my last program.",
-              style: TextStyle(
-                fontFamily: "Lato",
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color:
-                    (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+              style: StyleUtil.text_Base_Medium.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
               ),
               textAlign: TextAlign.center,
             ),
@@ -560,21 +569,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: StatefulBuilder(
-                    builder: (BuildContext context, setState){
+                    builder: (BuildContext context, setState) {
                       return RectGetter(
                         key: _rectKeyWelcomePage,
                         child: TextHighlightDecider(
-                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: _styleUtil.c_170,
-                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          isCompactMode: getIsMobileSize(context) ||
+                              getIsTabletSize(context),
+                          colorStart: StyleUtil.c_170,
+                          colorEnd:
+                              (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectWelcome(),
-                          builder: (Color color){
+                          additionalOnTapAction: () =>
+                              _pushNamedWithRectWelcome(),
+                          builder: (Color color) {
                             return Text(
                               "Welcome",
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
+                              style: StyleUtil.text_small_Regular.copyWith(
                                 color: color,
                               ),
                             );
@@ -588,59 +598,57 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   padding: const EdgeInsets.only(right: 30),
                   child: Text(
                     "Creation",
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (isDarkMode)
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33),
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: StatefulBuilder(
                       builder: (BuildContext context, setState) {
-                        return RectGetter(
-                          key: _rectKeyHistoryPage,
-                          child: TextHighlightDecider(
-                            isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                            colorStart: _styleUtil.c_170,
-                            colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
-                            actionDelay: const Duration(milliseconds: 100),
-                            additionalOnTapAction: () => _pushNamedWithRectHistory(),
-                            builder: (Color color){
-                              return Text(
-                                "History",
-                                style: TextStyle(
-                                  fontFamily: 'Lato',
-                                  fontSize: 14,
-                                  color: color,
-                                ),
-                              );
-                            },
-                          ),
-                        );
-                      }
-                  ),
+                    return RectGetter(
+                      key: _rectKeyHistoryPage,
+                      child: TextHighlightDecider(
+                        isCompactMode: getIsMobileSize(context) ||
+                            getIsTabletSize(context),
+                        colorStart: StyleUtil.c_170,
+                        colorEnd:
+                            (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                        actionDelay: const Duration(milliseconds: 100),
+                        additionalOnTapAction: () =>
+                            _pushNamedWithRectHistory(),
+                        builder: (Color color) {
+                          return Text(
+                            "History",
+                            style: StyleUtil.text_small_Regular.copyWith(
+                              color: color,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  }),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 0),
                   child: StatefulBuilder(
-                    builder: (BuildContext context, setState){
+                    builder: (BuildContext context, setState) {
                       return RectGetter(
                         key: _rectKeyFurtherPage,
                         child: TextHighlightDecider(
-                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: _styleUtil.c_170,
-                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          isCompactMode: getIsMobileSize(context) ||
+                              getIsTabletSize(context),
+                          colorStart: StyleUtil.c_170,
+                          colorEnd:
+                              (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectFurther(),
-                          builder: (Color color){
+                          additionalOnTapAction: () =>
+                              _pushNamedWithRectFurther(),
+                          builder: (Color color) {
                             return Text(
                               "Further",
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
+                              style: StyleUtil.text_small_Regular.copyWith(
                                 color: color,
                               ),
                             );
@@ -653,7 +661,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ],
             ),
           ],
-        ), 
+        ),
       ),
     );
   }
@@ -674,21 +682,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: StatefulBuilder(
-                    builder: (BuildContext context, setState){
+                    builder: (BuildContext context, setState) {
                       return RectGetter(
                         key: _rectKeyWelcomePageSticky,
                         child: TextHighlightDecider(
-                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: _styleUtil.c_170,
-                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          isCompactMode: getIsMobileSize(context) ||
+                              getIsTabletSize(context),
+                          colorStart: StyleUtil.c_170,
+                          colorEnd:
+                              (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectWelcomeSticky(),
-                          builder: (Color color){
+                          additionalOnTapAction: () =>
+                              _pushNamedWithRectWelcomeSticky(),
+                          builder: (Color color) {
                             return Text(
                               "Welcome",
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
+                              style: StyleUtil.text_small_Regular.copyWith(
                                 color: color,
                               ),
                             );
@@ -702,32 +711,30 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   padding: const EdgeInsets.only(right: 30),
                   child: Text(
                     "Creation",
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 14,
-                        color: (isDarkMode)
-                            ? _styleUtil.c_255
-                            : _styleUtil.c_33),
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 30),
                   child: StatefulBuilder(
-                    builder: (BuildContext context, setState){
+                    builder: (BuildContext context, setState) {
                       return RectGetter(
                         key: _rectKeyHistoryPageSticky,
                         child: TextHighlightDecider(
-                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: _styleUtil.c_170,
-                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          isCompactMode: getIsMobileSize(context) ||
+                              getIsTabletSize(context),
+                          colorStart: StyleUtil.c_170,
+                          colorEnd:
+                              (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectHistorySticky(),
-                          builder: (Color color){
+                          additionalOnTapAction: () =>
+                              _pushNamedWithRectHistorySticky(),
+                          builder: (Color color) {
                             return Text(
                               "History",
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
+                              style: StyleUtil.text_small_Regular.copyWith(
                                 color: color,
                               ),
                             );
@@ -740,21 +747,22 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 Padding(
                   padding: const EdgeInsets.only(right: 0),
                   child: StatefulBuilder(
-                    builder: (BuildContext context, setState){
+                    builder: (BuildContext context, setState) {
                       return RectGetter(
                         key: _rectKeyFurtherPageSticky,
                         child: TextHighlightDecider(
-                          isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: _styleUtil.c_170,
-                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_33,
+                          isCompactMode: getIsMobileSize(context) ||
+                              getIsTabletSize(context),
+                          colorStart: StyleUtil.c_170,
+                          colorEnd:
+                              (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                           actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectFurtherSticky(),
-                          builder: (Color color){
+                          additionalOnTapAction: () =>
+                              _pushNamedWithRectFurtherSticky(),
+                          builder: (Color color) {
                             return Text(
                               "Further",
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
+                              style: StyleUtil.text_small_Regular.copyWith(
                                 color: color,
                               ),
                             );
@@ -767,7 +775,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
               ],
             ),
           ],
-        ), 
+        ),
       ),
     );
   }
@@ -781,8 +789,14 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Visibility(visible: contentQuoteIconVisible(context), child: const SizedBox(width: 32, height: 36, child: Text(""))),
-          Text("\"There is no such thing as 'garbage' for the small program you have created.\"", style: TextStyle(fontFamily: 'Lato', fontSize: 12, fontStyle: FontStyle.italic, color: _styleUtil.c_170),),
+          Visibility(
+              visible: contentQuoteIconVisible(context),
+              child: const SizedBox(width: 32, height: 36, child: Text(""))),
+          Text(
+            "\"There is no such thing as 'garbage' for the small program you have created.\"",
+            style: StyleUtil.text_xs_Regular_Italic
+                .copyWith(color: StyleUtil.c_170),
+          ),
           Visibility(
             visible: contentQuoteIconVisible(context),
             child: SizedBox(
@@ -792,8 +806,16 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Icon(Icons.arrow_downward_rounded, size: 18, color: _styleUtil.c_170,),
-                  Text("scroll", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
+                  const Icon(
+                    Icons.arrow_downward_rounded,
+                    size: 18,
+                    color: StyleUtil.c_170,
+                  ),
+                  Text(
+                    "scroll",
+                    style: StyleUtil.text_xs_Regular
+                        .copyWith(color: StyleUtil.c_170),
+                  ),
                 ],
               ),
             ),
@@ -803,70 +825,41 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _creationSection(){
+  Widget _creationSection() {
     return Padding(
-      padding:  mainCardPaddingWithBottomQuote(context),
+      padding: mainCardPaddingWithBottomQuote(context),
       child: Container(
         constraints: const BoxConstraints(
-            maxWidth: 1100,
+          maxWidth: 1100,
         ),
         width: double.maxFinite,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CreationsHeaderTitle(
+            const CreationsHeaderTitle(
               titleText: "M Y   P R O J E C T   P L A Y G R O U N D",
-              subTitleText: "A collection of small projects from my past that reflect my learning journey in the realm of coding.",
+              subTitleText:
+                  "A collection of small projects from my past that reflect my learning journey in the realm of coding.",
             ),
-            // _creationCachedDecision(),
-            // FutureBuilder(
-            //   future: readJson(),
-            //   builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>> snapshot){
-            //     if(snapshot.hasData){
-            //       // if (snapshot.data!.isEmpty){
-            //       //   return FutureBuilder(
-            //       //     future: _creationController.getCreationsMap(),
-            //       //     builder: (context, AsyncSnapshot<Map<String, dynamic>> snapshot) {
-            //             // if(snapshot.hasData){
-            //             //   Map<String, dynamic> resultMap = snapshot.data!;
-            //               // setCreationMap(resultMap);
-            //               // return _creationContent(resultMap);
-            //             // } else if (snapshot.hasError) {
-            //               // _timerContentHighlight?.cancel();
-            //               // return Center(child: Text('Error: ${snapshot.error.toString()}'));
-            //             // } else {
-            //             //   return _creationContentShimmer();
-            //             // }
-            //           // }
-            //         // );
-            //       // } else {
-            //         Map<String, dynamic> cachedMap = snapshot.data!;
-            //         return _creationContent(cachedMap['creations']);
-            //       // }
-            //     } else if (snapshot.hasError) {
-            //       _timerContentHighlight?.cancel();
-            //       return Center(child: Text('Error: ${snapshot.error.toString()}'));
-            //     } else {
-            //       return _creationContentShimmer();
-            //     }
-            //   },
-            // ),
             FutureBuilder(
-                future: Future.delayed(const Duration(seconds: 3)).then((_) => _creationContent()),
-                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot){
-                  if(snapshot.hasData && snapshot.connectionState == ConnectionState.done){
-                    return  snapshot.data!;
+                future: Future.delayed(const Duration(seconds: 3))
+                    .then((_) => _creationContent()),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                  if (snapshot.hasData &&
+                      snapshot.connectionState == ConnectionState.done) {
+                    return snapshot.data!;
                   }
                   return _creationContentShimmer();
-                }
-            ),
+                }),
           ],
         ),
       ),
     );
   }
 
-  Widget _creationContent() { // Parent
+  Widget _creationContent() {
+    // Parent
     return Column(
       children: [
         _creationsContentHighlight(),
@@ -876,7 +869,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _creationContentShimmer(){ // Parent
+  Widget _creationContentShimmer() {
+    // Parent
     return Column(
       children: [
         _creationContentHighlightShimmer(),
@@ -886,50 +880,53 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-
   // TODO: CREATIONS CONTENT HIGHLIGHT
   Widget _creationsContentHighlight() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     doFocusScrollSnapListOnFocusHighlight();
     return Container(
-        color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
-        margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
-        height: contentHighlightHeight(context),
-        child: ScrollConfiguration(
-          behavior: ScrollWithDragBehavior(), // My Custom Behavior for Drag ListView
-          child: ScrollSnapList(
-            key: _creationHighlightKey,
-            duration: 600,
-            curve: Easing.legacyDecelerate,
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            onItemFocus: (int index) {
-              // setState(() {
-              _focusedIndexHighlight = index;
-              // });
-            },
-            onReachEnd: () {
-              // setState(() {
-              _focusedIndexHighlight = -1;
-              // });
-            },
-            itemSize: contentHighlightWidthListView(context),
-            itemBuilder: (context, index) {
-              // Build item berdasarkan data creationsMap
-              return _buildListItemHighlight(context, index, Data.highlightedCreations);
-            },
-            itemCount: Data.highlightedCreations.length,
-            selectedItemAnchor: SelectedItemAnchor.MIDDLE,
-          ),
+      color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
+      margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
+      height: contentHighlightHeight(context),
+      child: ScrollConfiguration(
+        behavior: ScrollWithDragBehavior(),
+        // My Custom Behavior for Drag ListView
+        child: ScrollSnapList(
+          key: _creationHighlightKey,
+          duration: 600,
+          curve: Easing.legacyDecelerate,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          onItemFocus: (int index) {
+            // setState(() {
+            _focusedIndexHighlight = index;
+            // });
+          },
+          onReachEnd: () {
+            // setState(() {
+            _focusedIndexHighlight = -1;
+            // });
+          },
+          itemSize: contentHighlightWidthListView(context),
+          itemBuilder: (context, index) {
+            // Build item berdasarkan data creationsMap
+            return _buildListItemHighlight(
+                context, index, Data.highlightedCreations);
+          },
+          itemCount: Data.highlightedCreations.length,
+          selectedItemAnchor: SelectedItemAnchor.MIDDLE,
         ),
+      ),
     );
   }
 
-  Widget _buildListItemHighlight(BuildContext context, int index, List<ProjectItemData> highlightedCreationsData) {
+  Widget _buildListItemHighlight(BuildContext context, int index,
+      List<ProjectItemData> highlightedCreationsData) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     // Menggunakan data dari creationsMap untuk membangun item list
-    final itemData = highlightedCreationsData[index]; // Ambil data pada indeks tertentu
+    final itemData =
+        highlightedCreationsData[index]; // Ambil data pada indeks tertentu
     final Image itemImage = Image.asset(
       itemData.projectImagePathCover,
       fit: BoxFit.cover,
@@ -945,16 +942,21 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
         );
       },
     );
-    final List<BlurHashImage> itemImageProfileHash = List<BlurHashImage>.generate(
+    final List<BlurHashImage> itemImageProfileHash =
+        List<BlurHashImage>.generate(
       itemData.creatorPhotoProfilePathHash.length,
-      (index){
+      (index) {
         return BlurHashImage(itemData.creatorPhotoProfilePathHash[index]);
       },
     );
-    final Color colorShadeItemImage = isDarkMode ? const Color.fromARGB(0, 0, 0, 0) : const Color.fromARGB(0, 255, 255, 255);
-    final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
+    final Color colorShadeItemImage = isDarkMode
+        ? const Color.fromARGB(0, 0, 0, 0)
+        : const Color.fromARGB(0, 255, 255, 255);
+    final DateTime itemDate =
+        DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
-    final String creatorsName = "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
+    final String creatorsName =
+        "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
 
     return HighlightedWidgetOnHover(
       widgetHeight: contentHighlightHeight(context),
@@ -962,101 +964,156 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       onTapAction: () => context.goNamed("details_creation", queryParameters: {
         "id": itemData.projectId,
       }),
-      customBorderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+      customBorderRadius:
+          BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
       child: Container(
         margin: contentHighlightListSpace(context),
         width: contentHighlightWidth(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: itemImageHash,
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+            Stack(children: [
+              Container(
+                height: 310 -
+                    (getIsMobileSize(context)
+                        ? 101
+                        : getIsTabletSize(context)
+                            ? 51
+                            : 0),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: itemImageHash,
+                    fit: BoxFit.cover,
                   ),
-                  child: itemImage,
+                  borderRadius:
+                      BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
                 ),
-                FutureBuilder<ColorScheme>(
-                    future: getColorFromImage(Image.asset(itemData.projectImagePathCover).image, isDarkMode),
-                    builder: (BuildContext context, AsyncSnapshot<ColorScheme> snapshot) {
-                      if(snapshot.hasData){
-                        return SizedBox(
-                          height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
-                          child: Stack(
-                            children: [
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  height: 159,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 9 : 19),
-                                    gradient: LinearGradient(
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                      colors: [colorShadeItemImage, snapshot.data!.primaryContainer.withOpacity(.8), snapshot.data!.primaryContainer],
-                                    ),
-                                  ),
+                child: itemImage,
+              ),
+              FutureBuilder<ColorScheme>(
+                  future: getColorFromImage(
+                      Image.asset(itemData.projectImagePathCover).image,
+                      isDarkMode),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<ColorScheme> snapshot) {
+                    if (snapshot.hasData) {
+                      return SizedBox(
+                        height: 310 -
+                            (getIsMobileSize(context)
+                                ? 101
+                                : getIsTabletSize(context)
+                                    ? 51
+                                    : 0),
+                        child: Stack(children: [
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              height: 159,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(
+                                    getIsMobileSize(context) ? 9 : 19),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    colorShadeItemImage,
+                                    snapshot.data!.primaryContainer
+                                        .withOpacity(.8),
+                                    snapshot.data!.primaryContainer
+                                  ],
                                 ),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-                                decoration: BoxDecoration(
-                                  color: snapshot.data!.primaryContainer.withOpacity(.9),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(getIsMobileSize(context) ? 9 : 19),
-                                    bottomRight: Radius.circular(getIsMobileSize(context) ? 9 : 19),
-                                  ),
-                                ),
-                                child: Text(itemData.projectHighlightTopic ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_33),),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 14, vertical: getIsMobileSize(context) ? 14 : 22),
-                                  width: double.maxFinite,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(itemData.projectHighlightHeader ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 20 - (getIsMobileSize(context) ? 4 : 0), color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
-                                      Text(itemData.projectHighlightDescription ?? "", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24), textAlign: TextAlign.left,),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ]
-                          ),
-                        );
-                      } else if (snapshot.hasError) {
-                        return const SizedBox();
-                      } else {
-                        return Container(
-                          height: 310 - (getIsMobileSize(context) ? 101 : getIsTabletSize(context) ? 51: 0),
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: itemImageHash,
-                              fit: BoxFit.cover,
                             ),
-                            borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
                           ),
-                          child: itemImage,
-                        );
-                      }
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 9),
+                            decoration: BoxDecoration(
+                              color: snapshot.data!.primaryContainer
+                                  .withOpacity(.9),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(
+                                    getIsMobileSize(context) ? 9 : 19),
+                                bottomRight: Radius.circular(
+                                    getIsMobileSize(context) ? 9 : 19),
+                              ),
+                            ),
+                            child: Text(
+                              itemData.projectHighlightTopic ?? "",
+                              style: StyleUtil.text_xs_Regular.copyWith(
+                                  color: isDarkMode
+                                      ? StyleUtil.c_255
+                                      : StyleUtil.c_33),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 14,
+                                  vertical: getIsMobileSize(context) ? 14 : 22),
+                              width: double.maxFinite,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    itemData.projectHighlightHeader ?? "",
+                                    style: TextStyle(
+                                        fontFamily: 'Lato',
+                                        fontSize: 20 -
+                                            (getIsMobileSize(context) ? 4 : 0),
+                                        color: isDarkMode
+                                            ? StyleUtil.c_255
+                                            : StyleUtil.c_24),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                  Text(
+                                    itemData.projectHighlightDescription ?? "",
+                                    style: StyleUtil.text_xs_Regular.copyWith(
+                                        color: isDarkMode
+                                            ? StyleUtil.c_255
+                                            : StyleUtil.c_24),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ]),
+                      );
+                    } else if (snapshot.hasError) {
+                      return const SizedBox();
+                    } else {
+                      return Container(
+                        height: 310 -
+                            (getIsMobileSize(context)
+                                ? 101
+                                : getIsTabletSize(context)
+                                    ? 51
+                                    : 0),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: itemImageHash,
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(
+                              getIsMobileSize(context) ? 10 : 20),
+                        ),
+                        child: itemImage,
+                      );
                     }
-                ),
-              ]
-            ),
+                  }),
+            ]),
             Container(
               height: 28,
               margin: const EdgeInsets.only(top: 14),
-              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61),),
+              child: Text(
+                itemData.projectName,
+                style: StyleUtil.text_Base_Regular.copyWith(
+                    color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_61),
+              ),
             ),
             Container(
               height: 28,
@@ -1071,41 +1128,46 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: List.generate(itemImageProfile.length, (index) {
-                              return Align(
-                                widthFactor: 0.5,
-                                child: Container(
-                                  clipBehavior: Clip.antiAlias,
-                                  width: 28,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                    // color: const Color(0xff7c94b6),
-                                    image: DecorationImage(
-                                      image: itemImageProfileHash[index],
-                                      fit: BoxFit.cover,
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: List.generate(itemImageProfile.length,
+                                  (index) {
+                                return Align(
+                                  widthFactor: 0.5,
+                                  child: Container(
+                                    clipBehavior: Clip.antiAlias,
+                                    width: 28,
+                                    height: 28,
+                                    decoration: BoxDecoration(
+                                      // color: const Color(0xff7c94b6),
+                                      image: DecorationImage(
+                                        image: itemImageProfileHash[index],
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(50.0)),
+                                      border: Border.all(
+                                        color: isDarkMode
+                                            ? StyleUtil.c_24
+                                            : StyleUtil.c_255,
+                                        width: 2,
+                                      ),
                                     ),
-                                    borderRadius: const BorderRadius.all( Radius.circular(50.0)),
-                                    border: Border.all(
-                                      color: isDarkMode ? _styleUtil.c_24 : _styleUtil.c_255,
-                                      width: 2,
+                                    child: ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(50.0)),
+                                      child: itemImageProfile[index],
                                     ),
                                   ),
-                                  child: ClipRRect(
-                                    borderRadius: const BorderRadius.all( Radius.circular(50.0)),
-                                    child: itemImageProfile[index],
-                                  ),
-                                ),
-                              );
-                            }, growable: true),
-                          )
-                        ),
+                                );
+                              }, growable: true),
+                            )),
                         Text(
-                           creatorsName,
-                          style: TextStyle(
-                            fontFamily: 'Lato', fontSize: 12, color: (isDarkMode) ? _styleUtil.c_238 : _styleUtil.c_61,
+                          creatorsName,
+                          style: StyleUtil.text_xs_Regular.copyWith(
+                            color:
+                                (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
                           ),
                         ),
                       ],
@@ -1113,8 +1175,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                   ),
                   Text(
                     dateFormatter.format(itemDate),
-                    style: TextStyle(
-                      fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                    style: StyleUtil.text_xs_Regular.copyWith(
+                      color: StyleUtil.c_170,
                     ),
                   ),
                 ],
@@ -1126,17 +1188,17 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _creationContentHighlightShimmer(){
+  Widget _creationContentHighlightShimmer() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     _timerContentHighlight?.cancel();
     return Container(
-      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
       height: contentHighlightHeight(context),
       margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
       child: Shimmer.fromColors(
-        baseColor: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_170,
-        highlightColor: isDarkMode ? _styleUtil.c_33 : _styleUtil.c_238,
+        baseColor: isDarkMode ? StyleUtil.c_61 : StyleUtil.c_170,
+        highlightColor: isDarkMode ? StyleUtil.c_33 : StyleUtil.c_238,
         child: ScrollSnapList(
           key: _creationHighlightKey,
           margin: const EdgeInsets.symmetric(vertical: 10),
@@ -1149,11 +1211,17 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    height: 310 - (getIsMobileSize(context) ? 101 :  getIsTabletSize(context) ? 51: 0),
+                    height: 310 -
+                        (getIsMobileSize(context)
+                            ? 101
+                            : getIsTabletSize(context)
+                                ? 51
+                                : 0),
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 214, 216, 218),
-                      borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+                      borderRadius: BorderRadius.circular(
+                          getIsMobileSize(context) ? 10 : 20),
                     ),
                   ),
                   Container(
@@ -1186,41 +1254,50 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             );
           },
           itemCount: 3,
-          selectedItemAnchor: SelectedItemAnchor.MIDDLE, onItemFocus: (_) {  },
+          selectedItemAnchor: SelectedItemAnchor.MIDDLE,
+          onItemFocus: (_) {},
         ),
       ),
     );
   }
+
   // TODO: END
 
   // TODO: CREATIONS CONTENT RELATED PROJECT
-  Widget _creationsContentRelatedProject(){
+  Widget _creationsContentRelatedProject() {
     return Container(
-      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
+      margin: EdgeInsets.only(
+          top: 76 - (getIsMobileSize(context) ? 71 : 0),
+          bottom: (getIsMobileSize(context) ? 71 : 0)),
       height: 338 - (getIsMobileSize(context) ? 71 : 0) + 79,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: CreationSubHeaderTitle(
+            padding: EdgeInsets.symmetric(
+              horizontal: getIsMobileSize(context) ? 28 : 0,
+            ),
+            child: const CreationSubHeaderTitle(
               titleText: "Related Projects",
-              subTitleText: "Find related portfolios featuring projects related to my area of expertise.",
+              subTitleText:
+                  "Find related portfolios featuring projects related to my area of expertise.",
             ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: ScrollConfiguration(
-              behavior: ScrollWithDragBehavior(), // My Custom Behavior for Drag ListView
+              behavior: ScrollWithDragBehavior(),
+              // My Custom Behavior for Drag ListView
               child: ListView.builder(
-                padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
-                scrollDirection: Axis.horizontal,
-                itemCount: Data.relatedCreations.length,
-                itemBuilder: (BuildContext context, int index){
-                  return _buildListItemRelatedProject(context, index, Data.relatedCreations);
-                }
-              ),
+                  padding:
+                      EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: Data.relatedCreations.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildListItemRelatedProject(
+                        context, index, Data.relatedCreations);
+                  }),
             ),
           ),
         ],
@@ -1228,10 +1305,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _buildListItemRelatedProject(BuildContext context, int index, List<ProjectItemData> relatedCreationsData) {
+  Widget _buildListItemRelatedProject(BuildContext context, int index,
+      List<ProjectItemData> relatedCreationsData) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    final ProjectItemData itemData = relatedCreationsData[index]; // Ambil data pada indeks tertentu
+    final ProjectItemData itemData =
+        relatedCreationsData[index]; // Ambil data pada indeks tertentu
     final Image itemImage = Image.asset(
       itemData.projectImagePathCover,
       fit: BoxFit.cover,
@@ -1239,7 +1318,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final BlurHashImage itemImageHash = BlurHashImage(
       itemData.projectImagePathCoverHash,
     );
-    final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
+    final DateTime itemDate =
+        DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return HighlightedWidgetOnHover(
@@ -1277,7 +1357,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ),
             SizedBox(
               height: 26,
-              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24),),
+              child: Text(
+                itemData.projectName,
+                style: StyleUtil.text_Base_Regular.copyWith(
+                    color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_24),
+              ),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1292,27 +1376,28 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: itemData.projectCategories.length,
-                    itemBuilder: (BuildContext context, int indexCategories){
+                    itemBuilder: (BuildContext context, int indexCategories) {
                       return Text(
                         itemData.projectCategories[indexCategories],
-                        style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 12,
-                            color: isDarkMode ?
-                            _styleUtil.c_238 :
-                            _styleUtil.c_61,
+                        style: StyleUtil.text_xs_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
                         ),
                       );
                     },
                     separatorBuilder: (BuildContext context, int index) {
-                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
+                      return Text(
+                        "  ·  ",
+                        style: StyleUtil.text_xs_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
+                        ),
+                      );
                     },
                   ),
                 ),
                 Text(
                   dateFormatter.format(itemDate),
-                  style: TextStyle(
-                    fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                  style: StyleUtil.text_xs_Regular.copyWith(
+                    color: StyleUtil.c_170,
                   ),
                 ),
               ],
@@ -1323,33 +1408,39 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _creationsContentRelatedProjectShimmer(){
+  Widget _creationsContentRelatedProjectShimmer() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
-      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: (getIsMobileSize(context) ? 71 : 0)),
+      margin: EdgeInsets.only(
+          top: 76 - (getIsMobileSize(context) ? 71 : 0),
+          bottom: (getIsMobileSize(context) ? 71 : 0)),
       height: 338 - (getIsMobileSize(context) ? 71 : 0) + 79,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: CreationSubHeaderTitle(
+            padding: EdgeInsets.symmetric(
+              horizontal: getIsMobileSize(context) ? 28 : 0,
+            ),
+            child: const CreationSubHeaderTitle(
               titleText: "Related Projects",
-              subTitleText: "Find related portfolios featuring projects related to my area of expertise.",
+              subTitleText:
+                  "Find related portfolios featuring projects related to my area of expertise.",
             ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: Shimmer.fromColors(
-              baseColor: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_170,
-              highlightColor: isDarkMode ? _styleUtil.c_33 : _styleUtil.c_238,
+              baseColor: isDarkMode ? StyleUtil.c_61 : StyleUtil.c_170,
+              highlightColor: isDarkMode ? StyleUtil.c_33 : StyleUtil.c_238,
               child: ListView.builder(
-                  padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
+                  padding:
+                      EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
-                  itemBuilder: (BuildContext context, int index){
+                  itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(right: 28),
                       width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
@@ -1379,19 +1470,25 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               Container(
                                 height: 16,
                                 constraints: BoxConstraints(
-                                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
+                                  maxWidth: 257 -
+                                      (getIsMobileSize(context) ? 28 * 4 : 0),
                                 ),
                                 child: ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 3,
-                                    itemBuilder: (BuildContext context, int indexCategories){
-                                      if(indexCategories < 3 - 1){
+                                    itemBuilder: (BuildContext context,
+                                        int indexCategories) {
+                                      if (indexCategories < 3 - 1) {
                                         return Row(
                                           children: [
                                             Container(
-                                              margin: const EdgeInsets.symmetric(vertical: 4),
-                                              color: const Color.fromARGB(255, 214, 216, 218),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4),
+                                              color: const Color.fromARGB(
+                                                  255, 214, 216, 218),
                                               height: 12,
                                               width: 40,
                                             ),
@@ -1400,19 +1497,21 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                         );
                                       } else {
                                         return Container(
-                                          margin: const EdgeInsets.symmetric(vertical: 4),
-                                          color: const Color.fromARGB(255, 214, 216, 218),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 4),
+                                          color: const Color.fromARGB(
+                                              255, 214, 216, 218),
                                           height: 12,
                                           width: 40,
                                         );
                                       }
-                                    }
-                                ),
+                                    }),
                               ),
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 4),
                                 color: const Color.fromARGB(255, 214, 216, 218),
-                                width: 100 - (getIsMobileSize(context) ? 28 : 0),
+                                width:
+                                    100 - (getIsMobileSize(context) ? 28 : 0),
                                 height: 10,
                               ),
                             ],
@@ -1420,44 +1519,51 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         ],
                       ),
                     );
-                  }
-              ),
+                  }),
             ),
           ),
         ],
       ),
     );
   }
+
   // TODO: END
 
   // TODO: CREATION CONTENT STEPPING STONE
-  Widget _creationsContentSteppingStone(){
+  Widget _creationsContentSteppingStone() {
     return Container(
-      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 93 +  (getIsMobileSize(context) ? 71 : 0)),
+      margin: EdgeInsets.only(
+          top: 76 - (getIsMobileSize(context) ? 71 : 0),
+          bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
       // height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: CreationSubHeaderTitle(
+            padding: EdgeInsets.symmetric(
+              horizontal: getIsMobileSize(context) ? 28 : 0,
+            ),
+            child: const CreationSubHeaderTitle(
               titleText: "Another Project",
-              subTitleText: "Check out the projects that showcase the diversity of my skills that I've explored.",
+              subTitleText:
+                  "Check out the projects that showcase the diversity of my skills that I've explored.",
             ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: ScrollConfiguration(
-              behavior: ScrollWithDragBehavior(),  // My Custom Behavior for Drag ListView
+              behavior: ScrollWithDragBehavior(),
+              // My Custom Behavior for Drag ListView
               child: ListView.builder(
-                  padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
+                  padding:
+                      EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
                   itemCount: Data.anotherCreations.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return _buildListItemSteppingStone(context, index, Data.anotherCreations);
-                  }
-              ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildListItemSteppingStone(
+                        context, index, Data.anotherCreations);
+                  }),
             ),
           ),
         ],
@@ -1465,10 +1571,12 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _buildListItemSteppingStone(BuildContext context, int index, List<ProjectItemData> anotherCreationsData) {
+  Widget _buildListItemSteppingStone(BuildContext context, int index,
+      List<ProjectItemData> anotherCreationsData) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    final ProjectItemData itemData = anotherCreationsData[index]; // Ambil data pada indeks tertentu
+    final ProjectItemData itemData =
+        anotherCreationsData[index]; // Ambil data pada indeks tertentu
     final Image itemImage = Image.asset(
       itemData.projectImagePathCover,
       fit: BoxFit.cover,
@@ -1476,7 +1584,8 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     final BlurHashImage itemImageHash = BlurHashImage(
       itemData.projectImagePathCoverHash,
     );
-    final DateTime itemDate = DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
+    final DateTime itemDate =
+        DateTime.fromMillisecondsSinceEpoch(itemData.timestampDateCreated);
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
 
     return HighlightedWidgetOnHover(
@@ -1511,7 +1620,11 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             ),
             SizedBox(
               height: 26,
-              child: Text(itemData.projectName, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24),),
+              child: Text(
+                itemData.projectName,
+                style: StyleUtil.text_Base_Regular.copyWith(
+                    color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_24),
+              ),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -1526,18 +1639,28 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: itemData.projectCategories.length,
-                    itemBuilder: (BuildContext context, int indexCategories){
-                        return Text(itemData.projectCategories[indexCategories], style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
+                    itemBuilder: (BuildContext context, int indexCategories) {
+                      return Text(
+                        itemData.projectCategories[indexCategories],
+                        style: StyleUtil.text_xs_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
+                        ),
+                      );
                     },
                     separatorBuilder: (context, index) {
-                      return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
+                      return Text(
+                        "  ·  ",
+                        style: StyleUtil.text_xs_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
+                        ),
+                      );
                     },
                   ),
                 ),
                 Text(
                   dateFormatter.format(itemDate),
-                  style: TextStyle(
-                    fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                  style: StyleUtil.text_xs_Regular.copyWith(
+                    color: StyleUtil.c_170,
                   ),
                 ),
               ],
@@ -1548,33 +1671,39 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
     );
   }
 
-  Widget _creationsContentSteppingStoneShimmer(){
+  Widget _creationsContentSteppingStoneShimmer() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
-      margin: EdgeInsets.only(top: 76 - (getIsMobileSize(context) ? 71 : 0), bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
+      margin: EdgeInsets.only(
+          top: 76 - (getIsMobileSize(context) ? 71 : 0),
+          bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
       // height: 338 - (getIsMobileSize(context) ? 71 : 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
-            child: CreationSubHeaderTitle(
+            padding: EdgeInsets.symmetric(
+              horizontal: getIsMobileSize(context) ? 28 : 0,
+            ),
+            child: const CreationSubHeaderTitle(
               titleText: "Another Project",
-              subTitleText: "Check out the projects that showcase the diversity of my skills that I've explored.",
+              subTitleText:
+                  "Check out the projects that showcase the diversity of my skills that I've explored.",
             ),
           ),
           Container(
             margin: const EdgeInsets.only(top: 26),
             height: 286 - (getIsMobileSize(context) ? 71 : 0),
             child: Shimmer.fromColors(
-              baseColor: isDarkMode ? _styleUtil.c_61 : _styleUtil.c_170,
-              highlightColor: isDarkMode ? _styleUtil.c_33 : _styleUtil.c_238,
+              baseColor: isDarkMode ? StyleUtil.c_61 : StyleUtil.c_170,
+              highlightColor: isDarkMode ? StyleUtil.c_33 : StyleUtil.c_238,
               child: ListView.builder(
-                  padding: EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
+                  padding:
+                      EdgeInsets.only(left: getIsMobileSize(context) ? 28 : 0),
                   scrollDirection: Axis.horizontal,
                   itemCount: 4,
-                  itemBuilder: (BuildContext context, int index){
+                  itemBuilder: (BuildContext context, int index) {
                     return Container(
                       margin: const EdgeInsets.only(right: 28),
                       width: 359 - (getIsMobileSize(context) ? 28 * 4 : 0),
@@ -1604,19 +1733,25 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                               Container(
                                 height: 16,
                                 constraints: BoxConstraints(
-                                  maxWidth: 257 - (getIsMobileSize(context) ? 28 * 4 : 0),
+                                  maxWidth: 257 -
+                                      (getIsMobileSize(context) ? 28 * 4 : 0),
                                 ),
                                 child: ListView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 3,
-                                    itemBuilder: (BuildContext context, int indexCategories){
-                                      if(indexCategories < 3 - 1){
+                                    itemBuilder: (BuildContext context,
+                                        int indexCategories) {
+                                      if (indexCategories < 3 - 1) {
                                         return Row(
                                           children: [
                                             Container(
-                                              margin: const EdgeInsets.symmetric(vertical: 4),
-                                              color: const Color.fromARGB(255, 214, 216, 218),
+                                              margin:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 4),
+                                              color: const Color.fromARGB(
+                                                  255, 214, 216, 218),
                                               height: 12,
                                               width: 40,
                                             ),
@@ -1625,19 +1760,21 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                                         );
                                       } else {
                                         return Container(
-                                          margin: const EdgeInsets.symmetric(vertical: 4),
-                                          color: const Color.fromARGB(255, 214, 216, 218),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 4),
+                                          color: const Color.fromARGB(
+                                              255, 214, 216, 218),
                                           height: 12,
                                           width: 40,
                                         );
                                       }
-                                    }
-                                ),
+                                    }),
                               ),
                               Container(
                                 margin: const EdgeInsets.symmetric(vertical: 4),
                                 color: const Color.fromARGB(255, 214, 216, 218),
-                                width: 100 - (getIsMobileSize(context) ? 28 : 0),
+                                width:
+                                    100 - (getIsMobileSize(context) ? 28 : 0),
                                 height: 10,
                               ),
                             ],
@@ -1645,17 +1782,17 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
                         ],
                       ),
                     );
-                  }
-              ),
+                  }),
             ),
           ),
         ],
       ),
     );
   }
+
   // TODO: END
 
-  Widget _footerTechnology(){
+  Widget _footerTechnology() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 39),
       child: Center(
@@ -1665,10 +1802,24 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Built with  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Tooltip(message: "Flutter Framework", child: Image.asset(_iconUtil.flutterLogo)),
-              Text("  and  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170),),
-              Tooltip(message: "Firebase RTDB", child: Image.asset(_iconUtil.firebaseLogoNew)),
+              Text(
+                "Built with  ",
+                style: StyleUtil.text_xs_Regular.copyWith(
+                  color: StyleUtil.c_170,
+                ),
+              ),
+              Tooltip(
+                  message: "Flutter Framework",
+                  child: Image.asset(IconUtil.flutterLogo)),
+              Text(
+                "  and  ",
+                style: StyleUtil.text_xs_Regular.copyWith(
+                  color: StyleUtil.c_170,
+                ),
+              ),
+              Tooltip(
+                  message: "Firebase RTDB",
+                  child: Image.asset(IconUtil.firebaseLogoNew)),
             ],
           ),
         ),
@@ -1692,7 +1843,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       left: rectWelcome.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -1714,7 +1865,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       left: rectHistory.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -1736,7 +1887,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       left: rectFurther.left,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+          color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
           shape: BoxShape.circle,
         ),
       ),
@@ -1763,7 +1914,7 @@ class _CreationPageState extends ConsumerState<CreationPage> with SingleTickerPr
       child: AnimatedContainer(
         duration: animationDuration,
         decoration: BoxDecoration(
-            color: (isDarkMode) ? _styleUtil.c_61 : _styleUtil.c_170,
+            color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
             shape: BoxShape.rectangle),
       ),
     );
@@ -1774,14 +1925,11 @@ class CreationsHeaderTitle extends ConsumerWidget {
   final String titleText;
   final String subTitleText;
 
-  CreationsHeaderTitle({
+  const CreationsHeaderTitle({
     super.key,
     required this.titleText,
     required this.subTitleText,
   });
-
-  // general
-  final StyleUtil _styleUtil = StyleUtil();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -1789,11 +1937,13 @@ class CreationsHeaderTitle extends ConsumerWidget {
 
     return Container(
       padding: const EdgeInsets.only(bottom: 36),
-      margin: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 28 : 0,),
+      margin: EdgeInsets.symmetric(
+        horizontal: getIsMobileSize(context) ? 28 : 0,
+      ),
       constraints: const BoxConstraints(
         maxWidth: 471,
       ),
-      color: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+      color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1804,15 +1954,16 @@ class CreationsHeaderTitle extends ConsumerWidget {
               fit: BoxFit.fill,
               child: Text(
                 titleText,
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 20,
-                    color: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_61
-                ),
+                style: StyleUtil.text_lg_Regular.copyWith(
+                    color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_61),
               ),
             ),
           ),
-          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text(
+            subTitleText,
+            style: StyleUtil.text_Base_Regular.copyWith(
+                color: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61),
+          ),
         ],
       ),
     );
@@ -1823,22 +1974,18 @@ class CreationSubHeaderTitle extends ConsumerWidget {
   final String titleText;
   final String subTitleText;
 
-  CreationSubHeaderTitle({
+  const CreationSubHeaderTitle({
     super.key,
     required this.titleText,
     required this.subTitleText,
   });
-
-  final StyleUtil _styleUtil = StyleUtil();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return ConstrainedBox(
-      constraints: const BoxConstraints(
-        maxWidth: 471
-      ),
+      constraints: const BoxConstraints(maxWidth: 471),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1847,14 +1994,22 @@ class CreationSubHeaderTitle extends ConsumerWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: SizedBox(
               height: 26,
-              child: Text(titleText, style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_24),),
+              child: Text(
+                titleText,
+                style: StyleUtil.text_lg_Regular.copyWith(
+                  color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_24,
+                ),
+              ),
             ),
           ),
-          Text(subTitleText, style: TextStyle(fontFamily: 'Lato', fontSize: 16, color: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61),),
+          Text(
+            subTitleText,
+            style: StyleUtil.text_Base_Regular.copyWith(
+              color: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+            ),
+          ),
         ],
       ),
     );
   }
 }
-
-

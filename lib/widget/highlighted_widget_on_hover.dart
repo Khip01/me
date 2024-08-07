@@ -25,9 +25,6 @@ class HighlightedWidgetOnHover extends ConsumerStatefulWidget {
 }
 
 class _HighlightedWidgetOnHoverState extends ConsumerState<HighlightedWidgetOnHover> {
-  // general
-  final StyleUtil _styleUtil = StyleUtil();
-
   bool widgetIshovered = false;
 
   @override
@@ -47,7 +44,7 @@ class _HighlightedWidgetOnHoverState extends ConsumerState<HighlightedWidgetOnHo
               width: widget.widgetWidth,
               decoration: BoxDecoration(
                 borderRadius: widget.customBorderRadius ?? BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
-                color: widgetIshovered ? _styleUtil.c_170.withOpacity(.1) : Colors.transparent,
+                color: widgetIshovered ? StyleUtil.c_170.withOpacity(.1) : Colors.transparent,
               ),
             ),
           ),

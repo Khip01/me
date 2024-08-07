@@ -31,9 +31,6 @@ class HistoryDetailPage extends ConsumerStatefulWidget {
 }
 
 class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   final historyItemController = ItemScrollController();
 
   final double appBarHeight = 80;
@@ -62,7 +59,7 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
 
     return SelectionArea(
       child: Scaffold(
-        backgroundColor: (isDarkMode) ? _styleUtil.c_33 : _styleUtil.c_255,
+        backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
         body: Stack(
           children: [
             SizedBox(
@@ -79,8 +76,16 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
               ),
             ),
             ImagePreview(
-              images: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageList,
-              imagesHash: widget.historyData.historyDocumentations![ref.watch(indexDocumentation) ?? widget.index].docImageListHash,
+              images: widget
+                  .historyData
+                  .historyDocumentations![
+                      ref.watch(indexDocumentation) ?? widget.index]
+                  .docImageList,
+              imagesHash: widget
+                  .historyData
+                  .historyDocumentations![
+                      ref.watch(indexDocumentation) ?? widget.index]
+                  .docImageListHash,
               // isPreviewMode: ref.watch(isPreviewMode),
               isPreviewMode: indexPreviewed,
               callbackPreviewMode: (activeIndex) => setState(() {
@@ -109,10 +114,15 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
               width: 33,
               child: Center(
                 child: TextHighlightDecider(
-                  isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                  colorStart: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
-                  colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
-                  actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
+                  isCompactMode:
+                      getIsMobileSize(context) || getIsTabletSize(context),
+                  colorStart: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+                  colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
+                  actionDelay: Duration(
+                      milliseconds:
+                          (getIsMobileSize(context) || getIsTabletSize(context))
+                              ? 500
+                              : 100),
                   additionalOnTapAction: () => context.goNamed("history"),
                   builder: (color) {
                     return Icon(
@@ -134,13 +144,17 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
               children: [
                 Text(
                   "Documentation",
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 14, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),
+                  style: StyleUtil.text_small_Regular.copyWith(
+                    color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
+                  ),
                 ),
                 Text(
                   widget.historyData.historyTitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontFamily: 'Lato', fontSize: 20, color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61),
+                  style: StyleUtil.text_lg_Regular.copyWith(
+                    color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_61,
+                  ),
                 ),
               ],
             ),
@@ -197,7 +211,8 @@ class _ItemHistorySectionState extends State<ItemHistorySection> {
   @override
   void initState() {
     super.initState();
-    historyItemDocumentation = widget.historyItemData.historyDocumentations![widget.index];
+    historyItemDocumentation =
+        widget.historyItemData.historyDocumentations![widget.index];
   }
 
   @override
@@ -209,7 +224,8 @@ class _ItemHistorySectionState extends State<ItemHistorySection> {
           maxWidth: 1100,
           minHeight: MediaQuery.sizeOf(context).height - widget.appBarHeight,
         ),
-        margin: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 15 : 28),
+        margin: EdgeInsets.symmetric(
+            horizontal: getIsMobileSize(context) ? 15 : 28),
         width: double.maxFinite,
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -220,8 +236,10 @@ class _ItemHistorySectionState extends State<ItemHistorySection> {
     );
   }
 
-  Widget historyModeDecider(BoxConstraints constraints){
-    if(getIsMobileSize(context) || getIsTabletSize(context) || getIsDesktopSmSize(context)){
+  Widget historyModeDecider(BoxConstraints constraints) {
+    if (getIsMobileSize(context) ||
+        getIsTabletSize(context) ||
+        getIsDesktopSmSize(context)) {
       return ContentItemHistoryVertical(
         itemIndex: widget.index,
         constraints: constraints,
@@ -266,18 +284,22 @@ class ContentItemHistoryVertical extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ContentItemHistoryVertical> createState() => _ContentItemHistoryVerticalState();
+  ConsumerState<ContentItemHistoryVertical> createState() =>
+      _ContentItemHistoryVerticalState();
 }
 
-class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryVertical> {
-  final StyleUtil _styleUtil = StyleUtil();
-
+class _ContentItemHistoryVerticalState
+    extends ConsumerState<ContentItemHistoryVertical> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Padding(
-      padding: EdgeInsets.only(bottom: widget.itemIndex == widget.historyItemData.historyDocumentations!.length-1 ? 0 : (getIsMobileSize(context) ? 64 : 40)),
+      padding: EdgeInsets.only(
+          bottom: widget.itemIndex ==
+                  widget.historyItemData.historyDocumentations!.length - 1
+              ? 0
+              : (getIsMobileSize(context) ? 64 : 40)),
       child: Container(
         width: double.maxFinite,
         constraints: BoxConstraints(
@@ -288,16 +310,17 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
           children: [
             // TODO: TOP SIDE
             Container(
-              padding: const EdgeInsets.only(bottom: 20), //
+              padding: const EdgeInsets.only(bottom: 20),
+              //
               clipBehavior: Clip.antiAlias,
               height: widget.constraints.minHeight / 2,
               width: double.maxFinite,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(getIsMobileSize(context) ? 0 : 20), //
-                    topRight: Radius.circular(getIsMobileSize(context) ? 0 : 20), //
-                  )
-              ),
+                topLeft: Radius.circular(getIsMobileSize(context) ? 0 : 20),
+                //
+                topRight: Radius.circular(getIsMobileSize(context) ? 0 : 20), //
+              )),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -308,7 +331,8 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                   // ),
                   ListImageSection(
                     images: widget.historyItemDocumentation.docImageList,
-                    imagesHash: widget.historyItemDocumentation.docImageListHash,
+                    imagesHash:
+                        widget.historyItemDocumentation.docImageListHash,
                     imagePlaceholderFit: BoxFit.cover,
                     listViewHeight: widget.constraints.maxHeight,
                     imageWidth: widget.constraints.maxWidth,
@@ -322,7 +346,8 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                       );
                     },
                     customOnTapItem: () {
-                      ref.read(indexDocumentation.notifier).state = widget.itemIndex;
+                      ref.read(indexDocumentation.notifier).state =
+                          widget.itemIndex;
                     },
                     callbackPreviewMode: (activeIndex) => setState(() {
                       widget.callbackPreviewMode(activeIndex);
@@ -333,15 +358,19 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
             ),
             // TODO: BOTTOM SIDE
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: getIsMobileSize(context) ? 0 : 0),
-              child: Column( // removed sizedbox and layout builder
+              padding: EdgeInsets.symmetric(
+                  horizontal: getIsMobileSize(context) ? 0 : 0),
+              child: Column(
+                // removed sizedbox and layout builder
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox( // container -> sizedbox
+                  SizedBox(
+                    // container -> sizedbox
                     width: double.maxFinite, // constraints
                     child: Padding(
                       padding: const EdgeInsets.only(top: 10), //
-                      child: Column( // removed alignment bottom center
+                      child: Column(
+                        // removed alignment bottom center
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -349,10 +378,10 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
                               widget.historyItemDocumentation.docType,
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 14,
-                                color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+                              style: StyleUtil.text_small_Regular.copyWith(
+                                color: isDarkMode
+                                    ? StyleUtil.c_238
+                                    : StyleUtil.c_61,
                               ),
                             ),
                           ),
@@ -360,26 +389,26 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                             padding: const EdgeInsets.only(bottom: 5),
                             child: Text(
                               widget.historyItemDocumentation.docTitle,
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 20,
-                                color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
+                              style: StyleUtil.text_lg_Regular.copyWith(
+                                color: isDarkMode
+                                    ? StyleUtil.c_255
+                                    : StyleUtil.c_61,
                               ),
                             ),
                           ),
                           Text(
                             widget.historyItemDocumentation.docDesc,
-                            style: TextStyle(
-                              fontFamily: 'Lato',
-                              fontSize: 16,
-                              color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
+                            style: StyleUtil.text_Base_Regular.copyWith(
+                              color:
+                                  isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-                  if (widget.historyItemDocumentation.docRelatedProjects != null)
+                  if (widget.historyItemDocumentation.docRelatedProjects !=
+                      null)
                     relatedProjectSection(context, ref),
                 ],
               ),
@@ -390,10 +419,11 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
     );
   }
 
-  Widget relatedProjectSection(BuildContext context, WidgetRef ref){
+  Widget relatedProjectSection(BuildContext context, WidgetRef ref) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    return Padding( // removed flexible
+    return Padding(
+        // removed flexible
         padding: const EdgeInsets.only(top: 10),
         child: SizedBox(
           width: double.maxFinite,
@@ -412,18 +442,17 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                       padding: const EdgeInsets.symmetric(vertical: 6),
                       child: Text(
                         "Related Project",
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 16,
-                          color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
+                        style: StyleUtil.text_Base_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_24,
                         ),
                       ),
                     ),
                     SizedBox(
                       width: double.maxFinite,
                       height: 4,
-                      child: DecoratedBox(decoration: BoxDecoration(
-                        color: _styleUtil.c_170,
+                      child: DecoratedBox(
+                          decoration: BoxDecoration(
+                        color: StyleUtil.c_170,
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           bottomRight: Radius.circular(20),
@@ -431,8 +460,8 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                         boxShadow: [
                           BoxShadow(
                             color: (isDarkMode)
-                                ? _styleUtil.c_170
-                                : _styleUtil.c_170,
+                                ? StyleUtil.c_170
+                                : StyleUtil.c_170,
                             blurRadius: 5.0,
                           ),
                         ],
@@ -446,26 +475,31 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  for(int index = 0; index < widget.historyItemDocumentation.docRelatedProjects!.length; index++)
+                  for (int index = 0;
+                      index <
+                          widget.historyItemDocumentation.docRelatedProjects!
+                              .length;
+                      index++)
                     itemRelatedProject(context, ref, index),
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 
-  Widget itemRelatedProject(BuildContext context, WidgetRef ref, int index){
+  Widget itemRelatedProject(BuildContext context, WidgetRef ref, int index) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return HighlightedWidgetOnHover(
       onTapAction: () => context.goNamed(
         "details_creation",
         queryParameters: {
-          "id": widget.historyItemDocumentation.docRelatedProjects![index].projectId,
+          "id": widget
+              .historyItemDocumentation.docRelatedProjects![index].projectId,
         },
-        extra: "/history/details?index=${widget.itemIndex}&id=${widget.historyItemData.historyItemDataId}",
+        extra:
+            "/history/details?index=${widget.itemIndex}&id=${widget.historyItemData.historyItemDataId}",
       ),
       widgetHeight: 125,
       widgetWidth: double.maxFinite,
@@ -491,12 +525,16 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: BlurHashImage(
-                        widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                        widget
+                            .historyItemDocumentation
+                            .docRelatedProjects![index]
+                            .projectImagePathListHash[0],
                       ),
                     ),
                   ),
                   child: Image.asset(
-                    widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                    widget.historyItemDocumentation.docRelatedProjects![index]
+                        .projectImagePathList[0],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -509,11 +547,10 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.historyItemDocumentation.docRelatedProjects![index].projectName,
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 16,
-                          color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
+                        widget.historyItemDocumentation
+                            .docRelatedProjects![index].projectName,
+                        style: StyleUtil.text_Base_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_24,
                         ),
                       ),
                       SizedBox(
@@ -522,31 +559,46 @@ class _ContentItemHistoryVerticalState extends ConsumerState<ContentItemHistoryV
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: widget.historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
-                          itemBuilder: (BuildContext context, int indexCategories){
+                          itemCount: widget
+                              .historyItemDocumentation
+                              .docRelatedProjects![index]
+                              .projectCategories
+                              .length,
+                          itemBuilder:
+                              (BuildContext context, int indexCategories) {
                             return Text(
-                              widget.historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 12,
-                                color: isDarkMode ?
-                                _styleUtil.c_238 :
-                                _styleUtil.c_61,
+                              widget
+                                  .historyItemDocumentation
+                                  .docRelatedProjects![index]
+                                  .projectCategories[indexCategories],
+                              style: StyleUtil.text_xs_Regular.copyWith(
+                                color: isDarkMode
+                                    ? StyleUtil.c_238
+                                    : StyleUtil.c_61,
                               ),
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
+                            return Text(
+                              "  ·  ",
+                              style: StyleUtil.text_xs_Regular.copyWith(
+                                color: isDarkMode
+                                    ? StyleUtil.c_238
+                                    : StyleUtil.c_61,
+                              ),
+                            );
                           },
                         ),
                       ),
                       const Spacer(),
                       Text(
                         widget.dateFormatter.format(
-                            DateTime.fromMillisecondsSinceEpoch(widget.historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
-                        ),
-                        style: TextStyle(
-                          fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                            DateTime.fromMillisecondsSinceEpoch(widget
+                                .historyItemDocumentation
+                                .docRelatedProjects![index]
+                                .timestampDateCreated)),
+                        style: StyleUtil.text_xs_Regular.copyWith(
+                          color: StyleUtil.c_170,
                         ),
                       ),
                     ],
@@ -580,12 +632,12 @@ class ContentItemHistoryHorizontal extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ContentItemHistoryHorizontal> createState() => _ContentItemHistoryHorizontalState();
+  ConsumerState<ContentItemHistoryHorizontal> createState() =>
+      _ContentItemHistoryHorizontalState();
 }
 
-class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistoryHorizontal> {
-  final StyleUtil _styleUtil = StyleUtil();
-
+class _ContentItemHistoryHorizontalState
+    extends ConsumerState<ContentItemHistoryHorizontal> {
   final GlobalKey widgetRightSideKey = GlobalKey();
 
   Size? widgetRightSideSize;
@@ -601,141 +653,142 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
       ),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 40, top: 40),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return Container(
-              constraints: BoxConstraints(
-                  minHeight: constraints.minHeight
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // TODO: LEFT SIDE
-                  Container(
-                    padding: const EdgeInsets.only(right: 20),
-                    clipBehavior: Clip.antiAlias,
-                    width: constraints.maxWidth / 2,
-                    height: getWidgetSize(widgetRightSideKey.currentContext)?.height ?? constraints.minHeight,
-                    decoration: const BoxDecoration(
-                      border: Border.fromBorderSide(BorderSide.none),
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                      ),
-                    ),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            // Positioned.fill(
-                            //   child: BlurredImage(
-                            //     imageAsset: historyItemDocumentation.docImageList[0],
-                            //     imageAssetHash: historyItemDocumentation.docImageListHash[0],
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            // ),
-                            ListImageSection(
-                              images: widget.historyItemDocumentation.docImageList,
-                              imagesHash: widget.historyItemDocumentation.docImageListHash,
-                              imagePlaceholderFit: BoxFit.cover,
-                              listViewHeight: constraints.maxHeight,
-                              imageWidth: constraints.maxWidth,
-                              customBackgroundImageColor: Colors.transparent,
-                              customBorderCircularValue: 0,
-                              childImageBuilder: <Widget>(image, hash) {
-                                return Center(
-                                  child: Image.asset(
-                                    image,
-                                    fit: BoxFit.contain,
-                                  ),
-                                );
-                              },
-                              customOnTapItem: () {
-                                ref.read(indexDocumentation.notifier).state = widget.itemIndex;
-                              },
-                              callbackPreviewMode: (activeIndex) => setState(() {
-                                widget.callbackPreviewMode(activeIndex);
-                              }),
-                            ),
-                          ],
-                        );
-                      }
+        child: LayoutBuilder(builder: (context, constraints) {
+          return Container(
+            constraints: BoxConstraints(minHeight: constraints.minHeight),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // TODO: LEFT SIDE
+                Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  clipBehavior: Clip.antiAlias,
+                  width: constraints.maxWidth / 2,
+                  height: getWidgetSize(widgetRightSideKey.currentContext)
+                          ?.height ??
+                      constraints.minHeight,
+                  decoration: const BoxDecoration(
+                    border: Border.fromBorderSide(BorderSide.none),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      topLeft: Radius.circular(20),
                     ),
                   ),
-                  // TODO: RIGHT SIDE
-                  Container(
-                    key: widgetRightSideKey,
-                    width: constraints.maxWidth / 2,
-                    constraints: BoxConstraints(
-                      minHeight: constraints.minHeight,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    return Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Container(
-                          constraints: BoxConstraints(
-                            minHeight: constraints.minHeight / 2,
-                          ),
-                          width: double.maxFinite,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      widget.historyItemDocumentation.docType,
-                                      style: TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 14,
-                                        color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      widget.historyItemDocumentation.docTitle,
-                                      style: TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 20,
-                                        color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_61,
-                                      ),
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.historyItemDocumentation.docDesc,
-                                    style: TextStyle(
-                                      fontFamily: 'Lato',
-                                      fontSize: 16,
-                                      color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61,
-                                    ),
-                                  ),
-                                ],
+                        // Positioned.fill(
+                        //   child: BlurredImage(
+                        //     imageAsset: historyItemDocumentation.docImageList[0],
+                        //     imageAssetHash: historyItemDocumentation.docImageListHash[0],
+                        //     fit: BoxFit.cover,
+                        //   ),
+                        // ),
+                        ListImageSection(
+                          images: widget.historyItemDocumentation.docImageList,
+                          imagesHash:
+                              widget.historyItemDocumentation.docImageListHash,
+                          imagePlaceholderFit: BoxFit.cover,
+                          listViewHeight: constraints.maxHeight,
+                          imageWidth: constraints.maxWidth,
+                          customBackgroundImageColor: Colors.transparent,
+                          customBorderCircularValue: 0,
+                          childImageBuilder: <Widget>(image, hash) {
+                            return Center(
+                              child: Image.asset(
+                                image,
+                                fit: BoxFit.contain,
                               ),
+                            );
+                          },
+                          customOnTapItem: () {
+                            ref.read(indexDocumentation.notifier).state =
+                                widget.itemIndex;
+                          },
+                          callbackPreviewMode: (activeIndex) => setState(() {
+                            widget.callbackPreviewMode(activeIndex);
+                          }),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
+                // TODO: RIGHT SIDE
+                Container(
+                  key: widgetRightSideKey,
+                  width: constraints.maxWidth / 2,
+                  constraints: BoxConstraints(
+                    minHeight: constraints.minHeight,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        constraints: BoxConstraints(
+                          minHeight: constraints.minHeight / 2,
+                        ),
+                        width: double.maxFinite,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 20, top: 20, bottom: 20),
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: Text(
+                                    widget.historyItemDocumentation.docType,
+                                    style:
+                                        StyleUtil.text_small_Regular.copyWith(
+                                      color: isDarkMode
+                                          ? StyleUtil.c_238
+                                          : StyleUtil.c_61,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: Text(
+                                    widget.historyItemDocumentation.docTitle,
+                                    style: StyleUtil.text_lg_Regular.copyWith(
+                                      color: isDarkMode
+                                          ? StyleUtil.c_255
+                                          : StyleUtil.c_61,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  widget.historyItemDocumentation.docDesc,
+                                  style: StyleUtil.text_Base_Regular.copyWith(
+                                    color: isDarkMode
+                                        ? StyleUtil.c_238
+                                        : StyleUtil.c_61,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        if (widget.historyItemDocumentation.docRelatedProjects != null)
-                          relatedProjectSection(context, ref),
-                      ],
-                    ),
+                      ),
+                      if (widget.historyItemDocumentation.docRelatedProjects !=
+                          null)
+                        relatedProjectSection(context, ref),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }
-        ),
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
 
-  Widget relatedProjectSection(BuildContext context, WidgetRef ref){
+  Widget relatedProjectSection(BuildContext context, WidgetRef ref) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Padding(
@@ -755,27 +808,25 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     child: Text(
                       "Related Creations",
-                      style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontSize: 16,
-                        color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
+                      style: StyleUtil.text_Base_Regular.copyWith(
+                        color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_24,
                       ),
                     ),
                   ),
                   SizedBox(
                     width: double.maxFinite,
                     height: 4,
-                    child: DecoratedBox(decoration: BoxDecoration(
-                      color: _styleUtil.c_170,
+                    child: DecoratedBox(
+                        decoration: BoxDecoration(
+                      color: StyleUtil.c_170,
                       borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: (isDarkMode)
-                              ? _styleUtil.c_170
-                              : _styleUtil.c_170,
+                          color:
+                              (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_170,
                           blurRadius: 5.0,
                         ),
                       ],
@@ -789,13 +840,16 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                for(int index = 0; index < widget.historyItemDocumentation.docRelatedProjects!.length; index++)
+                for (int index = 0;
+                    index <
+                        widget.historyItemDocumentation.docRelatedProjects!
+                            .length;
+                    index++)
                   itemRelatedProject(context, ref, index),
               ],
             )
           ],
-        )
-    );
+        ));
   }
 
   Widget itemRelatedProject(BuildContext context, WidgetRef ref, int index) {
@@ -805,9 +859,11 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
       onTapAction: () => context.goNamed(
         "details_creation",
         queryParameters: {
-          "id": widget.historyItemDocumentation.docRelatedProjects![index].projectId,
+          "id": widget
+              .historyItemDocumentation.docRelatedProjects![index].projectId,
         },
-        extra: "/history/details?index=${widget.itemIndex}&id=${widget.historyItemData.historyItemDataId}",
+        extra:
+            "/history/details?index=${widget.itemIndex}&id=${widget.historyItemData.historyItemDataId}",
       ),
       widgetHeight: 125,
       widgetWidth: double.maxFinite,
@@ -833,12 +889,16 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: BlurHashImage(
-                        widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathListHash[0],
+                        widget
+                            .historyItemDocumentation
+                            .docRelatedProjects![index]
+                            .projectImagePathListHash[0],
                       ),
                     ),
                   ),
                   child: Image.asset(
-                    widget.historyItemDocumentation.docRelatedProjects![index].projectImagePathList[0],
+                    widget.historyItemDocumentation.docRelatedProjects![index]
+                        .projectImagePathList[0],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -851,11 +911,10 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.historyItemDocumentation.docRelatedProjects![index].projectName,
-                        style: TextStyle(
-                          fontFamily: 'Lato',
-                          fontSize: 16,
-                          color: isDarkMode ? _styleUtil.c_255 : _styleUtil.c_24,
+                        widget.historyItemDocumentation
+                            .docRelatedProjects![index].projectName,
+                        style: StyleUtil.text_Base_Regular.copyWith(
+                          color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_24,
                         ),
                       ),
                       SizedBox(
@@ -864,31 +923,46 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
                         child: ListView.separated(
                           physics: const NeverScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: widget.historyItemDocumentation.docRelatedProjects![index].projectCategories.length,
-                          itemBuilder: (BuildContext context, int indexCategories){
+                          itemCount: widget
+                              .historyItemDocumentation
+                              .docRelatedProjects![index]
+                              .projectCategories
+                              .length,
+                          itemBuilder:
+                              (BuildContext context, int indexCategories) {
                             return Text(
-                              widget.historyItemDocumentation.docRelatedProjects![index].projectCategories[indexCategories],
-                              style: TextStyle(
-                                fontFamily: 'Lato',
-                                fontSize: 12,
-                                color: isDarkMode ?
-                                _styleUtil.c_238 :
-                                _styleUtil.c_61,
+                              widget
+                                  .historyItemDocumentation
+                                  .docRelatedProjects![index]
+                                  .projectCategories[indexCategories],
+                              style: StyleUtil.text_xs_Regular.copyWith(
+                                color: isDarkMode
+                                    ? StyleUtil.c_238
+                                    : StyleUtil.c_61,
                               ),
                             );
                           },
                           separatorBuilder: (BuildContext context, int index) {
-                            return Text("  ·  ", style: TextStyle(fontFamily: 'Lato', fontSize: 12, color: isDarkMode ? _styleUtil.c_238 : _styleUtil.c_61),);
+                            return Text(
+                              "  ·  ",
+                              style: StyleUtil.text_xs_Regular.copyWith(
+                                color: isDarkMode
+                                    ? StyleUtil.c_238
+                                    : StyleUtil.c_61,
+                              ),
+                            );
                           },
                         ),
                       ),
                       const Spacer(),
                       Text(
                         widget.dateFormatter.format(
-                            DateTime.fromMillisecondsSinceEpoch(widget.historyItemDocumentation.docRelatedProjects![index].timestampDateCreated)
-                        ),
-                        style: TextStyle(
-                          fontFamily: 'Lato', fontSize: 12, color: _styleUtil.c_170,
+                            DateTime.fromMillisecondsSinceEpoch(widget
+                                .historyItemDocumentation
+                                .docRelatedProjects![index]
+                                .timestampDateCreated)),
+                        style: StyleUtil.text_xs_Regular.copyWith(
+                          color: StyleUtil.c_170,
                         ),
                       ),
                     ],
@@ -902,4 +976,3 @@ class _ContentItemHistoryHorizontalState extends ConsumerState<ContentItemHistor
     );
   }
 }
-

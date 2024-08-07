@@ -27,9 +27,6 @@ class ImagePreview extends ConsumerStatefulWidget {
 }
 
 class _ImagePreviewState extends ConsumerState<ImagePreview> {
-  // General
-  final StyleUtil _styleUtil = StyleUtil();
-
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
@@ -45,7 +42,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
         child: Container(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
-          color: _styleUtil.c_61.withOpacity(.7),
+          color: StyleUtil.c_61.withOpacity(.7),
           child: Stack(
             children: [
               InteractiveViewer(
@@ -85,8 +82,8 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                         alignment: Alignment.centerLeft,
                         child: TextHighlightDecider(
                           isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
-                          colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                          colorStart: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                           actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
                           additionalOnTapAction: () => setState(() {
                             widget.callbackPreviewMode(null);
@@ -117,8 +114,8 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 30),
                                 color: ((isDarkMode)
-                                    ? _styleUtil.c_33
-                                    : _styleUtil.c_255).withOpacity(.7),
+                                    ? StyleUtil.c_33
+                                    : StyleUtil.c_255).withOpacity(.7),
                                 boxShadow: [
                                   BoxShadow(
                                     color: (isDarkMode)
@@ -141,8 +138,8 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                       curve: Curves.easeInOut,
                                       child: TextHighlightDecider(
                                         isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                                        colorStart: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
-                                        colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                                        colorStart: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+                                        colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                                         actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
                                         delayAfterAnimation: const Duration(milliseconds: 0),
                                         additionalOnTapAction: () {
@@ -171,8 +168,8 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                       curve: Curves.easeInOut,
                                       child: TextHighlightDecider(
                                         isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                                        colorStart: (isDarkMode) ? _styleUtil.c_170 : _styleUtil.c_61,
-                                        colorEnd: (isDarkMode) ? _styleUtil.c_255 : _styleUtil.c_24,
+                                        colorStart: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+                                        colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                                         actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 0 : 100),
                                         delayAfterAnimation: const Duration(milliseconds: 0),
                                         additionalOnTapAction: () {
