@@ -836,7 +836,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const CreationsHeaderTitle(
+            CreationsHeaderTitle( // Warning: o not add const in this widget
               titleText: "M Y   P R O J E C T   P L A Y G R O U N D",
               subTitleText:
                   "A collection of small projects from my past that reflect my learning journey in the realm of coding.",
@@ -1423,7 +1423,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
             padding: EdgeInsets.symmetric(
               horizontal: getIsMobileSize(context) ? 28 : 0,
             ),
-            child: const CreationSubHeaderTitle(
+            child: CreationSubHeaderTitle( // Warning: o not add const in this widget
               titleText: "Related Projects",
               subTitleText:
                   "Find related portfolios featuring projects related to my area of expertise.",
@@ -1686,7 +1686,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
             padding: EdgeInsets.symmetric(
               horizontal: getIsMobileSize(context) ? 28 : 0,
             ),
-            child: const CreationSubHeaderTitle(
+            child: CreationSubHeaderTitle( // Warning: o not add const in this widget
               titleText: "Another Project",
               subTitleText:
                   "Check out the projects that showcase the diversity of my skills that I've explored.",
