@@ -980,6 +980,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
                         : getIsTabletSize(context)
                             ? 51
                             : 0),
+                width: double.maxFinite,
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
                   image: DecorationImage(
