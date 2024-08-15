@@ -2,12 +2,13 @@ part of 'values.dart';
 
 class Data {
   static List<ProjectItemData> highlightedCreations = [
+    Projects.TODO_LIST_APP,
     Projects.FLUTTER_PORTFOLIO,
     Projects.COMMENT_SECTION_WEB,
-    Projects.RESTAURANT_KHIP01,
   ];
 
   static List<ProjectItemData> relatedCreations = [
+    Projects.TODO_LIST_APP,
     Projects.FLUTTER_PORTFOLIO,
     Projects.COMMENT_SECTION_WEB,
     Projects.RESTAURANT_KHIP01,
@@ -26,7 +27,8 @@ class Data {
 
 class Projects {
   static ProjectItemData CAFEAPP_KHIPCAFE = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.CAFEAPP_KHIPCAFE_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.CAFEAPP_KHIPCAFE_C,
     projectImagePathCoverHash: ImagePath.CAFEAPP_KHIPCAFE_C_HASH,
     projectImagePathList: [
@@ -53,10 +55,12 @@ class Projects {
     linkProjectToGithub: StringConst.CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .CAFEAPP_KHIPCAFE_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData SPPPAYMENT_SPPPAY_V2 = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.SPPPAYMENT_SPPPAY_V2_C,
     projectImagePathCoverHash: ImagePath.SPPPAYMENT_SPPPAY_V2_C_HASH,
     projectImagePathList: [
@@ -84,13 +88,16 @@ class Projects {
     timestampDateCreated: StringConst.SPPPAYMENT_SPPPAY_V2_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_GITHUB,
+    linkProjectToGithub: StringConst
+        .SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .SPPPAYMENT_SPPPAY_V2_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData ROCK_PAPPER_SCISSORS_GAME = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.ROCK_PAPPER_SCISSORS_GAME_C,
     projectImagePathCoverHash: ImagePath.ROCK_PAPPER_SCISSORS_GAME_C_HASH,
     projectImagePathList: [
@@ -102,7 +109,8 @@ class Projects {
       ImagePath.ROCK_PAPPER_SCISSORS_GAME_2_HASH,
     ],
     projectName: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_NAME,
-    projectDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_DESCRIPTION,
+    projectDescription: StringConst
+        .ROCK_PAPPER_SCISSORS_GAME_PROJECT_DESCRIPTION,
     projectCategories: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_CATEGORIES,
     creatorName: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_NAME,
     creatorRole: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_ROLE,
@@ -112,17 +120,22 @@ class Projects {
     creatorPhotoProfilePathHash: [
       ImagePath.KHIP01_PHOTO_PROFILE_HASH,
     ],
-    creatorGithubLink: StringConst.ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK,
-    timestampDateCreated: StringConst.ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED,
+    creatorGithubLink: StringConst
+        .ROCK_PAPPER_SCISSORS_GAME_CREATOR_GITHUB_LINK,
+    timestampDateCreated: StringConst
+        .ROCK_PAPPER_SCISSORS_GAME_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_GITHUB,
+    linkProjectToGithub: StringConst
+        .ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .ROCK_PAPPER_SCISSORS_GAME_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData SPPPAYMENT_SPPPAY = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.SPPPAYMENT_SPPPAY_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.SPPPAYMENT_SPPPAY_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.SPPPAYMENT_SPPPAY_C,
     projectImagePathCoverHash: ImagePath.SPPPAYMENT_SPPPAY_C_HASH,
     projectImagePathList: [
@@ -151,10 +164,12 @@ class Projects {
     linkProjectToGithub: StringConst.SPPPAYMENT_SPPPAY_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.SPPPAYMENT_SPPPAY_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.SPPPAYMENT_SPPPAY_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.SPPPAYMENT_SPPPAY_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .SPPPAYMENT_SPPPAY_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData FIRST_WEB_PORTFOLIO = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.FIRST_WEB_PORTFOLIO_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.FIRST_WEB_PORTFOLIO_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.FIRST_WEB_PORTFOLIO_C,
     projectImagePathCoverHash: ImagePath.FIRST_WEB_PORTFOLIO_C_HASH,
     projectImagePathList: [
@@ -185,10 +200,12 @@ class Projects {
     linkProjectToGithub: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .FIRST_WEB_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData CALCULATOR_GUI_JAVA = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.CALCULATOR_GUI_JAVA_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.CALCULATOR_GUI_JAVA_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.CALCULATOR_GUI_JAVA_C,
     projectImagePathCoverHash: ImagePath.CALCULATOR_GUI_JAVA_C_HASH,
     projectImagePathList: [
@@ -215,10 +232,12 @@ class Projects {
     linkProjectToGithub: StringConst.CALCULATOR_GUI_JAVA_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.CALCULATOR_GUI_JAVA_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.CALCULATOR_GUI_JAVA_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.CALCULATOR_GUI_JAVA_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .CALCULATOR_GUI_JAVA_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData KALKULATOR_BASIC_CPP = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.KALKULATOR_BASIC_CPP_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.KALKULATOR_BASIC_CPP_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.KALKULATOR_BASIC_CPP_C,
     projectImagePathCoverHash: ImagePath.KALKULATOR_BASIC_CPP_C_HASH,
     projectImagePathList: [
@@ -242,13 +261,16 @@ class Projects {
     timestampDateCreated: StringConst.KALKULATOR_BASIC_CPP_DATE_PROJECT_CREATED,
     isProjectRelated: false,
     isProjectHighlighted: false,
-    linkProjectToGithub: StringConst.KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_GITHUB,
+    linkProjectToGithub: StringConst
+        .KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.KALKULATOR_BASIC_CPP_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.KALKULATOR_BASIC_CPP_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .KALKULATOR_BASIC_CPP_ADDITIONAL_LINK_DESCRIPTION,
   );
   static ProjectItemData FLUTTER_PORTFOLIO = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.FLUTTER_PORTFOLIO_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.FLUTTER_PORTFOLIO_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.FLUTTER_PORTFOLIO_C,
     projectImagePathCoverHash: ImagePath.FLUTTER_PORTFOLIO_C_HASH,
     projectImagePathList: [
@@ -275,13 +297,16 @@ class Projects {
     linkProjectToGithub: StringConst.FLUTTER_PORTFOLIO_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.FLUTTER_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.FLUTTER_PORTFOLIO_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.FLUTTER_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .FLUTTER_PORTFOLIO_ADDITIONAL_LINK_DESCRIPTION,
     projectHighlightTopic: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_TOPIC,
     projectHighlightHeader: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_HEADER,
-    projectHighlightDescription: StringConst.FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION,
+    projectHighlightDescription: StringConst
+        .FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData COMMENT_SECTION_WEB = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.COMMENT_SECTION_WEB_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.COMMENT_SECTION_WEB_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.COMMENT_SECTION_WEB_C,
     projectImagePathCoverHash: ImagePath.COMMENT_SECTION_WEB_C_HASH,
     projectImagePathList: [
@@ -308,13 +333,16 @@ class Projects {
     linkProjectToGithub: StringConst.COMMENT_SECTION_WEB_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.COMMENT_SECTION_WEB_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.COMMENT_SECTION_WEB_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.COMMENT_SECTION_WEB_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .COMMENT_SECTION_WEB_ADDITIONAL_LINK_DESCRIPTION,
     projectHighlightTopic: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_TOPIC,
     projectHighlightHeader: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_HEADER,
-    projectHighlightDescription: StringConst.COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION,
+    projectHighlightDescription: StringConst
+        .COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION,
   );
   static ProjectItemData RESTAURANT_KHIP01 = ProjectItemData(
-    projectId: generateShortUniqueIdFromTimestamp(StringConst.RESTAURANT_KHIP01_DATE_PROJECT_CREATED),
+    projectId: generateShortUniqueIdFromTimestamp(
+        StringConst.RESTAURANT_KHIP01_DATE_PROJECT_CREATED),
     projectImagePathCover: ImagePath.RESTAURANT_KHIP01_C,
     projectImagePathCoverHash: ImagePath.RESTAURANT_KHIP01_C_HASH,
     projectImagePathList: [
@@ -345,10 +373,51 @@ class Projects {
     linkProjectToGithub: StringConst.RESTAURANT_KHIP01_PROJECT_LINK_TO_GITHUB,
     linkDemoWeb: StringConst.RESTAURANT_KHIP01_PROJECT_LINK_TO_DEMO_WEB,
     additionalLink: StringConst.RESTAURANT_KHIP01_ADDITIONAL_LINK,
-    additionalLinkDescription: StringConst.RESTAURANT_KHIP01_ADDITIONAL_LINK_DESCRIPTION,
+    additionalLinkDescription: StringConst
+        .RESTAURANT_KHIP01_ADDITIONAL_LINK_DESCRIPTION,
     projectHighlightTopic: StringConst.RESTAURANT_KHIP01_HIGHLIGHT_TOPIC,
     projectHighlightHeader: StringConst.RESTAURANT_KHIP01_HIGHLIGHT_HEADER,
-    projectHighlightDescription: StringConst.RESTAURANT_KHIP01_HIGHLIGHT_DESCRIPTION,
+    projectHighlightDescription: StringConst
+        .RESTAURANT_KHIP01_HIGHLIGHT_DESCRIPTION,
+  );
+  static ProjectItemData TODO_LIST_APP = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.TODOLIST_APP_DATE_PROJECT_CREATED),
+    projectImagePathCover: ImagePath.TODOLIST_APP_C,
+    projectImagePathCoverHash: ImagePath.TODOLIST_APP_C_HASH,
+    projectImagePathList: [
+      ImagePath.TODOLIST_APP_C,
+      ImagePath.TODOLIST_APP_2,
+      ImagePath.TODOLIST_APP_3,
+      ImagePath.TODOLIST_APP_4,
+    ],
+    projectImagePathListHash: [
+      ImagePath.TODOLIST_APP_C_HASH,
+      ImagePath.TODOLIST_APP_2_HASH,
+      ImagePath.TODOLIST_APP_3_HASH,
+      ImagePath.TODOLIST_APP_4_HASH,
+    ],
+    projectName: StringConst.TODOLIST_APP_PROJECT_NAME,
+    projectDescription: StringConst.TODOLIST_APP_PROJECT_DESCRIPTION,
+    projectCategories: StringConst.TODOLIST_APP_PROJECT_CATEGORIES,
+    creatorName: StringConst.TODOLIST_APP_CREATOR_NAME,
+    creatorRole: StringConst.TODOLIST_APP_CREATOR_ROLE,
+    creatorPhotoProfilePath: [
+      ImagePath.KHIP01_PHOTO_PROFILE,
+    ],
+    creatorPhotoProfilePathHash: [
+      ImagePath.KHIP01_PHOTO_PROFILE_HASH,
+    ],
+    creatorGithubLink: StringConst.TODOLIST_APP_CREATOR_GITHUB_LINK,
+    timestampDateCreated: StringConst.TODOLIST_APP_DATE_PROJECT_CREATED,
+    isProjectRelated: true,
+    isProjectHighlighted: true,
+    linkProjectToGithub: StringConst.TODOLIST_APP_PROJECT_LINK_TO_GITHUB,
+    linkDemoWeb: StringConst.TODOLIST_APP_PROJECT_LINK_TO_DEMO_WEB,
+    additionalLink: StringConst.TODOLIST_APP_ADDITIONAL_LINK,
+    additionalLinkDescription: StringConst.TODOLIST_APP_ADDITIONAL_LINK_DESCRIPTION,
+    projectHighlightTopic: StringConst.TODOLIST_APP_HIGHLIGHT_TOPIC,
+    projectHighlightHeader: StringConst.TODOLIST_APP_HIGHLIGHT_HEADER,
+    projectHighlightDescription: StringConst.TODOLIST_APP_HIGHLIGHT_DESCRIPTION,
   );
 }
 

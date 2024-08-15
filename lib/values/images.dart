@@ -66,6 +66,16 @@ class ImagePath {
   static const String SPPPAYMENT_SPPPAY_V2_3 = '$projectDir/spppayment_spppay_v2/spppayment_spppay_v2_3.jpg';
   static const String SPPPAYMENT_SPPPAY_V2_3_HASH = "VlPjllR+?FtPxtoyR+oLo1s.~Tt6IpRkRkRksnbFX7S2"; // (HASH in BlurHash Website Component 5x4)
 
+  // TODOLIST APP
+  static const String TODOLIST_APP_C = '$projectDir/todolist_app/todolist_app_cover.jpg';
+  static const String TODOLIST_APP_C_HASH = "V14U]Txw4#ITM|xn%QW7WJRgIeRd-?j-a*s}tBRetAW9"; // (HASH in BlurHash Website Component 5x4)
+  static const String TODOLIST_APP_2 = '$projectDir/todolist_app/todolist_app_2.jpg';
+  static const String TODOLIST_APP_2_HASH = "V73l2hkDM[ayj^IQf6tBj[acxza|Rfj@j^Rej[tBayW9"; // (HASH in BlurHash Website Component 5x4)
+  static const String TODOLIST_APP_3 = '$projectDir/todolist_app/todolist_app_3.jpg';
+  static const String TODOLIST_APP_3_HASH = "V05#R~Lg0056DiD5o|.TaKNGD7k8%\$%2of03xZ?cV@oe"; // (HASH in BlurHash Website Component 5x4)
+  static const String TODOLIST_APP_4 = '$projectDir/todolist_app/todolist_app_4.jpg';
+  static const String TODOLIST_APP_4_HASH = "V63bd,ofM[WBfnIQaxxfj[avxzayRfj[j_ReoLtBazW9"; // (HASH in BlurHash Website Component 5x4)
+
   // ---------- IMAGES CERTIFICATE PATH ----------
   // Learn to Make Flutter Apps for Beginners
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_01 = '$certificateDir/dicoding_learn_to_make_flutter_apps_for_beginners/dicoding_learn_to_make_flutter_apps_for_beginners_01.jpg';

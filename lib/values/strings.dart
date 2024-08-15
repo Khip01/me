@@ -185,9 +185,9 @@ class StringConst {
   ];
   static const String FLUTTER_PORTFOLIO_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/me";
   static const String FLUTTER_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB = "https://khip01.github.io/me";
-  static const String FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION = "Explore what I've been working on lately";
-  static const String FLUTTER_PORTFOLIO_HIGHLIGHT_HEADER = "Projects that have recently been created";
-  static const String FLUTTER_PORTFOLIO_HIGHLIGHT_TOPIC = "Recently";
+  static const String FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION = "More about my creation of this website";
+  static const String FLUTTER_PORTFOLIO_HIGHLIGHT_HEADER = "About this Portfolio Website";
+  static const String FLUTTER_PORTFOLIO_HIGHLIGHT_TOPIC = "About Me";
   // COMMENT SECTION WEB
   static const String COMMENT_SECTION_WEB_PROJECT_NAME = "Comment Section Web";
   static const String COMMENT_SECTION_WEB_PROJECT_DESCRIPTION = "Create a Simple Chat Web Page and Mobile App that can be used anonymously for everyone! Using Flutter Web technology and Firebase Realtime Database.";
@@ -213,7 +213,7 @@ class StringConst {
   static const String COMMENT_SECTION_WEB_PROJECT_LINK_TO_DEMO_WEB = "https://khip01.github.io/comment_section";
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION = "Projects that use technology that I am interested in exploring";
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_HEADER = "Firebase?! Light up my brother";
-  static const String COMMENT_SECTION_WEB_HIGHLIGHT_TOPIC = "Currently being explored";
+  static const String COMMENT_SECTION_WEB_HIGHLIGHT_TOPIC = "Ever Explored";
   // RESTAURANT_KHIP01
   static const String RESTAURANT_KHIP01_PROJECT_NAME = "Restaurant Khip01";
   static const String RESTAURANT_KHIP01_PROJECT_DESCRIPTION = "Create Simple RESTful API with GO, Complete with simple Mobile and Desktop App";
@@ -244,6 +244,33 @@ class StringConst {
   static const String RESTAURANT_KHIP01_HIGHLIGHT_DESCRIPTION = "Not quite related, but part of my journey";
   static const String RESTAURANT_KHIP01_HIGHLIGHT_HEADER = "My stepping stone";
   static const String RESTAURANT_KHIP01_HIGHLIGHT_TOPIC = "Part of My Journey";
+
+  // TODOLIST APP
+  static const String TODOLIST_APP_PROJECT_NAME = "TodoList App";
+  static const String TODOLIST_APP_PROJECT_DESCRIPTION = "The simplest Todo List application created using Bloc State Management and TodoList data storage with SQLite Embedded Database";
+  static const String TODOLIST_APP_ADDITIONAL_LINK = "https://github.com/Khip01/todo-list-app/releases";
+  static const String TODOLIST_APP_ADDITIONAL_LINK_DESCRIPTION = "release app";
+  static const List<String> TODOLIST_APP_CREATOR_GITHUB_LINK = [
+    "https://github.com/Khip01"
+  ];
+  static const List<String> TODOLIST_APP_CREATOR_NAME = [
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> TODOLIST_APP_CREATOR_ROLE = [
+    "Creator",
+  ];
+  static const int TODOLIST_APP_DATE_PROJECT_CREATED = 1723568400000;
+  static const List<String> TODOLIST_APP_PROJECT_CATEGORIES = [
+    "flutter",
+    "mobile-app",
+    "sqlite",
+    "bloc-pattern",
+  ];
+  static const String TODOLIST_APP_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/todo-list-app";
+  static const String TODOLIST_APP_PROJECT_LINK_TO_DEMO_WEB = "";
+  static const String TODOLIST_APP_HIGHLIGHT_DESCRIPTION = "It was great to get acquainted with BlocPattern and SQLite";
+  static const String TODOLIST_APP_HIGHLIGHT_HEADER = "An approach using New Technology?!";
+  static const String TODOLIST_APP_HIGHLIGHT_TOPIC = "Recently";
 
   // HISTORY -------------------------------------------------------------------
   // Hawari Tiger Engine
