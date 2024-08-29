@@ -320,6 +320,20 @@ class StringConst {
   ];
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_DOCFILELINK = "https://www.dicoding.com/certificates/1OP8N60N1XQK";
 
+  // Polytechnic English Competence Test
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCTYPE = "Certificate";
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCTITLE = "Polytechnic English Competence Test";
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCDESC = "Completing the Polytechnic English Competence Test organized by the State Polytechnic of Malang.";
+  static const List<String> POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCIMAGELIST = [
+    ImagePath.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_01,
+    ImagePath.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_02,
+  ];
+  static const List<String> POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCIMAGELIST_HASH = [
+    ImagePath.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_01_HASH,
+    ImagePath.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_02_HASH,
+  ];
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCFILELINK = "https://drive.google.com/file/d/1koXGZEkwoX8NnTjhejCKeDMOgG_49uzD/view?usp=sharing";
+
   // Getting Started Programming with Dart
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCTYPE = "Certificate";
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_DOCTITLE = "Getting Started Programming with Dart";

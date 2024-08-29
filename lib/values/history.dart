@@ -34,6 +34,7 @@ class Histories {
     historyDescription: StringConst.MALANG_STATE_POLYTECHNIC_DESC,
     historyDocumentations: [
       Documentations.DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS,
+      Documentations.POLYTECHNIC_ENGLISH_COMPETENCE_TEST,
       Documentations.DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART,
     ],
   );
@@ -87,6 +88,15 @@ class Documentations {
         Projects.RESTAURANT_KHIP01,
       ],
     );
+
+  static HistoryItemDocumentation POLYTECHNIC_ENGLISH_COMPETENCE_TEST = HistoryItemDocumentation(
+    docType: StringConst.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCTYPE,
+    docTitle: StringConst.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCTITLE,
+    docDesc: StringConst.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCDESC,
+    docImageList: StringConst.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCIMAGELIST,
+    docImageListHash: StringConst.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCIMAGELIST_HASH,
+    docFileLink: StringConst.POLYTECHNIC_ENGLISH_COMPETENCE_TEST_DOCFILELINK,
+  );
 
   static HistoryItemDocumentation DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART =
     HistoryItemDocumentation(

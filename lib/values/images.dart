@@ -82,15 +82,18 @@ class ImagePath {
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_01_HASH = "VCP%V3~q00jFM{4n?bIUV@?H00s:xuR*t7^+M{xuofIU"; // (HASH in BlurHash Website Component 5x4)
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_02 = '$certificateDir/dicoding_learn_to_make_flutter_apps_for_beginners/dicoding_learn_to_make_flutter_apps_for_beginners_02.jpg';
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_02_HASH = "V1R{#@00f8_3IT00D%9G%M9F00?a00t70000jZ9Fj[4n"; // (HASH in BlurHash Website Component 5x4)
+  // Polytechnic English Competence Test - PECT
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_01 = '$certificateDir/polytechnic_english_competence_test/polytechnic_english_competence_test_01.jpg';
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_01_HASH = 'V3P?:iD%00R*0000%L_Mt74n00My00M{%gyBM{Djt7E0'; // (HASH in BlurHash Website Component 5x4)
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_02 = '$certificateDir/polytechnic_english_competence_test/polytechnic_english_competence_test_02.jpg';
+  static const String POLYTECHNIC_ENGLISH_COMPETENCE_TEST_02_HASH = 'V5OzSsM{_Nt7oz4nV@Djof4n00af00R%00xbof9ZayRj'; // (HASH in BlurHash Website Component 5x4)
   // Getting Started Programming with Dart
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_01 = '$certificateDir/dicoding_getting_started_programming_with_dart/dicoding_getting_started_programming_with_dart_01.jpg';
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_01_HASH = "VCP%V3~q00jFM{4n?bIUV@?H00s:xuR*oz^+M{xuofIU"; // (HASH in BlurHash Website Component 5x4)
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_02 = '$certificateDir/dicoding_getting_started_programming_with_dart/dicoding_getting_started_programming_with_dart_02.jpg';
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_02_HASH = "V1RpB^00~q~pV?00Ri4n%M0000^+00of0000E1xtRjIU"; // (HASH in BlurHash Website Component 5x4)
   static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_03 = '$certificateDir/dicoding_getting_started_programming_with_dart/dicoding_getting_started_programming_with_dart_03.jpg';
-  static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_03_HASH = "V0SY~y-;00_30000D%00M{0000D%00M{0000M_0KRj4n"; // (HASH in BlurHash Website Component 5x4)
-  // Test of English for International Communication - TOEIC [DITAHAN]
-  // static const String
+  static const String DICODING_GETTING_STARTED_PROGRAMMING_WITH_DART_03_HASH = "V0SY~y-;00_30000D%00M{0000D%00M{0000M_0KRj4n"; // (HASH in BlurHash Website Component 5x4)  // static const String
   // IT Softwre Solution for Business - Lomba Kompetensi Siswa
   static const String IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_01 = '$certificateDir/it_software_solutions_for_business/it_software_solutions_for_business_01.jpg';
   static const String IT_SOFTWARE_SOLUTIONS_FOR_BUSINESS_01_HASH = "V9Qb{}9p01M^5Ey@?^pK%LE200R59\$n--=t*N1NFMyjD"; // (HASH in BlurHash Website Component 5x4)
