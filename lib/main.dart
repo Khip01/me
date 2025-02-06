@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:me/helper/init_app_theme.dart';
-import 'package:me/helper/object_class_finder_by_id.dart';
 import 'package:me/helper/helper.dart';
 import 'package:me/pages/history_detail_page.dart';
 import 'package:me/pages/pages.dart';

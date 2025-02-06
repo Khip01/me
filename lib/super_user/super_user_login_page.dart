@@ -46,7 +46,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 0.0, sigmaY: 0.0),
                     child: Container(
-                      color: Colors.white.withOpacity(0.0),
+                      color: Colors.white.withValues(alpha: 0.0),
                     ),
                   ),
                 ),
@@ -66,7 +66,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 8.0, sigmaY: 8.0),
                     child: Container(
-                      color: Colors.white.withOpacity(0.0),
+                      color: Colors.white.withValues(alpha: 0.0),
                     ),
                   ),
                 ),
@@ -87,7 +87,7 @@ class _SuperUserLoginPageState extends State<SuperUserLoginPage> {
                   child: BackdropFilter(
                     filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
                     child: Container(
-                      color: Colors.white.withOpacity(0.0),
+                      color: Colors.white.withValues(alpha: 0.0),
                     ),
                   ),
                 ),

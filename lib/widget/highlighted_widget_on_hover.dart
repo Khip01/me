@@ -44,7 +44,7 @@ class _HighlightedWidgetOnHoverState extends ConsumerState<HighlightedWidgetOnHo
               width: widget.widgetWidth,
               decoration: BoxDecoration(
                 borderRadius: widget.customBorderRadius ?? BorderRadius.circular(getIsMobileSize(context) ? 0 : 8),
-                color: widgetIshovered ? StyleUtil.c_170.withOpacity(.1) : Colors.transparent,
+                color: widgetIshovered ? StyleUtil.c_170.withValues(alpha: .1) : Colors.transparent,
               ),
             ),
           ),

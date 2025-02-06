@@ -1342,17 +1342,17 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
                       width: double.maxFinite,
                       height: double.maxFinite,
                       decoration: BoxDecoration(
-                        color: StyleUtil.c_61.withOpacity(.7),
+                        color: StyleUtil.c_61.withValues(alpha: .7),
                         gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                           colors: [
                             isDarkMode
-                                ? StyleUtil.c_238.withOpacity(.0)
-                                : StyleUtil.c_61.withOpacity(0),
+                                ? StyleUtil.c_238.withValues(alpha: .0)
+                                : StyleUtil.c_61.withValues(alpha: 0),
                             isDarkMode
-                                ? StyleUtil.c_238.withOpacity(1)
-                                : StyleUtil.c_61.withOpacity(1),
+                                ? StyleUtil.c_238.withValues(alpha: 1)
+                                : StyleUtil.c_61.withValues(alpha: 1),
                           ],
                         ),
                       ),

@@ -34,8 +34,8 @@ class _AnimatedScrollIdleState extends State<AnimatedScrollIdle> with TickerProv
     )..repeat(reverse: true);
 
     _animation = ColorTween(
-      begin: widget.mainColor.withOpacity(0.1),
-      end: widget.mainColor.withOpacity(0.5),
+      begin: widget.mainColor.withValues(alpha: 0.1),
+      end: widget.mainColor.withValues(alpha: 0.5),
     ).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic),
     );
@@ -53,8 +53,8 @@ class _AnimatedScrollIdleState extends State<AnimatedScrollIdle> with TickerProv
     if (widget.mainColor != oldWidget.mainColor) {
       setState(() {
         _animation = ColorTween(
-          begin: widget.mainColor.withOpacity(.1),
-          end: widget.mainColor.withOpacity(.5),
+          begin: widget.mainColor.withValues(alpha: .1),
+          end: widget.mainColor.withValues(alpha: .5),
         ).animate(
           CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic),
         );
@@ -137,7 +137,7 @@ class _AnimatedScrollIconIdleState extends State<AnimatedScrollIconIdle> with Ti
         CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic)
     );
 
-    _colorAnimation = ColorTween(begin: Colors.transparent, end: widget.mainColor.withOpacity(.5)).animate(
+    _colorAnimation = ColorTween(begin: Colors.transparent, end: widget.mainColor.withValues(alpha: .5)).animate(
         CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic)
     );
   }
@@ -155,7 +155,7 @@ class _AnimatedScrollIconIdleState extends State<AnimatedScrollIconIdle> with Ti
       setState(() {
         _colorAnimation = ColorTween(
           begin: Colors.transparent,
-          end: widget.mainColor.withOpacity(.5),
+          end: widget.mainColor.withValues(alpha: .5),
         ).animate(
           CurvedAnimation(parent: _controller, curve: Curves.easeInOutCubic),
         );

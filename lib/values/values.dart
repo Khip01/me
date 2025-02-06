@@ -1,4 +1,4 @@
-library values;
+library;
 
 import 'package:me/helper/id_generator_formula.dart';
 

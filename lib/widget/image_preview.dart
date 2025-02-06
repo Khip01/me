@@ -42,7 +42,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
         child: Container(
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
-          color: StyleUtil.c_61.withOpacity(.7),
+          color: StyleUtil.c_61.withValues(alpha: .7),
           child: Stack(
             children: [
               InteractiveViewer(
@@ -115,7 +115,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                 borderRadius: BorderRadius.circular(getIsMobileSize(context) ? 0 : 30),
                                 color: ((isDarkMode)
                                     ? StyleUtil.c_33
-                                    : StyleUtil.c_255).withOpacity(.7),
+                                    : StyleUtil.c_255).withValues(alpha: .7),
                                 boxShadow: [
                                   BoxShadow(
                                     color: (isDarkMode)
@@ -154,7 +154,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                           return Icon(
                                             Icons.keyboard_arrow_left_rounded,
                                             size: 33,
-                                            color: color.withOpacity(.7),
+                                            color: color.withValues(alpha: .7),
                                           );
                                         },
                                       ),
@@ -182,7 +182,7 @@ class _ImagePreviewState extends ConsumerState<ImagePreview> {
                                           return Icon(
                                             Icons.keyboard_arrow_right_rounded,
                                             size: 33,
-                                            color: color.withOpacity(.7),
+                                            color: color.withValues(alpha: .7),
                                           );
                                         },
                                       ),

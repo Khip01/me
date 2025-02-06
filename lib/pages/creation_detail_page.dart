@@ -826,8 +826,8 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
         colors: [
           Colors.transparent,
           isDarkMode
-              ? StyleUtil.c_238.withOpacity(0.5)
-              : StyleUtil.c_170.withOpacity(0.1),
+              ? StyleUtil.c_238.withValues(alpha: 0.5)
+              : StyleUtil.c_170.withValues(alpha: 0.1),
         ],
       );
     } else {

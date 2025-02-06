@@ -1020,7 +1020,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
                                   colors: [
                                     colorShadeItemImage,
                                     snapshot.data!.primaryContainer
-                                        .withOpacity(.8),
+                                        .withValues(alpha: .8),
                                     snapshot.data!.primaryContainer
                                   ],
                                 ),
@@ -1032,7 +1032,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
                                 horizontal: 14, vertical: 9),
                             decoration: BoxDecoration(
                               color: snapshot.data!.primaryContainer
-                                  .withOpacity(.9),
+                                  .withValues(alpha: .9),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(
                                     getIsMobileSize(context) ? 9 : 19),

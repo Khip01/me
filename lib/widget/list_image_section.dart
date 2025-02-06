@@ -151,7 +151,7 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
     final Alignment beginGradientAlign = isButtonLeft ? Alignment.centerLeft : Alignment.centerRight;
     final Alignment endGradientAlign = isButtonLeft ? Alignment.centerRight : Alignment.centerLeft;
     final Color baseButtonColor = (isDarkMode ? StyleUtil.c_33 : StyleUtil.c_255);
-    final Color baseIconColor = (isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61).withOpacity(.9);
+    final Color baseIconColor = (isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61).withValues(alpha: .9);
     final IconData mainIcon = isButtonLeft ? Icons.arrow_back_ios_new_rounded : Icons.arrow_forward_ios_rounded;
 
     return AnimatedOpacity(
@@ -182,8 +182,8 @@ class _ListImageSectionState extends ConsumerState<ListImageSection> {
                 begin: beginGradientAlign,
                 end: endGradientAlign,
                 colors: [
-                  baseButtonColor.withOpacity(1.0), // <-- Button color
-                  baseButtonColor.withOpacity(0.0),
+                  baseButtonColor.withValues(alpha: 1.0), // <-- Button color
+                  baseButtonColor.withValues(alpha: 0.0),
                 ],
               ),
             ),

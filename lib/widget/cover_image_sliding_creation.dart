@@ -177,8 +177,8 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
           decoration: BoxDecoration(
             color:
             isDarkMode ?
-            StyleUtil.c_33.withOpacity(_isZoomOut ? 0.7 : 0) :
-            StyleUtil.c_255.withOpacity(_isZoomOut ? 0.7 : 0), // TODO DARK MODE SETTING
+            StyleUtil.c_33.withValues(alpha: _isZoomOut ? 0.7 : 0) :
+            StyleUtil.c_255.withValues(alpha: _isZoomOut ? 0.7 : 0), // TODO DARK MODE SETTING
           ),
         ),
         AnimatedContainer(
