@@ -39,15 +39,35 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <title>me</title>
+    <!-- Preload flutter.js -->
+    <link rel="preload" href="flutter.js" as="script">
+
+    <title>Me</title>
     <link rel="manifest" href="manifest.json">
+
+    <!-- Meta tags untuk SEO -->
+    <meta name="description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
+    <meta name="keywords" content="flutter, portfolio, web development, dart, programming">
+    <meta name="author" content="Your Name">
+
+    <!-- Open Graph meta tags untuk berbagi di sosial media -->
+    <meta property="og:title" content="Me - Flutter Portfolio">
+    <meta property="og:description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
+    <meta property="og:image" content="https://yourdomain.com/path/to/thumbnail.jpg">
+    <meta property="og:url" content="https://yourdomain.com">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Me - Flutter Portfolio">
+    <meta name="twitter:description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
+    <meta name="twitter:image" content="https://yourdomain.com/path/to/thumbnail.jpg">
 
     <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = "3499225485";
   </script>
-    <!-- This script adds the flutter initialization Bootstrap and JS code -->
-    <script src="flutter_bootstrap.js" async></script>
+    <!-- This script adds the flutter initialization JS code -->
     <script src="flutter.js" defer></script>
     <style>
     /* LOADING PAGE */
@@ -584,17 +604,22 @@
 </div>
 
 <script>
-    {{flutter_js}}
-    {{flutter_build_config}}
-    {{flutter_bootstrap_js}}
     window.addEventListener('load', function(ev) {
+      {{flutter_js}}
+      {{flutter_build_config}}
+
       // Download main.dart.js
       _flutter.loader.load({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },
-        onEntrypointLoaded: async function(engineInitializer) {
-          engineInitializer.initializeEngine().then(function(appRunner) {
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine({
+            renderer: "wasm",
+            useColorEmoji: true,
+            useIsolate: true, // use multithreading if available
+            enablePlatformDetection: true
+          }).then(function(appRunner) {
             appRunner.runApp();
           });
         }
