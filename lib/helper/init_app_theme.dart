@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:universal_html/html.dart';
 // I use universal_html because I'm afraid the dart:html package will conflict
 // with the firebase package's js.
+// import 'package:universal_html/html.dart';
+// IMPORTANT!
+// I disabled universal_html and tried replacing it with web/web.dart.
+import 'package:web/web.dart';
 
 import '../provider/theme_provider.dart';
 
@@ -14,7 +17,7 @@ void initAppTheme(BuildContext context, WidgetRef ref){
   String? cookieStr = document.cookie;
 
   // auto init device theme if whole cookie isEmpty/null
-  if(cookieStr == null || cookieStr.isEmpty) {
+  if(cookieStr.isEmpty) {
     initDeviceTheme(context, ref);
     return;
   }
@@ -71,7 +74,7 @@ void changeCookieValue(String newValue){
   String? cookieStr = document.cookie;
 
   // add new cookie if whole cookie isEmpty/null
-  if(cookieStr == null || cookieStr.isEmpty) {
+  if(cookieStr.isEmpty) {
     document.cookie = "$key=$newValue";
     return;
   }
