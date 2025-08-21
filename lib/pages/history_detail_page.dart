@@ -3,7 +3,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:me/helper/get_size_from_widget.dart';
 import 'package:me/provider/image_preview_provider.dart';

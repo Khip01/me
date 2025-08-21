@@ -18,7 +18,7 @@ import 'package:scroll_snap_list/scroll_snap_list.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../Utility/style_util.dart';
+import '../utility/style_util.dart';
 import '../values/values.dart';
 
 class CreationPage extends ConsumerStatefulWidget {

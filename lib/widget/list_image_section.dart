@@ -3,7 +3,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me/widget/scroll_behavior.dart';
 
-import '../Utility/style_util.dart';
+import '../utility/style_util.dart';
 import '../component/visible.dart';
 import '../provider/theme_provider.dart';
 import 'highlighted_widget_on_hover.dart';

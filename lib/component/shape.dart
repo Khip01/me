@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/style_util.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 Widget dashVertical(BuildContext context, bool darkMode) => ResponsiveValue(

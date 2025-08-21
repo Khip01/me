@@ -76,6 +76,18 @@ class ImagePath {
   static const String TODOLIST_APP_4 = '$projectDir/todolist_app/todolist_app_4.jpg';
   static const String TODOLIST_APP_4_HASH = "V63bd,ofM[WBfnIQaxxfj[avxzayRfj[j_ReoLtBazW9"; // (HASH in BlurHash Website Component 5x4)
 
+  // SCANTHESIS
+  static const String SCANTHESIS_C = '$projectDir/scanthesis/scanthesis_cover.jpg';
+  static const String SCANTHESIS_C_HASH = "V|HC1R~q?bxuRjofayayfQj[j[ayj[j[fQj[j[j[fQj["; // (HASH in BlurHash Website Component 5x4)
+  static const String SCANTHESIS_2 = '$projectDir/scanthesis/scanthesis_2.png';
+  static const String SCANTHESIS_2_HASH = "V35#hWIUo\$xYN14m%NM_Rk%LW9M_ofofRh?dWAohj;bK"; // (HASH in BlurHash Website Component 5x4)
+  static const String SCANTHESIS_3 = '$projectDir/scanthesis/scanthesis_3.png';
+  static const String SCANTHESIS_3_HASH = "V25ONhs,RjflWU9YR*WUayxbIUofj[WBt7~XadRjj]WA"; // (HASH in BlurHash Website Component 5x4)
+  static const String SCANTHESIS_4 = '$projectDir/scanthesis/scanthesis_4.png';
+  static const String SCANTHESIS_4_HASH = "V04o1d9E4nxu-;_NIUV@t6%M9F%M?bIUD%00?H?bIUNG"; // (HASH in BlurHash Website Component 5x4)
+  static const String SCANTHESIS_5 = '$projectDir/scanthesis/scanthesis_5.png';
+  static const String SCANTHESIS_5_HASH = "V02=\$E~q.8%MM{~qayaet7t7oLofM{Rjt7t7M{IURjs:"; // (HASH in BlurHash Website Component 5x4)
+
   // ---------- IMAGES CERTIFICATE PATH ----------
   // Learn to Make Flutter Apps for Beginners
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_01 = '$certificateDir/dicoding_learn_to_make_flutter_apps_for_beginners/dicoding_learn_to_make_flutter_apps_for_beginners_01.jpg';

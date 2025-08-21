@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/style_util.dart';
 
 import '../component/visible.dart';
 

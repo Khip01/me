@@ -25,6 +25,7 @@ class StringConst {
   ];
   static const String CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/CafeApp-KhipCafe";
   static const String CAFEAPP_KHIPCAFE_PROJECT_LINK_TO_DEMO_WEB = "";
+
   // SPP PAYMENT - SPP PAY V2 C#
   static const String SPPPAYMENT_SPPPAY_V2_PROJECT_NAME = "SPP Payment - SPPay V2 C#";
   static const String SPPPAYMENT_SPPPAY_V2_PROJECT_DESCRIPTION = "SPP Payment Application engaged in the Desktop field. Has 3 access rights, namely Admin, Officer, and Student. Interactive and good user interface design.";
@@ -48,6 +49,7 @@ class StringConst {
   ];
   static const String SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/SPP-Pay-App";
   static const String SPPPAYMENT_SPPPAY_V2_PROJECT_LINK_TO_DEMO_WEB = "";
+
   // ROCK PAPER SCISSORS GAME C++
   static const String ROCK_PAPPER_SCISSORS_GAME_PROJECT_NAME = "Rock Paper Scissors Game C++";
   static const String ROCK_PAPPER_SCISSORS_GAME_PROJECT_DESCRIPTION = "Just a simple and FUN rock, paper, scissors game using C++";
@@ -71,6 +73,7 @@ class StringConst {
   ];
   static const String ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Batu-Kertas-Gunting";
   static const String ROCK_PAPPER_SCISSORS_GAME_PROJECT_LINK_TO_DEMO_WEB = "";
+
   // SPP PAYMENT - SPP PAY JAVA
   static const String SPPPAYMENT_SPPPAY_PROJECT_NAME = "SPP Payment - SPPay Java";
   static const String SPPPAYMENT_SPPPAY_PROJECT_DESCRIPTION = "SPP Payment Application engaged in the Desktop field. Has 3 access rights, namely Admin, Officer, and Student. Less interactive and user interface design.";
@@ -94,6 +97,7 @@ class StringConst {
   ];
   static const String SPPPAYMENT_SPPPAY_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/SPP-Pay-App-Java";
   static const String SPPPAYMENT_SPPPAY_PROJECT_LINK_TO_DEMO_WEB = "";
+
   // MY FIRST WEB PORTFOLIO
   static const String FIRST_WEB_PORTFOLIO_PROJECT_NAME = "My First Web Portfolio";
   static const String FIRST_WEB_PORTFOLIO_PROJECT_DESCRIPTION = "My first web portfolio which contains my personal data. Using native websites.";
@@ -116,6 +120,7 @@ class StringConst {
   ];
   static const String FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Khip01.github.io";
   static const String FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB = "https://khip01.github.io/";
+
   // CALCULATOR GUI JAVA
   static const String CALCULATOR_GUI_JAVA_PROJECT_NAME = "Calculator GUI Java";
   static const String CALCULATOR_GUI_JAVA_PROJECT_DESCRIPTION = "Contains the calculator desktop application.";
@@ -140,6 +145,7 @@ class StringConst {
   ];
   static const String CALCULATOR_GUI_JAVA_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Kalkulator-GUI-Java";
   static const String CALCULATOR_GUI_JAVA_PROJECT_LINK_TO_DEMO_WEB = "";
+
   // KALKULATOR BASIC C++
   static const String KALKULATOR_BASIC_CPP_PROJECT_NAME = "Kalkulator Basic C++";
   static const String KALKULATOR_BASIC_CPP_PROJECT_DESCRIPTION = "A simple calculator tool used to calculate (Addition, Subtraction, Multiplication, Division and Modulus).";
@@ -163,6 +169,7 @@ class StringConst {
   ];
   static const String KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Kalkulator-Cpp";
   static const String KALKULATOR_BASIC_CPP_PROJECT_LINK_TO_DEMO_WEB = "";
+
   // FLUTTER PORTFOLIO
   static const String FLUTTER_PORTFOLIO_PROJECT_NAME = "Flutter Portfolio";
   static const String FLUTTER_PORTFOLIO_PROJECT_DESCRIPTION = "Create a simple portfolio using flutter web and firebase.";
@@ -188,6 +195,7 @@ class StringConst {
   static const String FLUTTER_PORTFOLIO_HIGHLIGHT_DESCRIPTION = "More about my creation of this website";
   static const String FLUTTER_PORTFOLIO_HIGHLIGHT_HEADER = "About this Portfolio Website";
   static const String FLUTTER_PORTFOLIO_HIGHLIGHT_TOPIC = "About Me";
+
   // COMMENT SECTION WEB
   static const String COMMENT_SECTION_WEB_PROJECT_NAME = "Comment Section Web";
   static const String COMMENT_SECTION_WEB_PROJECT_DESCRIPTION = "Create a Simple Chat Web Page and Mobile App that can be used anonymously for everyone! Using Flutter Web technology and Firebase Realtime Database.";
@@ -214,6 +222,7 @@ class StringConst {
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_DESCRIPTION = "Projects that use technology that I am interested in exploring";
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_HEADER = "Firebase?! Light up my brother";
   static const String COMMENT_SECTION_WEB_HIGHLIGHT_TOPIC = "Ever Explored";
+
   // RESTAURANT_KHIP01
   static const String RESTAURANT_KHIP01_PROJECT_NAME = "Restaurant Khip01";
   static const String RESTAURANT_KHIP01_PROJECT_DESCRIPTION = "Create Simple RESTful API with GO, Complete with simple Mobile and Desktop App";
@@ -249,7 +258,7 @@ class StringConst {
   static const String TODOLIST_APP_PROJECT_NAME = "TodoList App";
   static const String TODOLIST_APP_PROJECT_DESCRIPTION = "The simplest Todo List application created using Bloc State Management and TodoList data storage with SQLite Embedded Database";
   static const String TODOLIST_APP_ADDITIONAL_LINK = "https://github.com/Khip01/todo-list-app/releases";
-  static const String TODOLIST_APP_ADDITIONAL_LINK_DESCRIPTION = "release app";
+  static const String TODOLIST_APP_ADDITIONAL_LINK_DESCRIPTION = "app release";
   static const List<String> TODOLIST_APP_CREATOR_GITHUB_LINK = [
     "https://github.com/Khip01"
   ];
@@ -270,7 +279,36 @@ class StringConst {
   static const String TODOLIST_APP_PROJECT_LINK_TO_DEMO_WEB = "";
   static const String TODOLIST_APP_HIGHLIGHT_DESCRIPTION = "It was great to get acquainted with BlocPattern and SQLite";
   static const String TODOLIST_APP_HIGHLIGHT_HEADER = "An approach using New Technology?!";
-  static const String TODOLIST_APP_HIGHLIGHT_TOPIC = "Recently";
+  static const String TODOLIST_APP_HIGHLIGHT_TOPIC = "Learning Curve";
+
+  // SCANTHESIS
+  static const String SCANTHESIS_PROJECT_NAME = "Scanthesis";
+  static const String SCANTHESIS_PROJECT_DESCRIPTION = "Scanthesis is a simple multi-platform desktop application built with Flutter, designed primarily for extracting code from images through AI-powered services. The app provides a straightforward interface similar to chat AI applications, with each interaction consisting of a single prompt and response.";
+  static const String SCANTHESIS_ADDITIONAL_LINK = "https://github.com/Khip01/Scanthesis/releases/";
+  static const String SCANTHESIS_ADDITIONAL_LINK_DESCRIPTION = "app release";
+  static const List<String> SCANTHESIS_CREATOR_GITHUB_LINK = [
+    "https://github.com/Khip01"
+  ];
+  static const List<String> SCANTHESIS_CREATOR_NAME = [
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> SCANTHESIS_CREATOR_ROLE = [
+    "Creator",
+  ];
+  static const int SCANTHESIS_DATE_PROJECT_CREATED = 1755578340000;
+  static const List<String> SCANTHESIS_PROJECT_CATEGORIES = [
+    "flutter",
+    "desktop-app",
+    "windows",
+    "linux",
+    "gemini-ai",
+    "google-ai-studio",
+  ];
+  static const String SCANTHESIS_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Scanthesis";
+  static const String SCANTHESIS_PROJECT_LINK_TO_DEMO_WEB = "";
+  static const String SCANTHESIS_HIGHLIGHT_DESCRIPTION = "Worked on desktop app development using Flutter with AI-based OCR integration";
+  static const String SCANTHESIS_HIGHLIGHT_HEADER = "Smarter OCR with Flutter Desktop!";
+  static const String SCANTHESIS_HIGHLIGHT_TOPIC = "Recently";
 
   // HISTORY -------------------------------------------------------------------
   // Hawari Tiger Engine

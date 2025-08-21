@@ -13,7 +13,7 @@ import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
-import '../Utility/style_util.dart';
+import '../utility/style_util.dart';
 import '../helper/init_app_theme.dart';
 import '../widget/animated_scroll_idle.dart';
 

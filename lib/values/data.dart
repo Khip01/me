@@ -2,12 +2,14 @@ part of 'values.dart';
 
 class Data {
   static List<ProjectItemData> highlightedCreations = [
+    Projects.SCANTHESIS,
     Projects.TODO_LIST_APP,
     Projects.FLUTTER_PORTFOLIO,
     Projects.COMMENT_SECTION_WEB,
   ];
 
   static List<ProjectItemData> relatedCreations = [
+    Projects.SCANTHESIS,
     Projects.TODO_LIST_APP,
     Projects.FLUTTER_PORTFOLIO,
     Projects.COMMENT_SECTION_WEB,
@@ -418,6 +420,45 @@ class Projects {
     projectHighlightTopic: StringConst.TODOLIST_APP_HIGHLIGHT_TOPIC,
     projectHighlightHeader: StringConst.TODOLIST_APP_HIGHLIGHT_HEADER,
     projectHighlightDescription: StringConst.TODOLIST_APP_HIGHLIGHT_DESCRIPTION,
+  );
+  static ProjectItemData SCANTHESIS = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.SCANTHESIS_DATE_PROJECT_CREATED),
+    projectImagePathCover: ImagePath.SCANTHESIS_C,
+    projectImagePathCoverHash: ImagePath.SCANTHESIS_C_HASH,
+    projectImagePathList: [
+      ImagePath.SCANTHESIS_C,
+      ImagePath.SCANTHESIS_2,
+      ImagePath.SCANTHESIS_3,
+      ImagePath.SCANTHESIS_4,
+    ],
+    projectImagePathListHash: [
+      ImagePath.SCANTHESIS_C_HASH,
+      ImagePath.SCANTHESIS_2_HASH,
+      ImagePath.SCANTHESIS_3_HASH,
+      ImagePath.SCANTHESIS_4_HASH,
+    ],
+    projectName: StringConst.SCANTHESIS_PROJECT_NAME,
+    projectDescription: StringConst.SCANTHESIS_PROJECT_DESCRIPTION,
+    projectCategories: StringConst.SCANTHESIS_PROJECT_CATEGORIES,
+    creatorName: StringConst.SCANTHESIS_CREATOR_NAME,
+    creatorRole: StringConst.SCANTHESIS_CREATOR_ROLE,
+    creatorPhotoProfilePath: [
+      ImagePath.KHIP01_PHOTO_PROFILE,
+    ],
+    creatorPhotoProfilePathHash: [
+      ImagePath.KHIP01_PHOTO_PROFILE_HASH,
+    ],
+    creatorGithubLink: StringConst.SCANTHESIS_CREATOR_GITHUB_LINK,
+    timestampDateCreated: StringConst.SCANTHESIS_DATE_PROJECT_CREATED,
+    isProjectRelated: true,
+    isProjectHighlighted: true,
+    linkProjectToGithub: StringConst.SCANTHESIS_PROJECT_LINK_TO_GITHUB,
+    linkDemoWeb: StringConst.SCANTHESIS_PROJECT_LINK_TO_DEMO_WEB,
+    additionalLink: StringConst.SCANTHESIS_ADDITIONAL_LINK,
+    additionalLinkDescription: StringConst.SCANTHESIS_ADDITIONAL_LINK_DESCRIPTION,
+    projectHighlightTopic: StringConst.SCANTHESIS_HIGHLIGHT_TOPIC,
+    projectHighlightHeader: StringConst.SCANTHESIS_HIGHLIGHT_HEADER,
+    projectHighlightDescription: StringConst.SCANTHESIS_HIGHLIGHT_DESCRIPTION,
   );
 }
 

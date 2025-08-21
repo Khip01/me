@@ -3,7 +3,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 
-import '../Utility/style_util.dart';
+import '../utility/style_util.dart';
 import '../component/spacing.dart';
 import '../component/visible.dart';
 import '../provider/theme_provider.dart';

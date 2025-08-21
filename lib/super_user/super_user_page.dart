@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/style_util.dart';
 import 'package:me/controller/controller.dart';
 import 'package:me/service/firebase_auth_services.dart';
 import 'package:url_launcher/url_launcher.dart';

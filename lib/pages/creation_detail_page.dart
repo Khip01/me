@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
-import 'package:me/Utility/style_util.dart';
+import 'package:me/utility/style_util.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
