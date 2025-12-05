@@ -807,6 +807,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
+      alignment: Alignment.topCenter,
       padding: contentQuotePadding(context),
       height: contentQuoteHeight(context),
       width: double.maxFinite,

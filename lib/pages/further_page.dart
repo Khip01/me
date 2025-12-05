@@ -598,7 +598,8 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
   Widget _footerTechnology() {
     return Container(
-      padding: contentQuotePadding(context),
+      alignment: Alignment.topCenter,
+      padding: contentQuotePadding(context).copyWith(bottom: 44),
       height: contentQuoteHeight(context),
       width: double.maxFinite,
       child: Center(

@@ -730,6 +730,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
+      alignment: Alignment.topCenter,
       padding: contentQuotePadding(context),
       height: contentQuoteHeight(context),
       width: double.maxFinite,
