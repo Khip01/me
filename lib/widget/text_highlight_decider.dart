@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextHighlightDecider extends StatefulWidget {
+  final EdgeInsetsGeometry? padding;
   final bool isCompactMode;
   Color colorStart;
   Color colorEnd;
@@ -12,6 +13,7 @@ class TextHighlightDecider extends StatefulWidget {
 
   TextHighlightDecider({
     super.key,
+    this.padding,
     required this.isCompactMode,
     required this.colorStart,
     required this.colorEnd,
@@ -39,28 +41,32 @@ class _TextHighlightDeciderState extends State<TextHighlightDecider> {
   @override
   void didUpdateWidget(covariant TextHighlightDecider oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.colorStart != oldWidget.colorStart || widget.colorEnd != oldWidget.colorEnd) {
+    if (widget.colorStart != oldWidget.colorStart ||
+        widget.colorEnd != oldWidget.colorEnd) {
       setState(() {
-        activeColor = activeColor == oldWidget.colorEnd ? widget.colorEnd : widget.colorStart;
+        activeColor = activeColor == oldWidget.colorEnd
+            ? widget.colorEnd
+            : widget.colorStart;
       });
     }
   }
 
-  void doSwitchColor() => activeColor = activeColor == widget.colorEnd ? widget.colorStart : widget.colorEnd;
+  void doSwitchColor() => activeColor =
+      activeColor == widget.colorEnd ? widget.colorStart : widget.colorEnd;
 
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       tween: ColorTween(begin: widget.colorStart, end: activeColor),
       duration: const Duration(milliseconds: 100),
-      builder: (context, value, child){
+      builder: (context, value, child) {
         return InkWell(
           onHover: (isHover) {
             if (!widget.isCompactMode) {
               setState(() {
                 doSwitchColor();
               });
-              if(widget.additionalOnHoverAction != null){
+              if (widget.additionalOnHoverAction != null) {
                 widget.additionalOnHoverAction!(isHover);
               }
             }
@@ -68,20 +74,20 @@ class _TextHighlightDeciderState extends State<TextHighlightDecider> {
           onTap: () async {
             // if mobile || tablet web mode
             if (widget.isCompactMode && !isActive) {
-              setState((){
+              setState(() {
                 doSwitchColor();
                 isActive = true;
               });
-              Future.delayed(widget.actionDelay,
-                      () async {
-                    if (widget.additionalOnTapAction != null) {
-                      await widget.additionalOnTapAction!();
-                    }
-                  }
-              ).then((_){
-                Future.delayed(widget.delayAfterAnimation ?? const Duration(milliseconds: 5000)).then(
-                      (_) {
-                    if (mounted){
+              Future.delayed(widget.actionDelay, () async {
+                if (widget.additionalOnTapAction != null) {
+                  await widget.additionalOnTapAction!();
+                }
+              }).then((_) {
+                Future.delayed(widget.delayAfterAnimation ??
+                        const Duration(milliseconds: 5000))
+                    .then(
+                  (_) {
+                    if (mounted) {
                       setState(() {
                         doSwitchColor();
                         isActive = false;
@@ -96,7 +102,10 @@ class _TextHighlightDeciderState extends State<TextHighlightDecider> {
               await widget.additionalOnTapAction!();
             }
           },
-          child: widget.builder(value!),
+          child: Container(
+            padding: widget.padding,
+            child: widget.builder(value!),
+          ),
         );
       },
     );
