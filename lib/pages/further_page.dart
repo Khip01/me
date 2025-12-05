@@ -250,7 +250,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       ),
                     ),
                   ),
-                  _quoteContentSection(),
+                  _footerTechnology(),
                 ],
               ),
             ),
@@ -596,7 +596,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     );
   }
 
-  Widget _quoteContentSection() {
+  Widget _footerTechnology() {
     return Container(
       padding: contentQuotePadding(context),
       height: contentQuoteHeight(context),

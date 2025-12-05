@@ -804,6 +804,8 @@ class _CreationPageState extends ConsumerState<CreationPage>
   }
 
   Widget _quoteContentSection() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+
     return Container(
       padding: contentQuotePadding(context),
       height: contentQuoteHeight(context),
@@ -829,15 +831,15 @@ class _CreationPageState extends ConsumerState<CreationPage>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.arrow_downward_rounded,
                     size: 18,
-                    color: StyleUtil.c_170,
+                    color: isDarkMode ? StyleUtil.c_255 : StyleUtil.c_61,
                   ),
                   Text(
                     "scroll",
                     style: StyleUtil.text_xs_Regular
-                        .copyWith(color: StyleUtil.c_170),
+                        .copyWith(color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61),
                   ),
                 ],
               ),
@@ -1821,7 +1823,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
 
   Widget _footerTechnology() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 39),
+      padding: const EdgeInsets.only(bottom: 48),
       child: Center(
         child: SizedBox(
           width: 125,

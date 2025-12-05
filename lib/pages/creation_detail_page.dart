@@ -158,7 +158,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
 
   Widget _footerTechnology() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 39),
+      padding: const EdgeInsets.only(bottom: 48),
       child: Center(
         child: SizedBox(
           width: 125,

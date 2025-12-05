@@ -247,7 +247,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       ),
                     ),
                   ),
-                  _quoteContentSection(),
+                  _footerTechnology(),
                 ],
               ),
             ),
@@ -569,7 +569,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     );
   }
 
-  Widget _quoteContentSection() {
+  Widget _footerTechnology() {
     return Container(
       padding: contentQuotePadding(context),
       height: contentQuoteHeight(context),
