@@ -599,32 +599,80 @@
         <span></span>
     </div>
     <div class="body-text lato-regular">
-        Crafting My Journey...
+        Crafting My Journey!
     </div>
+    <div id="flutter-state-text"
+         style="margin-top:6px; font-family:sans-serif; font-size:14px; opacity:0.7; color:#888;">
+    </div>
+
 </div>
 
-<script>
-    window.addEventListener('load', function(ev) {
-      {{flutter_js}}
-      {{flutter_build_config}}
+<!--<script>-->
+<!--    window.addEventListener('load', function(ev) {-->
+<!--      {{flutter_js}}-->
+<!--      {{flutter_build_config}}-->
 
-      // Download main.dart.js
-      _flutter.loader.load({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function(engineInitializer) {
-          engineInitializer.initializeEngine({
-            renderer: "wasm",
-            useColorEmoji: true,
-            useIsolate: true, // use multithreading if available
-            enablePlatformDetection: true
-          }).then(function(appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
+<!--      // Download main.dart.js-->
+<!--      _flutter.loader.load({-->
+<!--        serviceWorker: {-->
+<!--          serviceWorkerVersion: serviceWorkerVersion,-->
+<!--        },-->
+<!--        onEntrypointLoaded: function(engineInitializer) {-->
+<!--          engineInitializer.initializeEngine({-->
+<!--            renderer: "wasm",-->
+<!--            useColorEmoji: true,-->
+<!--            useIsolate: true, // use multithreading if available-->
+<!--            enablePlatformDetection: true-->
+<!--          }).then(function(appRunner) {-->
+<!--            appRunner.runApp();-->
+<!--          });-->
+<!--        }-->
+<!--      });-->
+<!--    });-->
+<!--  </script>-->
+
+<script>
+    function setFlutterState(text) {
+        const el = document.getElementById("flutter-state-text");
+        if (!el) return;
+        el.innerText = text;
+        el.style.opacity = 1;
+    }
+
+    setFlutterState("Loading engine...");
+
+    window.addEventListener('load', function(ev) {
+        {{flutter_js}}
+        {{flutter_build_config}}
+
+        _flutter.loader.load({
+            serviceWorker: {
+                serviceWorkerVersion: serviceWorkerVersion,
+            },
+
+            onEntrypointLoaded: function(engineInitializer) {
+                setFlutterState("Initializing engine...");
+
+                engineInitializer.initializeEngine({
+                    renderer: "wasm",
+                    useColorEmoji: true,
+                    useIsolate: true, // use multithreading if available
+                    enablePlatformDetection: true
+                }).then(function(appRunner) {
+
+                    setFlutterState("Rendering first frame...");
+
+                    appRunner.runApp();
+
+                    window.addEventListener("flutter-first-frame", () => {
+                        setFlutterState("Reloading the page...");
+                    });
+                });
+            }
+        });
     });
-  </script>
+</script>
+
+
 </body>
 </html>
