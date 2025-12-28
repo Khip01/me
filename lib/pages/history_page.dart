@@ -34,19 +34,15 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   bool _isFromLeft = true, _transitionIsActive = false, ignoreTapping = false;
 
   // --- Nav Section ---
-  // Nav List Hover
-  final List<bool> _navHover =
-      List.generate(4, (index) => index == 2 ? true : false);
-
   // Controller for Sliver Nav
   static final ScrollController _navScrollController =
       ScrollController(initialScrollOffset: 1);
 
   // Value Notifier Sticky Nav Header
-  late ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
+  final ValueNotifier<bool> _navIsStickyNotifier = ValueNotifier(false);
 
   // Value Notifier Idle Scroll animation
-  late ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
+  final ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
 
   //  Other Hover
   bool themeSwitch = false;
@@ -79,9 +75,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   Rect? _rectCreationSticky;
   Rect? _rectFurtherSticky;
 
-  // Duration
-  final Duration _animationDuration = const Duration(milliseconds: 300),
-      _afterAnimationDelay = const Duration(milliseconds: 300);
+  // Duration constants for page transitions
+  static const Duration _animationDuration = Duration(milliseconds: 300);
+  static const Duration _afterAnimationDelay = Duration(milliseconds: 300);
 
   // TODO: INIT STATE
   @override
@@ -762,8 +758,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                   ),
                   Text(
                     "scroll",
-                    style: StyleUtil.text_xs_Regular
-                        .copyWith(color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61),
+                    style: StyleUtil.text_xs_Regular.copyWith(
+                        color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61),
                   ),
                 ],
               ),

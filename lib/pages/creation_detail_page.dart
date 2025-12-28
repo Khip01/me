@@ -14,6 +14,67 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widget/image_preview.dart';
 import '../widget/list_image_section.dart';
 
+// --- Shared Helper Functions ---
+/// Opens a URL in the default browser.
+Future<void> _openUrl(String url) async {
+  final Uri uri = Uri.parse(url);
+  await launchUrl(uri);
+}
+
+/// Shows a success snackbar and then opens the given URL.
+Future<void> _showSuccessSnackbarAndOpenUrl(
+  BuildContext context,
+  bool isDarkMode,
+  String message,
+  String url,
+) async {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      elevation: 0,
+      margin: const EdgeInsets.only(bottom: 30),
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            elevation: 5,
+            color: isDarkMode
+                ? StyleUtil.c_success_dark
+                : StyleUtil.c_success_light,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 32.0, vertical: 14.0),
+              child: Row(
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Icon(
+                      Icons.check_circle,
+                      color: StyleUtil.c_255,
+                    ),
+                  ),
+                  Text(
+                    message,
+                    style: StyleUtil.text_small_Medium.copyWith(
+                      letterSpacing: 1,
+                      color: StyleUtil.c_255,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+  await _openUrl(url);
+}
+
 class CreationDetailPage extends ConsumerStatefulWidget {
   final ProjectItemData selectedProject;
   final String? pagePopTo; // Page Name that will be landed after pop
@@ -207,74 +268,39 @@ class DetailCreationAdditionalInfo extends ConsumerStatefulWidget {
 
 class _DetailCreationAdditionalInfoState
     extends ConsumerState<DetailCreationAdditionalInfo> {
-  // Open Url
-  Future<void> _openUrl(String url) async {
-    Uri uri = Uri.parse(url);
-    !await launchUrl(uri);
+  late DateFormat _dateFormatter;
+  late DateTime _itemDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _dateFormatter = DateFormat("MMM dd, yyyy");
+    _itemDate =
+        DateTime.fromMillisecondsSinceEpoch(widget.timestampDetailDateCreated);
   }
 
-  // Show Snackbar Template
-  Future<void> _showSnackbar(String message, String url) async {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        elevation: 0,
-        margin: const EdgeInsets.only(bottom: 30),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              elevation: 5,
-              color: (isDarkMode)
-                  ? StyleUtil.c_success_dark
-                  : StyleUtil.c_success_light,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 32.0, vertical: 14.0),
-                child: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Icon(
-                        Icons.check_circle,
-                        color: StyleUtil.c_255,
-                      ),
-                    ),
-                    Text(
-                      message,
-                      style: StyleUtil.text_small_Medium.copyWith(
-                        letterSpacing: 1,
-                        color: StyleUtil.c_255,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    await _openUrl(url);
+  @override
+  void didUpdateWidget(covariant DetailCreationAdditionalInfo oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.timestampDetailDateCreated !=
+        widget.timestampDetailDateCreated) {
+      setState(() {
+        _itemDate = DateTime.fromMillisecondsSinceEpoch(
+            widget.timestampDetailDateCreated);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    DateTime itemDate =
-        DateTime.fromMillisecondsSinceEpoch(widget.timestampDetailDateCreated);
-    DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
+    final bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 15),
           child: _creatorSection(
+            isDarkMode,
             widget.detailProjectData.creatorPhotoProfilePath,
             widget.detailProjectData.creatorPhotoProfilePathHash,
             widget.detailProjectData.creatorName,
@@ -284,24 +310,24 @@ class _DetailCreationAdditionalInfoState
         ),
         Padding(
           padding: const EdgeInsets.only(top: 30),
-          child: _createdOnSection(dateFormatter.format(itemDate)),
+          child:
+              _createdOnSection(isDarkMode, _dateFormatter.format(_itemDate)),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 15),
-          child: _creationTagSection(),
+          child: _creationTagSection(isDarkMode),
         ),
       ],
     );
   }
 
   Widget _creatorSection(
+      bool isDarkMode,
       List<String> creatorImageProfile,
       List<String> creatorImageProfileHash,
       List<String> creatorName,
       List<String> creatorRole,
       List<String> creatorLinkProfile) {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
@@ -317,7 +343,9 @@ class _DetailCreationAdditionalInfoState
                 child: MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () async => await _showSnackbar(
+                    onTap: () async => await _showSuccessSnackbarAndOpenUrl(
+                        context,
+                        isDarkMode,
                         "User Profile Opened Successfully!",
                         creatorLinkProfile[index]),
                     child: Container(
@@ -352,9 +380,12 @@ class _DetailCreationAdditionalInfoState
                       cursor: SystemMouseCursors.click,
                       child: SelectionContainer.disabled(
                         child: GestureDetector(
-                          onTap: () async => await _showSnackbar(
-                              "User Profile Opened Successfully!",
-                              creatorLinkProfile[index]),
+                          onTap: () async =>
+                              await _showSuccessSnackbarAndOpenUrl(
+                                  context,
+                                  isDarkMode,
+                                  "User Profile Opened Successfully!",
+                                  creatorLinkProfile[index]),
                           child: Text(
                             creatorName[index],
                             style: StyleUtil.text_Base_Bold.copyWith(
@@ -381,9 +412,7 @@ class _DetailCreationAdditionalInfoState
     );
   }
 
-  Widget _createdOnSection(String formatedDate) {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-
+  Widget _createdOnSection(bool isDarkMode, String formatedDate) {
     return SizedBox(
       width: double.maxFinite,
       child: Column(
@@ -405,9 +434,7 @@ class _DetailCreationAdditionalInfoState
     );
   }
 
-  Widget _creationTagSection() {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-
+  Widget _creationTagSection(bool isDarkMode) {
     return SizedBox(
       width: double.maxFinite,
       child: Wrap(
@@ -685,69 +712,14 @@ class LinkCardItem extends ConsumerStatefulWidget {
 class _LinkCardItemState extends ConsumerState<LinkCardItem> {
   bool cardIsHovered = false;
 
-  // Open Url
-  Future<void> _openUrl(String url) async {
-    Uri uri = Uri.parse(url);
-    !await launchUrl(uri);
-  }
-
-  // Show Snackbar Template
-  Future<void> _showSnackbar(String message, String url) async {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        elevation: 0,
-        margin: const EdgeInsets.only(bottom: 30),
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Colors.transparent,
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              elevation: 5,
-              color: (isDarkMode)
-                  ? StyleUtil.c_success_dark
-                  : StyleUtil.c_success_light,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 32.0, vertical: 14.0),
-                child: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(right: 10),
-                      child: Icon(
-                        Icons.check_circle,
-                        color: StyleUtil.c_255,
-                      ),
-                    ),
-                    Text(
-                      message,
-                      style: StyleUtil.text_small_Medium.copyWith(
-                        letterSpacing: 1,
-                        color: StyleUtil.c_255,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-    await _openUrl(url);
-  }
-
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+    final bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return InkWell(
-      onTap: () async => await _showSnackbar(
+      onTap: () async => await _showSuccessSnackbarAndOpenUrl(
+          context,
+          isDarkMode,
           "${widget.customSnackbarTitle ?? widget.title} Opened Successfully!",
           widget.link),
       onHover: (val) => setState(() => cardIsHovered = val),
@@ -765,7 +737,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
             width: 1,
           ),
           borderRadius: BorderRadius.circular(8),
-          gradient: gradientColorAnimationDecider(),
+          gradient: _gradientColorAnimationDecider(isDarkMode),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -782,13 +754,13 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
                   Text(
                     widget.title,
                     style: StyleUtil.text_Base_Bold.copyWith(
-                      color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
+                      color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61,
                     ),
                   ),
                   Text(
                     widget.desc,
                     style: StyleUtil.text_Base_Regular.copyWith(
-                      color: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
+                      color: isDarkMode ? StyleUtil.c_170 : StyleUtil.c_61,
                     ),
                   ),
                 ],
@@ -796,7 +768,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
             ),
             AnimatedOpacity(
               duration: const Duration(milliseconds: 150),
-              opacity: opacityAnimationDecider(),
+              opacity: _opacityAnimationDecider(),
               child: Padding(
                 padding: const EdgeInsets.only(right: 16),
                 child: Icon(Icons.arrow_forward_ios,
@@ -809,9 +781,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
     );
   }
 
-  LinearGradient gradientColorAnimationDecider() {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-
+  LinearGradient _gradientColorAnimationDecider(bool isDarkMode) {
     if (widget.isCompactDeviceMode) {
       // Compact device Mode
       return const LinearGradient(
@@ -836,7 +806,7 @@ class _LinkCardItemState extends ConsumerState<LinkCardItem> {
     }
   }
 
-  double opacityAnimationDecider() {
+  double _opacityAnimationDecider() {
     if (widget.isCompactDeviceMode) return 1; // Compact device Mode
 
     return (cardIsHovered) ? 1 : 0; // Determine Card Hover

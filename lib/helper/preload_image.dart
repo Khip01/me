@@ -37,45 +37,44 @@ Future<void> loadImage(ImageProvider provider) {
   return completer.future;
 }
 
-
 // REFERENCE PRELOADING IMAGE ASSET - GITHUB:
 // https://github.com/flutter/flutter/issues/26127#issuecomment-782083060
 
-
 Future<void> preloadIconImage() async {
   // Asset List
-  List<String> preloadedAsset = [
+  const List<String> preloadedAsset = [
     // Welcome Page
-      IconUtil.wavingHand,
+    IconUtil.wavingHand,
     // Further Page
-      IconUtil.flutterLogo,
-      IconUtil.firebaseLogoNew,
-      // Icons Social Media
-      IconUtil.imgBrowserDark, // Browser
-      IconUtil.imgBrowserLight,
-      IconUtil.imgGithubDefault, // Github
-      IconUtil.imgGithubDark,
-      IconUtil.imgGithubLight,
-      IconUtil.imgInstagramDefault, // Instagram
-      IconUtil.imgInstagramDark,
-      IconUtil.imgInstagramLight,
-      IconUtil.imgFacebookDefault, // Facebook
-      IconUtil.imgFacebookDark,
-      IconUtil.imgFacebookLight,
-      IconUtil.imgGmailDefault, // Gmail
-      IconUtil.imgGmailDark,
-      IconUtil.imgGmailLight,
-      IconUtil.imgLinkedinDefault, // LijnkedIn
-      IconUtil.imgLinkedinDark,
-      IconUtil.imgLinkedinLight,
-      IconUtil.imgLinkDark, // Link
-      IconUtil.imgLinkLight,
+    IconUtil.flutterLogo,
+    IconUtil.firebaseLogoNew,
+    // Icons Social Media
+    IconUtil.imgBrowserDark, // Browser
+    IconUtil.imgBrowserLight,
+    IconUtil.imgGithubDefault, // Github
+    IconUtil.imgGithubDark,
+    IconUtil.imgGithubLight,
+    IconUtil.imgInstagramDefault, // Instagram
+    IconUtil.imgInstagramDark,
+    IconUtil.imgInstagramLight,
+    IconUtil.imgFacebookDefault, // Facebook
+    IconUtil.imgFacebookDark,
+    IconUtil.imgFacebookLight,
+    IconUtil.imgGmailDefault, // Gmail
+    IconUtil.imgGmailDark,
+    IconUtil.imgGmailLight,
+    IconUtil.imgLinkedinDefault, // LijnkedIn
+    IconUtil.imgLinkedinDark,
+    IconUtil.imgLinkedinLight,
+    IconUtil.imgLinkDark, // Link
+    IconUtil.imgLinkLight,
     // Super User Page
     // IconUtil.incognitoMode,
     // IconUtil.incognitoFingerprint,
     // IconUtil.incognitoMask,
   ];
 
-  // Load the image
-  preloadedAsset.forEach((imageAsset) async => await loadImage(AssetImage(imageAsset)));
+  // Load the image assets before app start to avoid jank on first paint
+  await Future.wait(
+      preloadedAsset.map((imageAsset) => loadImage(AssetImage(imageAsset))));
 }

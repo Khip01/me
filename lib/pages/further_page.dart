@@ -25,10 +25,7 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   bool isFromLeft = true, transitionIsActive = false, ignoreTapping = false;
 
   // --- Nav Section ---
-  // Nav List Hover
-  final List<bool> _navHover =
-      List.generate(4, (index) => index == 3 ? true : false);
-  List<bool> _iconsHover = List.generate(5, (i) => false);
+  final List<bool> _iconsHover = List.generate(5, (i) => false);
 
   //  Other Hover
   bool themeSwitch = false;
@@ -47,9 +44,9 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   Rect? _rectCreation;
   Rect? _rectHistory;
 
-  // Duration
-  Duration animationDuration = const Duration(milliseconds: 300),
-      afterAnimationDelay = const Duration(milliseconds: 300);
+  // Duration constants for page transitions
+  static const Duration animationDuration = Duration(milliseconds: 300);
+  static const Duration afterAnimationDelay = Duration(milliseconds: 300);
 
   // TODO: ------ Function ------
   // --- Content Top Section

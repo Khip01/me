@@ -43,9 +43,9 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   Rect? _rectHistory;
   Rect? _rectFurther;
 
-  // Duration
-  Duration animationDuration = const Duration(milliseconds: 300),
-      afterAnimationDelay = const Duration(milliseconds: 300);
+  // Duration constants for page transitions
+  static const Duration animationDuration = Duration(milliseconds: 300);
+  static const Duration afterAnimationDelay = Duration(milliseconds: 300);
 
   // TODO: ------ Function ------
   // --- Content Top Section
@@ -484,7 +484,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             Row(
               children: [
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: horPadding, vertical: verPadding),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: horPadding, vertical: verPadding),
                   child: Text(
                     "Welcome",
                     style: StyleUtil.text_small_Regular.copyWith(
@@ -546,7 +547,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       vertical: verPadding,
                     ),
                     isCompactMode:
-                    getIsMobileSize(context) || getIsTabletSize(context),
+                        getIsMobileSize(context) || getIsTabletSize(context),
                     colorStart: StyleUtil.c_170,
                     colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
                     actionDelay: const Duration(milliseconds: 100),

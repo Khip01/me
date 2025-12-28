@@ -6,7 +6,7 @@ class FirebaseAuthServices {
 
 
   static Future<void> userSignOut() async {
-    _auth.signOut();
+    await _auth.signOut();
   }
 
   static Future<User?> signIn(String email, String password) async {

@@ -80,9 +80,9 @@ class _CreationPageState extends ConsumerState<CreationPage>
   Rect? _rectHistorySticky;
   Rect? _rectFurtherSticky;
 
-  // Duration
-  Duration animationDuration = const Duration(milliseconds: 300),
-      afterAnimationDelay = const Duration(milliseconds: 300);
+  // Duration constants for page transitions
+  static const Duration animationDuration = Duration(milliseconds: 300);
+  static const Duration afterAnimationDelay = Duration(milliseconds: 300);
 
   // Creation Section Highlight Scroll Snap List
   final GlobalKey<ScrollSnapListState> _creationHighlightKey = GlobalKey();
@@ -839,8 +839,8 @@ class _CreationPageState extends ConsumerState<CreationPage>
                   ),
                   Text(
                     "scroll",
-                    style: StyleUtil.text_xs_Regular
-                        .copyWith(color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61),
+                    style: StyleUtil.text_xs_Regular.copyWith(
+                        color: isDarkMode ? StyleUtil.c_238 : StyleUtil.c_61),
                   ),
                 ],
               ),

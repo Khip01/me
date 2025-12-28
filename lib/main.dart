@@ -19,7 +19,8 @@ Future<void> main() async {
   // url strategy remove hashtag # on production flutter web
   // setPathUrlStrategy();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
   // Load All Image Icon
   await preloadIconImage();
   // Load Map Creation
@@ -30,19 +31,24 @@ Future<void> main() async {
   runApp(ProviderScope(child: MyApp()));
 }
 
-
 class MyApp extends ConsumerStatefulWidget {
-  late final GoRouter _router;
+  final GoRouter _router;
 
-  MyApp({super.key}) {
-    _router = GoRouter(
+  MyApp({super.key}) : _router = _buildRouter();
+
+  static GoRouter _buildRouter() {
+    return GoRouter(
       errorBuilder: (context, state) {
         return const NotFoundPage();
       },
       routes: [
-        GoRoute(path: "/", name: "welcome", pageBuilder: (context, state){
-          return buildPageWithDefaultTransition(context: context, state: state, child: const WelcomePage());
-        }),
+        GoRoute(
+            path: "/",
+            name: "welcome",
+            pageBuilder: (context, state) {
+              return buildPageWithDefaultTransition(
+                  context: context, state: state, child: const WelcomePage());
+            }),
         GoRoute(
           path: "/creation",
           name: "creation",
@@ -57,10 +63,10 @@ class MyApp extends ConsumerStatefulWidget {
                 final pagePopTo = state.extra as String?;
 
                 // Return /creation page if parameter is invalid
-                if(id == null) {
+                if (id == null) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                      context.go('/creation');
-                    });
+                    context.go('/creation');
+                  });
                   return MaterialPage(
                     key: state.pageKey,
                     child: const SizedBox.shrink(),
@@ -70,8 +76,14 @@ class MyApp extends ConsumerStatefulWidget {
                 // Search Project By ID
                 Object? object = findProjectById(id);
 
-                if(object != null && object is ProjectItemData){
-                  return buildPageWithDefaultTransition(context: context, state: state, child: CreationDetailPage(selectedProject: object, pagePopTo: pagePopTo,));
+                if (object != null && object is ProjectItemData) {
+                  return buildPageWithDefaultTransition(
+                      context: context,
+                      state: state,
+                      child: CreationDetailPage(
+                        selectedProject: object,
+                        pagePopTo: pagePopTo,
+                      ));
                 } else {
                   // Mengarahkan kembali ke halaman /creation jika parameter tidak valid / tidak ditemukan data
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -85,8 +97,9 @@ class MyApp extends ConsumerStatefulWidget {
               },
             ),
           ],
-          pageBuilder: (context, state){
-            return buildPageWithDefaultTransition(context: context, state: state, child: const CreationPage());
+          pageBuilder: (context, state) {
+            return buildPageWithDefaultTransition(
+                context: context, state: state, child: const CreationPage());
           },
         ),
         GoRoute(
@@ -104,7 +117,7 @@ class MyApp extends ConsumerStatefulWidget {
                 final historyItemDataId = state.uri.queryParameters["id"];
 
                 // Return /creation page if parameter is invalid
-                if(index == null || historyItemDataId == null) {
+                if (index == null || historyItemDataId == null) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     context.go('/history');
                   });
@@ -119,8 +132,15 @@ class MyApp extends ConsumerStatefulWidget {
                 // convert to integer
                 int indexInt = int.parse(index);
 
-                if(object != null && object is HistoryItemData && indexInt < object.historyDocumentations!.length && indexInt >= 0){
-                  return buildPageWithDefaultTransition(context: context, state: state, child: HistoryDetailPage(index: indexInt, historyData: object));
+                if (object != null &&
+                    object is HistoryItemData &&
+                    indexInt < object.historyDocumentations!.length &&
+                    indexInt >= 0) {
+                  return buildPageWithDefaultTransition(
+                      context: context,
+                      state: state,
+                      child: HistoryDetailPage(
+                          index: indexInt, historyData: object));
                 } else {
                   // Mengarahkan kembali ke halaman /creation jika parameter tidak valid / tidak ditemukan data
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -134,16 +154,25 @@ class MyApp extends ConsumerStatefulWidget {
               },
             ),
           ],
-          pageBuilder: (context, state){
-            return buildPageWithDefaultTransition(context: context, state: state, child: const HistoryPage());
+          pageBuilder: (context, state) {
+            return buildPageWithDefaultTransition(
+                context: context, state: state, child: const HistoryPage());
           },
         ),
-        GoRoute(path: "/further", name: "further", pageBuilder: (context, state){
-          return buildPageWithDefaultTransition(context: context, state: state, child: const FurtherPage());
-        }),
-        GoRoute(path: "/super-user", name: "super-user-login", pageBuilder: (context, state) {
-          return buildPageWithDefaultTransition(context: context, state: state, child: const SuperUserBase());
-        }),
+        GoRoute(
+            path: "/further",
+            name: "further",
+            pageBuilder: (context, state) {
+              return buildPageWithDefaultTransition(
+                  context: context, state: state, child: const FurtherPage());
+            }),
+        GoRoute(
+            path: "/super-user",
+            name: "super-user-login",
+            pageBuilder: (context, state) {
+              return buildPageWithDefaultTransition(
+                  context: context, state: state, child: const SuperUserBase());
+            }),
       ],
       initialLocation: '/',
       debugLogDiagnostics: kDebugMode,
@@ -155,7 +184,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-
   @override
   void initState() {
     super.initState();
@@ -176,18 +204,17 @@ class _MyAppState extends ConsumerState<MyApp> {
         // colorSchemeSeed: Color.fromARGB(255, 241, 241, 241),
         // colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 129, 168, 255), onPrimary: Colors.blue, secondary: Colors.white70, onSecondary: Colors.white54, error: Colors.red, onError: Colors.redAccent, background: Colors.white, onBackground: Color.fromARGB(255, 129, 168, 255), surface: Colors.white, onSurface: Colors.black),
       ),
-      builder: (BuildContext context, child) =>
-          ResponsiveBreakpoints(
-              breakpoints: const [
-                Breakpoint(start: 0, end: 480, name: MOBILE),
-                Breakpoint(start: 481, end: 600, name: TABLET),
-                Breakpoint(start: 601, end: 800, name: 'DESKTOP-SM'),
-                Breakpoint(start: 801, end: 1100, name: 'DESKTOP-MD'),
-                Breakpoint(start: 1101, end: 1920, name: 'DESKTOP-LG'),
-                Breakpoint(start: 1921, end: double.infinity, name: '4K'),
-              ],
-              child: child!,
-          ),
+      builder: (BuildContext context, child) => ResponsiveBreakpoints(
+        breakpoints: const [
+          Breakpoint(start: 0, end: 480, name: MOBILE),
+          Breakpoint(start: 481, end: 600, name: TABLET),
+          Breakpoint(start: 601, end: 800, name: 'DESKTOP-SM'),
+          Breakpoint(start: 801, end: 1100, name: 'DESKTOP-MD'),
+          Breakpoint(start: 1101, end: 1920, name: 'DESKTOP-LG'),
+          Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+        ],
+        child: child!,
+      ),
       routerConfig: widget._router,
       debugShowCheckedModeBanner: false, // Remove Debug banner when debugging
     );
