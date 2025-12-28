@@ -5,6 +5,7 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/component/components.dart';
+import 'package:me/helper/update_meta_theme_color.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
@@ -237,25 +238,19 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    ignoreTapping = true; // IGNORE FOR ON TAPPING
+    ignoreTapping = true;
     _isFromLeft = !_isFromLeft;
     setState(() => _transitionIsActive = !_transitionIsActive);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(_animationDuration, () {
-        ref.read(isDarkModeProvider.notifier).value =
-            !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
-        changeCookieValue(
-            "${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+        ref.read(isDarkModeProvider.notifier).toggle();
+        final isDark = ref.read(isDarkModeProvider).value;
+        updateMetaThemeColor(isDark);
+        changeCookieValue("$isDark");
       });
-      Future.delayed(
-          _animationDuration + _afterAnimationDelay,
-          () => setState(() {
-                _transitionIsActive = !_transitionIsActive;
-              })).then((_) => setState(
-            () {
-              ignoreTapping = false;
-            },
-          ));
+      Future.delayed(_animationDuration + _afterAnimationDelay, () {
+        setState(() => _transitionIsActive = !_transitionIsActive);
+      }).then((_) => setState(() => ignoreTapping = false));
     });
   }
 
@@ -1492,10 +1487,17 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
       child: HighlightedWidgetOnHover(
         widgetWidth: 75,
         widgetHeight: 75,
-        onTapAction: () => setState(() {
-          (!isDocsExpand) ? startColumnAnimation() : startWrapAnimation();
-          isDocsExpand = !isDocsExpand;
-        }),
+        onTapAction: () {
+          // Update state to trigger AnimatedSize
+          setState(() {
+            (!isDocsExpand) ? startColumnAnimation() : startWrapAnimation();
+            isDocsExpand = !isDocsExpand;
+          });
+
+          // Schedule progress recalculation AFTER AnimatedSize completes.
+          // This ensures we read the REAL maxScrollExtent, not estimates.
+          widget.onLayoutChange?.call();
+        },
         customBorderRadius: BorderRadius.circular(5),
         child: SizedBox(
           width: 75,

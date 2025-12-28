@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/component/components.dart';
 import 'package:me/helper/helper.dart';
+import 'package:me/helper/update_meta_theme_color.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/animated_scroll_idle.dart';
@@ -148,28 +149,19 @@ class _CreationPageState extends ConsumerState<CreationPage>
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    ignoreTapping = true; // IGNORE FOR ON TAPPING
+    ignoreTapping = true;
     isFromLeft = !isFromLeft;
     setState(() => transitionIsActive = !transitionIsActive);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Future.delayed(animationDuration,
-          // () => setState(() {
-          //       ref.read(isDarkMode.notifier).state =
-          //           !ref.read(isDarkMode); // SET DARK MODE HERE
-          //     }),
-          () {
-        ref.read(isDarkModeProvider.notifier).value =
-            !ref.read(isDarkModeProvider.notifier).value; // SET DARK MODE HERE
-        changeCookieValue(
-            "${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(animationDuration, () {
+        ref.read(isDarkModeProvider.notifier).toggle();
+        final isDark = ref.read(isDarkModeProvider).value;
+        updateMetaThemeColor(isDark);
+        changeCookieValue("$isDark");
       });
-      Future.delayed(
-          animationDuration + afterAnimationDelay,
-          () => setState(() {
-                transitionIsActive = !transitionIsActive;
-              })).then((_) => setState(() {
-            ignoreTapping = false;
-          }));
+      Future.delayed(animationDuration + afterAnimationDelay, () {
+        setState(() => transitionIsActive = !transitionIsActive);
+      }).then((_) => setState(() => ignoreTapping = false));
     });
   }
 

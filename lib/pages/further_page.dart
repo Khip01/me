@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/utility/utility.dart';
 import 'package:me/component/components.dart';
+import 'package:me/helper/update_meta_theme_color.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,23 +53,19 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
   // --- Content Top Section
   // Switch Mode
   void switchWithTransition() async {
-    ignoreTapping = true; // IGNORE FOR ON TAPPING
+    ignoreTapping = true;
     isFromLeft = !isFromLeft;
     setState(() => transitionIsActive = !transitionIsActive);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(animationDuration, () {
-        ref.read(isDarkModeProvider.notifier).value =
-            !ref.read(isDarkModeProvider).value; // SET DARK MODE HERE
-        changeCookieValue(
-            "${ref.read(isDarkModeProvider.notifier).value}"); // SET COOKIE VALUE HERE
+        ref.read(isDarkModeProvider.notifier).toggle();
+        final isDark = ref.read(isDarkModeProvider).value;
+        updateMetaThemeColor(isDark);
+        changeCookieValue("$isDark");
       });
-      Future.delayed(
-          animationDuration + afterAnimationDelay,
-          () => setState(() {
-                transitionIsActive = !transitionIsActive;
-              })).then((_) => setState(() {
-            ignoreTapping = false;
-          }));
+      Future.delayed(animationDuration + afterAnimationDelay, () {
+        setState(() => transitionIsActive = !transitionIsActive);
+      }).then((_) => setState(() => ignoreTapping = false));
     });
   }
 

@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// Manages the app's dark/light theme state using ChangeNotifier pattern.
 class ThemeNotifier extends ChangeNotifier {
-  bool value = false;
+  bool _isDark = false;
+
+  bool get value => _isDark;
+  set value(bool v) {
+    if (_isDark != v) {
+      _isDark = v;
+      notifyListeners();
+    }
+  }
+
+  void toggle() {
+    value = !_isDark;
+  }
 
   void setThemeDark() {
     value = true;
-    notifyListeners();
   }
 
   void setThemeLight() {
     value = false;
-    notifyListeners();
   }
 }
 
