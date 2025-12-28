@@ -186,7 +186,9 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
                       constraints: const BoxConstraints(
                         maxWidth: 1100,
                       ),
-                      // padding: contentCardPadding(context),
+                      padding: getIsMobileSize(context)
+                          ? contentCardPadding(context)
+                          : EdgeInsets.zero,
                       // clipBehavior: Clip.antiAlias,
                       // decoration: BoxDecoration(
                       //   borderRadius: BorderRadius.circular(20),

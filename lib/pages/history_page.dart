@@ -293,7 +293,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
               constraints: const BoxConstraints(
                 maxWidth: 1100,
               ),
-              // padding: contentCardPadding(context),
+              padding: getIsMobileSize(context)
+                  ? contentCardPadding(context)
+                  : EdgeInsets.zero,
               // clipBehavior: Clip.antiAlias,
               // decoration: BoxDecoration(
               //   borderRadius:
