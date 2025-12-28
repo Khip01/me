@@ -53,6 +53,9 @@ class _CreationPageState extends ConsumerState<CreationPage>
   late final ValueNotifier<double> _scrollProgressNotifier =
       ValueNotifier(0.01);
 
+  // Throttling for drag interaction (stores last applied scroll offset)
+  double _lastDragScrollOffset = -1.0;
+
   //  Other Hover
   bool themeSwitch = false;
 
@@ -323,7 +326,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
     bool isMobile = getIsMobileSize(context);
 
-    // Mobile: Horizontal indicator at bottom (interactive scrub)
+    // Mobile: Horizontal indicator at bottom (interactive drag)
     if (isMobile) {
       return Positioned(
         left: 0,
@@ -331,8 +334,15 @@ class _CreationPageState extends ConsumerState<CreationPage>
         bottom: 0,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapDown: (TapDownDetails details) {
-            _handleHorizontalScrub(details.localPosition.dx);
+          onPanStart: (DragStartDetails details) {
+            _lastDragScrollOffset = -1.0;
+            _handleHorizontalDrag(details.localPosition.dx);
+          },
+          onPanUpdate: (DragUpdateDetails details) {
+            _handleHorizontalDrag(details.localPosition.dx);
+          },
+          onPanEnd: (DragEndDetails details) {
+            _lastDragScrollOffset = -1.0;
           },
           child: ValueListenableBuilder<double>(
             valueListenable: _scrollProgressNotifier,
@@ -379,8 +389,15 @@ class _CreationPageState extends ConsumerState<CreationPage>
       child: Center(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapDown: (TapDownDetails details) {
-            _handleVerticalScrub(details.localPosition.dy, barHeight);
+          onPanStart: (DragStartDetails details) {
+            _lastDragScrollOffset = -1.0;
+            _handleVerticalDrag(details.localPosition.dy, barHeight);
+          },
+          onPanUpdate: (DragUpdateDetails details) {
+            _handleVerticalDrag(details.localPosition.dy, barHeight);
+          },
+          onPanEnd: (DragEndDetails details) {
+            _lastDragScrollOffset = -1.0;
           },
           child: ValueListenableBuilder<double>(
             valueListenable: _scrollProgressNotifier,
@@ -420,8 +437,9 @@ class _CreationPageState extends ConsumerState<CreationPage>
     );
   }
 
-  /// Handles horizontal scrub interaction for Mobile progress indicator.
-  void _handleHorizontalScrub(double localX) {
+  /// Handles horizontal drag interaction for Mobile progress indicator.
+  /// Includes throttling to avoid excessive jumpTo calls.
+  void _handleHorizontalDrag(double localX) {
     if (!_navScrollController.hasClients) return;
 
     final double barWidth = MediaQuery.sizeOf(context).width;
@@ -429,18 +447,27 @@ class _CreationPageState extends ConsumerState<CreationPage>
     final double targetOffset =
         percentage * _navScrollController.position.maxScrollExtent;
 
-    _navScrollController.jumpTo(targetOffset);
+    // Throttle: only update if offset changed by more than 2 pixels
+    if ((_lastDragScrollOffset - targetOffset).abs() > 2.0) {
+      _lastDragScrollOffset = targetOffset;
+      _navScrollController.jumpTo(targetOffset);
+    }
   }
 
-  /// Handles vertical scrub interaction for Desktop/Tablet progress indicator.
-  void _handleVerticalScrub(double localY, double barHeight) {
+  /// Handles vertical drag interaction for Desktop/Tablet progress indicator.
+  /// Includes throttling to avoid excessive jumpTo calls.
+  void _handleVerticalDrag(double localY, double barHeight) {
     if (!_navScrollController.hasClients) return;
 
     final double percentage = (localY / barHeight).clamp(0.0, 1.0);
     final double targetOffset =
         percentage * _navScrollController.position.maxScrollExtent;
 
-    _navScrollController.jumpTo(targetOffset);
+    // Throttle: only update if offset changed by more than 2 pixels
+    if ((_lastDragScrollOffset - targetOffset).abs() > 2.0) {
+      _lastDragScrollOffset = targetOffset;
+      _navScrollController.jumpTo(targetOffset);
+    }
   }
 
   // TODO: ------ Page Section ------
