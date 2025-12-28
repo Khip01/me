@@ -412,30 +412,33 @@ class _CreationPageState extends ConsumerState<CreationPage>
   Widget _navTopSticky(bool isVisible) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    return Visibility(
-      visible: true,
-      maintainAnimation: true,
-      maintainState: true,
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.fastOutSlowIn,
-        opacity: isVisible ? 1 : 0,
-        child: Container(
-          padding: contentCardPadding(context),
-          decoration: BoxDecoration(
-            color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-            boxShadow: [
-              BoxShadow(
-                color: (isDarkMode)
-                    ? const Color.fromARGB(255, 61, 61, 61)
-                    : const Color.fromARGB(255, 203, 203, 203),
-                blurRadius: 80.0,
-              ),
-            ],
+    return AbsorbPointer(
+      absorbing: !isVisible,
+      child: Visibility(
+        visible: true,
+        maintainAnimation: true,
+        maintainState: true,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.fastOutSlowIn,
+          opacity: isVisible ? 1 : 0,
+          child: Container(
+            padding: contentCardPadding(context),
+            decoration: BoxDecoration(
+              color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
+              boxShadow: [
+                BoxShadow(
+                  color: (isDarkMode)
+                      ? const Color.fromARGB(255, 61, 61, 61)
+                      : const Color.fromARGB(255, 203, 203, 203),
+                  blurRadius: 80.0,
+                ),
+              ],
+            ),
+            width: MediaQuery.sizeOf(context).width,
+            height: 80,
+            child: _navSectionSticky(),
           ),
-          width: MediaQuery.sizeOf(context).width,
-          height: 80,
-          child: _navSectionSticky(),
         ),
       ),
     );
