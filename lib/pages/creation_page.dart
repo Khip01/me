@@ -12,6 +12,7 @@ import 'package:me/utility/icon_util.dart';
 import 'package:me/widget/animated_scroll_idle.dart';
 import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:me/widget/scroll_behavior.dart';
+import 'package:me/widget/scroll_progress_indicator.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -52,9 +53,6 @@ class _CreationPageState extends ConsumerState<CreationPage>
   // Value Notifier Scroll Progress Indicator
   late final ValueNotifier<double> _scrollProgressNotifier =
       ValueNotifier(0.01);
-
-  // Throttling for drag interaction (stores last applied scroll offset)
-  double _lastDragScrollOffset = -1.0;
 
   //  Other Hover
   bool themeSwitch = false;
@@ -306,7 +304,12 @@ class _CreationPageState extends ConsumerState<CreationPage>
           ),
         ),
         // Scroll Progress Indicator
-        _scrollProgressIndicator(),
+        ScrollProgressIndicator(
+          scrollController: _navScrollController,
+          progressNotifier: _scrollProgressNotifier,
+          isMobile: getIsMobileSize(context),
+          isDarkMode: isDarkMode,
+        ),
         // Normal Nav
         _transitionToWelcomePage(_rectWelcome),
         _transitionToHistoryPage(_rectHistory),
@@ -319,155 +322,6 @@ class _CreationPageState extends ConsumerState<CreationPage>
         _switchTapedWithTransition(),
       ],
     );
-  }
-
-  // ------ Scroll Progress Indicator ------
-  Widget _scrollProgressIndicator() {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
-    bool isMobile = getIsMobileSize(context);
-
-    // Mobile: Horizontal indicator at bottom (interactive drag)
-    if (isMobile) {
-      return Positioned(
-        left: 0,
-        right: 0,
-        bottom: 0,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onPanStart: (DragStartDetails details) {
-            _lastDragScrollOffset = -1.0;
-            _handleHorizontalDrag(details.localPosition.dx);
-          },
-          onPanUpdate: (DragUpdateDetails details) {
-            _handleHorizontalDrag(details.localPosition.dx);
-          },
-          onPanEnd: (DragEndDetails details) {
-            _lastDragScrollOffset = -1.0;
-          },
-          child: ValueListenableBuilder<double>(
-            valueListenable: _scrollProgressNotifier,
-            builder: (context, progress, child) {
-              return Container(
-                height: 12,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? StyleUtil.c_61.withValues(alpha: 0.5)
-                      : StyleUtil.c_238.withValues(alpha: 0.5),
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: FractionallySizedBox(
-                    widthFactor: progress,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: isDarkMode
-                              ? [StyleUtil.c_170, StyleUtil.c_255]
-                              : [StyleUtil.c_61, StyleUtil.c_170],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      );
-    }
-
-    // Desktop / Tablet: Vertical indicator on right side (interactive scrub)
-    final double barHeight = MediaQuery.sizeOf(context).height * 0.28;
-
-    return Positioned(
-      right: 12,
-      top: 0,
-      bottom: 0,
-      child: Center(
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onPanStart: (DragStartDetails details) {
-            _lastDragScrollOffset = -1.0;
-            _handleVerticalDrag(details.localPosition.dy, barHeight);
-          },
-          onPanUpdate: (DragUpdateDetails details) {
-            _handleVerticalDrag(details.localPosition.dy, barHeight);
-          },
-          onPanEnd: (DragEndDetails details) {
-            _lastDragScrollOffset = -1.0;
-          },
-          child: ValueListenableBuilder<double>(
-            valueListenable: _scrollProgressNotifier,
-            builder: (context, progress, child) {
-              return Container(
-                width: 8,
-                height: barHeight,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? StyleUtil.c_61.withValues(alpha: 0.5)
-                      : StyleUtil.c_238.withValues(alpha: 0.5),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Align(
-                  alignment: Alignment.topCenter,
-                  child: FractionallySizedBox(
-                    heightFactor: progress,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: isDarkMode
-                              ? [StyleUtil.c_170, StyleUtil.c_255]
-                              : [StyleUtil.c_61, StyleUtil.c_170],
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Handles horizontal drag interaction for Mobile progress indicator.
-  /// Includes throttling to avoid excessive jumpTo calls.
-  void _handleHorizontalDrag(double localX) {
-    if (!_navScrollController.hasClients) return;
-
-    final double barWidth = MediaQuery.sizeOf(context).width;
-    final double percentage = (localX / barWidth).clamp(0.0, 1.0);
-    final double targetOffset =
-        percentage * _navScrollController.position.maxScrollExtent;
-
-    // Throttle: only update if offset changed by more than 2 pixels
-    if ((_lastDragScrollOffset - targetOffset).abs() > 2.0) {
-      _lastDragScrollOffset = targetOffset;
-      _navScrollController.jumpTo(targetOffset);
-    }
-  }
-
-  /// Handles vertical drag interaction for Desktop/Tablet progress indicator.
-  /// Includes throttling to avoid excessive jumpTo calls.
-  void _handleVerticalDrag(double localY, double barHeight) {
-    if (!_navScrollController.hasClients) return;
-
-    final double percentage = (localY / barHeight).clamp(0.0, 1.0);
-    final double targetOffset =
-        percentage * _navScrollController.position.maxScrollExtent;
-
-    // Throttle: only update if offset changed by more than 2 pixels
-    if ((_lastDragScrollOffset - targetOffset).abs() > 2.0) {
-      _lastDragScrollOffset = targetOffset;
-      _navScrollController.jumpTo(targetOffset);
-    }
   }
 
   // TODO: ------ Page Section ------

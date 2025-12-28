@@ -11,6 +11,7 @@ import 'package:me/provider/theme_provider.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/highlighted_widget_on_hover.dart';
 import 'package:me/widget/image_preview.dart';
+import 'package:me/widget/scroll_progress_indicator.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../widget/list_image_section.dart';
@@ -32,10 +33,16 @@ class HistoryDetailPage extends ConsumerStatefulWidget {
 
 class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
   final historyItemController = ItemScrollController();
+  final ItemPositionsListener _itemPositionsListener =
+      ItemPositionsListener.create();
 
   final double appBarHeight = 80;
 
   int? indexPreviewed;
+
+  // Scroll Progress (visual only - no drag since ScrollablePositionedList
+  // doesn't expose a standard ScrollController)
+  final ValueNotifier<double> _scrollProgressNotifier = ValueNotifier(0.01);
 
   @override
   void initState() {
@@ -43,6 +50,42 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       historyItemController.jumpTo(index: widget.index);
     });
+    // Listen to item positions to calculate progress
+    _itemPositionsListener.itemPositions.addListener(_onItemPositionsChanged);
+  }
+
+  @override
+  void dispose() {
+    _itemPositionsListener.itemPositions
+        .removeListener(_onItemPositionsChanged);
+    super.dispose();
+  }
+
+  void _onItemPositionsChanged() {
+    final positions = _itemPositionsListener.itemPositions.value;
+    if (positions.isEmpty) return;
+
+    final totalItems = widget.historyData.historyDocumentations?.length ?? 1;
+    if (totalItems <= 1) {
+      _scrollProgressNotifier.value = 0.01;
+      return;
+    }
+
+    // Find the first visible item
+    final firstVisible = positions
+        .where((pos) => pos.itemLeadingEdge <= 0 && pos.itemTrailingEdge > 0)
+        .firstOrNull;
+    final firstItem = firstVisible ?? positions.first;
+
+    // Calculate progress based on item index and position within item
+    final double itemProgress =
+        (1.0 - firstItem.itemLeadingEdge).clamp(0.0, 1.0);
+    final double progress =
+        ((firstItem.index + itemProgress) / totalItems).clamp(0.01, 1.0);
+
+    if (_scrollProgressNotifier.value != progress) {
+      _scrollProgressNotifier.value = progress;
+    }
   }
 
   @override
@@ -74,6 +117,14 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
                   ),
                 ],
               ),
+            ),
+            // Scroll Progress Indicator (visual only - no drag interaction
+            // since ScrollablePositionedList doesn't use standard ScrollController)
+            ScrollProgressIndicator(
+              scrollController: null,
+              progressNotifier: _scrollProgressNotifier,
+              isMobile: getIsMobileSize(context),
+              isDarkMode: isDarkMode,
             ),
             ImagePreview(
               images: widget
@@ -171,6 +222,7 @@ class _HistoryDetailPageState extends ConsumerState<HistoryDetailPage> {
       child: ScrollablePositionedList.builder(
         itemCount: widget.historyData.historyDocumentations!.length,
         itemScrollController: historyItemController,
+        itemPositionsListener: _itemPositionsListener,
         itemBuilder: (context, index) {
           return ItemHistorySection(
             index: index,

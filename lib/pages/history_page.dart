@@ -9,6 +9,7 @@ import 'package:me/provider/theme_provider.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/highlighted_widget_on_hover.dart';
+import 'package:me/widget/scroll_progress_indicator.dart';
 import 'package:me/widget/text_highlight_decider.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -43,6 +44,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   // Value Notifier Idle Scroll animation
   final ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
+
+  // Value Notifier Scroll Progress Indicator
+  final ValueNotifier<double> _scrollProgressNotifier = ValueNotifier(0.01);
 
   //  Other Hover
   bool themeSwitch = false;
@@ -92,6 +96,16 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       final isScrollIdleVisible = _navScrollController.offset <= 1;
       if (_scrollIdleNotifier.value != isScrollIdleVisible) {
         _scrollIdleNotifier.value = isScrollIdleVisible;
+      }
+      // Scroll Progress Indicator
+      if (_navScrollController.hasClients &&
+          _navScrollController.position.maxScrollExtent > 0) {
+        final progress = (_navScrollController.offset /
+                _navScrollController.position.maxScrollExtent)
+            .clamp(0.01, 1.0);
+        if (_scrollProgressNotifier.value != progress) {
+          _scrollProgressNotifier.value = progress;
+        }
       }
     });
 
@@ -203,39 +217,50 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
         SelectionArea(
           child: Scaffold(
             backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-            body: CustomScrollView(
-              controller: _navScrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Stack(
-                    children: [
-                      _coverPageSection(scrHeight),
-                      // Scroll Idle Animation
-                      ValueListenableBuilder<bool>(
-                        valueListenable: _scrollIdleNotifier,
-                        builder: (context, isVisible, child) {
-                          return _scrollIldeSticky(isVisible);
-                        },
-                      ),
-                    ],
+            body: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: CustomScrollView(
+                controller: _navScrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Stack(
+                      children: [
+                        _coverPageSection(scrHeight),
+                        // Scroll Idle Animation
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _scrollIdleNotifier,
+                          builder: (context, isVisible, child) {
+                            return _scrollIldeSticky(isVisible);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                MultiSliver(pushPinnedChildren: true, children: [
-                  // Sticky Navbar
-                  ValueListenableBuilder<bool>(
-                    valueListenable: _navIsStickyNotifier,
-                    builder: (context, isVisible, child) {
-                      return SliverPinnedHeader(
-                        child: _navTopSticky(isVisible),
-                      );
-                    },
-                  ),
-                  _historyPageSection(),
-                  _footerTechnology(),
-                ]),
-              ],
+                  MultiSliver(pushPinnedChildren: true, children: [
+                    // Sticky Navbar
+                    ValueListenableBuilder<bool>(
+                      valueListenable: _navIsStickyNotifier,
+                      builder: (context, isVisible, child) {
+                        return SliverPinnedHeader(
+                          child: _navTopSticky(isVisible),
+                        );
+                      },
+                    ),
+                    _historyPageSection(),
+                    _footerTechnology(),
+                  ]),
+                ],
+              ),
             ),
           ),
+        ),
+        // Scroll Progress Indicator
+        ScrollProgressIndicator(
+          scrollController: _navScrollController,
+          progressNotifier: _scrollProgressNotifier,
+          isMobile: getIsMobileSize(context),
+          isDarkMode: isDarkMode,
         ),
         // Normal Nav
         _transitionToWelcomePage(_rectWelcome),

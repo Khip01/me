@@ -9,6 +9,7 @@ import 'package:me/utility/style_util.dart';
 import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
+import 'package:me/widget/scroll_progress_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widget/image_preview.dart';
@@ -92,6 +93,35 @@ class CreationDetailPage extends ConsumerStatefulWidget {
 class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   int? indexPreviewed;
 
+  // Scroll Progress
+  final ScrollController _scrollController = ScrollController();
+  final ValueNotifier<double> _scrollProgressNotifier = ValueNotifier(0.01);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients &&
+        _scrollController.position.maxScrollExtent > 0) {
+      final progress = (_scrollController.offset /
+              _scrollController.position.maxScrollExtent)
+          .clamp(0.01, 1.0);
+      if (_scrollProgressNotifier.value != progress) {
+        _scrollProgressNotifier.value = progress;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
@@ -101,14 +131,25 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
         backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
         body: Stack(
           children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  _coverSectionSelectedCreation(),
-                  _contentBodySelectedCreation(),
-                ],
+            ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  children: [
+                    _coverSectionSelectedCreation(),
+                    _contentBodySelectedCreation(),
+                  ],
+                ),
               ),
+            ),
+            ScrollProgressIndicator(
+              scrollController: _scrollController,
+              progressNotifier: _scrollProgressNotifier,
+              isMobile: getIsMobileSize(context),
+              isDarkMode: isDarkMode,
             ),
             ImagePreview(
               images: widget.selectedProject.projectImagePathList,
