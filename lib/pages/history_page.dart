@@ -51,8 +51,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
   // Animation for layout-driven progress changes (expand/collapse)
   late final AnimationController _progressAnimController;
-  double _previousMaxScrollExtent = 0.0;
-  double _previousScrollOffset = 0.0;
+  VoidCallback? _currentProgressListener;
+
+  // Interaction versioning: ensures only the latest layout change callback runs.
+  // Prevents race conditions during rapid expand/collapse.
+  int _layoutChangeVersion = 0;
 
   //  Other Hover
   bool themeSwitch = false;
@@ -119,38 +122,30 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     super.initState();
   }
 
-  /// Updates scroll progress - animates for layout changes, instant for user scrolling.
+  /// Updates scroll progress for user scrolling.
+  ///
+  /// CRITICAL: User scroll input ALWAYS wins over layout-driven animation.
+  /// If user scrolls while a progress animation is running, we cancel the
+  /// animation and sync to the REAL scroll position immediately.
+  /// This prevents stale animations from overriding actual scroll state.
   void _updateScrollProgress() {
     final double currentOffset = _navScrollController.offset;
     final double currentMaxExtent =
         _navScrollController.position.maxScrollExtent;
-    final double newProgress =
+    final double realProgress =
         (currentOffset / currentMaxExtent).clamp(0.01, 1.0);
 
-    // Detect layout change: maxScrollExtent changed but scroll position ~same
-    final bool isLayoutChange =
-        (currentMaxExtent - _previousMaxScrollExtent).abs() > 10.0 &&
-            (currentOffset - _previousScrollOffset).abs() < 5.0;
-
-    if (isLayoutChange && !_progressAnimController.isAnimating) {
-      // Layout change (expand/collapse) - animate smoothly
-      final double fromProgress = _scrollProgressNotifier.value;
-      _progressAnimController.reset();
-      _progressAnimController
-          .addListener(_onProgressAnimation(fromProgress, newProgress));
-      _progressAnimController.forward().then((_) {
-        _progressAnimController
-            .removeListener(_onProgressAnimation(fromProgress, newProgress));
-      });
-    } else if (!_progressAnimController.isAnimating) {
-      // Normal scrolling - instant update
-      if (_scrollProgressNotifier.value != newProgress) {
-        _scrollProgressNotifier.value = newProgress;
-      }
+    // If animation is running and user scrolls, user wins - cancel animation
+    if (_progressAnimController.isAnimating) {
+      _cancelProgressAnimation();
+      // Invalidate any pending layout callbacks since user took control
+      _layoutChangeVersion++;
     }
 
-    _previousMaxScrollExtent = currentMaxExtent;
-    _previousScrollOffset = currentOffset;
+    // Instant update to reflect real scroll state
+    if (_scrollProgressNotifier.value != realProgress) {
+      _scrollProgressNotifier.value = realProgress;
+    }
   }
 
   /// Returns a listener function for animating progress from [from] to [to].
@@ -163,43 +158,77 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     };
   }
 
-  /// Manually recalculates scroll progress after layout changes (expand/collapse).
-  /// Called after AnimatedSize completes since ScrollController doesn't emit events for layout changes.
-  void recalculateScrollProgress({bool animate = true}) {
-    if (!_navScrollController.hasClients ||
-        _navScrollController.position.maxScrollExtent <= 0) {
-      return;
-    }
+  /// Schedules scroll progress recalculation AFTER layout settles.
+  ///
+  /// Called when expand/collapse is triggered. Waits for AnimatedSize (400ms)
+  /// to complete, then reads the REAL maxScrollExtent and animates to it.
+  ///
+  /// Version guard ensures only the latest interaction's callback runs,
+  /// preventing race conditions during rapid tapping.
+  void scheduleProgressRecalculation() {
+    if (!_navScrollController.hasClients) return;
 
-    final double currentOffset = _navScrollController.offset;
-    final double currentMaxExtent =
-        _navScrollController.position.maxScrollExtent;
-    final double newProgress =
-        (currentOffset / currentMaxExtent).clamp(0.01, 1.0);
+    // Increment version to invalidate any pending callbacks
+    _layoutChangeVersion++;
+    final int thisVersion = _layoutChangeVersion;
 
-    if (animate && !_progressAnimController.isAnimating) {
-      // Animate from current displayed progress to new calculated progress
-      final double fromProgress = _scrollProgressNotifier.value;
-      if ((fromProgress - newProgress).abs() > 0.001) {
-        _progressAnimController.reset();
-        final listener = _onProgressAnimation(fromProgress, newProgress);
-        _progressAnimController.addListener(listener);
-        _progressAnimController.forward().then((_) {
-          _progressAnimController.removeListener(listener);
-        });
+    // Cancel any running animation immediately
+    _cancelProgressAnimation();
+
+    // Wait for AnimatedSize to complete (400ms) + small buffer for layout settle
+    Future.delayed(const Duration(milliseconds: 420), () {
+      // Version guard: only proceed if this is still the latest interaction
+      if (!mounted || thisVersion != _layoutChangeVersion) return;
+      if (!_navScrollController.hasClients ||
+          _navScrollController.position.maxScrollExtent <= 0) {
+        return;
       }
-    } else if (!animate) {
-      // Instant update
-      _scrollProgressNotifier.value = newProgress;
-    }
 
-    // Update tracking variables
-    _previousMaxScrollExtent = currentMaxExtent;
-    _previousScrollOffset = currentOffset;
+      // Read REAL values from settled layout - this is the source of truth
+      final double currentOffset = _navScrollController.offset;
+      final double realMaxExtent =
+          _navScrollController.position.maxScrollExtent;
+      final double targetProgress =
+          (currentOffset / realMaxExtent).clamp(0.01, 1.0);
+
+      final double fromProgress = _scrollProgressNotifier.value;
+      final double delta = (fromProgress - targetProgress).abs();
+
+      // Only animate if there's a meaningful difference
+      if (delta > 0.005) {
+        _progressAnimController.reset();
+        _currentProgressListener =
+            _onProgressAnimation(fromProgress, targetProgress);
+        _progressAnimController.addListener(_currentProgressListener!);
+        _progressAnimController.forward().then((_) {
+          // Clean up listener after animation completes
+          if (_currentProgressListener != null &&
+              thisVersion == _layoutChangeVersion) {
+            _progressAnimController.removeListener(_currentProgressListener!);
+            _currentProgressListener = null;
+          }
+        });
+      } else {
+        // Small difference - instant update
+        _scrollProgressNotifier.value = targetProgress;
+      }
+    });
+  }
+
+  /// Cancels any running progress animation and cleans up listener.
+  void _cancelProgressAnimation() {
+    if (_progressAnimController.isAnimating) {
+      _progressAnimController.stop();
+    }
+    if (_currentProgressListener != null) {
+      _progressAnimController.removeListener(_currentProgressListener!);
+      _currentProgressListener = null;
+    }
   }
 
   @override
   void dispose() {
+    _cancelProgressAnimation();
     _progressAnimController.dispose();
     super.dispose();
   }
@@ -951,14 +980,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
                         HistoryType(
                           titleType: "WORK",
                           historyData: History.historyDataWork,
-                          onLayoutChange: () =>
-                              recalculateScrollProgress(animate: true),
+                          onLayoutChange: scheduleProgressRecalculation,
                         ),
                         HistoryType(
                           titleType: "EDUCATION",
                           historyData: History.historyDataEdu,
-                          onLayoutChange: () =>
-                              recalculateScrollProgress(animate: true),
+                          onLayoutChange: scheduleProgressRecalculation,
                         ),
                       ],
                     ),
@@ -1374,18 +1401,17 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
             padding: const EdgeInsets.only(top: 10),
             child: InkWell(
               onTap: () {
+                // Update state to trigger AnimatedSize
                 setState(() {
                   (!isDocsExpand)
                       ? startColumnAnimation()
                       : startWrapAnimation();
                   isDocsExpand = !isDocsExpand;
                 });
-                // Trigger scroll progress recalculation after AnimatedSize completes (400ms)
-                if (widget.onLayoutChange != null) {
-                  Future.delayed(const Duration(milliseconds: 420), () {
-                    widget.onLayoutChange!();
-                  });
-                }
+
+                // Schedule progress recalculation AFTER AnimatedSize completes.
+                // This ensures we read the REAL maxScrollExtent, not estimates.
+                widget.onLayoutChange?.call();
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
