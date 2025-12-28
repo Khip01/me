@@ -1,685 +1,262 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!--
-      If you are serving your web app in a path other than the root, change the
-      href value below to reflect the base path you are serving from.
-
-      The path provided below has to start and end with a slash "/" in order for
-      it to work correctly.
-
-      For more details:
-      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-      This is a placeholder for base href that will be replaced by the value of
-      the `--base-href` argument provided to `flutter build`.
-    -->
-    <!-- <base href="/"> -->
-
     <meta charset="UTF-8">
     <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-    <meta name="description" content="Flutter Web Portfo">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
+    <meta name="keywords" content="flutter, portfolio, web development, dart, programming">
+    <meta name="author" content="Your Name">
 
     <!-- iOS meta tags & icons -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="me">
     <link rel="apple-touch-icon" href="icons/Icon-192.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon.png">
 
     <!-- Favicon -->
-    <!--    <link rel="icon" type="image/png" href="favicon.png"/>-->
-    <!-- FAvicon Custom -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <!--  CUSTOM Favicon  -->
-    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
-    <!-- Preload flutter.js -->
-    <link rel="preload" href="flutter.js" as="script">
-
-    <title>Me</title>
-    <link rel="manifest" href="manifest.json">
-
-    <!-- Meta tags untuk SEO -->
-    <meta name="description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
-    <meta name="keywords" content="flutter, portfolio, web development, dart, programming">
-    <meta name="author" content="Your Name">
-
-    <!-- Open Graph meta tags untuk berbagi di sosial media -->
+    <!-- Open Graph -->
     <meta property="og:title" content="Me - Flutter Portfolio">
     <meta property="og:description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
     <meta property="og:image" content="https://yourdomain.com/path/to/thumbnail.jpg">
     <meta property="og:url" content="https://yourdomain.com">
     <meta property="og:type" content="website">
 
-    <!-- Twitter Card meta tags -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Me - Flutter Portfolio">
     <meta name="twitter:description" content="Flutter Web Portfolio - Showcasing my journey and work in Flutter development">
     <meta name="twitter:image" content="https://yourdomain.com/path/to/thumbnail.jpg">
 
+    <title>Me</title>
+    <link rel="preload" href="flutter.js" as="script">
+
     <script>
-    // The value below is injected by flutter build, do not touch.
-    const serviceWorkerVersion = "3499225485";
-  </script>
-    <!-- This script adds the flutter initialization JS code -->
+        const serviceWorkerVersion = "3499225485";
+    </script>
     <script src="flutter.js" defer></script>
+
     <style>
-    /* LOADING PAGE */
-    .center-body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 97vh;
-        height: 97svh;
-        flex-direction: column;
-
-        /****** center box
-      width: 300px;
-      height: 300px;
-      border: solid 1px #aaa;
-      ******/
-    }
-
-    .body-text {
-      /*position: absolute;*/
-      /*width: 58px;*/
-      height: 27px;
-      font-family: 'Jaldi';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 27px;
-    }
-
-    .loader-spanne-20 {
-        position: relative;
-        width: 100px;
-        height: 30px;
-        padding: 0;
-    }
-
-      .loader-spanne-20 > span {
-          position: absolute;
-          right: 0;
-          width: 3px;
-          height: 35px;
-          background-color: black;
-          display: block;
-          border-radius: 3px;
-          transform-origin: 50% 100%;
-          animation: move 2.8s linear infinite;
-      }
-
-          .loader-spanne-20 > span:nth-child(1) {
-              animation-delay: -0.4s;
-          }
-
-          .loader-spanne-20 > span:nth-child(2) {
-              animation-delay: -0.8s;
-          }
-
-          .loader-spanne-20 > span:nth-child(3) {
-              animation-delay: -1.2s;
-          }
-
-          .loader-spanne-20 > span:nth-child(4) {
-              animation-delay: -1.6s;
-          }
-
-          .loader-spanne-20 > span:nth-child(5) {
-              animation-delay: -2s;
-          }
-
-          .loader-spanne-20 > span:nth-child(6) {
-              animation-delay: -2.4s;
-          }
-
-          .loader-spanne-20 > span:nth-child(7) {
-              animation-delay: -2.8s;
-          }
-
-  @keyframes move {
-      0% {
-          opacity: 0;
-          transform: translateX(0px) rotate(0deg);
-      }
-
-      20% {
-          opacity: 1;
-      }
-
-      40% {
-          transform: translateX(-40px) rotate(0deg);
-      }
-
-      50% {
-          opacity: 1;
-          transform: translateX(-55px) rotate(22deg);
-      }
-
-      85% {
-          opacity: 1;
-          transform: translateX(-80px) rotate(60deg);
-      }
-
-      100% {
-          opacity: 0;
-          transform: translateX(-90px) rotate(65deg);
-      }
-  }
-
-
-  /* FONT */
-  .lato-thin {
-    font-family: "Lato", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-  }
-
-  .lato-light {
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-  }
-
-  .lato-regular {
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-
-  .lato-bold {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-  }
-
-  .lato-black {
-    font-family: "Lato", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-  }
-
-  .lato-thin-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-  }
-
-  .lato-light-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-  }
-
-  .lato-regular-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-
-  .lato-bold-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
-
-  .lato-black-italic {
-    font-family: "Lato", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-  }
-
-  /* MEDIA QUERIES */
-  /* MOBILE */
-  @media only screen and (max-device-width: 480px) {
-      .body-text {
-        font-size: 19px;
-        line-height: 48px;
-      }
-
-      .loader-spanne-20 {
-        /* background-color: red; */
-        position: relative;
-        width: 128px;
-        height: 72px;
-        padding: 0;
-      }
-
-      .loader-spanne-20 > span {
-        position: absolute;
-        right: 0;
-        width: 4px;
-        height: 72px;
-        background-color: black;
-        display: block;
-        border-radius: 3px;
-        transform-origin: 50% 100%;
-        animation: move 2.8s linear infinite;
-      }
-
-      @keyframes move {
-        0% {
-          opacity: 0;
-          transform: translateX(0px) rotate(0deg);
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #212121;
+            --loader-color: #000000;
+            --state-text-color: #888888;
         }
 
-        20% {
-          opacity: 1;
+        :root.dark {
+            --bg-color: #212121;
+            --text-color: #ffffff;
+            --loader-color: #ffffff;
+            --state-text-color: #aaaaaa;
         }
 
-        40% {
-          transform: translateX(-40px) rotate(0deg);
+        @media (prefers-color-scheme: dark) {
+            :root:not(.light) {
+                --bg-color: #212121;
+                --text-color: #ffffff;
+                --loader-color: #ffffff;
+                --state-text-color: #aaaaaa;
+            }
         }
 
-        50% {
-          opacity: 1;
-          transform: translateX(-65px) rotate(22deg);
+        html, body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        85% {
-          opacity: 1;
-          transform: translateX(-126px) rotate(60deg);
+        .center-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            width: 100%;
+            height: 97svh;
         }
 
-        100% {
-          opacity: 0;
-          transform: translateX(-147px) rotate(65deg);
-        }
-    }
-  }
-
-  /* TABLET */
-  @media only screen and (min-device-width: 481px) and (max-device-width: 600px) {
-    .body-text {
-        font-size: 20px;
-        line-height: 37px;
-    }
-
-    .loader-spanne-20 {
-      position: relative;
-      width: 160px;
-      height: 65px;
-      padding: 0;
-    }
-
-    .loader-spanne-20 > span {
-      position: absolute;
-      right: 0;
-      width: 5px;
-      height: 65px;
-      background-color: black;
-      display: block;
-      border-radius: 3px;
-      transform-origin: 50% 100%;
-      animation: move 2.8s linear infinite;
-    }
-
-    @keyframes move {
-      0% {
-        opacity: 0;
-        transform: translateX(0px) rotate(0deg);
-      }
-
-       20% {
-         opacity: 1;
-       }
-
-       40% {
-        transform: translateX(-58px) rotate(0deg);
-       }
-
-      50% {
-        opacity: 1;
-        transform: translateX(-80px) rotate(22deg);
-      }
-
-      85% {
-        opacity: 1;
-        transform: translateX(-136px) rotate(60deg);
-      }
-
-      100% {
-        opacity: 0;
-        transform: translateX(-163px) rotate(65deg);
-      }
-    }
-  }
-
-  /* DESKTOP SM */
-  @media only screen and (min-device-width: 601px) and (max-device-width: 800px) {
-      .body-text {
-          font-size: 28px;
-          line-height: 60px;
-      }
-
-      .loader-spanne-20 {
-        position: relative;
-        width: 200px;
-        height: 80px;
-        padding: 0;
-      }
-
-      .loader-spanne-20 > span {
-        position: absolute;
-        right: 0;
-        width: 7px;
-        height: 80px;
-        background-color: black;
-        display: block;
-        border-radius: 3px;
-        transform-origin: 50% 100%;
-        animation: move 2.8s linear infinite;
-      }
-
-      @keyframes move {
-        0% {
-          opacity: 0;
-          transform: translateX(0px) rotate(0deg);
+        .body-text {
+            height: 27px;
+            font-family: "Lato", sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 27px;
+            color: var(--text-color);
         }
 
-        20% {
-          opacity: 1;
+        .flutter-state-text {
+            margin-top: 6px;
+            font-family: sans-serif;
+            font-size: 14px;
+            opacity: 0.7;
+            color: var(--state-text-color);
         }
 
-        40% {
-          transform: translateX(-69px) rotate(0deg);
+        .loader-spanne-20 {
+            position: relative;
+            width: 100px;
+            height: 30px;
+            padding: 0;
         }
 
-        50% {
-          opacity: 1;
-          transform: translateX(-96px) rotate(22deg);
+        .loader-spanne-20 > span {
+            position: absolute;
+            right: 0;
+            width: 3px;
+            height: 35px;
+            background-color: var(--loader-color);
+            display: block;
+            border-radius: 3px;
+            transform-origin: 50% 100%;
+            animation: move 2.8s linear infinite;
         }
 
-        85% {
-          opacity: 1;
-          transform: translateX(-170px) rotate(60deg);
+        .loader-spanne-20 > span:nth-child(1) { animation-delay: -0.4s; }
+        .loader-spanne-20 > span:nth-child(2) { animation-delay: -0.8s; }
+        .loader-spanne-20 > span:nth-child(3) { animation-delay: -1.2s; }
+        .loader-spanne-20 > span:nth-child(4) { animation-delay: -1.6s; }
+        .loader-spanne-20 > span:nth-child(5) { animation-delay: -2s; }
+        .loader-spanne-20 > span:nth-child(6) { animation-delay: -2.4s; }
+        .loader-spanne-20 > span:nth-child(7) { animation-delay: -2.8s; }
+
+        @keyframes move {
+            0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+            20%  { opacity: 1; }
+            40%  { transform: translateX(-40px) rotate(0deg); }
+            50%  { opacity: 1; transform: translateX(-55px) rotate(22deg); }
+            85%  { opacity: 1; transform: translateX(-80px) rotate(60deg); }
+            100% { opacity: 0; transform: translateX(-90px) rotate(65deg); }
         }
 
-        100% {
-          opacity: 0;
-          transform: translateX(-199px) rotate(65deg);
+        /* MOBILE */
+        @media only screen and (max-device-width: 480px) {
+            .body-text { font-size: 19px; line-height: 48px; }
+            .loader-spanne-20 { width: 128px; height: 72px; }
+            .loader-spanne-20 > span { width: 4px; height: 72px; }
+            @keyframes move {
+                0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+                20%  { opacity: 1; }
+                40%  { transform: translateX(-40px) rotate(0deg); }
+                50%  { opacity: 1; transform: translateX(-65px) rotate(22deg); }
+                85%  { opacity: 1; transform: translateX(-126px) rotate(60deg); }
+                100% { opacity: 0; transform: translateX(-147px) rotate(65deg); }
+            }
         }
 
-      }
-  }
+        /* TABLET */
+        @media only screen and (min-device-width: 481px) and (max-device-width: 600px) {
+            .body-text { font-size: 20px; line-height: 37px; }
+            .loader-spanne-20 { width: 160px; height: 65px; }
+            .loader-spanne-20 > span { width: 5px; height: 65px; }
+            @keyframes move {
+                0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+                20%  { opacity: 1; }
+                40%  { transform: translateX(-58px) rotate(0deg); }
+                50%  { opacity: 1; transform: translateX(-80px) rotate(22deg); }
+                85%  { opacity: 1; transform: translateX(-136px) rotate(60deg); }
+                100% { opacity: 0; transform: translateX(-163px) rotate(65deg); }
+            }
+        }
 
-  /* DESKTOP MD */
-  @media only screen and (min-device-width: 801px) and (max-device-width: 1100px) {
-    .body-text {
-      font-size: 16px;
-      line-height: 30px;
-    }
+        /* DESKTOP SM */
+        @media only screen and (min-device-width: 601px) and (max-device-width: 800px) {
+            .body-text { font-size: 28px; line-height: 60px; }
+            .loader-spanne-20 { width: 200px; height: 80px; }
+            .loader-spanne-20 > span { width: 7px; height: 80px; }
+            @keyframes move {
+                0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+                20%  { opacity: 1; }
+                40%  { transform: translateX(-69px) rotate(0deg); }
+                50%  { opacity: 1; transform: translateX(-96px) rotate(22deg); }
+                85%  { opacity: 1; transform: translateX(-170px) rotate(60deg); }
+                100% { opacity: 0; transform: translateX(-199px) rotate(65deg); }
+            }
+        }
 
-    .loader-spanne-20 {
-      position: relative;
-      width: 105px;
-      height: 48px;
-      padding: 0;
-    }
+        /* DESKTOP MD */
+        @media only screen and (min-device-width: 801px) and (max-device-width: 1100px) {
+            .loader-spanne-20 { width: 105px; height: 48px; }
+            .loader-spanne-20 > span { height: 48px; }
+            @keyframes move {
+                0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+                20%  { opacity: 1; }
+                40%  { transform: translateX(-40px) rotate(0deg); }
+                50%  { opacity: 1; transform: translateX(-59px) rotate(22deg); }
+                85%  { opacity: 1; transform: translateX(-99px) rotate(60deg); }
+                100% { opacity: 0; transform: translateX(-113px) rotate(65deg); }
+            }
+        }
 
-    .loader-spanne-20 > span {
-      position: absolute;
-      right: 0;
-      width: 3px;
-      height: 48px;
-      background-color: black;
-      display: block;
-      border-radius: 3px;
-      transform-origin: 50% 100%;
-      animation: move 2.8s linear infinite;
-    }
+        /* DESKTOP LG */
+        @media only screen and (min-device-width: 1101px) and (max-device-width: 1920px) {
+            .loader-spanne-20 { width: 105px; height: 48px; }
+            .loader-spanne-20 > span { height: 48px; }
+            @keyframes move {
+                0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+                20%  { opacity: 1; }
+                40%  { transform: translateX(-40px) rotate(0deg); }
+                50%  { opacity: 1; transform: translateX(-59px) rotate(22deg); }
+                85%  { opacity: 1; transform: translateX(-99px) rotate(60deg); }
+                100% { opacity: 0; transform: translateX(-113px) rotate(65deg); }
+            }
+        }
 
-    @keyframes move {
-      0% {
-        opacity: 0;
-        transform: translateX(0px) rotate(0deg);
-      }
-
-       20% {
-         opacity: 1;
-       }
-
-       40% {
-        transform: translateX(-40px) rotate(0deg);
-       }
-
-      50% {
-        opacity: 1;
-        transform: translateX(-59px) rotate(22deg);
-      }
-
-      85% {
-        opacity: 1;
-        transform: translateX(-99px) rotate(60deg);
-      }
-
-      100% {
-        opacity: 0;
-        transform: translateX(-113px) rotate(65deg);
-      }
-    }
-
-  }
-
-  /* DESKTOP LG */
-  @media only screen and (min-device-width: 1101px) and (max-device-width: 1920px) {
-    .body-text {
-      font-size: 16px;
-      line-height: 30px;
-    }
-
-    .loader-spanne-20 {
-      position: relative;
-      width: 105px;
-      height: 48px;
-      padding: 0;
-    }
-
-    .loader-spanne-20 > span {
-      position: absolute;
-      right: 0;
-      width: 3px;
-      height: 48px;
-      background-color: black;
-      display: block;
-      border-radius: 3px;
-      transform-origin: 50% 100%;
-      animation: move 2.8s linear infinite;
-    }
-
-    @keyframes move {
-      0% {
-        opacity: 0;
-        transform: translateX(0px) rotate(0deg);
-      }
-
-       20% {
-         opacity: 1;
-       }
-
-       40% {
-        transform: translateX(-40px) rotate(0deg);
-       }
-
-      50% {
-        opacity: 1;
-        transform: translateX(-59px) rotate(22deg);
-      }
-
-      85% {
-        opacity: 1;
-        transform: translateX(-99px) rotate(60deg);
-      }
-
-      100% {
-        opacity: 0;
-        transform: translateX(-113px) rotate(65deg);
-      }
-    }
-  }
-
-  /* 4K */
-  @media only screen and (min-device-width: 1921px) {
-    .body-text {
-        font-size: 20px;
-        line-height: 50px;
-    }
-
-    .loader-spanne-20 {
-      position: relative;
-      width: 160px;
-      height: 65px;
-      padding: 0;
-    }
-
-    .loader-spanne-20 > span {
-      position: absolute;
-      right: 0;
-      width: 5px;
-      height: 65px;
-      background-color: black;
-      display: block;
-      border-radius: 3px;
-      transform-origin: 50% 100%;
-      animation: move 2.8s linear infinite;
-    }
-
-    @keyframes move {
-      0% {
-        opacity: 0;
-        transform: translateX(0px) rotate(0deg);
-      }
-
-       20% {
-         opacity: 1;
-       }
-
-       40% {
-        transform: translateX(-58px) rotate(0deg);
-       }
-
-      50% {
-        opacity: 1;
-        transform: translateX(-80px) rotate(22deg);
-      }
-
-      85% {
-        opacity: 1;
-        transform: translateX(-136px) rotate(60deg);
-      }
-
-      100% {
-        opacity: 0;
-        transform: translateX(-163px) rotate(65deg);
-      }
-    }
-  }
-
-  </style>
+        /* 4K */
+        @media only screen and (min-device-width: 1921px) {
+            .body-text { font-size: 20px; line-height: 50px; }
+            .loader-spanne-20 { width: 160px; height: 65px; }
+            .loader-spanne-20 > span { width: 5px; height: 65px; }
+            @keyframes move {
+                0%   { opacity: 0; transform: translateX(0) rotate(0deg); }
+                20%  { opacity: 1; }
+                40%  { transform: translateX(-58px) rotate(0deg); }
+                50%  { opacity: 1; transform: translateX(-80px) rotate(22deg); }
+                85%  { opacity: 1; transform: translateX(-136px) rotate(60deg); }
+                100% { opacity: 0; transform: translateX(-163px) rotate(65deg); }
+            }
+        }
+    </style>
 </head>
 <body>
-
-<!-- Loading -->
-<div class="center-body">
-    <div class="loader-spanne-20">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
-    <div class="body-text lato-regular">
-        Crafting My Journey!
-    </div>
-    <br>
-    <div id="flutter-state-text"
-         style="margin-top:6px; font-family:sans-serif; font-size:14px; opacity:0.7; color:#888;">
+    <div class="center-body">
+        <div class="loader-spanne-20">
+            <span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+        </div>
+        <div class="body-text">Crafting My Journey!</div>
+        <br>
+        <div id="flutter-state-text" class="flutter-state-text"></div>
     </div>
 
-</div>
-
-<!--<script>-->
-<!--    window.addEventListener('load', function(ev) {-->
-<!--      (()=>{var C={blink:!0,gecko:!1,webkit:!1,unknown:!1},R=()=>navigator.vendor==="Google Inc."||navigator.userAgent.includes("Edg/")?"blink":navigator.vendor==="Apple Computer, Inc."?"webkit":navigator.vendor===""&&navigator.userAgent.includes("Firefox")?"gecko":"unknown",L=R(),x=()=>typeof ImageDecoder>"u"?!1:L==="blink",K=()=>typeof Intl.v8BreakIterator<"u"&&typeof Intl.Segmenter<"u",B=()=>{let i=[0,97,115,109,1,0,0,0,1,5,1,95,1,120,0];return WebAssembly.validate(new Uint8Array(i))},w={browserEngine:L,hasImageCodecs:x(),hasChromiumBreakIterators:K(),supportsWasmGC:B(),crossOriginIsolated:window.crossOriginIsolated};function c(...i){return new URL(T(...i),document.baseURI).toString()}function T(...i){return i.filter(e=>!!e).map((e,r)=>r===0?I(e):z(I(e))).filter(e=>e.length).join("/")}function z(i){let e=0;for(;e<i.length&&i.charAt(e)==="/";)e++;return i.substring(e)}function I(i){let e=i.length;for(;e>0&&i.charAt(e-1)==="/";)e--;return i.substring(0,e)}function U(i,e){return i.canvasKitBaseUrl?i.canvasKitBaseUrl:e.engineRevision&&!e.useLocalCanvasKit?T("https://www.gstatic.com/flutter-canvaskit",e.engineRevision):"canvaskit"}var v=class{constructor(){this._scriptLoaded=!1}setTrustedTypesPolicy(e){this._ttPolicy=e}async loadEntrypoint(e){let{entrypointUrl:r=c("main.dart.js"),onEntrypointLoaded:t,nonce:n}=e||{};return this._loadJSEntrypoint(r,t,n)}async load(e,r,t,n,s){s??=u=>{u.initializeEngine(t).then(m=>m.runApp())};let{entrypointBaseUrl:a}=t,{entryPointBaseUrl:o}=t;if(!a&&o&&(console.warn("[deprecated] `entryPointBaseUrl` is deprecated and will be removed in a future release. Use `entrypointBaseUrl` instead."),a=o),e.compileTarget==="dart2wasm")return this._loadWasmEntrypoint(e,r,a,s);{let u=e.mainJsPath??"main.dart.js",m=c(a,u);return this._loadJSEntrypoint(m,s,n)}}didCreateEngineInitializer(e){typeof this._didCreateEngineInitializerResolve=="function"&&(this._didCreateEngineInitializerResolve(e),this._didCreateEngineInitializerResolve=null,delete _flutter.loader.didCreateEngineInitializer),typeof this._onEntrypointLoaded=="function"&&this._onEntrypointLoaded(e)}_loadJSEntrypoint(e,r,t){let n=typeof r=="function";if(!this._scriptLoaded){this._scriptLoaded=!0;let s=this._createScriptTag(e,t);if(n)console.debug("Injecting <script> tag. Using callback."),this._onEntrypointLoaded=r,document.head.append(s);else return new Promise((a,o)=>{console.debug("Injecting <script> tag. Using Promises. Use the callback approach instead!"),this._didCreateEngineInitializerResolve=a,s.addEventListener("error",o),document.head.append(s)})}}async _loadWasmEntrypoint(e,r,t,n){if(!this._scriptLoaded){this._scriptLoaded=!0,this._onEntrypointLoaded=n;let{mainWasmPath:s,jsSupportRuntimePath:a}=e,o=c(t,s),u=c(t,a);this._ttPolicy!=null&&(u=this._ttPolicy.createScriptURL(u));let p=(await import(u)).compileStreaming(fetch(o)),l;e.renderer==="skwasm"?l=(async()=>{let d=await r.skwasm;return window._flutter_skwasmInstance=d,{skwasm:d.wasmExports,skwasmWrapper:d,ffi:{memory:d.wasmMemory}}})():l=Promise.resolve({}),await(await(await p).instantiate(await l,{loadDynamicModule:async(d,S)=>{let j=fetch(c(t,d)),_=c(t,S);this._ttPolicy!=null&&(_=this._ttPolicy.createScriptURL(_));let A=import(_);return[await j,await A]}})).invokeMain()}}_createScriptTag(e,r){let t=document.createElement("script");t.type="application/javascript",r&&(t.nonce=r);let n=e;return this._ttPolicy!=null&&(n=this._ttPolicy.createScriptURL(e)),t.src=n,t}};async function E(i,e,r){if(e<0)return i;let t,n=new Promise((s,a)=>{t=setTimeout(()=>{a(new Error(`${r} took more than ${e}ms to resolve. Moving on.`,{cause:E}))},e)});return Promise.race([i,n]).finally(()=>{clearTimeout(t)})}var h=class{setTrustedTypesPolicy(e){this._ttPolicy=e}loadServiceWorker(e){if(!e)return console.debug("Null serviceWorker configuration. Skipping."),Promise.resolve();if(!("serviceWorker"in navigator)){let o="Service Worker API unavailable.";return window.isSecureContext||(o+=`
-The current context is NOT secure.`,o+=`
-Read more: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts`),Promise.reject(new Error(o))}let{serviceWorkerVersion:r,serviceWorkerUrl:t=c(`flutter_service_worker.js?v=${r}`),timeoutMillis:n=4e3}=e,s=t;this._ttPolicy!=null&&(s=this._ttPolicy.createScriptURL(s));let a=navigator.serviceWorker.register(s).then(o=>this._getNewServiceWorker(o,r)).then(this._waitForServiceWorkerActivation);return E(a,n,"prepareServiceWorker")}async _getNewServiceWorker(e,r){if(!e.active&&(e.installing||e.waiting))return console.debug("Installing/Activating first service worker."),e.installing||e.waiting;if(e.active.scriptURL.endsWith(r))return console.debug("Loading from existing service worker."),e.active;{let t=await e.update();return console.debug("Updating service worker."),t.installing||t.waiting||t.active}}async _waitForServiceWorkerActivation(e){if(!e||e.state==="activated")if(e){console.debug("Service worker already active.");return}else throw new Error("Cannot activate a null service worker!");return new Promise((r,t)=>{e.addEventListener("statechange",()=>{e.state==="activated"&&(console.debug("Activated new service worker."),r())})})}};var g=class{constructor(e,r="flutter-js"){let t=e||[/\.js$/,/\.mjs$/];window.trustedTypes&&(this.policy=trustedTypes.createPolicy(r,{createScriptURL:function(n){if(n.startsWith("blob:"))return n;let s=new URL(n,window.location),a=s.pathname.split("/").pop();if(t.some(u=>u.test(a)))return s.toString();console.error("URL rejected by TrustedTypes policy",r,":",n,"(download prevented)")}}))}};var k=i=>{let e=WebAssembly.compileStreaming(fetch(i));return(r,t)=>((async()=>{let n=await e,s=await WebAssembly.instantiate(n,r);t(s,n)})(),{})};var W=(i,e,r,t)=>(window.flutterCanvasKitLoaded=(async()=>{if(window.flutterCanvasKit)return window.flutterCanvasKit;let n=r.hasChromiumBreakIterators&&r.hasImageCodecs;if(!n&&e.canvasKitVariant=="chromium")throw"Chromium CanvasKit variant specifically requested, but unsupported in this browser";let s=n&&e.canvasKitVariant!=="full",a=t;e.canvasKitVariant=="experimentalWebParagraph"?a=c(a,"experimental_webparagraph"):s&&(a=c(a,"chromium"));let o=c(a,"canvaskit.js");i.flutterTT.policy&&(o=i.flutterTT.policy.createScriptURL(o));let u=k(c(a,"canvaskit.wasm")),m=await import(o);return window.flutterCanvasKit=await m.default({instantiateWasm:u}),window.flutterCanvasKit})(),window.flutterCanvasKitLoaded);var P=async(i,e,r,t)=>{let s=!r.hasImageCodecs||!r.hasChromiumBreakIterators?"skwasm_heavy":"skwasm",a=c(t,`${s}.js`),o=a;i.flutterTT.policy&&(o=i.flutterTT.policy.createScriptURL(o));let u=k(c(t,`${s}.wasm`));return await(await import(o)).default({skwasmSingleThreaded:!r.crossOriginIsolated||e.forceSingleThreadedSkwasm,instantiateWasm:u,locateFile:(p,l)=>{if(p.endsWith(".ww.js")){let y=c(t,p);return URL.createObjectURL(new Blob([`
-"use strict";
-
-let eventListener;
-eventListener = (message) => {
-    const pendingMessages = [];
-    const data = message.data;
-    data["instantiateWasm"] = (info,receiveInstance) => {
-        const instance = new WebAssembly.Instance(data["wasm"], info);
-        return receiveInstance(instance, data["wasm"])
-    };
-    import(data.js).then(async (skwasm) => {
-        await skwasm.default(data);
-
-        removeEventListener("message", eventListener);
-        for (const message of pendingMessages) {
-            dispatchEvent(message);
+    <script>
+        function applyTheme(isDark) {
+            var root = document.documentElement;
+            var meta = document.querySelector('meta[name="theme-color"]');
+            root.classList.toggle('dark', isDark);
+            root.classList.toggle('light', !isDark);
+            if (meta) meta.setAttribute('content', isDark ? '#212121' : '#ffffff');
         }
-    });
-    removeEventListener("message", eventListener);
-    eventListener = (message) => {
 
-        pendingMessages.push(message);
-    };
+        applyTheme(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-    addEventListener("message", eventListener);
-};
-addEventListener("message", eventListener);
-`],{type:"application/javascript"}))}return url},mainScriptUrlOrBlob:a})};var b=class{async loadEntrypoint(e){let{serviceWorker:r,...t}=e||{},n=new g,s=new h;s.setTrustedTypesPolicy(n.policy),await s.loadServiceWorker(r).catch(o=>{console.warn("Exception while loading service worker:",o)});let a=new v;return a.setTrustedTypesPolicy(n.policy),this.didCreateEngineInitializer=a.didCreateEngineInitializer.bind(a),a.loadEntrypoint(t)}async load({serviceWorkerSettings:e,onEntrypointLoaded:r,nonce:t,config:n}={}){n??={};let s=_flutter.buildConfig;if(!s)throw"FlutterLoader.load requires _flutter.buildConfig to be set";let a=n.wasmAllowList?.[w.browserEngine]??C[w.browserEngine],o=d=>{switch(d){case"skwasm":return w.supportsWasmGC&&a;default:return!0}},u=(d,S)=>d.renderer==S,m=d=>d.compileTarget==="dart2wasm"&&!w.supportsWasmGC||n.renderer&&!u(d,n.renderer)?!1:o(d.renderer),p=s.builds.find(m);if(!p)throw"FlutterLoader could not find a build compatible with configuration and environment.";let l={};l.flutterTT=new g,e&&(l.serviceWorkerLoader=new h,l.serviceWorkerLoader.setTrustedTypesPolicy(l.flutterTT.policy),await l.serviceWorkerLoader.loadServiceWorker(e).catch(d=>{console.warn("Exception while loading service worker:",d)}));let y=U(n,s);p.renderer==="canvaskit"?l.canvasKit=W(l,n,w,y):p.renderer==="skwasm"&&(l.skwasm=P(l,n,w,y));let f=new v;return f.setTrustedTypesPolicy(l.flutterTT.policy),this.didCreateEngineInitializer=f.didCreateEngineInitializer.bind(f),f.load(p,l,n,t,r)}};window._flutter||(window._flutter={});window._flutter.loader||(window._flutter.loader=new b);})();
-//# sourceMappingURL=flutter.js.map
--->
-<!--      if (!window._flutter) {
-  window._flutter = {};
-}
-_flutter.buildConfig = {"engineRevision":"035316565ad77281a75305515e4682e6c4c6f7ca","builds":[{"compileTarget":"dart2wasm","renderer":"skwasm","mainWasmPath":"main.dart.wasm","jsSupportRuntimePath":"main.dart.mjs"},{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"}]};
--->
+        function setFlutterState(text) {
+            var el = document.getElementById("flutter-state-text");
+            if (el) { el.innerText = text; el.style.opacity = 1; }
+        }
 
-<!--      // Download main.dart.js-->
-<!--      _flutter.loader.load({-->
-<!--        serviceWorker: {-->
-<!--          serviceWorkerVersion: serviceWorkerVersion,-->
-<!--        },-->
-<!--        onEntrypointLoaded: function(engineInitializer) {-->
-<!--          engineInitializer.initializeEngine({-->
-<!--            renderer: "wasm",-->
-<!--            useColorEmoji: true,-->
-<!--            useIsolate: true, // use multithreading if available-->
-<!--            enablePlatformDetection: true-->
-<!--          }).then(function(appRunner) {-->
-<!--            appRunner.runApp();-->
-<!--          });-->
-<!--        }-->
-<!--      });-->
-<!--    });-->
-<!--  </script>-->
+        setFlutterState("Loading engine...");
 
-<script>
-    function setFlutterState(text) {
-        const el = document.getElementById("flutter-state-text");
-        if (!el) return;
-        el.innerText = text;
-        el.style.opacity = 1;
-    }
-
-    setFlutterState("Loading engine...");
-
-    window.addEventListener('load', function(ev) {
-        (()=>{var C={blink:!0,gecko:!1,webkit:!1,unknown:!1},R=()=>navigator.vendor==="Google Inc."||navigator.userAgent.includes("Edg/")?"blink":navigator.vendor==="Apple Computer, Inc."?"webkit":navigator.vendor===""&&navigator.userAgent.includes("Firefox")?"gecko":"unknown",L=R(),x=()=>typeof ImageDecoder>"u"?!1:L==="blink",K=()=>typeof Intl.v8BreakIterator<"u"&&typeof Intl.Segmenter<"u",B=()=>{let i=[0,97,115,109,1,0,0,0,1,5,1,95,1,120,0];return WebAssembly.validate(new Uint8Array(i))},w={browserEngine:L,hasImageCodecs:x(),hasChromiumBreakIterators:K(),supportsWasmGC:B(),crossOriginIsolated:window.crossOriginIsolated};function c(...i){return new URL(T(...i),document.baseURI).toString()}function T(...i){return i.filter(e=>!!e).map((e,r)=>r===0?I(e):z(I(e))).filter(e=>e.length).join("/")}function z(i){let e=0;for(;e<i.length&&i.charAt(e)==="/";)e++;return i.substring(e)}function I(i){let e=i.length;for(;e>0&&i.charAt(e-1)==="/";)e--;return i.substring(0,e)}function U(i,e){return i.canvasKitBaseUrl?i.canvasKitBaseUrl:e.engineRevision&&!e.useLocalCanvasKit?T("https://www.gstatic.com/flutter-canvaskit",e.engineRevision):"canvaskit"}var v=class{constructor(){this._scriptLoaded=!1}setTrustedTypesPolicy(e){this._ttPolicy=e}async loadEntrypoint(e){let{entrypointUrl:r=c("main.dart.js"),onEntrypointLoaded:t,nonce:n}=e||{};return this._loadJSEntrypoint(r,t,n)}async load(e,r,t,n,s){s??=u=>{u.initializeEngine(t).then(m=>m.runApp())};let{entrypointBaseUrl:a}=t,{entryPointBaseUrl:o}=t;if(!a&&o&&(console.warn("[deprecated] `entryPointBaseUrl` is deprecated and will be removed in a future release. Use `entrypointBaseUrl` instead."),a=o),e.compileTarget==="dart2wasm")return this._loadWasmEntrypoint(e,r,a,s);{let u=e.mainJsPath??"main.dart.js",m=c(a,u);return this._loadJSEntrypoint(m,s,n)}}didCreateEngineInitializer(e){typeof this._didCreateEngineInitializerResolve=="function"&&(this._didCreateEngineInitializerResolve(e),this._didCreateEngineInitializerResolve=null,delete _flutter.loader.didCreateEngineInitializer),typeof this._onEntrypointLoaded=="function"&&this._onEntrypointLoaded(e)}_loadJSEntrypoint(e,r,t){let n=typeof r=="function";if(!this._scriptLoaded){this._scriptLoaded=!0;let s=this._createScriptTag(e,t);if(n)console.debug("Injecting <script> tag. Using callback."),this._onEntrypointLoaded=r,document.head.append(s);else return new Promise((a,o)=>{console.debug("Injecting <script> tag. Using Promises. Use the callback approach instead!"),this._didCreateEngineInitializerResolve=a,s.addEventListener("error",o),document.head.append(s)})}}async _loadWasmEntrypoint(e,r,t,n){if(!this._scriptLoaded){this._scriptLoaded=!0,this._onEntrypointLoaded=n;let{mainWasmPath:s,jsSupportRuntimePath:a}=e,o=c(t,s),u=c(t,a);this._ttPolicy!=null&&(u=this._ttPolicy.createScriptURL(u));let p=(await import(u)).compileStreaming(fetch(o)),l;e.renderer==="skwasm"?l=(async()=>{let d=await r.skwasm;return window._flutter_skwasmInstance=d,{skwasm:d.wasmExports,skwasmWrapper:d,ffi:{memory:d.wasmMemory}}})():l=Promise.resolve({}),await(await(await p).instantiate(await l,{loadDynamicModule:async(d,S)=>{let j=fetch(c(t,d)),_=c(t,S);this._ttPolicy!=null&&(_=this._ttPolicy.createScriptURL(_));let A=import(_);return[await j,await A]}})).invokeMain()}}_createScriptTag(e,r){let t=document.createElement("script");t.type="application/javascript",r&&(t.nonce=r);let n=e;return this._ttPolicy!=null&&(n=this._ttPolicy.createScriptURL(e)),t.src=n,t}};async function E(i,e,r){if(e<0)return i;let t,n=new Promise((s,a)=>{t=setTimeout(()=>{a(new Error(`${r} took more than ${e}ms to resolve. Moving on.`,{cause:E}))},e)});return Promise.race([i,n]).finally(()=>{clearTimeout(t)})}var h=class{setTrustedTypesPolicy(e){this._ttPolicy=e}loadServiceWorker(e){if(!e)return console.debug("Null serviceWorker configuration. Skipping."),Promise.resolve();if(!("serviceWorker"in navigator)){let o="Service Worker API unavailable.";return window.isSecureContext||(o+=`
+        window.addEventListener('load', function(ev) {
+            (()=>{var C={blink:!0,gecko:!1,webkit:!1,unknown:!1},R=()=>navigator.vendor==="Google Inc."||navigator.userAgent.includes("Edg/")?"blink":navigator.vendor==="Apple Computer, Inc."?"webkit":navigator.vendor===""&&navigator.userAgent.includes("Firefox")?"gecko":"unknown",L=R(),x=()=>typeof ImageDecoder>"u"?!1:L==="blink",K=()=>typeof Intl.v8BreakIterator<"u"&&typeof Intl.Segmenter<"u",B=()=>{let i=[0,97,115,109,1,0,0,0,1,5,1,95,1,120,0];return WebAssembly.validate(new Uint8Array(i))},w={browserEngine:L,hasImageCodecs:x(),hasChromiumBreakIterators:K(),supportsWasmGC:B(),crossOriginIsolated:window.crossOriginIsolated};function c(...i){return new URL(T(...i),document.baseURI).toString()}function T(...i){return i.filter(e=>!!e).map((e,r)=>r===0?I(e):z(I(e))).filter(e=>e.length).join("/")}function z(i){let e=0;for(;e<i.length&&i.charAt(e)==="/";)e++;return i.substring(e)}function I(i){let e=i.length;for(;e>0&&i.charAt(e-1)==="/";)e--;return i.substring(0,e)}function U(i,e){return i.canvasKitBaseUrl?i.canvasKitBaseUrl:e.engineRevision&&!e.useLocalCanvasKit?T("https://www.gstatic.com/flutter-canvaskit",e.engineRevision):"canvaskit"}var v=class{constructor(){this._scriptLoaded=!1}setTrustedTypesPolicy(e){this._ttPolicy=e}async loadEntrypoint(e){let{entrypointUrl:r=c("main.dart.js"),onEntrypointLoaded:t,nonce:n}=e||{};return this._loadJSEntrypoint(r,t,n)}async load(e,r,t,n,s){s??=u=>{u.initializeEngine(t).then(m=>m.runApp())};let{entrypointBaseUrl:a}=t,{entryPointBaseUrl:o}=t;if(!a&&o&&(console.warn("[deprecated] `entryPointBaseUrl` is deprecated and will be removed in a future release. Use `entrypointBaseUrl` instead."),a=o),e.compileTarget==="dart2wasm")return this._loadWasmEntrypoint(e,r,a,s);{let u=e.mainJsPath??"main.dart.js",m=c(a,u);return this._loadJSEntrypoint(m,s,n)}}didCreateEngineInitializer(e){typeof this._didCreateEngineInitializerResolve=="function"&&(this._didCreateEngineInitializerResolve(e),this._didCreateEngineInitializerResolve=null,delete _flutter.loader.didCreateEngineInitializer),typeof this._onEntrypointLoaded=="function"&&this._onEntrypointLoaded(e)}_loadJSEntrypoint(e,r,t){let n=typeof r=="function";if(!this._scriptLoaded){this._scriptLoaded=!0;let s=this._createScriptTag(e,t);if(n)console.debug("Injecting <script> tag. Using callback."),this._onEntrypointLoaded=r,document.head.append(s);else return new Promise((a,o)=>{console.debug("Injecting <script> tag. Using Promises. Use the callback approach instead!"),this._didCreateEngineInitializerResolve=a,s.addEventListener("error",o),document.head.append(s)})}}async _loadWasmEntrypoint(e,r,t,n){if(!this._scriptLoaded){this._scriptLoaded=!0,this._onEntrypointLoaded=n;let{mainWasmPath:s,jsSupportRuntimePath:a}=e,o=c(t,s),u=c(t,a);this._ttPolicy!=null&&(u=this._ttPolicy.createScriptURL(u));let p=(await import(u)).compileStreaming(fetch(o)),l;e.renderer==="skwasm"?l=(async()=>{let d=await r.skwasm;return window._flutter_skwasmInstance=d,{skwasm:d.wasmExports,skwasmWrapper:d,ffi:{memory:d.wasmMemory}}})():l=Promise.resolve({}),await(await(await p).instantiate(await l,{loadDynamicModule:async(d,S)=>{let j=fetch(c(t,d)),_=c(t,S);this._ttPolicy!=null&&(_=this._ttPolicy.createScriptURL(_));let A=import(_);return[await j,await A]}})).invokeMain()}}_createScriptTag(e,r){let t=document.createElement("script");t.type="application/javascript",r&&(t.nonce=r);let n=e;return this._ttPolicy!=null&&(n=this._ttPolicy.createScriptURL(e)),t.src=n,t}};async function E(i,e,r){if(e<0)return i;let t,n=new Promise((s,a)=>{t=setTimeout(()=>{a(new Error(`${r} took more than ${e}ms to resolve. Moving on.`,{cause:E}))},e)});return Promise.race([i,n]).finally(()=>{clearTimeout(t)})}var h=class{setTrustedTypesPolicy(e){this._ttPolicy=e}loadServiceWorker(e){if(!e)return console.debug("Null serviceWorker configuration. Skipping."),Promise.resolve();if(!("serviceWorker"in navigator)){let o="Service Worker API unavailable.";return window.isSecureContext||(o+=`
 The current context is NOT secure.`,o+=`
 Read more: https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts`),Promise.reject(new Error(o))}let{serviceWorkerVersion:r,serviceWorkerUrl:t=c(`flutter_service_worker.js?v=${r}`),timeoutMillis:n=4e3}=e,s=t;this._ttPolicy!=null&&(s=this._ttPolicy.createScriptURL(s));let a=navigator.serviceWorker.register(s).then(o=>this._getNewServiceWorker(o,r)).then(this._waitForServiceWorkerActivation);return E(a,n,"prepareServiceWorker")}async _getNewServiceWorker(e,r){if(!e.active&&(e.installing||e.waiting))return console.debug("Installing/Activating first service worker."),e.installing||e.waiting;if(e.active.scriptURL.endsWith(r))return console.debug("Loading from existing service worker."),e.active;{let t=await e.update();return console.debug("Updating service worker."),t.installing||t.waiting||t.active}}async _waitForServiceWorkerActivation(e){if(!e||e.state==="activated")if(e){console.debug("Service worker already active.");return}else throw new Error("Cannot activate a null service worker!");return new Promise((r,t)=>{e.addEventListener("statechange",()=>{e.state==="activated"&&(console.debug("Activated new service worker."),r())})})}};var g=class{constructor(e,r="flutter-js"){let t=e||[/\.js$/,/\.mjs$/];window.trustedTypes&&(this.policy=trustedTypes.createPolicy(r,{createScriptURL:function(n){if(n.startsWith("blob:"))return n;let s=new URL(n,window.location),a=s.pathname.split("/").pop();if(t.some(u=>u.test(a)))return s.toString();console.error("URL rejected by TrustedTypes policy",r,":",n,"(download prevented)")}}))}};var k=i=>{let e=WebAssembly.compileStreaming(fetch(i));return(r,t)=>((async()=>{let n=await e,s=await WebAssembly.instantiate(n,r);t(s,n)})(),{})};var W=(i,e,r,t)=>(window.flutterCanvasKitLoaded=(async()=>{if(window.flutterCanvasKit)return window.flutterCanvasKit;let n=r.hasChromiumBreakIterators&&r.hasImageCodecs;if(!n&&e.canvasKitVariant=="chromium")throw"Chromium CanvasKit variant specifically requested, but unsupported in this browser";let s=n&&e.canvasKitVariant!=="full",a=t;e.canvasKitVariant=="experimentalWebParagraph"?a=c(a,"experimental_webparagraph"):s&&(a=c(a,"chromium"));let o=c(a,"canvaskit.js");i.flutterTT.policy&&(o=i.flutterTT.policy.createScriptURL(o));let u=k(c(a,"canvaskit.wasm")),m=await import(o);return window.flutterCanvasKit=await m.default({instantiateWasm:u}),window.flutterCanvasKit})(),window.flutterCanvasKitLoaded);var P=async(i,e,r,t)=>{let s=!r.hasImageCodecs||!r.hasChromiumBreakIterators?"skwasm_heavy":"skwasm",a=c(t,`${s}.js`),o=a;i.flutterTT.policy&&(o=i.flutterTT.policy.createScriptURL(o));let u=k(c(t,`${s}.wasm`));return await(await import(o)).default({skwasmSingleThreaded:!r.crossOriginIsolated||e.forceSingleThreadedSkwasm,instantiateWasm:u,locateFile:(p,l)=>{if(p.endsWith(".ww.js")){let y=c(t,p);return URL.createObjectURL(new Blob([`
 "use strict";
@@ -712,40 +289,38 @@ addEventListener("message", eventListener);
 `],{type:"application/javascript"}))}return url},mainScriptUrlOrBlob:a})};var b=class{async loadEntrypoint(e){let{serviceWorker:r,...t}=e||{},n=new g,s=new h;s.setTrustedTypesPolicy(n.policy),await s.loadServiceWorker(r).catch(o=>{console.warn("Exception while loading service worker:",o)});let a=new v;return a.setTrustedTypesPolicy(n.policy),this.didCreateEngineInitializer=a.didCreateEngineInitializer.bind(a),a.loadEntrypoint(t)}async load({serviceWorkerSettings:e,onEntrypointLoaded:r,nonce:t,config:n}={}){n??={};let s=_flutter.buildConfig;if(!s)throw"FlutterLoader.load requires _flutter.buildConfig to be set";let a=n.wasmAllowList?.[w.browserEngine]??C[w.browserEngine],o=d=>{switch(d){case"skwasm":return w.supportsWasmGC&&a;default:return!0}},u=(d,S)=>d.renderer==S,m=d=>d.compileTarget==="dart2wasm"&&!w.supportsWasmGC||n.renderer&&!u(d,n.renderer)?!1:o(d.renderer),p=s.builds.find(m);if(!p)throw"FlutterLoader could not find a build compatible with configuration and environment.";let l={};l.flutterTT=new g,e&&(l.serviceWorkerLoader=new h,l.serviceWorkerLoader.setTrustedTypesPolicy(l.flutterTT.policy),await l.serviceWorkerLoader.loadServiceWorker(e).catch(d=>{console.warn("Exception while loading service worker:",d)}));let y=U(n,s);p.renderer==="canvaskit"?l.canvasKit=W(l,n,w,y):p.renderer==="skwasm"&&(l.skwasm=P(l,n,w,y));let f=new v;return f.setTrustedTypesPolicy(l.flutterTT.policy),this.didCreateEngineInitializer=f.didCreateEngineInitializer.bind(f),f.load(p,l,n,t,r)}};window._flutter||(window._flutter={});window._flutter.loader||(window._flutter.loader=new b);})();
 //# sourceMappingURL=flutter.js.map
 
-        if (!window._flutter) {
+            if (!window._flutter) {
   window._flutter = {};
 }
 _flutter.buildConfig = {"engineRevision":"035316565ad77281a75305515e4682e6c4c6f7ca","builds":[{"compileTarget":"dart2wasm","renderer":"skwasm","mainWasmPath":"main.dart.wasm","jsSupportRuntimePath":"main.dart.mjs"},{"compileTarget":"dart2js","renderer":"canvaskit","mainJsPath":"main.dart.js"}]};
 
 
-        _flutter.loader.load({
-            serviceWorker: {
-                serviceWorkerVersion: serviceWorkerVersion,
-            },
+            _flutter.loader.load({
+                serviceWorker: {
+                    serviceWorkerVersion: serviceWorkerVersion,
+                },
 
-            onEntrypointLoaded: function(engineInitializer) {
-                setFlutterState("Initializing engine...");
+                onEntrypointLoaded: function(engineInitializer) {
+                    setFlutterState("Initializing engine...");
 
-                engineInitializer.initializeEngine({
-                    renderer: "wasm",
-                    useColorEmoji: true,
-                    useIsolate: true, // use multithreading if available
-                    enablePlatformDetection: true
-                }).then(function(appRunner) {
+                    engineInitializer.initializeEngine({
+                        renderer: "wasm",
+                        useColorEmoji: true,
+                        useIsolate: true, // use multithreading if available
+                        enablePlatformDetection: true
+                    }).then(function(appRunner) {
 
-                    setFlutterState("Rendering first frame...");
+                        setFlutterState("Rendering first frame...");
 
-                    appRunner.runApp();
+                        appRunner.runApp();
 
-                    window.addEventListener("flutter-first-frame", () => {
-                        setFlutterState("Reloading the page...");
+                        window.addEventListener("flutter-first-frame", () => {
+                            setFlutterState("Reloading the page...");
+                        });
                     });
-                });
-            }
+                }
+            });
         });
-    });
-</script>
-
-
+    </script>
 </body>
 </html>
