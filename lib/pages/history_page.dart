@@ -25,7 +25,8 @@ class HistoryPage extends ConsumerStatefulWidget {
   ConsumerState<HistoryPage> createState() => _HistoryPageState();
 }
 
-class _HistoryPageState extends ConsumerState<HistoryPage> {
+class _HistoryPageState extends ConsumerState<HistoryPage>
+    with SingleTickerProviderStateMixin {
   // TODO: ------ Declaration ------
   late double scrHeight;
 
@@ -47,6 +48,11 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 
   // Value Notifier Scroll Progress Indicator
   final ValueNotifier<double> _scrollProgressNotifier = ValueNotifier(0.01);
+
+  // Animation for layout-driven progress changes (expand/collapse)
+  late final AnimationController _progressAnimController;
+  double _previousMaxScrollExtent = 0.0;
+  double _previousScrollOffset = 0.0;
 
   //  Other Hover
   bool themeSwitch = false;
@@ -86,6 +92,12 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
   // TODO: INIT STATE
   @override
   void initState() {
+    // Initialize progress animation controller (matches AnimatedSize duration)
+    _progressAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+
     _navScrollController.addListener(() {
       // Sticky Nav Top
       final isVisible = _navScrollController.offset > scrHeight;
@@ -100,16 +112,96 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
       // Scroll Progress Indicator
       if (_navScrollController.hasClients &&
           _navScrollController.position.maxScrollExtent > 0) {
-        final progress = (_navScrollController.offset /
-                _navScrollController.position.maxScrollExtent)
-            .clamp(0.01, 1.0);
-        if (_scrollProgressNotifier.value != progress) {
-          _scrollProgressNotifier.value = progress;
-        }
+        _updateScrollProgress();
       }
     });
 
     super.initState();
+  }
+
+  /// Updates scroll progress - animates for layout changes, instant for user scrolling.
+  void _updateScrollProgress() {
+    final double currentOffset = _navScrollController.offset;
+    final double currentMaxExtent =
+        _navScrollController.position.maxScrollExtent;
+    final double newProgress =
+        (currentOffset / currentMaxExtent).clamp(0.01, 1.0);
+
+    // Detect layout change: maxScrollExtent changed but scroll position ~same
+    final bool isLayoutChange =
+        (currentMaxExtent - _previousMaxScrollExtent).abs() > 10.0 &&
+            (currentOffset - _previousScrollOffset).abs() < 5.0;
+
+    if (isLayoutChange && !_progressAnimController.isAnimating) {
+      // Layout change (expand/collapse) - animate smoothly
+      final double fromProgress = _scrollProgressNotifier.value;
+      _progressAnimController.reset();
+      _progressAnimController
+          .addListener(_onProgressAnimation(fromProgress, newProgress));
+      _progressAnimController.forward().then((_) {
+        _progressAnimController
+            .removeListener(_onProgressAnimation(fromProgress, newProgress));
+      });
+    } else if (!_progressAnimController.isAnimating) {
+      // Normal scrolling - instant update
+      if (_scrollProgressNotifier.value != newProgress) {
+        _scrollProgressNotifier.value = newProgress;
+      }
+    }
+
+    _previousMaxScrollExtent = currentMaxExtent;
+    _previousScrollOffset = currentOffset;
+  }
+
+  /// Returns a listener function for animating progress from [from] to [to].
+  VoidCallback _onProgressAnimation(double from, double to) {
+    return () {
+      final double animatedProgress = from +
+          (to - from) *
+              Curves.easeInOut.transform(_progressAnimController.value);
+      _scrollProgressNotifier.value = animatedProgress.clamp(0.01, 1.0);
+    };
+  }
+
+  /// Manually recalculates scroll progress after layout changes (expand/collapse).
+  /// Called after AnimatedSize completes since ScrollController doesn't emit events for layout changes.
+  void recalculateScrollProgress({bool animate = true}) {
+    if (!_navScrollController.hasClients ||
+        _navScrollController.position.maxScrollExtent <= 0) {
+      return;
+    }
+
+    final double currentOffset = _navScrollController.offset;
+    final double currentMaxExtent =
+        _navScrollController.position.maxScrollExtent;
+    final double newProgress =
+        (currentOffset / currentMaxExtent).clamp(0.01, 1.0);
+
+    if (animate && !_progressAnimController.isAnimating) {
+      // Animate from current displayed progress to new calculated progress
+      final double fromProgress = _scrollProgressNotifier.value;
+      if ((fromProgress - newProgress).abs() > 0.001) {
+        _progressAnimController.reset();
+        final listener = _onProgressAnimation(fromProgress, newProgress);
+        _progressAnimController.addListener(listener);
+        _progressAnimController.forward().then((_) {
+          _progressAnimController.removeListener(listener);
+        });
+      }
+    } else if (!animate) {
+      // Instant update
+      _scrollProgressNotifier.value = newProgress;
+    }
+
+    // Update tracking variables
+    _previousMaxScrollExtent = currentMaxExtent;
+    _previousScrollOffset = currentOffset;
+  }
+
+  @override
+  void dispose() {
+    _progressAnimController.dispose();
+    super.dispose();
   }
 
   // TODO: ------ Function ------
@@ -859,10 +951,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
                         HistoryType(
                           titleType: "WORK",
                           historyData: History.historyDataWork,
+                          onLayoutChange: () =>
+                              recalculateScrollProgress(animate: true),
                         ),
                         HistoryType(
                           titleType: "EDUCATION",
                           historyData: History.historyDataEdu,
+                          onLayoutChange: () =>
+                              recalculateScrollProgress(animate: true),
                         ),
                       ],
                     ),
@@ -1037,11 +1133,13 @@ class _HistoryPageState extends ConsumerState<HistoryPage> {
 class HistoryType extends ConsumerWidget {
   final String titleType;
   final List<HistoryItemData> historyData;
+  final VoidCallback? onLayoutChange;
 
   const HistoryType({
     super.key,
     required this.titleType,
     required this.historyData,
+    this.onLayoutChange,
   });
 
   @override
@@ -1067,6 +1165,7 @@ class HistoryType extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return HistoryPath(
                   historyItemData: historyData[index],
+                  onLayoutChange: onLayoutChange,
                 );
               }),
         ],
@@ -1077,10 +1176,12 @@ class HistoryType extends ConsumerWidget {
 
 class HistoryPath extends ConsumerStatefulWidget {
   final HistoryItemData historyItemData;
+  final VoidCallback? onLayoutChange;
 
   const HistoryPath({
     super.key,
     required this.historyItemData,
+    this.onLayoutChange,
   });
 
   @override
@@ -1272,10 +1373,20 @@ class _HistoryPathState extends ConsumerState<HistoryPath> {
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: InkWell(
-              onTap: () => setState(() {
-                (!isDocsExpand) ? startColumnAnimation() : startWrapAnimation();
-                isDocsExpand = !isDocsExpand;
-              }),
+              onTap: () {
+                setState(() {
+                  (!isDocsExpand)
+                      ? startColumnAnimation()
+                      : startWrapAnimation();
+                  isDocsExpand = !isDocsExpand;
+                });
+                // Trigger scroll progress recalculation after AnimatedSize completes (400ms)
+                if (widget.onLayoutChange != null) {
+                  Future.delayed(const Duration(milliseconds: 420), () {
+                    widget.onLayoutChange!();
+                  });
+                }
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
