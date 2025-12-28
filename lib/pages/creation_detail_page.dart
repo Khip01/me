@@ -235,14 +235,14 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
               Tooltip(
                   message: "Flutter Framework",
                   child: Image.asset(IconUtil.flutterLogo)),
-              Text(
-                "  and  ",
-                style:
-                    StyleUtil.text_xs_Regular.copyWith(color: StyleUtil.c_170),
-              ),
-              Tooltip(
-                  message: "Firebase RTDB",
-                  child: Image.asset(IconUtil.firebaseLogoNew)),
+              // Text(
+              //   "  and  ",
+              //   style:
+              //       StyleUtil.text_xs_Regular.copyWith(color: StyleUtil.c_170),
+              // ),
+              // Tooltip(
+              //     message: "Firebase RTDB",
+              //     child: Image.asset(IconUtil.firebaseLogoNew)),
             ],
           ),
         ),

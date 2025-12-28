@@ -950,8 +950,11 @@ class _CreationPageState extends ConsumerState<CreationPage>
     );
   }
 
-  Widget _buildListItemHighlight(BuildContext context, int index,
-      List<ProjectItemData> highlightedCreationsData) {
+  Widget _buildListItemHighlight(
+    BuildContext context,
+    int index,
+    List<ProjectItemData> highlightedCreationsData,
+  ) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     // Menggunakan data dari creationsMap untuk membangun item list
