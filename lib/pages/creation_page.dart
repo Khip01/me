@@ -49,6 +49,10 @@ class _CreationPageState extends ConsumerState<CreationPage>
   // Value Notifier Idle Scroll animation
   late final ValueNotifier<bool> _scrollIdleNotifier = ValueNotifier(true);
 
+  // Value Notifier Scroll Progress Indicator
+  late final ValueNotifier<double> _scrollProgressNotifier =
+      ValueNotifier(0.01);
+
   //  Other Hover
   bool themeSwitch = false;
 
@@ -112,6 +116,16 @@ class _CreationPageState extends ConsumerState<CreationPage>
       final isScrollIdleVisible = _navScrollController.offset <= 1;
       if (_scrollIdleNotifier.value != isScrollIdleVisible) {
         _scrollIdleNotifier.value = isScrollIdleVisible;
+      }
+      // Scroll Progress Indicator
+      if (_navScrollController.hasClients &&
+          _navScrollController.position.maxScrollExtent > 0) {
+        final progress = (_navScrollController.offset /
+                _navScrollController.position.maxScrollExtent)
+            .clamp(0.01, 1.0);
+        if (_scrollProgressNotifier.value != progress) {
+          _scrollProgressNotifier.value = progress;
+        }
       }
     });
 
@@ -284,6 +298,8 @@ class _CreationPageState extends ConsumerState<CreationPage>
             ),
           ),
         ),
+        // Scroll Progress Indicator
+        _scrollProgressIndicator(),
         // Normal Nav
         _transitionToWelcomePage(_rectWelcome),
         _transitionToHistoryPage(_rectHistory),
@@ -295,6 +311,94 @@ class _CreationPageState extends ConsumerState<CreationPage>
         // Dark/Light mode
         _switchTapedWithTransition(),
       ],
+    );
+  }
+
+  // ------ Scroll Progress Indicator ------
+  Widget _scrollProgressIndicator() {
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+    bool isMobile = getIsMobileSize(context);
+
+    // Mobile: Horizontal indicator at bottom
+    if (isMobile) {
+      return Positioned(
+        left: 0,
+        right: 0,
+        bottom: 0,
+        child: ValueListenableBuilder<double>(
+          valueListenable: _scrollProgressNotifier,
+          builder: (context, progress, child) {
+            return Container(
+              height: 8,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? StyleUtil.c_61.withOpacity(0.5)
+                    : StyleUtil.c_238.withOpacity(0.5),
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: FractionallySizedBox(
+                  widthFactor: progress,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: isDarkMode
+                            ? [StyleUtil.c_170, StyleUtil.c_255]
+                            : [StyleUtil.c_61, StyleUtil.c_170],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    }
+
+    // Desktop / Tablet: Vertical indicator on right side
+    return Positioned(
+      right: 12,
+      top: 0,
+      bottom: 0,
+      child: Center(
+        child: ValueListenableBuilder<double>(
+          valueListenable: _scrollProgressNotifier,
+          builder: (context, progress, child) {
+            return Container(
+              width: 4,
+              height: MediaQuery.sizeOf(context).height * 0.28,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? StyleUtil.c_61.withOpacity(0.5)
+                    : StyleUtil.c_238.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(2),
+              ),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: FractionallySizedBox(
+                  heightFactor: progress,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: isDarkMode
+                            ? [StyleUtil.c_170, StyleUtil.c_255]
+                            : [StyleUtil.c_61, StyleUtil.c_170],
+                      ),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
