@@ -265,36 +265,40 @@ class _CreationPageState extends ConsumerState<CreationPage>
         SelectionArea(
           child: Scaffold(
             backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-            body: CustomScrollView(
-              controller: _navScrollController,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Stack(
-                    children: [
-                      _coverPageSection(scrHeight),
-                      // Scroll Idle Animation
-                      ValueListenableBuilder<bool>(
-                        valueListenable: _scrollIdleNotifier,
-                        builder: (context, isVisible, child) {
-                          return _scrollIldeSticky(isVisible);
-                        },
-                      ),
-                    ],
+            body: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: CustomScrollView(
+                controller: _navScrollController,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Stack(
+                      children: [
+                        _coverPageSection(scrHeight),
+                        // Scroll Idle Animation
+                        ValueListenableBuilder<bool>(
+                          valueListenable: _scrollIdleNotifier,
+                          builder: (context, isVisible, child) {
+                            return _scrollIldeSticky(isVisible);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                MultiSliver(pushPinnedChildren: true, children: [
-                  // Sticky Navbar
-                  ValueListenableBuilder<bool>(
-                      valueListenable: _navIsStickyNotifier,
-                      builder: (context, isVisible, child) {
-                        return SliverPinnedHeader(
-                          child: _navTopSticky(isVisible),
-                        );
-                      }),
-                  _creationPageSection(),
-                  _footerTechnology(),
-                ]),
-              ],
+                  MultiSliver(pushPinnedChildren: true, children: [
+                    // Sticky Navbar
+                    ValueListenableBuilder<bool>(
+                        valueListenable: _navIsStickyNotifier,
+                        builder: (context, isVisible, child) {
+                          return SliverPinnedHeader(
+                            child: _navTopSticky(isVisible),
+                          );
+                        }),
+                    _creationPageSection(),
+                    _footerTechnology(),
+                  ]),
+                ],
+              ),
             ),
           ),
         ),
@@ -319,87 +323,124 @@ class _CreationPageState extends ConsumerState<CreationPage>
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
     bool isMobile = getIsMobileSize(context);
 
-    // Mobile: Horizontal indicator at bottom
+    // Mobile: Horizontal indicator at bottom (interactive scrub)
     if (isMobile) {
       return Positioned(
         left: 0,
         right: 0,
         bottom: 0,
-        child: ValueListenableBuilder<double>(
-          valueListenable: _scrollProgressNotifier,
-          builder: (context, progress, child) {
-            return Container(
-              height: 8,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? StyleUtil.c_61.withOpacity(0.5)
-                    : StyleUtil.c_238.withOpacity(0.5),
-              ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: FractionallySizedBox(
-                  widthFactor: progress,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                        colors: isDarkMode
-                            ? [StyleUtil.c_170, StyleUtil.c_255]
-                            : [StyleUtil.c_61, StyleUtil.c_170],
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (TapDownDetails details) {
+            _handleHorizontalScrub(details.localPosition.dx);
+          },
+          child: ValueListenableBuilder<double>(
+            valueListenable: _scrollProgressNotifier,
+            builder: (context, progress, child) {
+              return Container(
+                height: 12,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? StyleUtil.c_61.withValues(alpha: 0.5)
+                      : StyleUtil.c_238.withValues(alpha: 0.5),
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    widthFactor: progress,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: isDarkMode
+                              ? [StyleUtil.c_170, StyleUtil.c_255]
+                              : [StyleUtil.c_61, StyleUtil.c_170],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       );
     }
 
-    // Desktop / Tablet: Vertical indicator on right side
+    // Desktop / Tablet: Vertical indicator on right side (interactive scrub)
+    final double barHeight = MediaQuery.sizeOf(context).height * 0.28;
+
     return Positioned(
       right: 12,
       top: 0,
       bottom: 0,
       child: Center(
-        child: ValueListenableBuilder<double>(
-          valueListenable: _scrollProgressNotifier,
-          builder: (context, progress, child) {
-            return Container(
-              width: 4,
-              height: MediaQuery.sizeOf(context).height * 0.28,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? StyleUtil.c_61.withOpacity(0.5)
-                    : StyleUtil.c_238.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(2),
-              ),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: FractionallySizedBox(
-                  heightFactor: progress,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: isDarkMode
-                            ? [StyleUtil.c_170, StyleUtil.c_255]
-                            : [StyleUtil.c_61, StyleUtil.c_170],
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: (TapDownDetails details) {
+            _handleVerticalScrub(details.localPosition.dy, barHeight);
+          },
+          child: ValueListenableBuilder<double>(
+            valueListenable: _scrollProgressNotifier,
+            builder: (context, progress, child) {
+              return Container(
+                width: 8,
+                height: barHeight,
+                decoration: BoxDecoration(
+                  color: isDarkMode
+                      ? StyleUtil.c_61.withValues(alpha: 0.5)
+                      : StyleUtil.c_238.withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: FractionallySizedBox(
+                    heightFactor: progress,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: isDarkMode
+                              ? [StyleUtil.c_170, StyleUtil.c_255]
+                              : [StyleUtil.c_61, StyleUtil.c_170],
+                        ),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
+  }
+
+  /// Handles horizontal scrub interaction for Mobile progress indicator.
+  void _handleHorizontalScrub(double localX) {
+    if (!_navScrollController.hasClients) return;
+
+    final double barWidth = MediaQuery.sizeOf(context).width;
+    final double percentage = (localX / barWidth).clamp(0.0, 1.0);
+    final double targetOffset =
+        percentage * _navScrollController.position.maxScrollExtent;
+
+    _navScrollController.jumpTo(targetOffset);
+  }
+
+  /// Handles vertical scrub interaction for Desktop/Tablet progress indicator.
+  void _handleVerticalScrub(double localY, double barHeight) {
+    if (!_navScrollController.hasClients) return;
+
+    final double percentage = (localY / barHeight).clamp(0.0, 1.0);
+    final double targetOffset =
+        percentage * _navScrollController.position.maxScrollExtent;
+
+    _navScrollController.jumpTo(targetOffset);
   }
 
   // TODO: ------ Page Section ------
