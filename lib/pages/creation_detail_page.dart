@@ -100,6 +100,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
 
   // Cover animation complete notifier for sticky back button
   final ValueNotifier<bool> _coverAnimationComplete = ValueNotifier(false);
+  final ValueNotifier<bool> _isPreviewedAffectBackButton = ValueNotifier(true);
 
   @override
   void initState() {
@@ -112,7 +113,15 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     _coverAnimationComplete.dispose();
+    _isPreviewedAffectBackButton.dispose();
     super.dispose();
+  }
+
+  void _callbackPreviewMode (int? activeIndex) {
+    setState(() {
+      indexPreviewed = activeIndex;
+    });
+    _isPreviewedAffectBackButton.value = activeIndex == null;
   }
 
   void _onScroll() {
@@ -156,21 +165,19 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
               isMobile: getIsMobileSize(context),
               isDarkMode: isDarkMode,
             ),
-            ImagePreview(
-              images: widget.selectedProject.projectImagePathList,
-              imagesHash: widget.selectedProject.projectImagePathListHash,
-              // isPreviewMode: ref.watch(isPreviewMode),
-              isPreviewMode: indexPreviewed,
-              callbackPreviewMode: (activeIndex) => setState(() {
-                indexPreviewed = activeIndex;
-              }),
-            ),
-            // Sticky back button - always visible and fixed at top
             StickyBackButton(
               customPadding: contentCardPadding(context)
                   .copyWith(top: 50 + (getIsDesktopLgAndBelowSize(context) ? 0 : 56)),
               onPressed: _handleBackNavigation,
               showAfterAnimation: _coverAnimationComplete,
+              showWhenPreviewIsClosed: _isPreviewedAffectBackButton,
+            ),
+            ImagePreview(
+              images: widget.selectedProject.projectImagePathList,
+              imagesHash: widget.selectedProject.projectImagePathListHash,
+              // isPreviewMode: ref.watch(isPreviewMode),
+              isPreviewMode: indexPreviewed,
+              callbackPreviewMode: _callbackPreviewMode,
             ),
           ],
         ),
@@ -239,9 +246,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                         childImageBuilder: <Widget>(image, hash) {
                           return Image.asset(image, fit: BoxFit.contain);
                         },
-                        callbackPreviewMode: (activeIndex) => setState(() {
-                          indexPreviewed = activeIndex;
-                        }),
+                        callbackPreviewMode: _callbackPreviewMode,
                       ),
                       DetailCreationAdditionalInfo(
                         timestampDetailDateCreated:

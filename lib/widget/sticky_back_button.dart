@@ -19,6 +19,9 @@ class StickyBackButton extends ConsumerStatefulWidget {
   /// Optional notifier to animate button appearance after cover animation
   final ValueNotifier<bool>? showAfterAnimation;
 
+  /// Optional notifier to animate button appearance/disapearance when preview image screen is showed
+  final ValueNotifier<bool>? showWhenPreviewIsClosed;
+
   /// Custom padding from edges (defaults to content padding)
   final EdgeInsetsGeometry? customPadding;
 
@@ -26,6 +29,7 @@ class StickyBackButton extends ConsumerStatefulWidget {
     super.key,
     required this.onPressed,
     this.showAfterAnimation,
+    this.showWhenPreviewIsClosed,
     this.customPadding,
   });
 
@@ -43,29 +47,37 @@ class _StickyBackButtonState extends ConsumerState<StickyBackButton> {
     // If animation notifier is provided, start hidden and wait for signal
     if (widget.showAfterAnimation != null) {
       _isVisible = widget.showAfterAnimation!.value;
-      widget.showAfterAnimation!.addListener(_onAnimationComplete);
+      widget.showAfterAnimation!.addListener(_recomputeVisibility);
+    }
+
+    if (widget.showWhenPreviewIsClosed != null) {
+      widget.showWhenPreviewIsClosed!.addListener(_recomputeVisibility);
     }
   }
 
   @override
   void dispose() {
-    widget.showAfterAnimation?.removeListener(_onAnimationComplete);
+    widget.showAfterAnimation?.removeListener(_recomputeVisibility);
+    widget.showWhenPreviewIsClosed?.removeListener(_recomputeVisibility);
     super.dispose();
   }
 
-  void _onAnimationComplete() {
-    if (mounted && widget.showAfterAnimation!.value) {
-      setState(() {
-        _isVisible = true;
-      });
-    }
+  void _recomputeVisibility() {
+    if (!mounted) return;
+
+    final bool animationReady = widget.showAfterAnimation?.value ?? true;
+    final bool previewClosed = widget.showWhenPreviewIsClosed?.value ?? true;
+
+    setState(() {
+      _isVisible = animationReady && previewClosed;
+    });
   }
+
 
   @override
   Widget build(BuildContext context) {
     final bool isDarkMode = ref.watch(isDarkModeProvider).value;
-    final bool isCompactDevice =
-        getIsMobileSize(context) || getIsTabletSize(context);
+    final bool isCompactDevice = getIsMobileSize(context) || getIsTabletSize(context);
     final EdgeInsetsGeometry padding =
         widget.customPadding ?? contentCardPadding(context);
 
