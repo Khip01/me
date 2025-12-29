@@ -5,21 +5,20 @@ import 'package:me/utility/style_util.dart';
 import 'package:me/component/components.dart';
 import 'package:me/provider/theme_provider.dart';
 import 'package:me/values/values.dart';
-import 'package:me/widget/text_highlight_decider.dart';
 
 class CoverImageSlidingCreation extends ConsumerStatefulWidget {
-  // Required atribute
+  // Required attributes
   final bool isCompactDevice; // Only have 2 option, between compact device and desktop device
   final ProjectItemData selectedProject;
   final int imageCountToBeShown; // should be length of the listImage, or u can custom it :)
-  final Function() onTapPopRoute; // custom pop navigator, where page should be landed after pop
+  final ValueNotifier<bool>? coverAnimationCompleteNotifier; // Notifies when cover animation is complete
 
   const CoverImageSlidingCreation({
     super.key,
     required this.isCompactDevice,
     required this.selectedProject,
     required this.imageCountToBeShown,
-    required this.onTapPopRoute,
+    this.coverAnimationCompleteNotifier,
   });
 
   @override
@@ -33,7 +32,10 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
 
   @override
   void initState() {
-    _imageIsVisible = List.generate(widget.imageCountToBeShown, (index) => false, growable: false);
+    _imageIsVisible = List.generate(
+      widget.imageCountToBeShown, (index) => false,
+      growable: false,
+    );
     startCoverAnimation();
     super.initState();
   }
@@ -53,6 +55,8 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
                 setState(() {
                   _isZoomOut = true;
                 });
+                // Notify parent that cover animation is complete
+                widget.coverAnimationCompleteNotifier?.value = true;
               }
             });
           }
@@ -175,10 +179,9 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
           width: MediaQuery.sizeOf(context).width,
           height: MediaQuery.sizeOf(context).height,
           decoration: BoxDecoration(
-            color:
-            isDarkMode ?
-            StyleUtil.c_33.withValues(alpha: _isZoomOut ? 0.7 : 0) :
-            StyleUtil.c_255.withValues(alpha: _isZoomOut ? 0.7 : 0), // TODO DARK MODE SETTING
+            color: isDarkMode
+                ? StyleUtil.c_33.withValues(alpha: _isZoomOut ? 0.7 : 0)
+                : StyleUtil.c_255.withValues(alpha: _isZoomOut ? 0.7 : 0), // TODO DARK MODE SETTING
           ),
         ),
         AnimatedContainer(
@@ -192,11 +195,11 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
               stops: const [0.0, 1.0],
               colors: [
                 Colors.transparent,
-                _isZoomOut ?
-                  isDarkMode ?
-                  StyleUtil.c_33 :
-                  StyleUtil.c_255 :
-                Colors.transparent, // TODO DARK MODE SETTING
+                _isZoomOut
+                    ? isDarkMode
+                        ? StyleUtil.c_33
+                        : StyleUtil.c_255
+                    : Colors.transparent, // TODO DARK MODE SETTING
               ],
             ),
           ),
@@ -213,81 +216,51 @@ class _CoverImageSlidingCreationState extends ConsumerState<CoverImageSlidingCre
   Widget _subFrontTitleCoverSide(){
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    return Column(
-      children: [
-        Padding(
-          padding: contentCardPadding(context),
-          child: SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            height: 100,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: TextHighlightDecider(
-                isCompactMode: getIsMobileSize(context) || getIsTabletSize(context),
-                colorStart: (isDarkMode) ? StyleUtil.c_170 : StyleUtil.c_61,
-                colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
-                actionDelay: Duration(milliseconds: (getIsMobileSize(context) || getIsTabletSize(context)) ? 500 : 100),
-                additionalOnTapAction: widget.onTapPopRoute,
-                builder: (color) {
-                  return Icon(
-                    Icons.arrow_back,
-                    size: 33,
-                    color: color,
-                  );
-                },
+    return Padding(
+      padding: contentCardPadding(context),
+      child: SizedBox(
+        height: MediaQuery.sizeOf(context).height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 15),
+              width: double.maxFinite,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  widget.selectedProject.projectName,
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontSize: 32,
+                    fontWeight: FontWeight.w700,
+                    color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ),
-        ),
-        Padding(
-          padding: contentCardPadding(context),
-          child: SizedBox(
-            height: MediaQuery.sizeOf(context).height - 200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 15),
-                  width: double.maxFinite,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.selectedProject.projectName,
-                      style: TextStyle(
-                        fontFamily: "Lato",
-                        fontSize: 32,
-                        fontWeight: FontWeight.w700,
-                        color:
-                        (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 30),
+              width: 694,
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  widget.selectedProject.projectDescription,
+                  style: TextStyle(
+                    fontFamily: "Lato",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 30),
-                  width: 694,
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.selectedProject.projectDescription,
-                      style: TextStyle(
-                        fontFamily: "Lato",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color:
-                        (isDarkMode) ? StyleUtil.c_238 : StyleUtil.c_61,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

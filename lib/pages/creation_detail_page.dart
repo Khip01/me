@@ -10,6 +10,7 @@ import 'package:me/utility/icon_util.dart';
 import 'package:me/values/values.dart';
 import 'package:me/widget/cover_image_sliding_creation.dart';
 import 'package:me/widget/scroll_progress_indicator.dart';
+import 'package:me/widget/sticky_back_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widget/image_preview.dart';
@@ -97,6 +98,9 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   final ScrollController _scrollController = ScrollController();
   final ValueNotifier<double> _scrollProgressNotifier = ValueNotifier(0.01);
 
+  // Cover animation complete notifier for sticky back button
+  final ValueNotifier<bool> _coverAnimationComplete = ValueNotifier(false);
+
   @override
   void initState() {
     super.initState();
@@ -107,6 +111,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
   void dispose() {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
+    _coverAnimationComplete.dispose();
     super.dispose();
   }
 
@@ -160,6 +165,13 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
                 indexPreviewed = activeIndex;
               }),
             ),
+            // Sticky back button - always visible and fixed at top
+            StickyBackButton(
+              customPadding: contentCardPadding(context)
+                  .copyWith(top: 50 + (getIsDesktopLgAndBelowSize(context) ? 0 : 56)),
+              onPressed: _handleBackNavigation,
+              showAfterAnimation: _coverAnimationComplete,
+            ),
           ],
         ),
       ),
@@ -171,14 +183,16 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
       isCompactDevice: getIsMobileSize(context) || getIsTabletSize(context),
       selectedProject: widget.selectedProject,
       imageCountToBeShown: widget.selectedProject.projectImagePathList.length,
-      onTapPopRoute: () {
-        if (widget.pagePopTo != null) {
-          context.go(widget.pagePopTo!);
-        } else {
-          context.goNamed("creation");
-        }
-      },
+      coverAnimationCompleteNotifier: _coverAnimationComplete,
     );
+  }
+
+  void _handleBackNavigation() {
+    if (widget.pagePopTo != null) {
+      context.go(widget.pagePopTo!);
+    } else {
+      context.goNamed("creation");
+    }
   }
 
   Widget _contentBodySelectedCreation() {
@@ -192,7 +206,7 @@ class _CreationDetailPageState extends ConsumerState<CreationDetailPage> {
         children: [
           Padding(
             padding: EdgeInsets.only(
-                bottom: 93 + (getIsMobileSize(context) ? 71 : 0)),
+                bottom: 93 + (getIsDesktopMdAndBelowSize(context) ? -56 : 0)),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -614,6 +628,14 @@ class _RelatedAboutCreationBottomState
 
   Widget _linkCardWidgetDecider(bool isVeryCompactDeviceMode) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
+    final links = [
+      widget.requirementData.creationsData.linkProjectToGithub,
+      widget.requirementData.creationsData.linkDemoWeb,
+      widget.requirementData.creationsData.additionalLink,
+    ];
+
+    final double totalEmptyLink =
+    links.where((link) => link.trim().isEmpty).length.toDouble();
 
     if (isVeryCompactDeviceMode) {
       // 1 Column List Link Card
@@ -663,6 +685,13 @@ class _RelatedAboutCreationBottomState
               isCompactDeviceMode:
                   getIsMobileSize(context) || getIsTabletSize(context),
             ),
+          if (totalEmptyLink > 1 && getIsMobileSize(context))
+            SizedBox(
+              height: 100 *
+                  ((totalEmptyLink > 1 && totalEmptyLink <= 3)
+                      ? totalEmptyLink - 1
+                      : 1),
+            )
         ],
       );
     } else {
