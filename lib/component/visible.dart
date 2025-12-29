@@ -110,3 +110,22 @@ bool getIsDesktopMdAndBelowSize(BuildContext context) => ResponsiveValue(
     ),
   ],
 ).value;
+
+bool getIsDesktopLgAndBelowSize(BuildContext context) => ResponsiveValue(
+  context,
+  defaultValue: false,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: "DESKTOP-LG",
+      value: false,
+    ),
+    const Condition.equals(
+      name: "DESKTOP-LG",
+      value: true,
+    ),
+    const Condition.smallerThan(
+      name: "DESKTOP-LG",
+      value: true,
+    ),
+  ],
+).value;
