@@ -33,6 +33,25 @@ TextAlign textAlignment(BuildContext context) => ResponsiveValue(
       defaultValue: TextAlign.left,
     ).value;
 
+Alignment widgetAlignment(BuildContext context) => ResponsiveValue(
+  context,
+  conditionalValues: [
+    const Condition.largerThan(
+      name: 'DESKTOP-MD',
+      value: Alignment.centerLeft,
+    ),
+    const Condition.equals(
+      name: 'DESKTOP-MD',
+      value: Alignment.centerLeft,
+    ),
+    const Condition.smallerThan(
+      name: 'DESKTOP-MD',
+      value: Alignment.center,
+    ),
+  ],
+  defaultValue: Alignment.centerLeft,
+).value;
+
 // Alignment bottomWidgetAlignment(BuildContext context) => ResponsiveValue(
 //       context,
 //       conditionalValues: [

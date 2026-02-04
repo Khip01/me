@@ -354,9 +354,9 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
           // height: 96,
           // color: Colors.blue,
           margin: const EdgeInsets.only(bottom: 15),
-          width: 512,
+          width: getIsDesktopSmAndBelowSize(context) ? double.maxFinite : 512,
           child: Align(
-            alignment: Alignment.centerLeft,
+            alignment: widgetAlignment(context),
             child: Text(
               "Aakhif here, I’m a Cross-Platform Mobile Developer",
               style: StyleUtil.text_2xl_Bold.copyWith(
@@ -571,37 +571,34 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   Widget _footerTechnology() {
     return Container(
       alignment: Alignment.topCenter,
-      padding: contentQuotePadding(context).copyWith(bottom: 44),
       height: contentQuoteHeight(context),
       width: double.maxFinite,
-      child: Center(
-        child: SizedBox(
-          width: 125,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                "Built with  ",
-                style: StyleUtil.text_xs_Regular.copyWith(
-                  color: StyleUtil.c_170,
-                ),
+      child: SizedBox(
+        width: 125,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Built with  ",
+              style: StyleUtil.text_xs_Regular.copyWith(
+                color: StyleUtil.c_170,
               ),
-              Tooltip(
-                message: "Flutter Framework",
-                child: Image.asset(IconUtil.flutterLogo),
-              ),
-              // Text(
-              //   "  and  ",
-              //   style: StyleUtil.text_xs_Regular.copyWith(
-              //     color: StyleUtil.c_170,
-              //   ),
-              // ),
-              // Tooltip(
-              //     message: "Firebase RTDB",
-              //     child: Image.asset(IconUtil.firebaseLogoNew)),
-            ],
-          ),
+            ),
+            Tooltip(
+              message: "Flutter Framework",
+              child: Image.asset(IconUtil.flutterLogo),
+            ),
+            // Text(
+            //   "  and  ",
+            //   style: StyleUtil.text_xs_Regular.copyWith(
+            //     color: StyleUtil.c_170,
+            //   ),
+            // ),
+            // Tooltip(
+            //     message: "Firebase RTDB",
+            //     child: Image.asset(IconUtil.firebaseLogoNew)),
+          ],
         ),
       ),
     );

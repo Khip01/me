@@ -100,7 +100,7 @@ double contentQuoteHeight(BuildContext context) => ResponsiveValue(
   conditionalValues: [
     const Condition.equals(
       name: '4K',
-      value: 0
+      value: 80
     ),
     const Condition.equals(
       name: 'DESKTOP-LG',
