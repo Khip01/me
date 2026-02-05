@@ -89,8 +89,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
   Rect? _rectFurtherSticky;
 
   // Duration constants for page transitions
-  static const Duration _animationDuration = Duration(milliseconds: 300);
-  static const Duration _afterAnimationDelay = Duration(milliseconds: 300);
+  static const Duration animationDuration = Duration(milliseconds: 300);
+  static const Duration afterAnimationDelay = Duration(milliseconds: 300);
 
   // TODO: INIT STATE
   @override
@@ -230,6 +230,13 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
   void dispose() {
     _cancelProgressAnimation();
     _progressAnimController.dispose();
+    ignoreTapping = false;
+    _rectWelcome = null;
+    _rectCreation = null;
+    _rectFurther = null;
+    _rectWelcomeSticky = null;
+    _rectCreationSticky = null;
+    _rectFurtherSticky = null;
     super.dispose();
   }
 
@@ -241,13 +248,13 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     _isFromLeft = !_isFromLeft;
     setState(() => _transitionIsActive = !_transitionIsActive);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(_animationDuration, () {
+      Future.delayed(animationDuration, () {
         ref.read(isDarkModeProvider.notifier).toggle();
         final isDark = ref.read(isDarkModeProvider).value;
         updateMetaThemeColor(isDark);
         changeCookieValue("$isDark");
       });
-      Future.delayed(_animationDuration + _afterAnimationDelay, () {
+      Future.delayed(animationDuration + afterAnimationDelay, () {
         setState(() => _transitionIsActive = !_transitionIsActive);
       }).then((_) => setState(() => ignoreTapping = false));
     });
@@ -255,72 +262,46 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
   // --- Transition Nav ---
   // Push Page With Transition (Normal Nav)
-  void _pushNamedWithRectWelcome() async {
-    setState(
-        () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+  void _handleNavigation(String routeName, GlobalKey<RectGetterState> key, Function(Rect?) setRect) {
+    if (ignoreTapping) return;
+
+    final rect = RectGetter.getRectFromKey(key);
+    if (rect == null) return;
+
+    setState(() {
+      ignoreTapping = true;
+      setRect(rect);
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcome =
-          _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(_animationDuration + _afterAnimationDelay,
-          () => context.goNamed("welcome"));
+      if (!mounted) return;
+
+      setState(() => setRect(rect.inflate(1.3 * MediaQuery.sizeOf(context).longestSide)));
+
+      Future.delayed(animationDuration + afterAnimationDelay, () {
+        if (!mounted) return;
+
+        final router = GoRouter.of(context);
+
+        setState(() {
+          setRect(null);
+          ignoreTapping = false;
+        });
+
+        router.goNamed(routeName);
+      });
     });
   }
 
-  void _pushNamedWithRectCreation() async {
-    setState(
-        () => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectCreation =
-          _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(_animationDuration + _afterAnimationDelay,
-          () => context.goNamed("creation"));
-    });
-  }
+  // --- Normal Nav ---
+  void _pushNamedWithRectWelcome() => _handleNavigation("welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
+  void _pushNamedWithRectCreation() => _handleNavigation("creation", _rectKeyCreationPage, (r) => _rectCreation = r);
+  void _pushNamedWithRectFurther() => _handleNavigation("further", _rectKeyFurtherPage, (r) => _rectFurther = r);
 
-  void _pushNamedWithRectFurther() async {
-    setState(
-        () => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurther =
-          _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(_animationDuration + _afterAnimationDelay,
-          () => context.goNamed("further"));
-    });
-  }
-
-  // Push Page With Transition (Sticky Nav)
-  void _pushNamedWithRectWelcomeSticky() async {
-    setState(() => _rectWelcomeSticky =
-        RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcomeSticky = _rectWelcomeSticky!
-          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(_animationDuration + _afterAnimationDelay,
-          () => context.goNamed("welcome"));
-    });
-  }
-
-  void _pushNamedWithRectCreationSticky() async {
-    setState(() => _rectCreationSticky =
-        RectGetter.getRectFromKey(_rectKeyCreationPageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectCreationSticky = _rectCreationSticky!
-          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(_animationDuration + _afterAnimationDelay,
-          () => context.goNamed("creation"));
-    });
-  }
-
-  void _pushNamedWithRectFurtherSticky() async {
-    setState(() => _rectFurtherSticky =
-        RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurtherSticky = _rectFurtherSticky!
-          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(_animationDuration + _afterAnimationDelay,
-          () => context.goNamed("further"));
-    });
-  }
+  // --- Sticky Nav ---
+  void _pushNamedWithRectWelcomeSticky() => _handleNavigation("welcome", _rectKeyWelcomePageSticky, (r) => _rectWelcomeSticky = r);
+  void _pushNamedWithRectCreationSticky() => _handleNavigation("creation", _rectKeyCreationPageSticky, (r) => _rectCreationSticky = r);
+  void _pushNamedWithRectFurtherSticky() => _handleNavigation("further", _rectKeyFurtherPageSticky, (r) => _rectFurtherSticky = r);
 
   @override
   Widget build(BuildContext context) {
@@ -329,43 +310,46 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
     return Stack(
       children: [
-        SelectionArea(
-          child: Scaffold(
-            backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-            body: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: CustomScrollView(
-                controller: _navScrollController,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Stack(
-                      children: [
-                        _coverPageSection(scrHeight),
-                        // Scroll Idle Animation
-                        ValueListenableBuilder<bool>(
-                          valueListenable: _scrollIdleNotifier,
-                          builder: (context, isVisible, child) {
-                            return _scrollIldeSticky(isVisible);
-                          },
-                        ),
-                      ],
+        IgnorePointer(
+          ignoring: ignoreTapping,
+          child: SelectionArea(
+            child: Scaffold(
+              backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
+              body: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: CustomScrollView(
+                  controller: _navScrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Stack(
+                        children: [
+                          _coverPageSection(scrHeight),
+                          // Scroll Idle Animation
+                          ValueListenableBuilder<bool>(
+                            valueListenable: _scrollIdleNotifier,
+                            builder: (context, isVisible, child) {
+                              return _scrollIldeSticky(isVisible);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  MultiSliver(pushPinnedChildren: true, children: [
-                    // Sticky Navbar
-                    ValueListenableBuilder<bool>(
-                      valueListenable: _navIsStickyNotifier,
-                      builder: (context, isVisible, child) {
-                        return SliverPinnedHeader(
-                          child: _navTopSticky(isVisible),
-                        );
-                      },
-                    ),
-                    _historyPageSection(),
-                    _footerTechnology(),
-                  ]),
-                ],
+                    MultiSliver(pushPinnedChildren: true, children: [
+                      // Sticky Navbar
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _navIsStickyNotifier,
+                        builder: (context, isVisible, child) {
+                          return SliverPinnedHeader(
+                            child: _navTopSticky(isVisible),
+                          );
+                        },
+                      ),
+                      _historyPageSection(),
+                      _footerTechnology(),
+                    ]),
+                  ],
+                ),
               ),
             ),
           ),
@@ -1068,7 +1052,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     }
 
     return AnimatedPositioned(
-      duration: _animationDuration,
+      duration: animationDuration,
       top: rectWelcome.top,
       right: MediaQuery.sizeOf(context).width - rectWelcome.right,
       bottom: MediaQuery.sizeOf(context).height - rectWelcome.bottom,
@@ -1090,7 +1074,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     }
 
     return AnimatedPositioned(
-      duration: _animationDuration,
+      duration: animationDuration,
       top: rectHistory.top,
       right: MediaQuery.sizeOf(context).width - rectHistory.right,
       bottom: MediaQuery.sizeOf(context).height - rectHistory.bottom,
@@ -1112,7 +1096,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     }
 
     return AnimatedPositioned(
-      duration: _animationDuration,
+      duration: animationDuration,
       top: rectFurther.top,
       right: MediaQuery.sizeOf(context).width - rectFurther.right,
       bottom: MediaQuery.sizeOf(context).height - rectFurther.bottom,
@@ -1130,7 +1114,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return AnimatedPositioned(
-      duration: _animationDuration,
+      duration: animationDuration,
       top: 0,
       right: _isFromLeft
           ? (!_transitionIsActive)
@@ -1144,7 +1128,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
               ? 1.3 * MediaQuery.sizeOf(context).width
               : 0,
       child: AnimatedContainer(
-        duration: _animationDuration,
+        duration: animationDuration,
         decoration: BoxDecoration(
             color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_170,
             shape: BoxShape.rectangle),

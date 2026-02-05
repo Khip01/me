@@ -140,6 +140,13 @@ class _CreationPageState extends ConsumerState<CreationPage>
   @override
   void dispose() {
     _timerContentHighlight?.cancel();
+    ignoreTapping = false;
+    _rectWelcome = null;
+    _rectHistory = null;
+    _rectFurther = null;
+    _rectWelcomeSticky = null;
+    _rectHistorySticky = null;
+    _rectFurtherSticky = null;
     super.dispose();
   }
 
@@ -165,72 +172,56 @@ class _CreationPageState extends ConsumerState<CreationPage>
 
   // --- Transition Nav ---
   // Push Page With Transition (Normal Nav)
-  void _pushNamedWithRectWelcome() async {
-    setState(
-        () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+  void _handleNavigation(String routeName, GlobalKey<RectGetterState> key,
+      Function(Rect?) setRect) {
+    if (ignoreTapping) return;
+
+    final rect = RectGetter.getRectFromKey(key);
+    if (rect == null) return;
+
+    setState(() {
+      ignoreTapping = true;
+      setRect(rect);
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcome =
-          _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("welcome"));
+      if (!mounted) return;
+
+      setState(() =>
+          setRect(rect.inflate(1.3 * MediaQuery.sizeOf(context).longestSide)));
+
+      Future.delayed(animationDuration + afterAnimationDelay, () {
+        if (!mounted) return;
+
+        final router = GoRouter.of(context);
+        setState(() {
+          setRect(null);
+          ignoreTapping = false;
+        });
+        router.goNamed(routeName);
+      });
     });
   }
 
-  void _pushNamedWithRectHistory() async {
-    setState(
-        () => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistory =
-          _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("history"));
-    });
-  }
+  // --- Normal Nav ---
+  void _pushNamedWithRectWelcome() => _handleNavigation(
+      "welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
 
-  void _pushNamedWithRectFurther() async {
-    setState(
-        () => _rectFurther = RectGetter.getRectFromKey(_rectKeyFurtherPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurther =
-          _rectFurther!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("further"));
-    });
-  }
+  void _pushNamedWithRectHistory() => _handleNavigation(
+      "history", _rectKeyHistoryPage, (r) => _rectHistory = r);
 
-  // Push Page With Transition (Sticky Nav)
-  void _pushNamedWithRectWelcomeSticky() async {
-    setState(() => _rectWelcomeSticky =
-        RectGetter.getRectFromKey(_rectKeyWelcomePageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcomeSticky = _rectWelcomeSticky!
-          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("welcome"));
-    });
-  }
+  void _pushNamedWithRectFurther() => _handleNavigation(
+      "further", _rectKeyFurtherPage, (r) => _rectFurther = r);
 
-  void _pushNamedWithRectHistorySticky() async {
-    setState(() => _rectHistorySticky =
-        RectGetter.getRectFromKey(_rectKeyHistoryPageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistorySticky = _rectHistorySticky!
-          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("history"));
-    });
-  }
+  // --- Sticky Nav ---
+  void _pushNamedWithRectWelcomeSticky() => _handleNavigation(
+      "welcome", _rectKeyWelcomePageSticky, (r) => _rectWelcomeSticky = r);
 
-  void _pushNamedWithRectFurtherSticky() async {
-    setState(() => _rectFurtherSticky =
-        RectGetter.getRectFromKey(_rectKeyFurtherPageSticky));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectFurtherSticky = _rectFurtherSticky!
-          .inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("further"));
-    });
-  }
+  void _pushNamedWithRectHistorySticky() => _handleNavigation(
+      "history", _rectKeyHistoryPageSticky, (r) => _rectHistorySticky = r);
+
+  void _pushNamedWithRectFurtherSticky() => _handleNavigation(
+      "further", _rectKeyFurtherPageSticky, (r) => _rectFurtherSticky = r);
 
   // Creation Section Focus Animation When Highlight Section Already Show
   void doFocusScrollSnapListOnFocusHighlight() {
@@ -253,42 +244,45 @@ class _CreationPageState extends ConsumerState<CreationPage>
 
     return Stack(
       children: [
-        SelectionArea(
-          child: Scaffold(
-            backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-            body: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: CustomScrollView(
-                controller: _navScrollController,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Stack(
-                      children: [
-                        _coverPageSection(scrHeight),
-                        // Scroll Idle Animation
-                        ValueListenableBuilder<bool>(
-                          valueListenable: _scrollIdleNotifier,
-                          builder: (context, isVisible, child) {
-                            return _scrollIldeSticky(isVisible);
-                          },
-                        ),
-                      ],
+        IgnorePointer(
+          ignoring: ignoreTapping,
+          child: SelectionArea(
+            child: Scaffold(
+              backgroundColor: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
+              body: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: CustomScrollView(
+                  controller: _navScrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Stack(
+                        children: [
+                          _coverPageSection(scrHeight),
+                          // Scroll Idle Animation
+                          ValueListenableBuilder<bool>(
+                            valueListenable: _scrollIdleNotifier,
+                            builder: (context, isVisible, child) {
+                              return _scrollIldeSticky(isVisible);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  MultiSliver(pushPinnedChildren: true, children: [
-                    // Sticky Navbar
-                    ValueListenableBuilder<bool>(
-                        valueListenable: _navIsStickyNotifier,
-                        builder: (context, isVisible, child) {
-                          return SliverPinnedHeader(
-                            child: _navTopSticky(isVisible),
-                          );
-                        }),
-                    _creationPageSection(),
-                    _footerTechnology(),
-                  ]),
-                ],
+                    MultiSliver(pushPinnedChildren: true, children: [
+                      // Sticky Navbar
+                      ValueListenableBuilder<bool>(
+                          valueListenable: _navIsStickyNotifier,
+                          builder: (context, isVisible, child) {
+                            return SliverPinnedHeader(
+                              child: _navTopSticky(isVisible),
+                            );
+                          }),
+                      _creationPageSection(),
+                      _footerTechnology(),
+                    ]),
+                  ],
+                ),
               ),
             ),
           ),

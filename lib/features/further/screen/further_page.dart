@@ -128,37 +128,56 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
   // --- Transition Nav ---
   // Push Page With Transition
-  void _pushNamedWithRectWelcome() async {
-    setState(
-        () => _rectWelcome = RectGetter.getRectFromKey(_rectKeyWelcomePage));
+  void _handleNavigation(String routeName, GlobalKey<RectGetterState> key,
+      Function(Rect?) setRect) {
+    if (ignoreTapping) return;
+
+    final rect = RectGetter.getRectFromKey(key);
+    if (rect == null) return;
+
+    setState(() {
+      ignoreTapping = true;
+      setRect(rect);
+    });
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectWelcome =
-          _rectWelcome!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("welcome"));
+      if (!mounted) return;
+
+      setState(() =>
+          setRect(rect.inflate(1.3 * MediaQuery.sizeOf(context).longestSide)));
+
+      Future.delayed(animationDuration + afterAnimationDelay, () {
+        if (!mounted) return;
+
+        final router = GoRouter.of(context);
+
+        // Reset state sebelum pindah rute
+        setState(() {
+          setRect(null);
+          ignoreTapping = false;
+        });
+
+        router.goNamed(routeName);
+      });
     });
   }
 
-  void _pushNamedWithRectCreation() async {
-    setState(
-        () => _rectCreation = RectGetter.getRectFromKey(_rectKeyCreationPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectCreation =
-          _rectCreation!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("creation"));
-    });
-  }
+  void _pushNamedWithRectWelcome() =>
+      _handleNavigation("welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
 
-  void _pushNamedWithRectHistory() async {
-    setState(
-        () => _rectHistory = RectGetter.getRectFromKey(_rectKeyHistoryPage));
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() => _rectHistory =
-          _rectHistory!.inflate(1.3 * MediaQuery.sizeOf(context).longestSide));
-      Future.delayed(animationDuration + afterAnimationDelay,
-          () => context.goNamed("history"));
-    });
+  void _pushNamedWithRectCreation() =>
+      _handleNavigation("creation", _rectKeyCreationPage, (r) => _rectCreation = r);
+
+  void _pushNamedWithRectHistory() =>
+      _handleNavigation("history", _rectKeyHistoryPage, (r) => _rectHistory = r);
+
+  @override
+  void dispose() {
+    ignoreTapping = false;
+    _rectWelcome = null;
+    _rectCreation = null;
+    _rectHistory = null;
+    super.dispose();
   }
 
   @override
@@ -168,85 +187,88 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
     return Stack(
       children: [
-        SelectionArea(
-          child: Scaffold(
-            body: Container(
-              color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-              height: scrHeight,
-              padding: mainCardPaddingWithBottomQuote(context),
-              child: Column(
-                children: [
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: Container(
-                      constraints: const BoxConstraints(
-                        maxWidth: 1100,
-                      ),
-                      padding: getIsMobileSize(context)
-                          ? contentCardPadding(context)
-                          : EdgeInsets.zero,
-                      // clipBehavior: Clip.antiAlias,
-                      // decoration: BoxDecoration(
-                      //   borderRadius: BorderRadius.circular(20),
-                      //   color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
-                      //   boxShadow: [
-                      //     BoxShadow(
-                      //       color: (isDarkMode)
-                      //           ? const Color.fromARGB(255, 61, 61, 61)
-                      //           : const Color.fromARGB(255, 203, 203, 203),
-                      //       blurRadius: 80.0,
-                      //     ),
-                      //   ],
-                      // ),
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          Positioned(
-                            top: 55,
-                            right: -5,
-                            child: dashHorizontal(context, isDarkMode),
-                          ),
-                          Positioned(
-                            top: 50,
-                            right: 0,
-                            child: RotatedBox(
-                              quarterTurns: 1,
-                              child: dashVertical(context, isDarkMode),
+        IgnorePointer(
+          ignoring: ignoreTapping,
+          child: SelectionArea(
+            child: Scaffold(
+              body: Container(
+                color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
+                height: scrHeight,
+                padding: mainCardPaddingWithBottomQuote(context),
+                child: Column(
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          maxWidth: 1100,
+                        ),
+                        padding: getIsMobileSize(context)
+                            ? contentCardPadding(context)
+                            : EdgeInsets.zero,
+                        // clipBehavior: Clip.antiAlias,
+                        // decoration: BoxDecoration(
+                        //   borderRadius: BorderRadius.circular(20),
+                        //   color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
+                        //   boxShadow: [
+                        //     BoxShadow(
+                        //       color: (isDarkMode)
+                        //           ? const Color.fromARGB(255, 61, 61, 61)
+                        //           : const Color.fromARGB(255, 203, 203, 203),
+                        //       blurRadius: 80.0,
+                        //     ),
+                        //   ],
+                        // ),
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned(
+                              top: 55,
+                              right: -5,
+                              child: dashHorizontal(context, isDarkMode),
                             ),
-                          ),
-                          Column(
-                            children: [
-                              Flexible(
-                                fit: FlexFit.tight,
-                                flex: 1,
-                                child: Container(
-                                  // color: Colors.red,
-                                  child: _topContent(),
-                                ),
+                            Positioned(
+                              top: 50,
+                              right: 0,
+                              child: RotatedBox(
+                                quarterTurns: 1,
+                                child: dashVertical(context, isDarkMode),
                               ),
-                              Flexible(
-                                flex: 3,
-                                child: SizedBox(
-                                  // color: Colors.green,
-                                  child: _content(),
+                            ),
+                            Column(
+                              children: [
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  flex: 1,
+                                  child: Container(
+                                    // color: Colors.red,
+                                    child: _topContent(),
+                                  ),
                                 ),
-                              ),
-                              Flexible(
-                                fit: FlexFit.tight,
-                                flex: 1,
-                                child: Container(
-                                  // color: Colors.blue,
-                                  child: _navSection(),
+                                Flexible(
+                                  flex: 3,
+                                  child: SizedBox(
+                                    // color: Colors.green,
+                                    child: _content(),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                Flexible(
+                                  fit: FlexFit.tight,
+                                  flex: 1,
+                                  child: Container(
+                                    // color: Colors.blue,
+                                    child: _navSection(),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  _footerTechnology(),
-                ],
+                    _footerTechnology(),
+                  ],
+                ),
               ),
             ),
           ),
