@@ -592,104 +592,114 @@ class _CreationPageState extends ConsumerState<CreationPage>
           mainAxisAlignment: alignmentRowNav(context),
           children: [
             bottomHelper(context),
-            Row(
-              children: [
-                StatefulBuilder(
-                  builder: (BuildContext context, setState) {
-                    return RectGetter(
-                      key: _rectKeyWelcomePage,
-                      child: TextHighlightDecider(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horPadding,
-                          vertical: verPadding,
-                        ),
-                        isCompactMode: getIsMobileSize(context) ||
-                            getIsTabletSize(context),
-                        colorStart: StyleUtil.c_170,
-                        colorEnd:
-                            (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                        actionDelay: const Duration(milliseconds: 100),
-                        additionalOnTapAction: () =>
-                            _pushNamedWithRectWelcome(),
-                        builder: (Color color) {
-                          return Text(
-                            "Welcome",
-                            style: StyleUtil.text_small_Regular.copyWith(
-                              color: color,
+            Expanded(
+              child: Align(
+                alignment: alignmentRowNavContainer(context),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  physics: NeverScrollableScrollPhysics(),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      StatefulBuilder(
+                        builder: (BuildContext context, setState) {
+                          return RectGetter(
+                            key: _rectKeyWelcomePage,
+                            child: TextHighlightDecider(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: horPadding,
+                                vertical: verPadding,
+                              ),
+                              isCompactMode: getIsMobileSize(context) ||
+                                  getIsTabletSize(context),
+                              colorStart: StyleUtil.c_170,
+                              colorEnd:
+                                  (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                              actionDelay: const Duration(milliseconds: 100),
+                              additionalOnTapAction: () =>
+                                  _pushNamedWithRectWelcome(),
+                              builder: (Color color) {
+                                return Text(
+                                  "Welcome",
+                                  style: StyleUtil.text_small_Regular.copyWith(
+                                    color: color,
+                                  ),
+                                );
+                              },
                             ),
                           );
                         },
                       ),
-                    );
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: horPadding,
-                    vertical: verPadding,
-                  ),
-                  child: Text(
-                    "Creation",
-                    style: StyleUtil.text_small_Regular.copyWith(
-                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                    ),
-                  ),
-                ),
-                StatefulBuilder(builder: (BuildContext context, setState) {
-                  return RectGetter(
-                    key: _rectKeyHistoryPage,
-                    child: TextHighlightDecider(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: horPadding,
-                        vertical: verPadding,
-                      ),
-                      isCompactMode:
-                          getIsMobileSize(context) || getIsTabletSize(context),
-                      colorStart: StyleUtil.c_170,
-                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                      actionDelay: const Duration(milliseconds: 100),
-                      additionalOnTapAction: () => _pushNamedWithRectHistory(),
-                      builder: (Color color) {
-                        return Text(
-                          "History",
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: horPadding,
+                          vertical: verPadding,
+                        ),
+                        child: Text(
+                          "Creation",
                           style: StyleUtil.text_small_Regular.copyWith(
-                            color: color,
+                            color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                          ),
+                        ),
+                      ),
+                      StatefulBuilder(builder: (BuildContext context, setState) {
+                        return RectGetter(
+                          key: _rectKeyHistoryPage,
+                          child: TextHighlightDecider(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: horPadding,
+                              vertical: verPadding,
+                            ),
+                            isCompactMode:
+                                getIsMobileSize(context) || getIsTabletSize(context),
+                            colorStart: StyleUtil.c_170,
+                            colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                            actionDelay: const Duration(milliseconds: 100),
+                            additionalOnTapAction: () => _pushNamedWithRectHistory(),
+                            builder: (Color color) {
+                              return Text(
+                                "History",
+                                style: StyleUtil.text_small_Regular.copyWith(
+                                  color: color,
+                                ),
+                              );
+                            },
                           ),
                         );
-                      },
-                    ),
-                  );
-                }),
-                StatefulBuilder(
-                  builder: (BuildContext context, setState) {
-                    return RectGetter(
-                      key: _rectKeyFurtherPage,
-                      child: TextHighlightDecider(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horPadding,
-                          vertical: verPadding,
-                        ),
-                        isCompactMode: getIsMobileSize(context) ||
-                            getIsTabletSize(context),
-                        colorStart: StyleUtil.c_170,
-                        colorEnd:
-                            (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                        actionDelay: const Duration(milliseconds: 100),
-                        additionalOnTapAction: () =>
-                            _pushNamedWithRectFurther(),
-                        builder: (Color color) {
-                          return Text(
-                            "Further",
-                            style: StyleUtil.text_small_Regular.copyWith(
-                              color: color,
+                      }),
+                      StatefulBuilder(
+                        builder: (BuildContext context, setState) {
+                          return RectGetter(
+                            key: _rectKeyFurtherPage,
+                            child: TextHighlightDecider(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: horPadding,
+                                vertical: verPadding,
+                              ),
+                              isCompactMode: getIsMobileSize(context) ||
+                                  getIsTabletSize(context),
+                              colorStart: StyleUtil.c_170,
+                              colorEnd:
+                                  (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                              actionDelay: const Duration(milliseconds: 100),
+                              additionalOnTapAction: () =>
+                                  _pushNamedWithRectFurther(),
+                              builder: (Color color) {
+                                return Text(
+                                  "Further",
+                                  style: StyleUtil.text_small_Regular.copyWith(
+                                    color: color,
+                                  ),
+                                );
+                              },
                             ),
                           );
                         },
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
           ],
         ),

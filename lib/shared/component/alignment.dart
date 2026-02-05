@@ -14,6 +14,19 @@ MainAxisAlignment alignmentRowNav(BuildContext context) =>
             defaultValue: MainAxisAlignment.spaceBetween)
         .value;
 
+Alignment alignmentRowNavContainer(BuildContext context) =>
+    ResponsiveValue(context,
+        conditionalValues: [
+          const Condition.largerThan(
+              name: 'DESKTOP-MD', value: Alignment.centerRight),
+          const Condition.equals(
+              name: 'DESKTOP-MD', value: Alignment.centerRight),
+          const Condition.smallerThan(
+              name: 'DESKTOP-MD', value: Alignment.center),
+        ],
+        defaultValue: Alignment.centerRight)
+        .value;
+
 TextAlign textAlignment(BuildContext context) => ResponsiveValue(
       context,
       conditionalValues: [
