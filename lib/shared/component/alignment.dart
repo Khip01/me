@@ -16,15 +16,15 @@ MainAxisAlignment alignmentRowNav(BuildContext context) =>
 
 Alignment alignmentRowNavContainer(BuildContext context) =>
     ResponsiveValue(context,
-        conditionalValues: [
-          const Condition.largerThan(
-              name: 'DESKTOP-MD', value: Alignment.centerRight),
-          const Condition.equals(
-              name: 'DESKTOP-MD', value: Alignment.centerRight),
-          const Condition.smallerThan(
-              name: 'DESKTOP-MD', value: Alignment.center),
-        ],
-        defaultValue: Alignment.centerRight)
+            conditionalValues: [
+              const Condition.largerThan(
+                  name: 'DESKTOP-MD', value: Alignment.centerRight),
+              const Condition.equals(
+                  name: 'DESKTOP-MD', value: Alignment.centerRight),
+              const Condition.smallerThan(
+                  name: 'DESKTOP-MD', value: Alignment.center),
+            ],
+            defaultValue: Alignment.centerRight)
         .value;
 
 TextAlign textAlignment(BuildContext context) => ResponsiveValue(
@@ -47,23 +47,23 @@ TextAlign textAlignment(BuildContext context) => ResponsiveValue(
     ).value;
 
 Alignment widgetAlignment(BuildContext context) => ResponsiveValue(
-  context,
-  conditionalValues: [
-    const Condition.largerThan(
-      name: 'DESKTOP-MD',
-      value: Alignment.centerLeft,
-    ),
-    const Condition.equals(
-      name: 'DESKTOP-MD',
-      value: Alignment.centerLeft,
-    ),
-    const Condition.smallerThan(
-      name: 'DESKTOP-MD',
-      value: Alignment.center,
-    ),
-  ],
-  defaultValue: Alignment.centerLeft,
-).value;
+      context,
+      conditionalValues: [
+        const Condition.largerThan(
+          name: 'DESKTOP-MD',
+          value: Alignment.centerLeft,
+        ),
+        const Condition.equals(
+          name: 'DESKTOP-MD',
+          value: Alignment.centerLeft,
+        ),
+        const Condition.smallerThan(
+          name: 'DESKTOP-MD',
+          value: Alignment.center,
+        ),
+      ],
+      defaultValue: Alignment.centerLeft,
+    ).value;
 
 // Alignment bottomWidgetAlignment(BuildContext context) => ResponsiveValue(
 //       context,
@@ -89,14 +89,27 @@ Alignment widgetAlignment(BuildContext context) => ResponsiveValue(
 //       defaultValue: Alignment.topLeft,
 //     ).value;
 
-MainAxisAlignment alignmentRowLink(BuildContext context) => ResponsiveValue(context,
+MainAxisAlignment alignmentRowLink(BuildContext context) =>
+    ResponsiveValue(context,
+            conditionalValues: [
+              const Condition.largerThan(
+                  name: 'DESKTOP-MD', value: MainAxisAlignment.start),
+              const Condition.equals(
+                  name: 'DESKTOP-MD', value: MainAxisAlignment.start),
+              const Condition.smallerThan(
+                  name: 'DESKTOP-MD', value: MainAxisAlignment.center),
+            ],
+            defaultValue: MainAxisAlignment.start)
+        .value;
+
+Alignment alignmentWidgetLink(BuildContext context) => ResponsiveValue(context,
         conditionalValues: [
           const Condition.largerThan(
-              name: 'DESKTOP-MD', value: MainAxisAlignment.start),
+              name: 'DESKTOP-MD', value: Alignment.centerLeft),
           const Condition.equals(
-              name: 'DESKTOP-MD', value: MainAxisAlignment.start),
+              name: 'DESKTOP-MD', value: Alignment.centerLeft),
           const Condition.smallerThan(
-              name: 'DESKTOP-MD', value: MainAxisAlignment.center),
+              name: 'DESKTOP-MD', value: Alignment.center),
         ],
-        defaultValue: MainAxisAlignment.start)
+        defaultValue: Alignment.centerLeft)
     .value;

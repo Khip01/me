@@ -409,58 +409,24 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
           // height: 24,
           height: 46,
           width: double.maxFinite,
-          child: Align(
-            // alignment: topWidgetAlignment(context),
-            child: Row(
-              mainAxisAlignment: alignmentRowLink(context),
-              children: [
-                TextHighlightDecider(
-                  isCompactMode:
-                      getIsMobileSize(context) || getIsTabletSize(context),
-                  colorStart: StyleUtil.c_170,
-                  colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
-                  actionDelay: const Duration(milliseconds: 300),
-                  additionalOnTapAction: () async => await _showSnackbar(
-                      "Github Opened Successfully!", LinkUtil.githubLink),
-                  builder: (Color color) {
-                    return Row(
-                      children: [
-                        Text(
-                          "See My Github Journey",
-                          style: TextStyle(
-                            fontFamily: "Lato",
-                            fontSize: fontSizeWelcomeResize(context),
-                            fontWeight: FontWeight.w400,
-                            color: color,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Icon(
-                            Icons.open_in_new,
-                            color: color,
-                            size: iconSizeWelcomeResize(context),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 30),
-                  child: TextHighlightDecider(
+          child: Builder(
+            builder: (context) {
+              Widget child = Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  TextHighlightDecider(
                     isCompactMode:
                         getIsMobileSize(context) || getIsTabletSize(context),
                     colorStart: StyleUtil.c_170,
                     colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                     actionDelay: const Duration(milliseconds: 300),
                     additionalOnTapAction: () async => await _showSnackbar(
-                        "CV Opened Successfully!", LinkUtil.cvLink),
+                        "Github Opened Successfully!", LinkUtil.githubLink),
                     builder: (Color color) {
                       return Row(
                         children: [
                           Text(
-                            "See My CV",
+                            "See My Github Journey",
                             style: TextStyle(
                               fontFamily: "Lato",
                               fontSize: fontSizeWelcomeResize(context),
@@ -480,9 +446,63 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       );
                     },
                   ),
-                ),
-              ],
-            ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30),
+                    child: TextHighlightDecider(
+                      isCompactMode:
+                          getIsMobileSize(context) || getIsTabletSize(context),
+                      colorStart: StyleUtil.c_170,
+                      colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
+                      actionDelay: const Duration(milliseconds: 300),
+                      additionalOnTapAction: () async => await _showSnackbar(
+                          "CV Opened Successfully!", LinkUtil.cvLink),
+                      builder: (Color color) {
+                        return Row(
+                          children: [
+                            Text(
+                              "See My CV",
+                              style: TextStyle(
+                                fontFamily: "Lato",
+                                fontSize: fontSizeWelcomeResize(context),
+                                fontWeight: FontWeight.w400,
+                                color: color,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Icon(
+                                Icons.open_in_new,
+                                color: color,
+                                size: iconSizeWelcomeResize(context),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+
+              if (getIsMobileSize(context)) {
+                return Flexible(
+                  child: FittingMobileSizeDecider(
+                    sizeIsMobile: true,
+                    child: child,
+                  ),
+                );
+              } else {
+                return Expanded(
+                  child: Align(
+                    alignment: alignmentWidgetLink(context),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: child,
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         ),
       ],
@@ -495,107 +515,117 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
 
     return SizedBox(
       width: double.maxFinite,
-      child: FittingMobileSizeDecider(
-        sizeIsMobile: getIsMobileSize(context),
-        child: Row(
-          mainAxisAlignment: alignmentRowNav(context),
-          children: [
-            bottomHelper(context),
-            Expanded(
-              child: Align(
-                alignment: alignmentRowNavContainer(context),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: horPadding, vertical: verPadding),
-                        child: Text(
-                          "Welcome",
-                          style: StyleUtil.text_small_Regular.copyWith(
-                            color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          ),
-                        ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyCreationPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectCreation(),
-                          builder: (Color color) {
-                            return Text(
-                              "Creation",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyHistoryPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectHistory(),
-                          builder: (Color color) {
-                            return Text(
-                              "History",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyFurtherPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectFurther(),
-                          builder: (Color color) {
-                            return Text(
-                              "Further",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+      child: Row(
+        mainAxisAlignment: alignmentRowNav(context),
+        children: [
+          bottomHelper(context),
+          Builder(builder: (context) {
+            Widget child = Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: horPadding, vertical: verPadding),
+                  child: Text(
+                    "Welcome",
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
+                RectGetter(
+                  key: _rectKeyCreationPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectCreation(),
+                    builder: (Color color) {
+                      return Text(
+                        "Creation",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                RectGetter(
+                  key: _rectKeyHistoryPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectHistory(),
+                    builder: (Color color) {
+                      return Text(
+                        "History",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                RectGetter(
+                  key: _rectKeyFurtherPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectFurther(),
+                    builder: (Color color) {
+                      return Text(
+                        "Further",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+
+            if (getIsMobileSize(context)) {
+              return Flexible(
+                child: FittingMobileSizeDecider(
+                  sizeIsMobile: true,
+                  child: child,
+                ),
+              );
+            } else {
+              return Expanded(
+                child: Align(
+                  alignment: alignmentRowNavContainer(context),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: NeverScrollableScrollPhysics(),
+                    child: child,
+                  ),
+                ),
+              );
+            }
+          }),
+        ],
       ),
     );
   }

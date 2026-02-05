@@ -203,7 +203,7 @@ Widget bottomHelper(BuildContext context) => ResponsiveValue(
         ),
         const Condition.smallerThan(
           name: 'DESKTOP-MD',
-          value: SizedBox(),
+          value: SizedBox.shrink(),
         ),
       ],
       defaultValue: const SizedBox(),
@@ -243,13 +243,13 @@ class MySeparator extends StatelessWidget {
 }
 
 class FittingMobileSizeDecider extends StatelessWidget {
-  final Widget child;
   final bool sizeIsMobile;
+  final Widget child;
 
   const FittingMobileSizeDecider({
     super.key,
-    required this.child,
     required this.sizeIsMobile,
+    required this.child,
   });
 
   @override

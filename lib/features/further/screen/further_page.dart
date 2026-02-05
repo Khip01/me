@@ -162,14 +162,14 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
     });
   }
 
-  void _pushNamedWithRectWelcome() =>
-      _handleNavigation("welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
+  void _pushNamedWithRectWelcome() => _handleNavigation(
+      "welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
 
-  void _pushNamedWithRectCreation() =>
-      _handleNavigation("creation", _rectKeyCreationPage, (r) => _rectCreation = r);
+  void _pushNamedWithRectCreation() => _handleNavigation(
+      "creation", _rectKeyCreationPage, (r) => _rectCreation = r);
 
-  void _pushNamedWithRectHistory() =>
-      _handleNavigation("history", _rectKeyHistoryPage, (r) => _rectHistory = r);
+  void _pushNamedWithRectHistory() => _handleNavigation(
+      "history", _rectKeyHistoryPage, (r) => _rectHistory = r);
 
   @override
   void dispose() {
@@ -516,109 +516,119 @@ class _FurtherPageState extends ConsumerState<FurtherPage> {
 
     return SizedBox(
       width: double.maxFinite,
-      child: FittingMobileSizeDecider(
-        sizeIsMobile: getIsMobileSize(context),
-        child: Row(
-          mainAxisAlignment: alignmentRowNav(context),
-          children: [
-            bottomHelper(context),
-            Expanded(
-              child: Align(
-                alignment: alignmentRowNavContainer(context),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      RectGetter(
-                        key: _rectKeyWelcomePage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectWelcome(),
-                          builder: (Color color) {
-                            return Text(
-                              "Welcome",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
+      child: Row(
+        mainAxisAlignment: alignmentRowNav(context),
+        children: [
+          bottomHelper(context),
+          Builder(builder: (context) {
+            Widget child = Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RectGetter(
+                  key: _rectKeyWelcomePage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectWelcome(),
+                    builder: (Color color) {
+                      return Text(
+                        "Welcome",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
                         ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyCreationPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectCreation(),
-                          builder: (Color color) {
-                            return Text(
-                              "Creation",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyHistoryPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectHistory(),
-                          builder: (Color color) {
-                            return Text(
-                              "History",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horPadding,
-                          vertical: verPadding,
-                        ),
-                        child: Text(
-                          "Further",
-                          style: StyleUtil.text_small_Regular.copyWith(
-                            color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          ),
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
+                RectGetter(
+                  key: _rectKeyCreationPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectCreation(),
+                    builder: (Color color) {
+                      return Text(
+                        "Creation",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                RectGetter(
+                  key: _rectKeyHistoryPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectHistory(),
+                    builder: (Color color) {
+                      return Text(
+                        "History",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: horPadding,
+                    vertical: verPadding,
+                  ),
+                  child: Text(
+                    "Further",
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
+                  ),
+                ),
+              ],
+            );
+
+            if (getIsMobileSize(context)) {
+              return Flexible(
+                child: FittingMobileSizeDecider(
+                  sizeIsMobile: true,
+                  child: child,
+                ),
+              );
+            } else {
+              return Expanded(
+                child: Align(
+                  alignment: alignmentRowNavContainer(context),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: NeverScrollableScrollPhysics(),
+                    child: child,
+                  ),
+                ),
+              );
+            }
+          }),
+        ],
       ),
     );
   }

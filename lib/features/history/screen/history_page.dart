@@ -262,7 +262,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
   // --- Transition Nav ---
   // Push Page With Transition (Normal Nav)
-  void _handleNavigation(String routeName, GlobalKey<RectGetterState> key, Function(Rect?) setRect) {
+  void _handleNavigation(String routeName, GlobalKey<RectGetterState> key,
+      Function(Rect?) setRect) {
     if (ignoreTapping) return;
 
     final rect = RectGetter.getRectFromKey(key);
@@ -276,7 +277,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
-      setState(() => setRect(rect.inflate(1.3 * MediaQuery.sizeOf(context).longestSide)));
+      setState(() =>
+          setRect(rect.inflate(1.3 * MediaQuery.sizeOf(context).longestSide)));
 
       Future.delayed(animationDuration + afterAnimationDelay, () {
         if (!mounted) return;
@@ -294,14 +296,24 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
   }
 
   // --- Normal Nav ---
-  void _pushNamedWithRectWelcome() => _handleNavigation("welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
-  void _pushNamedWithRectCreation() => _handleNavigation("creation", _rectKeyCreationPage, (r) => _rectCreation = r);
-  void _pushNamedWithRectFurther() => _handleNavigation("further", _rectKeyFurtherPage, (r) => _rectFurther = r);
+  void _pushNamedWithRectWelcome() => _handleNavigation(
+      "welcome", _rectKeyWelcomePage, (r) => _rectWelcome = r);
+
+  void _pushNamedWithRectCreation() => _handleNavigation(
+      "creation", _rectKeyCreationPage, (r) => _rectCreation = r);
+
+  void _pushNamedWithRectFurther() => _handleNavigation(
+      "further", _rectKeyFurtherPage, (r) => _rectFurther = r);
 
   // --- Sticky Nav ---
-  void _pushNamedWithRectWelcomeSticky() => _handleNavigation("welcome", _rectKeyWelcomePageSticky, (r) => _rectWelcomeSticky = r);
-  void _pushNamedWithRectCreationSticky() => _handleNavigation("creation", _rectKeyCreationPageSticky, (r) => _rectCreationSticky = r);
-  void _pushNamedWithRectFurtherSticky() => _handleNavigation("further", _rectKeyFurtherPageSticky, (r) => _rectFurtherSticky = r);
+  void _pushNamedWithRectWelcomeSticky() => _handleNavigation(
+      "welcome", _rectKeyWelcomePageSticky, (r) => _rectWelcomeSticky = r);
+
+  void _pushNamedWithRectCreationSticky() => _handleNavigation(
+      "creation", _rectKeyCreationPageSticky, (r) => _rectCreationSticky = r);
+
+  void _pushNamedWithRectFurtherSticky() => _handleNavigation(
+      "further", _rectKeyFurtherPageSticky, (r) => _rectFurtherSticky = r);
 
   @override
   Widget build(BuildContext context) {
@@ -648,109 +660,119 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
     return SizedBox(
       width: double.maxFinite,
-      child: FittingMobileSizeDecider(
-        sizeIsMobile: getIsMobileSize(context),
-        child: Row(
-          mainAxisAlignment: alignmentRowNav(context),
-          children: [
-            bottomHelper(context),
-            Expanded(
-              child: Align(
-                alignment: alignmentRowNavContainer(context),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      RectGetter(
-                        key: _rectKeyWelcomePage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectWelcome(),
-                          builder: (Color color) {
-                            return Text(
-                              "Welcome",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
+      child: Row(
+        mainAxisAlignment: alignmentRowNav(context),
+        children: [
+          bottomHelper(context),
+          Builder(builder: (context) {
+            Widget child = Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RectGetter(
+                  key: _rectKeyWelcomePage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectWelcome(),
+                    builder: (Color color) {
+                      return Text(
+                        "Welcome",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
                         ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyCreationPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectCreation(),
-                          builder: (Color color) {
-                            return Text(
-                              "Creation",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: horPadding,
-                          vertical: verPadding,
-                        ),
-                        child: Text(
-                          "History",
-                          style: StyleUtil.text_small_Regular.copyWith(
-                            color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          ),
-                        ),
-                      ),
-                      RectGetter(
-                        key: _rectKeyFurtherPage,
-                        child: TextHighlightDecider(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: horPadding,
-                            vertical: verPadding,
-                          ),
-                          isCompactMode:
-                              getIsMobileSize(context) || getIsTabletSize(context),
-                          colorStart: StyleUtil.c_170,
-                          colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
-                          actionDelay: const Duration(milliseconds: 100),
-                          additionalOnTapAction: () => _pushNamedWithRectFurther(),
-                          builder: (Color color) {
-                            return Text(
-                              "Further",
-                              style: StyleUtil.text_small_Regular.copyWith(
-                                color: color,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
                 ),
-              ),
-            ),
-          ],
-        ),
+                RectGetter(
+                  key: _rectKeyCreationPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectCreation(),
+                    builder: (Color color) {
+                      return Text(
+                        "Creation",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: horPadding,
+                    vertical: verPadding,
+                  ),
+                  child: Text(
+                    "History",
+                    style: StyleUtil.text_small_Regular.copyWith(
+                      color: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    ),
+                  ),
+                ),
+                RectGetter(
+                  key: _rectKeyFurtherPage,
+                  child: TextHighlightDecider(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horPadding,
+                      vertical: verPadding,
+                    ),
+                    isCompactMode:
+                        getIsMobileSize(context) || getIsTabletSize(context),
+                    colorStart: StyleUtil.c_170,
+                    colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_33,
+                    actionDelay: const Duration(milliseconds: 100),
+                    additionalOnTapAction: () => _pushNamedWithRectFurther(),
+                    builder: (Color color) {
+                      return Text(
+                        "Further",
+                        style: StyleUtil.text_small_Regular.copyWith(
+                          color: color,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            );
+
+            if (getIsMobileSize(context)) {
+              return Flexible(
+                child: FittingMobileSizeDecider(
+                  sizeIsMobile: true,
+                  child: child,
+                ),
+              );
+            } else {
+              return Expanded(
+                child: Align(
+                  alignment: alignmentRowNavContainer(context),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: NeverScrollableScrollPhysics(),
+                    child: child,
+                  ),
+                ),
+              );
+            }
+          }),
+        ],
       ),
     );
   }
