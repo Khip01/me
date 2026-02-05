@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:me/app/provider/page_transition_provider.dart';
 import 'package:me/app/theme/style_util.dart';
 import 'package:me/shared/helper/helper.dart';
 import 'package:me/shared/utils/utils.dart';
@@ -54,6 +55,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     ignoreTapping = true;
     isFromLeft = !isFromLeft;
     setState(() => transitionIsActive = !transitionIsActive);
+    ref.read(pageTransitionProvider.notifier).state = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(animationDuration, () {
         ref.read(isDarkModeProvider.notifier).toggle();
@@ -63,7 +65,10 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       });
       Future.delayed(animationDuration + afterAnimationDelay, () {
         setState(() => transitionIsActive = !transitionIsActive);
-      }).then((_) => setState(() => ignoreTapping = false));
+      }).then((_) {
+        ref.read(pageTransitionProvider.notifier).state = false;
+        setState(() => ignoreTapping = false);
+      });
     });
   }
 
@@ -139,6 +144,8 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       setRect(rect);
     });
 
+    ref.read(pageTransitionProvider.notifier).state = true;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
@@ -147,10 +154,9 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
 
       Future.delayed(animationDuration + afterAnimationDelay, () {
         if (!mounted) return;
-
         final router = GoRouter.of(context);
 
-        // Reset state sebelum pindah rute
+        ref.read(pageTransitionProvider.notifier).state = false;
         setState(() {
           setRect(null);
           ignoreTapping = false;

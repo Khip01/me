@@ -105,3 +105,24 @@ double contentHighlightWidthListView (BuildContext context) => ResponsiveValue(
   ],
   defaultValue: 519,
 ).value.toDouble();
+
+double? floatingSidebarThumbFromBottom(double availableWidth) {
+  // Mapping manual berdasarkan lebar yang tersedia (Container Query)
+  if (availableWidth > 1100) return 24;    // DESKTOP-LG
+  if (availableWidth > 800)  return 24;    // DESKTOP-MD
+  if (availableWidth > 600)  return 38;    // DESKTOP-SM
+  if (availableWidth > 480)  return 58;    // TABLET
+  if (availableWidth > 0)    return 5.5;   // MOBILE
+  return 7; // Default
+}
+
+double floatingSidebarThumbFromRight(double availableWidth) {
+  if (availableWidth > 1920) return 24;    // 4K
+  if (availableWidth > 1350)  return 24;   // DESKTOP-LG V2
+  if (availableWidth > 1100)  return 24;   // DESKTOP-LG
+  if (availableWidth > 800)  return 24;    // DESKTOP-MD
+  if (availableWidth > 600)  return 18;    // DESKTOP-SM
+  if (availableWidth > 480)  return 0;    // TABLET
+  if (availableWidth > 0)    return 0;    // MOBILE
+  return 7; // Default
+}

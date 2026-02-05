@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:me/app/provider/page_transition_provider.dart';
 import 'package:me/app/theme/style_util.dart';
 import 'package:me/shared/component/components.dart';
 import 'package:me/app/provider/theme_provider.dart';
@@ -157,6 +158,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
     ignoreTapping = true;
     isFromLeft = !isFromLeft;
     setState(() => transitionIsActive = !transitionIsActive);
+    ref.read(pageTransitionProvider.notifier).state = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(animationDuration, () {
         ref.read(isDarkModeProvider.notifier).toggle();
@@ -166,7 +168,10 @@ class _CreationPageState extends ConsumerState<CreationPage>
       });
       Future.delayed(animationDuration + afterAnimationDelay, () {
         setState(() => transitionIsActive = !transitionIsActive);
-      }).then((_) => setState(() => ignoreTapping = false));
+      }).then((_) {
+        ref.read(pageTransitionProvider.notifier).state = false;
+        setState(() => ignoreTapping = false);
+      });
     });
   }
 
@@ -184,16 +189,18 @@ class _CreationPageState extends ConsumerState<CreationPage>
       setRect(rect);
     });
 
+    ref.read(pageTransitionProvider.notifier).state = true;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-
       setState(() =>
           setRect(rect.inflate(1.3 * MediaQuery.sizeOf(context).longestSide)));
 
       Future.delayed(animationDuration + afterAnimationDelay, () {
         if (!mounted) return;
-
         final router = GoRouter.of(context);
+
+        ref.read(pageTransitionProvider.notifier).state = false;
         setState(() {
           setRect(null);
           ignoreTapping = false;

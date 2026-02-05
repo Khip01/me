@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ThemeNotifier extends ChangeNotifier {
+class ThemeProvider extends ChangeNotifier {
   bool _isDark = false;
 
   bool get value => _isDark;
@@ -25,6 +25,6 @@ class ThemeNotifier extends ChangeNotifier {
   }
 }
 
-final isDarkModeProvider = ChangeNotifierProvider<ThemeNotifier>(
-  (ref) => ThemeNotifier(),
+final isDarkModeProvider = ChangeNotifierProvider<ThemeProvider>(
+  (ref) => ThemeProvider(),
 );

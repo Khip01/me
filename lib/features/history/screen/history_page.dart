@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:me/app/provider/page_transition_provider.dart';
 import 'package:me/app/theme/style_util.dart';
 import 'package:me/shared/component/components.dart';
 import 'package:me/app/provider/theme_provider.dart';
@@ -247,6 +248,7 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
     ignoreTapping = true;
     _isFromLeft = !_isFromLeft;
     setState(() => _transitionIsActive = !_transitionIsActive);
+    ref.read(pageTransitionProvider.notifier).state = true;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(animationDuration, () {
         ref.read(isDarkModeProvider.notifier).toggle();
@@ -256,7 +258,10 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
       });
       Future.delayed(animationDuration + afterAnimationDelay, () {
         setState(() => _transitionIsActive = !_transitionIsActive);
-      }).then((_) => setState(() => ignoreTapping = false));
+      }).then((_) {
+        ref.read(pageTransitionProvider.notifier).state = false;
+        setState(() => ignoreTapping = false);
+      });
     });
   }
 
@@ -274,6 +279,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
       setRect(rect);
     });
 
+    ref.read(pageTransitionProvider.notifier).state = true;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
 
@@ -282,9 +289,9 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
 
       Future.delayed(animationDuration + afterAnimationDelay, () {
         if (!mounted) return;
-
         final router = GoRouter.of(context);
 
+        ref.read(pageTransitionProvider.notifier).state = false;
         setState(() {
           setRect(null);
           ignoreTapping = false;
