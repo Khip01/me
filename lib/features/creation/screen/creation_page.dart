@@ -836,17 +836,8 @@ class _CreationPageState extends ConsumerState<CreationPage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Visibility(
-              visible: contentQuoteIconVisible(context),
-              child: const SizedBox(width: 32, height: 36, child: Text(""))),
-          Text(
-            "\"There is no such thing as 'garbage' for the small program you have created.\"",
-            style: StyleUtil.text_xs_Regular_Italic
-                .copyWith(color: StyleUtil.c_170),
-          ),
-          Visibility(
-            visible: contentQuoteIconVisible(context),
-            child: SizedBox(
+          if (contentQuoteIconVisible(context))
+            SizedBox(
               width: 32,
               height: 36,
               child: Column(
@@ -866,7 +857,18 @@ class _CreationPageState extends ConsumerState<CreationPage>
                 ],
               ),
             ),
+          Expanded(
+            child: Text(
+              "\"There is no such thing as 'garbage' for the small program you have created.\"",
+              style: StyleUtil.text_xs_Regular_Italic
+                  .copyWith(color: StyleUtil.c_170),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
+          if (contentQuoteIconVisible(context))
+            SizedBox(width: 32, height: 36, child: Text("")),
         ],
       ),
     );

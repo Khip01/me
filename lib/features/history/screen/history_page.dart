@@ -879,17 +879,8 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Visibility(
-              visible: contentQuoteIconVisible(context),
-              child: const SizedBox(width: 32, height: 36, child: Text(""))),
-          Text(
-            "\"Turn coding into an experience, not just a lesson.\"",
-            style: StyleUtil.text_xs_Regular_Italic
-                .copyWith(color: StyleUtil.c_170),
-          ),
-          Visibility(
-            visible: contentQuoteIconVisible(context),
-            child: SizedBox(
+          if (contentQuoteIconVisible(context))
+            SizedBox(
               width: 32,
               height: 36,
               child: Column(
@@ -909,7 +900,18 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
                 ],
               ),
             ),
+          Expanded(
+            child: Text(
+              "\"Turn coding into an experience, not just a lesson.\"",
+              style: StyleUtil.text_xs_Regular_Italic
+                  .copyWith(color: StyleUtil.c_170),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
+          if (contentQuoteIconVisible(context))
+            const SizedBox(width: 32, height: 36, child: Text("")),
         ],
       ),
     );
