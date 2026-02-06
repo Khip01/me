@@ -30,7 +30,99 @@ class ResizableSidebarLayout extends ConsumerStatefulWidget {
 
 class _ResizableSidebarLayoutState
     extends ConsumerState<ResizableSidebarLayout> {
-  double _sideChildWidth = 400.0; // default sidebar width (on wide screen only)
+  // final double _sideChildWidth = 400.0; // default sidebar width (on wide screen only)
+  // final double _minWidth = 300.0;
+  // final double _maxWidth = 450.0;
+  //
+  // @override
+  // Widget build(BuildContext context) {
+  //   final SidebarProvider sidebarState = ref.watch(sidebarProvider);
+  //   final isTransitioning = ref.watch(pageTransitionProvider);
+  //
+  //   final bool isCompactScreen = getIsDesktopSmAndBelowSize(context);
+  //   final bool isWideScreen = !isCompactScreen;
+  //
+  //   return LayoutBuilder(
+  //     builder: (context, constraints) {
+  //       double sidebarWidthOnWideScreen =
+  //           sidebarState.isOpened && isWideScreen ? _sideChildWidth : 0;
+  //       double dividerWidth = sidebarState.isOpened && isWideScreen ? 16 : 0;
+  //       double availableWidthForMainChild =
+  //           constraints.maxWidth - (sidebarWidthOnWideScreen + dividerWidth);
+  //
+  //       return Scaffold(
+  //         body: Stack(
+  //           alignment: AlignmentGeometry.centerRight,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 Expanded(
+  //                   child: RecalculateMainChildSize(
+  //                     availableWidth: availableWidthForMainChild,
+  //                     layoutConstraints: constraints,
+  //                     mainChild: Stack(
+  //                       children: [
+  //                         widget.mainChild,
+  //                         AnimatedPositioned(
+  //                           duration: Duration(milliseconds: 300),
+  //                           curve: Curves.easeOutCirc,
+  //                           bottom: constraints.maxHeight /
+  //                               (floatingSidebarThumbFromBottom(
+  //                                     availableWidthForMainChild,
+  //                                   ) ??
+  //                                   constraints.maxHeight),
+  //                           right: isTransitioning
+  //                               ? -200
+  //                               : floatingSidebarThumbFromRight(
+  //                                   availableWidthForMainChild,
+  //                                 ),
+  //                           child: SidebarChatWidget.sidebarThumb(
+  //                             isFloatingMode: true,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 if (sidebarState.isOpened && isWideScreen)
+  //                   draggableDivider(dividerWidth),
+  //                 if (isWideScreen)
+  //                   AnimatedContainer(
+  //                     duration: Duration(milliseconds: 300),
+  //                     width: sidebarState.isOpened ? _sideChildWidth : 0,
+  //                     curve: Curves.easeOutCirc,
+  //                     child: Column(
+  //                       children: [
+  //                         Expanded(child: widget.sideChild),
+  //                         sidebarWindowControl(),
+  //                       ],
+  //                     ),
+  //                   ),
+  //               ],
+  //             ),
+  //             if (isCompactScreen)
+  //               AnimatedPositioned(
+  //                 top: 0,
+  //                 right: sidebarState.isOpened ? 0 : -constraints.maxWidth,
+  //                 bottom: 0,
+  //                 duration: Duration(milliseconds: 300),
+  //                 width: constraints.maxWidth,
+  //                 curve: Curves.easeOutCirc,
+  //                 child: Column(
+  //                   children: [
+  //                     Expanded(child: widget.sideChild),
+  //                     sidebarWindowControl(),
+  //                   ],
+  //                 ),
+  //               ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+  // Kita buat lebar sidebar tetap konsisten
+  final double _sideChildWidth = 400.0;
   final double _minWidth = 300.0;
   final double _maxWidth = 450.0;
 
@@ -44,76 +136,71 @@ class _ResizableSidebarLayoutState
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        double sidebarWidthOnWideScreen =
-            sidebarState.isOpened && isWideScreen ? _sideChildWidth : 0;
-        double dividerWidth = sidebarState.isOpened && isWideScreen ? 16 : 0;
-        double availableWidthForMainChild =
-            constraints.maxWidth - (sidebarWidthOnWideScreen + dividerWidth);
+        double sidebarRightPosition = sidebarState.isOpened ? 0 : -_sideChildWidth;
+
+        double currentSidebarSpace = (sidebarState.isOpened && isWideScreen) ? _sideChildWidth : 0 - 16;
+        double availableWidthForMainChild = constraints.maxWidth - currentSidebarSpace;
 
         return Scaffold(
           body: Stack(
-            alignment: AlignmentGeometry.centerRight,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: RecalculateMainChildSize(
-                      availableWidth: availableWidthForMainChild,
-                      layoutConstraints: constraints,
-                      mainChild: Stack(
-                        children: [
-                          widget.mainChild,
-                          AnimatedPositioned(
-                            duration: Duration(milliseconds: 300),
-                            curve: Curves.easeOutCirc,
-                            bottom: constraints.maxHeight /
-                                (floatingSidebarThumbFromBottom(
-                                      availableWidthForMainChild,
-                                    ) ??
-                                    constraints.maxHeight),
-                            right: isTransitioning
-                                ? -200
-                                : floatingSidebarThumbFromRight(
-                                    availableWidthForMainChild,
-                                  ),
-                            child: SidebarChatWidget.sidebarThumb(
-                              isFloatingMode: true,
-                            ),
-                          ),
-                        ],
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutCirc,
+                left: 0,
+                top: 0,
+                bottom: 0,
+                right: isWideScreen ? currentSidebarSpace : 0,
+                child: RecalculateMainChildSize(
+                  availableWidth: availableWidthForMainChild,
+                  layoutConstraints: constraints,
+                  mainChild: Stack(
+                    children: [
+                      widget.mainChild,
+                      AnimatedPositioned(
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.easeOutCirc,
+                        bottom: constraints.maxHeight / (floatingSidebarThumbFromBottom(availableWidthForMainChild) ?? constraints.maxHeight),
+                        right: isTransitioning ? -200 : floatingSidebarThumbFromRight(availableWidthForMainChild),
+                        child: SidebarChatWidget.sidebarThumb(isFloatingMode: true),
                       ),
-                    ),
+                    ],
                   ),
-                  if (sidebarState.isOpened && isWideScreen)
-                    draggableDivider(dividerWidth),
-                  if (isWideScreen)
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 300),
-                      width: sidebarState.isOpened ? _sideChildWidth : 0,
-                      curve: Curves.easeOutCirc,
-                      child: Column(
-                        children: [
-                          Expanded(child: widget.sideChild),
-                          sidebarWindowControl(),
-                        ],
-                      ),
-                    ),
-                ],
+                ),
               ),
-              if (isCompactScreen)
-                AnimatedPositioned(
-                  top: 0,
-                  right: sidebarState.isOpened ? 0 : -constraints.maxWidth,
-                  bottom: 0,
-                  duration: Duration(milliseconds: 300),
-                  width: constraints.maxWidth,
-                  curve: Curves.easeOutCirc,
+
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeOutCirc,
+                top: 0,
+                bottom: 0,
+                right: isCompactScreen
+                    ? (sidebarState.isOpened ? 0 : -constraints.maxWidth)
+                    : sidebarRightPosition,
+                width: isCompactScreen ? constraints.maxWidth : _sideChildWidth,
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      if (sidebarState.isOpened)
+                        BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 2)
+                    ],
+                  ),
                   child: Column(
                     children: [
                       Expanded(child: widget.sideChild),
                       sidebarWindowControl(),
                     ],
                   ),
+                ),
+              ),
+
+                AnimatedPositioned(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeOutCirc,
+                  top: 0,
+                  bottom: 0,
+                  right: currentSidebarSpace,
+                  child: draggableDivider(16),
                 ),
             ],
           ),

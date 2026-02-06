@@ -498,13 +498,11 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                   ),
                 );
               } else {
-                return Expanded(
-                  child: Align(
-                    alignment: alignmentWidgetLink(context),
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: child,
-                    ),
+                return Align(
+                  alignment: alignmentWidgetLink(context),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: child,
                   ),
                 );
               }
