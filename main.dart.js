@@ -89822,24 +89822,26 @@ q=A.Es(o,-1,o)
 q.U=new A.aw4(p,n)
 return A.X(B.aU,A.bk(A.b([l,A.kd(A.agd(o,o,1,B.b8,o,o,!0,o,A.d1(A.b([A.d1(o,o,q,r,"Talkest."),A.d1(o,o,o,o,"  \ud83e\udd0d")],t.VO),o,o,s,"Powered by "),B.aS,o,o,B.bw,B.bk),1),A.aDQ(B.Ho,!1,!1,"Refresh",new A.aw5(p))],t.p),B.p,B.r,B.o),B.f,o,o,new A.aO(m,o,o,o,o,o,B.F),o,60,o,o,o,o,o,o)}}
 A.aw2.prototype={
-$2(a,b){var s,r,q,p,o,n,m,l=this,k=null,j=l.b,i=j.a===B.cg,h=i?0:-400,g=i&&l.c?400:-16
-i=b.b
-s=i-g
-r=l.c?g:0
-q=l.a
-p=q.a.d
-o=A.b1w(s)
-n=l.d?-200:A.b1x(s)
-m=t.p
-r=A.dU(0,new A.ON(A.cb(B.a0,A.b([p,A.dU(b.d/o,A.aDQ(k,!0,k,k,k),B.cp,B.H,k,k,n,k,k)],m),B.w,B.Z,k),s,b,k),B.cp,B.H,k,0,r,0,k)
-p=l.e
-if(p)o=j.a===B.cg?0:-i
-else o=h
-i=p?i:400
-p=A.b([],t.sq)
-if(j.a===B.cg)p.push(new A.d2(2,B.bE,B.no,B.i,10))
-j=A.dU(0,A.X(k,A.aY(A.b([A.kd(q.a.e,1),q.a_Y()],m),B.p,B.r,B.o),B.f,k,k,new A.aO(k,k,k,k,p,k,B.F),k,k,k,k,k,k,k,k),B.cp,B.H,k,k,o,0,i)
-return A.o5(k,k,A.cb(B.a0,A.b([r,j,A.dU(0,A.eY(k,A.X(k,B.DB,B.f,q.gaw().az($.aF(),t.A).a?B.t:B.K,k,k,k,k,k,k,k,k,k,16),B.Y,!1,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,k,!1,B.aZ),B.cp,B.H,k,k,g,0,k)],m),B.w,B.Z,k))},
+$2(a,b){var s,r,q,p,o,n,m,l,k=this,j=null,i=k.b,h=i.a===B.cg,g=h?0:-400
+if(h&&k.c)s=400+(h?16:0)
+else s=0
+h=b.b
+r=h-s
+q=k.c?s:0
+p=k.a
+o=p.a.d
+n=A.b1w(r)
+m=k.d?-200:A.b1x(r)
+l=t.p
+q=A.dU(0,new A.ON(A.cb(B.a0,A.b([o,A.dU(b.d/n,A.aDQ(j,!0,j,j,j),B.cp,B.H,j,j,m,j,j)],l),B.w,B.Z,j),r,b,j),B.cp,B.H,j,0,q,0,j)
+o=k.e
+if(o)n=i.a===B.cg?0:-h
+else n=g
+h=o?h:400
+o=A.b([],t.sq)
+if(i.a===B.cg)o.push(new A.d2(2,B.bE,B.no,B.i,10))
+i=A.dU(0,A.X(j,A.aY(A.b([A.kd(p.a.e,1),p.a_Y()],l),B.p,B.r,B.o),B.f,j,j,new A.aO(j,j,j,j,o,j,B.F),j,j,j,j,j,j,j,j),B.cp,B.H,j,j,n,0,h)
+return A.o5(j,j,A.cb(B.a0,A.b([q,i,A.dU(0,A.eY(j,A.X(j,B.DB,B.f,p.gaw().az($.aF(),t.A).a?B.t:B.K,j,j,j,j,j,j,j,j,j,16),B.Y,!1,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,j,!1,B.aZ),B.cp,B.H,j,j,s-16,0,j)],l),B.w,B.Z,j))},
 $S:613}
 A.aw4.prototype={
 $0(){var s=this.a.c
