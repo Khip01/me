@@ -30,9 +30,9 @@ class ResizableSidebarLayout extends ConsumerStatefulWidget {
 
 class _ResizableSidebarLayoutState
     extends ConsumerState<ResizableSidebarLayout> {
-  double _sideChildWidth = 350.0; // default sidebar width (on wide screen only)
+  double _sideChildWidth = 400.0; // default sidebar width (on wide screen only)
   final double _minWidth = 300.0;
-  final double _maxWidth = 400.0;
+  final double _maxWidth = 450.0;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class _ResizableSidebarLayoutState
     return LayoutBuilder(
       builder: (context, constraints) {
         double sidebarWidthOnWideScreen =
-        sidebarState.isOpened && isWideScreen ? _sideChildWidth : 0;
+            sidebarState.isOpened && isWideScreen ? _sideChildWidth : 0;
         double dividerWidth = sidebarState.isOpened && isWideScreen ? 16 : 0;
         double availableWidthForMainChild =
             constraints.maxWidth - (sidebarWidthOnWideScreen + dividerWidth);
@@ -68,14 +68,14 @@ class _ResizableSidebarLayoutState
                             curve: Curves.easeOutCirc,
                             bottom: constraints.maxHeight /
                                 (floatingSidebarThumbFromBottom(
-                                  availableWidthForMainChild,
-                                ) ??
+                                      availableWidthForMainChild,
+                                    ) ??
                                     constraints.maxHeight),
                             right: isTransitioning
                                 ? -200
                                 : floatingSidebarThumbFromRight(
-                              availableWidthForMainChild,
-                            ),
+                                    availableWidthForMainChild,
+                                  ),
                             child: SidebarChatWidget.sidebarThumb(
                               isFloatingMode: true,
                             ),
@@ -123,41 +123,36 @@ class _ResizableSidebarLayoutState
   }
 
   Widget draggableDivider(double width) {
-    bool isDarkMode = ref
-        .watch(isDarkModeProvider)
-        .value;
+    bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return GestureDetector(
-      onHorizontalDragUpdate: (details) {
-        setState(() {
-          _sideChildWidth =
-              (_sideChildWidth - details.delta.dx).clamp(_minWidth, _maxWidth);
-          // // calculate width
-          // _rightWidth -= details.delta.dx;
-          //
-          // // limit width with clamp
-          // _rightWidth = _rightWidth.clamp(_minWidth, _maxWidth);
-        });
-      },
+      // onHorizontalDragUpdate: (details) {
+      //   setState(() {
+      //     _sideChildWidth =
+      //         (_sideChildWidth - details.delta.dx).clamp(_minWidth, _maxWidth);
+      //     // // calculate width
+      //     // _rightWidth -= details.delta.dx;
+      //     //
+      //     // // limit width with clamp
+      //     // _rightWidth = _rightWidth.clamp(_minWidth, _maxWidth);
+      //   });
+      // },
       child: Container(
         width: width,
         color: (isDarkMode) ? StyleUtil.c_61 : StyleUtil.c_238,
         child: const Center(
-          child: Icon(
-            Icons.drag_indicator,
-            size: 16,
-            color: StyleUtil.c_170,
-          ),
+          // child: Icon(
+          //   Icons.drag_indicator,
+          //   size: 16,
+          //   color: StyleUtil.c_170,
+          // ),
         ),
       ),
     );
   }
 
   Widget sidebarWindowControl() {
-    final bool isDarkMode = ref
-        .watch(isDarkModeProvider)
-        .value;
-    final SidebarProvider sidebarState = ref.watch(sidebarProvider);
+    final bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
     return Container(
       height: 60,
@@ -167,8 +162,10 @@ class _ResizableSidebarLayoutState
       ),
       child: Row(
         children: [
-          if (getIsDesktopSmAndBelowSize(context))
-            SidebarChatWidget.sidebarThumb(isFloatingMode: false),
+          Opacity(
+            opacity: getIsDesktopSmAndBelowSize(context) ? 1 : 0,
+            child: SidebarChatWidget.sidebarThumb(isFloatingMode: false),
+          ),
           Expanded(
             child: RichText(
               textAlign: TextAlign.center,
@@ -199,17 +196,17 @@ class _ResizableSidebarLayoutState
               ),
             ),
           ),
-          if (getIsDesktopSmAndBelowSize(context))
-            SidebarChatWidget.sidebarThumb(
-                isInvisible: false,
-                isFloatingMode: false,
-                icon: Icons.refresh_rounded,
-                label: "Refresh",
-                onPressed: () {
-                  ref.read(chatRefreshProvider.notifier).update((state) =>
-                  state + 1);
-                },
-            ),
+          SidebarChatWidget.sidebarThumb(
+            isInvisible: false,
+            isFloatingMode: false,
+            icon: Icons.refresh_rounded,
+            label: "Refresh",
+            onPressed: () {
+              ref
+                  .read(chatRefreshProvider.notifier)
+                  .update((state) => state + 1);
+            },
+          ),
         ],
       ),
     );
