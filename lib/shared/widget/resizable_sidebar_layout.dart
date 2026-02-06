@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:me/app/provider/chat_refresh_provider.dart';
 import 'package:me/app/provider/page_transition_provider.dart';
 import 'package:me/app/provider/sidebar_provider.dart';
 import 'package:me/app/provider/theme_provider.dart';
@@ -44,7 +45,7 @@ class _ResizableSidebarLayoutState
     return LayoutBuilder(
       builder: (context, constraints) {
         double sidebarWidthOnWideScreen =
-            sidebarState.isOpened && isWideScreen ? _sideChildWidth : 0;
+        sidebarState.isOpened && isWideScreen ? _sideChildWidth : 0;
         double dividerWidth = sidebarState.isOpened && isWideScreen ? 16 : 0;
         double availableWidthForMainChild =
             constraints.maxWidth - (sidebarWidthOnWideScreen + dividerWidth);
@@ -67,14 +68,14 @@ class _ResizableSidebarLayoutState
                             curve: Curves.easeOutCirc,
                             bottom: constraints.maxHeight /
                                 (floatingSidebarThumbFromBottom(
-                                      availableWidthForMainChild,
-                                    ) ??
+                                  availableWidthForMainChild,
+                                ) ??
                                     constraints.maxHeight),
                             right: isTransitioning
                                 ? -200
                                 : floatingSidebarThumbFromRight(
-                                    availableWidthForMainChild,
-                                  ),
+                              availableWidthForMainChild,
+                            ),
                             child: SidebarChatWidget.sidebarThumb(
                               isFloatingMode: true,
                             ),
@@ -122,7 +123,9 @@ class _ResizableSidebarLayoutState
   }
 
   Widget draggableDivider(double width) {
-    bool isDarkMode = ref.watch(isDarkModeProvider).value;
+    bool isDarkMode = ref
+        .watch(isDarkModeProvider)
+        .value;
 
     return GestureDetector(
       onHorizontalDragUpdate: (details) {
@@ -151,7 +154,9 @@ class _ResizableSidebarLayoutState
   }
 
   Widget sidebarWindowControl() {
-    final bool isDarkMode = ref.watch(isDarkModeProvider).value;
+    final bool isDarkMode = ref
+        .watch(isDarkModeProvider)
+        .value;
     final SidebarProvider sidebarState = ref.watch(sidebarProvider);
 
     return Container(
@@ -196,8 +201,14 @@ class _ResizableSidebarLayoutState
           ),
           if (getIsDesktopSmAndBelowSize(context))
             SidebarChatWidget.sidebarThumb(
-              isInvisible: true,
-              isFloatingMode: false,
+                isInvisible: false,
+                isFloatingMode: false,
+                icon: Icons.refresh_rounded,
+                label: "Refresh",
+                onPressed: () {
+                  ref.read(chatRefreshProvider.notifier).update((state) =>
+                  state + 1);
+                },
             ),
         ],
       ),

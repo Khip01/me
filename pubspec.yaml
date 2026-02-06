@@ -48,6 +48,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   crypto: ^3.0.3
   flutter_blurhash: ^0.8.2
+  web: ^1.1.1
 #  universal_html: ^2.2.4 // I disabled universal_html to build a web using WASM.
 #  url_strategy: ^0.2.0
 #  flutter_screenutil: ^5.9.0
