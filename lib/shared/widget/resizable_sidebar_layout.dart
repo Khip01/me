@@ -138,7 +138,7 @@ class _ResizableSidebarLayoutState
       builder: (context, constraints) {
         double sidebarRightPosition = sidebarState.isOpened ? 0 : -_sideChildWidth;
 
-        double currentSidebarSpace = (sidebarState.isOpened && isWideScreen) ? _sideChildWidth : 0 - 16;
+        double currentSidebarSpace = (sidebarState.isOpened && isWideScreen) ? _sideChildWidth + (sidebarState.isOpened ? 16 : 0) : 0;
         double availableWidthForMainChild = constraints.maxWidth - currentSidebarSpace;
 
         return Scaffold(
@@ -199,7 +199,7 @@ class _ResizableSidebarLayoutState
                   curve: Curves.easeOutCirc,
                   top: 0,
                   bottom: 0,
-                  right: currentSidebarSpace,
+                  right: currentSidebarSpace - 16,
                   child: draggableDivider(16),
                 ),
             ],
