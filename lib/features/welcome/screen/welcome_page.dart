@@ -491,11 +491,9 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
               );
 
               if (getIsMobileSize(context)) {
-                return Flexible(
-                  child: FittingMobileSizeDecider(
-                    sizeIsMobile: true,
-                    child: child,
-                  ),
+                return FittingMobileSizeDecider(
+                  sizeIsMobile: true,
+                  child: child,
                 );
               } else {
                 return Align(
