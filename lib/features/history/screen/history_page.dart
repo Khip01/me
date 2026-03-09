@@ -1,11 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:me/app/provider/page_transition_provider.dart';
 import 'package:me/app/theme/style_util.dart';
+import 'package:me/features/history/bloc/history/history_bloc.dart';
 import 'package:me/shared/component/components.dart';
 import 'package:me/app/provider/theme_provider.dart';
 import 'package:me/shared/helper/helper.dart';
@@ -364,7 +366,14 @@ class _HistoryPageState extends ConsumerState<HistoryPage>
                           );
                         },
                       ),
-                      _historyPageSection(),
+                      BlocProvider(
+                        create: (context) => HistoryBloc(),
+                        child: BlocBuilder<HistoryBloc, HistoryState>(
+                          builder: (_, __) {
+                            return _historyPageSection();
+                          },
+                        ),
+                      ),
                       _footerTechnology(),
                     ]),
                   ],

@@ -1,4 +1,4 @@
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:me/app/app.dart';
@@ -11,8 +11,8 @@ Future<void> main() async {
   // url strategy remove hashtag # on production flutter web
   // setPathUrlStrategy();
 
-  await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
+  // await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform); // Firebase Init
   // Load All Image Icon
   await preloadIconImage();
   // Load Map Creation

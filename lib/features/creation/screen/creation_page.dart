@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:me/app/provider/page_transition_provider.dart';
 import 'package:me/app/theme/style_util.dart';
+import 'package:me/features/creation/bloc/creation/creation_bloc.dart';
 import 'package:me/shared/component/components.dart';
 import 'package:me/app/provider/theme_provider.dart';
 import 'package:me/shared/helper/helper.dart';
@@ -279,12 +281,13 @@ class _CreationPageState extends ConsumerState<CreationPage>
                     MultiSliver(pushPinnedChildren: true, children: [
                       // Sticky Navbar
                       ValueListenableBuilder<bool>(
-                          valueListenable: _navIsStickyNotifier,
-                          builder: (context, isVisible, child) {
-                            return SliverPinnedHeader(
-                              child: _navTopSticky(isVisible),
-                            );
-                          }),
+                        valueListenable: _navIsStickyNotifier,
+                        builder: (context, isVisible, child) {
+                          return SliverPinnedHeader(
+                            child: _navTopSticky(isVisible),
+                          );
+                        },
+                      ),
                       _creationPageSection(),
                       _footerTechnology(),
                     ]),
@@ -912,17 +915,18 @@ class _CreationPageState extends ConsumerState<CreationPage>
               subTitleText:
                   "A collection of small projects from my past that reflect my learning journey in the realm of coding.",
             ),
-            FutureBuilder(
-                future: Future.delayed(const Duration(seconds: 3))
-                    .then((_) => _creationContent()),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                  if (snapshot.hasData &&
-                      snapshot.connectionState == ConnectionState.done) {
-                    return snapshot.data!;
+            BlocProvider(
+              create: (context) => CreationBloc(),
+              child: BlocBuilder<CreationBloc, CreationState>(
+                builder: (_, creationBlocState) {
+                  if (creationBlocState is CreationLoading) {
+                    return _creationContentShimmer();
                   }
-                  return _creationContentShimmer();
-                }),
+
+                  return _creationContent();
+                },
+              ),
+            ),
           ],
         ),
       ),
