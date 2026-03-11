@@ -84,13 +84,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/icons/waving_hand.png
-    - assets/icons/flutter_16.png
-    - assets/icons/firebase16.png
-    - assets/icons/firebasenew16.png
-    - assets/icons/incognito_mode.png
-    - assets/icons/incognito_fingerprint.png
-    - assets/icons/iconcognito_mask.png
+    - assets/icons/waving_hand.webp
+    - assets/icons/flutter_16.webp
+    - assets/icons/firebase16.webp
+    - assets/icons/firebasenew16.webp
     - assets/icons/browser/
     - assets/icons/facebook/
     - assets/icons/github/
@@ -98,7 +95,6 @@ flutter:
     - assets/icons/instagram/
     - assets/icons/linkedin/
     - assets/icons/link/
-    - assets/data/khip01-portfolio-default-rtdb-export.json
     - assets/images/projects/
     - assets/images/projects/cafeapp_khipcafe/
     - assets/images/projects/calculator_gui_java/
