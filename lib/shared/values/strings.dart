@@ -118,8 +118,8 @@ class StringConst {
     "portfolio",
     "first"
   ];
-  static const String FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Khip01.github.io";
-  static const String FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB = "https://khip01.github.io/";
+  static const String FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/Khip01.github.io-v1";
+  static const String FIRST_WEB_PORTFOLIO_PROJECT_LINK_TO_DEMO_WEB = "https://khip01.github.io/Khip01.github.io-v1/";
 
   // CALCULATOR GUI JAVA
   static const String CALCULATOR_GUI_JAVA_PROJECT_NAME = "Calculator GUI Java";
