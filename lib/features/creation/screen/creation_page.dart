@@ -937,7 +937,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
     // Parent
     return Column(
       children: [
-        // _creationsContentHighlight(),
+        _creationsContentHighlight(),
         _creationsContentRelatedProject(),
         _creationsContentSteppingStone(),
       ],
