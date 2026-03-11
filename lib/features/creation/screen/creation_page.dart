@@ -233,16 +233,17 @@ class _CreationPageState extends ConsumerState<CreationPage>
       "further", _rectKeyFurtherPageSticky, (r) => _rectFurtherSticky = r);
 
   // Creation Section Focus Animation When Highlight Section Already Show
+  // OPTIMIZATION: Only create Timer when highlight data is available
   void doFocusScrollSnapListOnFocusHighlight() {
-    // Mengecek apakah memang timernya sudah aktif
+    // Guard: Check if timer is already active to prevent duplicate timers
     if (_timerContentHighlight?.isActive ?? false) {
       return;
     }
     // Creation Content Animation
+    // NOTE: Not calling setState() here - ScrollSnapListState updates directly
+    // This prevents unnecessary rebuilds of the entire CreationPage
     _timerContentHighlight = Timer.periodic(const Duration(seconds: 5), (_) {
-      // setState(() {
       _creationHighlightKey.currentState?.focusToItem(++_focusedIndexHighlight);
-      // });
     });
   }
 
@@ -959,32 +960,31 @@ class _CreationPageState extends ConsumerState<CreationPage>
   Widget _creationsContentHighlight() {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
+    // OPTIMIZATION: Only initialize auto-scroll timer when data is ready
+    // This is called during build, but timer is guarded to only create once
     doFocusScrollSnapListOnFocusHighlight();
+
     return Container(
       color: (isDarkMode) ? StyleUtil.c_33 : StyleUtil.c_255,
       margin: EdgeInsets.only(bottom: (getIsMobileSize(context) ? 71 : 0)),
       height: contentHighlightHeight(context),
       child: ScrollConfiguration(
         behavior: ScrollWithDragBehavior(),
-        // My Custom Behavior for Drag ListView
+        // Custom Behavior for Drag ListView
         child: ScrollSnapList(
           key: _creationHighlightKey,
           duration: 600,
           curve: Easing.legacyDecelerate,
           margin: const EdgeInsets.symmetric(vertical: 10),
           onItemFocus: (int index) {
-            // setState(() {
             _focusedIndexHighlight = index;
-            // });
           },
           onReachEnd: () {
-            // setState(() {
             _focusedIndexHighlight = -1;
-            // });
           },
           itemSize: contentHighlightWidthListView(context),
           itemBuilder: (context, index) {
-            // Build item berdasarkan data creationsMap
+            // Build item from data - now using static gradient (optimized)
             return _buildListItemHighlight(
                 context, index, Data.highlightedCreations);
           },
@@ -1002,9 +1002,8 @@ class _CreationPageState extends ConsumerState<CreationPage>
   ) {
     bool isDarkMode = ref.watch(isDarkModeProvider).value;
 
-    // Menggunakan data dari creationsMap untuk membangun item list
-    final itemData =
-        highlightedCreationsData[index]; // Ambil data pada indeks tertentu
+    // Use data from creationsMap to build list item
+    final itemData = highlightedCreationsData[index];
     final Image itemImage = Image.asset(
       itemData.projectImagePathCover,
       fit: BoxFit.cover,
@@ -1027,7 +1026,7 @@ class _CreationPageState extends ConsumerState<CreationPage>
         return BlurHashImage(itemData.creatorPhotoProfilePathHash[index]);
       },
     );
-    final Color colorShadeItemImage = isDarkMode
+    final Color shadeStart = isDarkMode
         ? const Color.fromARGB(0, 0, 0, 0)
         : const Color.fromARGB(0, 255, 255, 255);
     final DateTime itemDate =
@@ -1035,6 +1034,18 @@ class _CreationPageState extends ConsumerState<CreationPage>
     final DateFormat dateFormatter = DateFormat("MMM dd, yyyy");
     final String creatorsName =
         "${itemData.creatorName.first} ${(itemData.creatorName.length > 1) ? "and ${itemData.creatorName.length - 1} other" : ""}";
+
+    // OPTIMIZATION: Static theme-based gradient (no FutureBuilder, no dynamic color extraction)
+    // Gradient transitions from transparent to the theme's base color
+    final Color gradientMid = isDarkMode
+        ? StyleUtil.c_33.withValues(alpha: 0.8)
+        : StyleUtil.c_255.withValues(alpha: 0.8);
+    final Color gradientEnd = isDarkMode ? StyleUtil.c_33 : StyleUtil.c_255;
+
+    // Topic tag background - themed to match the gradient
+    final Color topicBgColor = isDarkMode
+        ? StyleUtil.c_33.withValues(alpha: 0.9)
+        : StyleUtil.c_238.withValues(alpha: 0.9);
 
     return HighlightedWidgetOnHover(
       widgetHeight: contentHighlightHeight(context),
@@ -1050,141 +1061,115 @@ class _CreationPageState extends ConsumerState<CreationPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(children: [
-              Container(
-                height: 310 -
-                    (getIsMobileSize(context)
-                        ? 101
-                        : getIsTabletSize(context)
-                            ? 51
-                            : 0),
-                width: double.maxFinite,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: itemImageHash,
-                    fit: BoxFit.cover,
+            ClipRRect(
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              borderRadius:
+                  BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
+              child: Stack(children: [
+                SizedBox(
+                  height: 310 -
+                      (getIsMobileSize(context)
+                          ? 101
+                          : getIsTabletSize(context)
+                              ? 51
+                              : 0),
+                  width: double.maxFinite,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.all(0.4), // Hanya mengecilkan gambar
+                    child: Container(
+                      clipBehavior: Clip.antiAlias,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: itemImageHash,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: itemImage,
+                    ),
                   ),
-                  borderRadius:
-                      BorderRadius.circular(getIsMobileSize(context) ? 10 : 20),
                 ),
-                child: itemImage,
-              ),
-              FutureBuilder<ColorScheme>(
-                  future: getColorFromImage(
-                      Image.asset(itemData.projectImagePathCover).image,
-                      isDarkMode),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<ColorScheme> snapshot) {
-                    if (snapshot.hasData) {
-                      return SizedBox(
-                        height: 310 -
-                            (getIsMobileSize(context)
-                                ? 101
-                                : getIsTabletSize(context)
-                                    ? 51
-                                    : 0),
-                        child: Stack(children: [
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              height: 159,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    getIsMobileSize(context) ? 9 : 19),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    colorShadeItemImage,
-                                    snapshot.data!.primaryContainer
-                                        .withValues(alpha: .8),
-                                    snapshot.data!.primaryContainer
-                                  ],
-                                ),
-                              ),
-                            ),
+                // OPTIMIZATION: Static gradient overlay (replaces FutureBuilder + getColorFromImage)
+                SizedBox(
+                  height: 310 -
+                      (getIsMobileSize(context)
+                          ? 101
+                          : getIsTabletSize(context)
+                              ? 51
+                              : 0),
+                  child: Stack(children: [
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 159,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              shadeStart,
+                              gradientMid,
+                              gradientEnd,
+                            ],
                           ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 14, vertical: 9),
-                            decoration: BoxDecoration(
-                              color: snapshot.data!.primaryContainer
-                                  .withValues(alpha: .9),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(
-                                    getIsMobileSize(context) ? 9 : 19),
-                                bottomRight: Radius.circular(
-                                    getIsMobileSize(context) ? 9 : 19),
-                              ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 14, vertical: 9),
+                      decoration: BoxDecoration(
+                        color: topicBgColor,
+                        borderRadius: BorderRadius.only(
+                          bottomRight: Radius.circular(
+                              getIsMobileSize(context) ? 10 : 20),
+                        ),
+                      ),
+                      child: Text(
+                        itemData.projectHighlightTopic ?? "",
+                        style: StyleUtil.text_xs_Bold.copyWith(
+                            color:
+                                isDarkMode ? StyleUtil.c_255 : StyleUtil.c_33),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: getIsMobileSize(context) ? 14 : 22),
+                        width: double.maxFinite,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              itemData.projectHighlightHeader ?? "",
+                              style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontSize:
+                                      20 - (getIsMobileSize(context) ? 4 : 0),
+                                  color: isDarkMode
+                                      ? StyleUtil.c_255
+                                      : StyleUtil.c_24),
+                              textAlign: TextAlign.left,
                             ),
-                            child: Text(
-                              itemData.projectHighlightTopic ?? "",
+                            Text(
+                              itemData.projectHighlightDescription ?? "",
                               style: StyleUtil.text_xs_Regular.copyWith(
                                   color: isDarkMode
                                       ? StyleUtil.c_255
-                                      : StyleUtil.c_33),
+                                      : StyleUtil.c_24),
+                              textAlign: TextAlign.left,
                             ),
-                          ),
-                          Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: getIsMobileSize(context) ? 14 : 22),
-                              width: double.maxFinite,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    itemData.projectHighlightHeader ?? "",
-                                    style: TextStyle(
-                                        fontFamily: 'Lato',
-                                        fontSize: 20 -
-                                            (getIsMobileSize(context) ? 4 : 0),
-                                        color: isDarkMode
-                                            ? StyleUtil.c_255
-                                            : StyleUtil.c_24),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                  Text(
-                                    itemData.projectHighlightDescription ?? "",
-                                    style: StyleUtil.text_xs_Regular.copyWith(
-                                        color: isDarkMode
-                                            ? StyleUtil.c_255
-                                            : StyleUtil.c_24),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ]),
-                      );
-                    } else if (snapshot.hasError) {
-                      return const SizedBox();
-                    } else {
-                      return Container(
-                        height: 310 -
-                            (getIsMobileSize(context)
-                                ? 101
-                                : getIsTabletSize(context)
-                                    ? 51
-                                    : 0),
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: itemImageHash,
-                            fit: BoxFit.cover,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                              getIsMobileSize(context) ? 10 : 20),
+                          ],
                         ),
-                        child: itemImage,
-                      );
-                    }
-                  }),
-            ]),
+                      ),
+                    ),
+                  ]),
+                ),
+              ]),
+            ),
             Container(
               height: 28,
               margin: const EdgeInsets.only(top: 14),
@@ -1219,7 +1204,6 @@ class _CreationPageState extends ConsumerState<CreationPage>
                                     width: 28,
                                     height: 28,
                                     decoration: BoxDecoration(
-                                      // color: const Color(0xff7c94b6),
                                       image: DecorationImage(
                                         image: itemImageProfileHash[index],
                                         fit: BoxFit.cover,

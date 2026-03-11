@@ -13,6 +13,7 @@ sealed class CreationState {
   });
 }
 
+/// Initial state before any data is loaded
 final class CreationInitial extends CreationState {
   CreationInitial()
       : super(
@@ -22,6 +23,7 @@ final class CreationInitial extends CreationState {
         );
 }
 
+/// Loading state - show shimmer/skeleton UI
 final class CreationLoading extends CreationState {
   CreationLoading()
       : super(
@@ -31,8 +33,19 @@ final class CreationLoading extends CreationState {
         );
 }
 
-final class CreationLoaded extends CreationState {
-  const CreationLoaded({
+/// Intermediate state - basic data and blurhash loaded, ready for UI
+/// but heavy assets (full resolution images) are still being pre-cached in background
+final class CreationDataLoaded extends CreationState {
+  const CreationDataLoaded({
+    required super.highlightedCreations,
+    required super.relatedCreations,
+    required super.anotherCreations,
+  });
+}
+
+/// Final state - all data and heavy assets are ready
+final class CreationReady extends CreationState {
+  const CreationReady({
     required super.highlightedCreations,
     required super.relatedCreations,
     required super.anotherCreations,
