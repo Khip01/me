@@ -88,6 +88,20 @@ class ImagePath {
   static const String SCANTHESIS_5 = '$projectDir/scanthesis/scanthesis_5.webp';
   static const String SCANTHESIS_5_HASH = "V02=\$E~q.8%MM{~qayaet7t7oLofM{Rjt7t7M{IURjs:"; // (HASH in BlurHash Website Component 5x4)
 
+  // TALKEST
+  static const String TALKEST_C = '$projectDir/talkest/talkest_cover.webp';
+  static const String TALKEST_C_HASH = "Vo9IDMaxtnj]kE%%j[ozayadx_fkadf6WAtTjsWAfRax"; // (HASH in BlurHash Website Component 5x4)
+  static const String TALKEST_2 = '$projectDir/talkest/talkest_2.webp';
+  static const String TALKEST_2_HASH = "V03+Q8%MaJj[kD_NM_adf5tS9E9Et7ad%NXAIUxtRiog"; // (HASH in BlurHash Website Component 5x4)
+  static const String TALKEST_3 = '$projectDir/talkest/talkest_3.webp';
+  static const String TALKEST_3_HASH = "VB5~2{WAs:WBWA8woffRofog.AWBjsfQadocWBozWBj]"; // (HASH in BlurHash Website Component 5x4)
+  static const String TALKEST_4 = '$projectDir/talkest/talkest_4.webp';
+  static const String TALKEST_4_HASH = "V46bAW#ORORhx]O_wanMR*NFQ,oOV?tSbDZyM{%hMxW="; // (HASH in BlurHash Website Component 5x4)
+  static const String TALKEST_5 = '$projectDir/talkest/talkest_5.webp';
+  static const String TALKEST_5_HASH = "V26[BkMH9#?b?F00?w~VD%4.xt9Z00%M_39fDg_NIU4m"; // (HASH in BlurHash Website Component 5x4)
+  static const String TALKEST_6 = '$projectDir/talkest/talkest_6.webp';
+  static const String TALKEST_6_HASH = "V26H\$F-:01?H_300-;~qD%4n%M9F00%M_300WB?bIU9F"; // (HASH in BlurHash Website Component 5x4)
+
   // ---------- IMAGES CERTIFICATE PATH ----------
   // Learn to Make Flutter Apps for Beginners
   static const String DICODING_LEARN_TO_MAKE_FLUTTER_APPS_FOR_BEGINEERS_01 = '$certificateDir/dicoding_learn_to_make_flutter_apps_for_beginners/dicoding_learn_to_make_flutter_apps_for_beginners_01.webp';

@@ -2,13 +2,14 @@ part of 'values.dart';
 
 class Data {
   static List<ProjectItemData> highlightedCreations = [
+    Projects.TALKEST,
     Projects.SCANTHESIS,
     Projects.TODO_LIST_APP,
     Projects.FLUTTER_PORTFOLIO,
-    Projects.COMMENT_SECTION_WEB,
   ];
 
   static List<ProjectItemData> relatedCreations = [
+    Projects.TALKEST,
     Projects.SCANTHESIS,
     Projects.TODO_LIST_APP,
     Projects.FLUTTER_PORTFOLIO,
@@ -459,6 +460,49 @@ class Projects {
     projectHighlightTopic: StringConst.SCANTHESIS_HIGHLIGHT_TOPIC,
     projectHighlightHeader: StringConst.SCANTHESIS_HIGHLIGHT_HEADER,
     projectHighlightDescription: StringConst.SCANTHESIS_HIGHLIGHT_DESCRIPTION,
+  );
+  static ProjectItemData TALKEST = ProjectItemData(
+    projectId: generateShortUniqueIdFromTimestamp(StringConst.TALKEST_DATE_PROJECT_CREATED),
+    projectImagePathCover: ImagePath.TALKEST_C,
+    projectImagePathCoverHash: ImagePath.TALKEST_C_HASH,
+    projectImagePathList: [
+      ImagePath.TALKEST_C,
+      ImagePath.TALKEST_2,
+      ImagePath.TALKEST_3,
+      ImagePath.TALKEST_4,
+      ImagePath.TALKEST_5,
+      ImagePath.TALKEST_6,
+    ],
+    projectImagePathListHash: [
+      ImagePath.TALKEST_C_HASH,
+      ImagePath.TALKEST_2_HASH,
+      ImagePath.TALKEST_3_HASH,
+      ImagePath.TALKEST_4_HASH,
+      ImagePath.TALKEST_5_HASH,
+      ImagePath.TALKEST_6_HASH,
+    ],
+    projectName: StringConst.TALKEST_PROJECT_NAME,
+    projectDescription: StringConst.TALKEST_PROJECT_DESCRIPTION,
+    projectCategories: StringConst.TALKEST_PROJECT_CATEGORIES,
+    creatorName: StringConst.TALKEST_CREATOR_NAME,
+    creatorRole: StringConst.TALKEST_CREATOR_ROLE,
+    creatorPhotoProfilePath: [
+      ImagePath.KHIP01_PHOTO_PROFILE,
+    ],
+    creatorPhotoProfilePathHash: [
+      ImagePath.KHIP01_PHOTO_PROFILE_HASH,
+    ],
+    creatorGithubLink: StringConst.TALKEST_CREATOR_GITHUB_LINK,
+    timestampDateCreated: StringConst.TALKEST_DATE_PROJECT_CREATED,
+    isProjectRelated: true,
+    isProjectHighlighted: true,
+    linkProjectToGithub: StringConst.TALKEST_PROJECT_LINK_TO_GITHUB,
+    linkDemoWeb: StringConst.TALKEST_PROJECT_LINK_TO_DEMO_WEB,
+    additionalLink: StringConst.TALKEST_ADDITIONAL_LINK,
+    additionalLinkDescription: StringConst.TALKEST_ADDITIONAL_LINK_DESCRIPTION,
+    projectHighlightTopic: StringConst.TALKEST_HIGHLIGHT_TOPIC,
+    projectHighlightHeader: StringConst.TALKEST_HIGHLIGHT_HEADER,
+    projectHighlightDescription: StringConst.TALKEST_HIGHLIGHT_DESCRIPTION,
   );
 }
 

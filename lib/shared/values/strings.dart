@@ -279,7 +279,7 @@ class StringConst {
   static const String TODOLIST_APP_PROJECT_LINK_TO_DEMO_WEB = "";
   static const String TODOLIST_APP_HIGHLIGHT_DESCRIPTION = "It was great to get acquainted with BlocPattern and SQLite";
   static const String TODOLIST_APP_HIGHLIGHT_HEADER = "An approach using New Technology?!";
-  static const String TODOLIST_APP_HIGHLIGHT_TOPIC = "Learning Curve";
+  static const String TODOLIST_APP_HIGHLIGHT_TOPIC = "Offline via SQLite";
 
   // SCANTHESIS
   static const String SCANTHESIS_PROJECT_NAME = "Scanthesis";
@@ -308,7 +308,35 @@ class StringConst {
   static const String SCANTHESIS_PROJECT_LINK_TO_DEMO_WEB = "";
   static const String SCANTHESIS_HIGHLIGHT_DESCRIPTION = "Worked on desktop app development using Flutter with AI-based OCR integration";
   static const String SCANTHESIS_HIGHLIGHT_HEADER = "Smarter OCR with Flutter Desktop!";
-  static const String SCANTHESIS_HIGHLIGHT_TOPIC = "Recently";
+  static const String SCANTHESIS_HIGHLIGHT_TOPIC = "AI Exploration";
+
+  // TALKEST
+  static const String TALKEST_PROJECT_NAME = "Talkest";
+  static const String TALKEST_PROJECT_DESCRIPTION = "Talkest is the \"simplest\" messaging app for fast, direct communication. Built with Flutter, Firebase, and Supabase, it features embedded web chat and mobile apps with real-time updates and high-priority push notifications.";
+  static const String TALKEST_ADDITIONAL_LINK = "https://github.com/Khip01/talkest/releases/";
+  static const String TALKEST_ADDITIONAL_LINK_DESCRIPTION = "app release";
+  static const List<String> TALKEST_CREATOR_GITHUB_LINK = [
+    "https://github.com/Khip01"
+  ];
+  static const List<String> TALKEST_CREATOR_NAME = [
+    "Akhmad Aakhif A",
+  ];
+  static const List<String> TALKEST_CREATOR_ROLE = [
+    "Creator",
+  ];
+  static const int TALKEST_DATE_PROJECT_CREATED = 1767373200;
+  static const List<String> TALKEST_PROJECT_CATEGORIES = [
+    "flutter",
+    "firebase",
+    "mobile-app",
+    "web-app",
+    "dart",
+  ];
+  static const String TALKEST_PROJECT_LINK_TO_GITHUB = "https://github.com/Khip01/talkest";
+  static const String TALKEST_PROJECT_LINK_TO_DEMO_WEB = "https://khip01.github.io/talkest/";
+  static const String TALKEST_HIGHLIGHT_DESCRIPTION = "An embeddable web chat powered by Firestore and serverless mobile push notifications.";
+  static const String TALKEST_HIGHLIGHT_HEADER = "Beyond Real-Time: Serverless Push Notifications!";
+  static const String TALKEST_HIGHLIGHT_TOPIC = "Leveling Up";
 
   // HISTORY -------------------------------------------------------------------
   // Hawari Tiger Engine
