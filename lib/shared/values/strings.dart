@@ -324,7 +324,7 @@ class StringConst {
   static const List<String> TALKEST_CREATOR_ROLE = [
     "Creator",
   ];
-  static const int TALKEST_DATE_PROJECT_CREATED = 1767373200;
+  static const int TALKEST_DATE_PROJECT_CREATED = 1767373200000;
   static const List<String> TALKEST_PROJECT_CATEGORIES = [
     "flutter",
     "firebase",
