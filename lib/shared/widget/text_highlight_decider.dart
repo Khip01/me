@@ -84,7 +84,7 @@ class _TextHighlightDeciderState extends State<TextHighlightDecider> {
                 }
               }).then((_) {
                 Future.delayed(widget.delayAfterAnimation ??
-                        const Duration(milliseconds: 5000))
+                        const Duration(milliseconds: 0))
                     .then(
                   (_) {
                     if (mounted) {

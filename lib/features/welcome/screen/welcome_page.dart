@@ -426,6 +426,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                     colorStart: StyleUtil.c_170,
                     colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                     actionDelay: const Duration(milliseconds: 300),
+                    delayAfterAnimation: const Duration(milliseconds: 5000),
                     additionalOnTapAction: () async => await _showSnackbar(
                         "Github Opened Successfully!", LinkUtil.githubLink),
                     builder: (Color color) {
@@ -460,6 +461,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
                       colorStart: StyleUtil.c_170,
                       colorEnd: (isDarkMode) ? StyleUtil.c_255 : StyleUtil.c_24,
                       actionDelay: const Duration(milliseconds: 300),
+                      delayAfterAnimation: Duration(milliseconds: 5000),
                       additionalOnTapAction: () async => await _showSnackbar(
                           "CV Opened Successfully!", LinkUtil.cvLink),
                       builder: (Color color) {

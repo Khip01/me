@@ -24,10 +24,11 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-        textSelectionTheme: const TextSelectionThemeData(
-          cursorColor: Color.fromARGB(255, 155, 155, 155),
-          selectionColor: Color.fromARGB(255, 194, 194, 194),
-          selectionHandleColor: Color.fromARGB(255, 101, 101, 101),
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: const Color.fromARGB(255, 155, 155, 155),
+          selectionColor:
+              Color.fromARGB(255, 194, 194, 194).withValues(alpha: .4),
+          selectionHandleColor: const Color.fromARGB(255, 101, 101, 101),
         ),
         // colorSchemeSeed: Color.fromARGB(255, 241, 241, 241),
         // colorScheme: ColorScheme(brightness: Brightness.light, primary: Color.fromARGB(255, 129, 168, 255), onPrimary: Colors.blue, secondary: Colors.white70, onSecondary: Colors.white54, error: Colors.red, onError: Colors.redAccent, background: Colors.white, onBackground: Color.fromARGB(255, 129, 168, 255), surface: Colors.white, onSurface: Colors.black),
